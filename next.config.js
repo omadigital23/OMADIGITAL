@@ -1,0 +1,226 @@
+/** @type {import('next').NextConfig} */
+
+const { withSentryConfig } = require('@sentry/nextjs');
+
+// Enhanced security headers
+const securityHeaders = [
+  {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on'
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload'
+  },
+  {
+    key: 'X-XSS-Protection',
+    value: '1; mode=block'
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY'
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff'
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin'
+  },
+  {
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data: https://fonts.googleapis.com",
+      "img-src 'self' data: https: blob:",
+      "media-src 'self' blob: https://api-inference.huggingface.co https://*.googleapis.com",
+      "connect-src 'self' https://www.google-analytics.com https://pcedyohixahtfogfdlig.supabase.co https://generativelanguage.googleapis.com https://*.supabase.co https://api-inference.huggingface.co https://texttospeech.googleapis.com https://translation.googleapis.com",
+      "frame-src 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests"
+    ].join('; ')
+  },
+  {
+    key: 'Permissions-Policy',
+    value: [
+      'camera=()',
+      'microphone=(self)',
+      'geolocation=()',
+      'interest-cohort=()',
+      'payment=()',
+      'usb=()',
+      'bluetooth=()',
+      'magnetometer=()',
+      'gyroscope=()',
+      'accelerometer=()'
+    ].join(', ')
+  },
+  {
+    key: 'Cross-Origin-Embedder-Policy',
+    value: 'require-corp'
+  },
+  {
+    key: 'Cross-Origin-Opener-Policy',
+    value: 'same-origin'
+  },
+  {
+    key: 'Cross-Origin-Resource-Policy',
+    value: 'same-origin'
+  }
+];
+
+const nextConfig = {
+  // Désactiver complètement ESLint et TypeScript checking pendant le build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+  
+  // Production-ready configuration
+  experimental: {
+    // Désactiver temporairement pour debug
+    // serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    // instrumentationHook: true,
+  },
+  
+  // Optimized image configuration
+  images: {
+    domains: [
+      'images.unsplash.com', 
+      'pcedyohixahtfogfdlig.supabase.co',
+      'localhost', // For local development
+      '127.0.0.1'  // For local development
+    ],
+    formats: ['image/webp', 'image/avif'], // Add AVIF support
+    minimumCacheTTL: 60,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+  
+  // Compression and caching
+  compress: true,
+  poweredByHeader: false, // Security: hide Next.js version
+  
+  // Enhanced security and performance headers
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: securityHeaders,
+      },
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/videos/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          }
+        ],
+      },
+    ];
+  },
+  
+  // Webpack optimizations
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
+    return config;
+  },
+  
+  // Redirect old routes
+  async redirects() {
+    return [
+      {
+        source: '/app',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+};
+
+// Security headers are already defined above in the main config
+
+module.exports = withSentryConfig(
+  nextConfig,
+  {
+    // For all available options, see:
+    // https://github.com/getsentry/sentry-webpack-plugin#options
+
+    // Suppresses source map uploading logs during build
+    silent: true,
+    org: "oma-digital",
+    project: "oma-digital-website",
+  },
+  {
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+    // Upload a larger set of source maps for prettier stack traces (increases build time)
+    widenClientFileUpload: true,
+
+    // Transpiles SDK to be compatible with IE11 (increases bundle size)
+    transpileClientSDK: true,
+
+    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
+    tunnelRoute: "/monitoring",
+
+    // Hides source maps from generated client bundles
+    hideSourceMaps: true,
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+  }
+);

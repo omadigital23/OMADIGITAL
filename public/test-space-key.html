@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space Key Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+        .test-result { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Space Key Test for Chatbot Input</h1>
+    
+    <div>
+        <label for="testInput">Test Input (try typing spaces):</label>
+        <input type="text" id="testInput" placeholder="Type here with spaces...">
+        <div class="test-result">
+            <strong>Current Value:</strong> <span id="currentValue">-</span>
+        </div>
+        <div class="test-result">
+            <strong>Sanitized Value:</strong> <span id="sanitizedValue">-</span>
+        </div>
+    </div>
+
+    <script>
+        // Simple sanitization function similar to what we use
+        function sanitizeInput(input) {
+            if (!input || typeof input !== 'string') {
+                return '';
+            }
+            
+            // Remove any HTML tags (simplified version)
+            const sanitized = input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            
+            // Don't trim for real-time input
+            return sanitized;
+        }
+        
+        const inputElement = document.getElementById('testInput');
+        const currentValueElement = document.getElementById('currentValue');
+        const sanitizedValueElement = document.getElementById('sanitizedValue');
+        
+        inputElement.addEventListener('input', function(e) {
+            const value = e.target.value;
+            currentValueElement.textContent = `"${value}"`;
+            sanitizedValueElement.textContent = `"${sanitizeInput(value)}"`;
+        });
+    </script>
+</body>
+</html>

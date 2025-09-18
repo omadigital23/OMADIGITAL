@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Test</title>
+</head>
+<body>
+    <h1>Chatbot Test Page</h1>
+    <div>
+        <input type="text" id="messageInput" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send Message</button>
+    </div>
+    <div id="response"></div>
+    <div id="conversations"></div>
+
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            const sessionId = 'test-session-' + Date.now();
+            
+            try {
+                const response = await fetch('/api/chat/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        sessionId: sessionId
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById('response').innerHTML = '<p><strong>Response:</strong> ' + data.response + '</p>';
+                
+                // Check conversations after a short delay
+                setTimeout(checkConversations, 2000);
+            } catch (error) {
+                document.getElementById('response').innerHTML = '<p>Error: ' + error.message + '</p>';
+            }
+        }
+        
+        async function checkConversations() {
+            try {
+                // This would normally require admin authentication
+                // For now, let's just show that we sent a message
+                document.getElementById('conversations').innerHTML = '<p>Message sent successfully. Check admin panel to see if conversation appears.</p>';
+            } catch (error) {
+                console.error('Error checking conversations:', error);
+            }
+        }
+    </script>
+</body>
+</html>

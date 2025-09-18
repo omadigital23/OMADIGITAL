@@ -1,0 +1,49 @@
+{
+  "header": {
+    "home": "Home",
+    "services": "Services",
+    "offers": "Offers",
+    "case_studies": "Case Studies",
+    "process": "Process",
+    "blog": "Blog",
+    "contact": "Contact",
+    "whatsapp": "WhatsApp",
+    "quote": "Free Quote"
+  },
+  "security": {
+    "badge": "Bank-level security",
+    "title": "Maximum Security & Compliance",
+    "description": "Your data and your customers' data are protected by the highest security standards. GDPR compliance guaranteed for your peace of mind.",
+    "ssl": {
+      "title": "SSL/TLS Encryption",
+      "description": "All data is encrypted in transit and at rest with the latest SSL/TLS standards"
+    },
+    "mfa": {
+      "title": "Multi-Factor Authentication",
+      "description": "Enhanced protection with two-factor authentication for all admin access"
+    },
+    "hosting": {
+      "title": "Secure Hosting",
+      "description": "ISO 27001 certified servers with 24/7 monitoring and automatic backups"
+    },
+    "gdpr": {
+      "title": "GDPR Compliance",
+      "description": "Full GDPR compliance with consent management and right to be forgotten"
+    },
+    "monitoring": {
+      "title": "Real-Time Monitoring",
+      "description": "Continuous access monitoring and automated intrusion detection"
+    },
+    "access": {
+      "title": "Access Control",
+      "description": "Fine-grained permission management with principle of least privilege"
+    },
+    "stats": {
+      "title": "Our Security Commitment in Numbers",
+      "uptime": "Guaranteed uptime",
+      "breaches": "Data breaches",
+      "response": "Response time",
+      "monitoring": "Monitoring"
+    }
+  }
+}

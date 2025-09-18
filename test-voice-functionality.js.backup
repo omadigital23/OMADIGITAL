@@ -1,0 +1,70 @@
+// Script to test voice functionality
+console.log('🔍 Testing voice functionality...');
+
+// Test language detection function
+function detectLanguage(text) {
+  const t = text.toLowerCase().trim();
+  
+  // Enhanced French indicators
+  const frWords = [
+    'bonjour', 'salut', 'merci', 'svp', 'stp', 'au revoir',
+    'prix', 'devis', 'contact', 'site', 'web',
+    'comment', 'quoi', 'pourquoi', 'quand', 'où', 'qui', 'combien',
+    'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles'
+  ];
+  
+  // Enhanced English indicators
+  const enWords = [
+    'hello', 'hi', 'hey', 'thanks', 'please', 'goodbye', 'bye',
+    'price', 'quote', 'contact', 'website', 'internet',
+    'what', 'how', 'why', 'when', 'where', 'who', 'which',
+    'i', 'you', 'he', 'she', 'we', 'they', 'it'
+  ];
+  
+  let frScore = 0;
+  let enScore = 0;
+  
+  frWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = t.match(regex);
+    if (matches) {
+      frScore += matches.length;
+    }
+  });
+  
+  enWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    const matches = t.match(regex);
+    if (matches) {
+      enScore += matches.length;
+    }
+  });
+  
+  console.log('Language detection scores:', { 
+    text: text.substring(0, 30) + (text.length > 30 ? '...' : ''), 
+    frenchScore: frScore, 
+    englishScore: enScore 
+  });
+  
+  // Return language with higher score, default to French
+  if (enScore > frScore && enScore > 0) return 'en';
+  return 'fr';
+}
+
+// Test cases
+const testCases = [
+  "Bonjour, je voudrais un devis pour un site web",
+  "Hello, I would like a quote for a website",
+  "Quel est votre prix ?",
+  "What is your price?",
+  "Merci beaucoup",
+  "Thank you very much"
+];
+
+console.log('\n📊 Language Detection Tests:');
+testCases.forEach(test => {
+  const detected = detectLanguage(test);
+  console.log(`"${test}" -> ${detected}`);
+});
+
+console.log('\n✅ Voice functionality test complete!');

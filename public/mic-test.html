@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Microphone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button.recording {
+            background-color: #f44336;
+        }
+        #status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+        }
+        #audio-player {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Microphone</h1>
+        <p>Cette page teste l'accès au microphone dans un contexte sécurisé (HTTPS).</p>
+        
+        <div id="status">Prêt à tester le microphone</div>
+        
+        <button id="record-btn">Démarrer l'enregistrement</button>
+        <button id="stop-btn" disabled>Arrêter l'enregistrement</button>
+        
+        <audio id="audio-player" controls style="display: none;"></audio>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        const recordBtn = document.getElementById('record-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const statusDiv = document.getElementById('status');
+        const audioPlayer = document.getElementById('audio-player');
+        const resultDiv = document.getElementById('result');
+
+        recordBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+
+        async function startRecording() {
+            try {
+                statusDiv.textContent = "Demande d'accès au microphone...";
+                
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                    } 
+                });
+                
+                statusDiv.textContent = "Accès au microphone accordé!";
+                
+                audioChunks = [];
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    audioPlayer.src = audioUrl;
+                    audioPlayer.style.display = 'block';
+                    
+                    statusDiv.textContent = "Enregistrement terminé. Vous pouvez écouter l'enregistrement.";
+                    resultDiv.innerHTML = `
+                        <p><strong>Résultats:</strong></p>
+                        <ul>
+                            <li>Taille du fichier: ${audioBlob.size} octets</li>
+                            <li>Type MIME: ${audioBlob.type}</li>
+                            <li>Durée approximative: ${(audioBlob.size / 44100).toFixed(2)} secondes</li>
+                        </ul>
+                    `;
+                    
+                    // Stop all tracks
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                
+                recordBtn.disabled = true;
+                stopBtn.disabled = false;
+                recordBtn.classList.add('recording');
+                
+                statusDiv.textContent = "Enregistrement en cours... Parlez maintenant!";
+                
+            } catch (error) {
+                console.error('Erreur d\'accès au microphone:', error);
+                statusDiv.textContent = `Erreur: ${error.message}`;
+                
+                if (error.name === 'NotAllowedError') {
+                    statusDiv.textContent = "Permission refusée. Veuillez autoriser l'accès au microphone dans les paramètres du navigateur.";
+                } else if (error.name === 'NotFoundError') {
+                    statusDiv.textContent = "Aucun microphone trouvé. Veuillez connecter un microphone.";
+                } else if (error.name === 'SecurityError') {
+                    statusDiv.textContent = "Erreur de sécurité. Cette page doit être servie via HTTPS.";
+                }
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                
+                recordBtn.disabled = false;
+                stopBtn.disabled = true;
+                recordBtn.classList.remove('recording');
+            }
+        }
+    </script>
+</body>
+</html>

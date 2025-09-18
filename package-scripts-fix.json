@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "dev:clean": "node dev-server-fix.js",
+    "dev:debug": "next dev --turbo",
+    "kill-dev": "taskkill /F /IM node.exe || echo 'No node processes to kill'",
+    "port-check": "netstat -ano | findstr :3000",
+    "build": "next build && next-sitemap",
+    "build:fast": "next build && next-sitemap",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  }
+}

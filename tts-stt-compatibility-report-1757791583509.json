@@ -1,0 +1,274 @@
+{
+  "timestamp": "2025-09-13T19:26:23.509Z",
+  "summary": {
+    "totalBrowsers": 4,
+    "supportedBrowsers": 3,
+    "partiallySupported": 1,
+    "unsupported": 0,
+    "overallCompatibility": 75,
+    "totalErrors": 1,
+    "totalWarnings": 1
+  },
+  "browsers": {
+    "chrome": {
+      "tts": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "voices": [
+              "Google français",
+              "Microsoft Hortense",
+              "Microsoft Julie"
+            ],
+            "quality": 8.325562958095793,
+            "speed": 396.89105555838864,
+            "errors": []
+          },
+          "en": {
+            "voices": [
+              "Google US English",
+              "Microsoft Zira",
+              "Microsoft David"
+            ],
+            "quality": 8.763707659156923,
+            "speed": 362.9170538866853,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "stt": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "accuracy": 0.9675042199809464,
+            "speed": 820.1330478139183,
+            "continuous": true,
+            "errors": []
+          },
+          "en": {
+            "accuracy": 0.9092738523346657,
+            "speed": 986.1590999204323,
+            "continuous": true,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "overall": {
+        "score": 96,
+        "status": "EXCELLENT"
+      },
+      "features": {
+        "autoplay": false,
+        "permissions": true,
+        "offline": false,
+        "webAudio": true
+      }
+    },
+    "firefox": {
+      "tts": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "voices": [
+              "Microsoft Hortense"
+            ],
+            "quality": 5.940407800425018,
+            "speed": 507.9283841176807,
+            "errors": [
+              "French pronunciation issues in Firefox",
+              "French pronunciation issues in Firefox",
+              "French pronunciation issues in Firefox"
+            ]
+          },
+          "en": {
+            "voices": [
+              "Microsoft Zira"
+            ],
+            "quality": 6.952190964173124,
+            "speed": 478.65059014301,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "stt": {
+        "supported": false,
+        "languages": {},
+        "errors": [
+          "STT API not supported"
+        ]
+      },
+      "overall": {
+        "score": 39,
+        "status": "POOR"
+      },
+      "features": {
+        "autoplay": false,
+        "permissions": true,
+        "offline": false,
+        "webAudio": true
+      }
+    },
+    "safari": {
+      "tts": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "voices": [
+              "Amélie",
+              "Thomas"
+            ],
+            "quality": 8.026762535995573,
+            "speed": 449.1828064058374,
+            "errors": []
+          },
+          "en": {
+            "voices": [
+              "Alex",
+              "Samantha"
+            ],
+            "quality": 7.828438342376145,
+            "speed": 398.04301391929465,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "stt": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "accuracy": 0.8243875858971074,
+            "speed": 1316.3055504723159,
+            "continuous": false,
+            "errors": [
+              "French accent recognition issues in Safari"
+            ]
+          },
+          "en": {
+            "accuracy": 0.8629938255731565,
+            "speed": 1246.6676230621465,
+            "continuous": false,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "overall": {
+        "score": 91,
+        "status": "EXCELLENT"
+      },
+      "features": {
+        "autoplay": false,
+        "permissions": false,
+        "offline": false,
+        "webAudio": true
+      }
+    },
+    "edge": {
+      "tts": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "voices": [
+              "Microsoft Hortense",
+              "Microsoft Julie"
+            ],
+            "quality": 8.241920392293151,
+            "speed": 401.58812310124654,
+            "errors": []
+          },
+          "en": {
+            "voices": [
+              "Microsoft Zira",
+              "Microsoft David"
+            ],
+            "quality": 8.290448634902523,
+            "speed": 399.6923212597794,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "stt": {
+        "supported": true,
+        "languages": {
+          "fr": {
+            "accuracy": 0.8730750595448242,
+            "speed": 1071.6819801243591,
+            "continuous": true,
+            "errors": []
+          },
+          "en": {
+            "accuracy": 0.8584116334725745,
+            "speed": 938.0791663155,
+            "continuous": true,
+            "errors": []
+          }
+        },
+        "errors": []
+      },
+      "overall": {
+        "score": 96,
+        "status": "EXCELLENT"
+      },
+      "features": {
+        "autoplay": false,
+        "permissions": true,
+        "offline": false,
+        "webAudio": true
+      }
+    }
+  },
+  "errors": [
+    {
+      "browser": "firefox",
+      "type": "STT Support",
+      "message": "Speech-to-Text API not available",
+      "impact": "Users cannot use voice input"
+    }
+  ],
+  "warnings": [
+    {
+      "browser": "safari",
+      "type": "Browser Features",
+      "message": "Permissions API not supported",
+      "impact": "Cannot request microphone permissions gracefully"
+    }
+  ],
+  "recommendations": [
+    "Provide alternative input methods for firefox users",
+    "Consider limiting advanced voice features in firefox",
+    "Implement progressive enhancement for voice features",
+    "Add clear browser compatibility warnings",
+    "Provide keyboard input as primary method with voice as enhancement"
+  ],
+  "fallbackStrategies": {
+    "ttsUnavailable": [
+      "Display text responses prominently",
+      "Add visual indicators for bot responses",
+      "Provide text-to-speech toggle in settings",
+      "Show \"Audio not supported\" message gracefully"
+    ],
+    "sttUnavailable": [
+      "Default to keyboard input",
+      "Hide microphone button when STT unavailable",
+      "Add \"Voice input not supported\" tooltip",
+      "Provide clear typing instructions"
+    ],
+    "lowAccuracy": [
+      "Implement confidence thresholds",
+      "Add \"Did you mean?\" suggestions",
+      "Provide edit/confirm dialogs",
+      "Fall back to typing after failed attempts"
+    ],
+    "permissionsDenied": [
+      "Show clear permission request explanation",
+      "Provide manual permission instructions",
+      "Gracefully fall back to text input",
+      "Remember user preference"
+    ]
+  }
+}

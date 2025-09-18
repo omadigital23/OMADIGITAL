@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "dev:clean": "taskkill /F /IM node.exe /T && timeout /t 2 && next dev",
+    "dev:simple": "SET NODE_OPTIONS=--max-old-space-size=4096 && next dev",
+    "build": "next build && next-sitemap",
+    "start": "next start",
+    "lint": "next lint --quiet",
+    "type-check": "tsc --noEmit"
+  }
+}

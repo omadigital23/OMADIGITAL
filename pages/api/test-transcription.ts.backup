@@ -1,0 +1,43 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    // Get the raw body
+    const chunks: Buffer[] = [];
+    for await (const chunk of req) {
+      chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+    }
+    const buffer = Buffer.concat(chunks);
+    
+    // Check if we have data
+    if (buffer.length === 0) {
+      return res.status(400).json({ error: 'No audio data received' });
+    }
+    
+    // Simulate transcription result
+    const result = {
+      transcript: 'Ceci est un test de transcription. Le microphone fonctionne correctement.',
+      confidence: 0.95,
+      language: 'fr'
+    };
+    
+    // Return success response
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Transcription test error:', error);
+    res.status(500).json({ 
+      error: 'Transcription test failed',
+      details: (error as Error).message 
+    });
+  }
+}

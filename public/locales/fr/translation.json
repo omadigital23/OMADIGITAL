@@ -1,0 +1,49 @@
+{
+  "header": {
+    "home": "Accueil",
+    "services": "Services",
+    "offers": "Offres",
+    "case_studies": "Études de cas",
+    "process": "Processus",
+    "blog": "Blog",
+    "contact": "Contact",
+    "whatsapp": "WhatsApp",
+    "quote": "Devis Gratuit"
+  },
+  "security": {
+    "badge": "Sécurité de niveau bancaire",
+    "title": "Sécurité & Conformité Maximales",
+    "description": "Vos données et celles de vos clients sont protégées par les plus hauts standards de sécurité. Conformité RGPD garantie pour votre tranquillité d'esprit.",
+    "ssl": {
+      "title": "Chiffrement SSL/TLS",
+      "description": "Toutes les données sont chiffrées en transit et au repos avec les derniers standards SSL/TLS"
+    },
+    "mfa": {
+      "title": "Authentification Multi-Facteurs",
+      "description": "Protection renforcée avec authentification à deux facteurs pour tous les accès admin"
+    },
+    "hosting": {
+      "title": "Hébergement Sécurisé",
+      "description": "Serveurs certifiés ISO 27001 avec surveillance 24/7 et sauvegardes automatiques"
+    },
+    "gdpr": {
+      "title": "Conformité RGPD",
+      "description": "Respect total du RGPD avec gestion des consentements et droit à l'oubli"
+    },
+    "monitoring": {
+      "title": "Monitoring Temps Réel",
+      "description": "Surveillance continue des accès et détection d'intrusions automatisée"
+    },
+    "access": {
+      "title": "Contrôle d'Accès",
+      "description": "Gestion fine des permissions avec principe du moindre privilège"
+    },
+    "stats": {
+      "title": "Notre Engagement Sécurité en Chiffres",
+      "uptime": "Uptime garanti",
+      "breaches": "Breach de données",
+      "response": "Temps de réponse",
+      "monitoring": "Monitoring"
+    }
+  }
+}

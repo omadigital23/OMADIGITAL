@@ -1,0 +1,176 @@
+import { useState, useRef, useEffect } from 'react';
+
+export default function MicrophoneTest() {
+  const [isClient, setIsClient] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [status, setStatus] = useState<string>('');
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const startRecording = async () => {
+    if (typeof navigator === 'undefined' || !navigator.mediaDevices) {
+      setStatus('API MediaDevices non disponible dans cet environnement');
+      return;
+    }
+    
+    try {
+      setStatus('Requesting microphone access...');
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 44100,
+        } 
+      });
+      
+      setStatus('Microphone access granted');
+      
+      const recorder = new MediaRecorder(stream);
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+      
+      const chunks: BlobPart[] = [];
+      
+      recorder.ondataavailable = (e) => {
+        chunks.push(e.data);
+      };
+      
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        setAudioUrl(url);
+        setStatus('Recording stopped');
+      };
+      
+      recorder.start();
+      setStatus('Recording started...');
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+      setStatus(`Error: ${(error as Error).message}`);
+      
+      if ((error as Error).name === 'NotAllowedError') {
+        setStatus('Microphone access denied. Please allow microphone access in your browser settings.');
+      } else if ((error as Error).name === 'NotFoundError') {
+        setStatus('No microphone found. Please connect a microphone and try again.');
+      } else if ((error as Error).name === 'SecurityError') {
+        setStatus('Security error. This page must be served over HTTPS to access the microphone.');
+      }
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      
+      // Stop all tracks
+      mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
+  };
+
+  const playRecording = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
+  // Don't render interactive elements on server
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+        <main className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+          <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Microphone Test</h1>
+          
+          <div className="space-y-4">
+            <div className="bg-blue-50 rounded-lg p-4">
+              <p className="text-sm text-blue-800">
+                This page tests microphone functionality in a secure HTTPS context.
+              </p>
+            </div>
+            
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="font-medium text-gray-700">Status:</p>
+              <p className="text-gray-600">Chargement...</p>
+            </div>
+            
+            <div className="flex flex-col space-y-3">
+              <button
+                disabled
+                className="bg-gray-300 text-white font-bold py-3 px-4 rounded-lg"
+              >
+                Start Recording
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+      <main className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Microphone Test</h1>
+        
+        <div className="space-y-4">
+          <div className="bg-blue-50 rounded-lg p-4">
+            <p className="text-sm text-blue-800">
+              This page tests microphone functionality in a secure HTTPS context.
+            </p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="font-medium text-gray-700">Status:</p>
+            <p className="text-gray-600">{status || 'Ready'}</p>
+          </div>
+          
+          <div className="flex flex-col space-y-3">
+            {!isRecording ? (
+              <button
+                onClick={startRecording}
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+              >
+                Start Recording
+              </button>
+            ) : (
+              <button
+                onClick={stopRecording}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+              >
+                Stop Recording
+              </button>
+            )}
+            
+            {audioUrl && (
+              <div className="space-y-3">
+                <button
+                  onClick={playRecording}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+                >
+                  Play Recording
+                </button>
+                <a 
+                  href={audioUrl} 
+                  download="recording.webm"
+                  className="block text-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200"
+                >
+                  Download Recording
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+      
+      {audioUrl && (
+        <audio ref={audioRef} src={audioUrl} className="mt-6" controls />
+      )}
+    </div>
+  );
+}

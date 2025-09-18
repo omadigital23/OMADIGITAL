@@ -1,0 +1,194 @@
+import React, { useState, useRef } from 'react';
+import { Mic, MicOff, Play, Square } from 'lucide-react';
+
+export default function VoiceTestPage() {
+  const [isRecording, setIsRecording] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [error, setError] = useState('');
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const startRecording = async () => {
+    try {
+      setError('');
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = recorder;
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      recorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await transcribeAudio(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+
+      recorder.start();
+      setIsRecording(true);
+
+      // Start recording timer
+      setRecordingTime(0);
+      if (recordingTimerRef.current) {
+        clearInterval(recordingTimerRef.current);
+      }
+      recordingTimerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+    } catch (err) {
+      console.error('Error starting recording:', err);
+      setError('Impossible d\'accéder au microphone. Veuillez vérifier les permissions.');
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+
+      // Stop recording timer
+      if (recordingTimerRef.current) {
+        clearInterval(recordingTimerRef.current);
+        recordingTimerRef.current = null;
+      }
+    }
+  };
+
+  const transcribeAudio = async (audioBlob: Blob) => {
+    try {
+      const formData = new FormData();
+      formData.append('audio', audioBlob, 'test-recording.webm');
+
+      const response = await fetch('/api/chat/transcribe', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTranscript(data.transcript || 'Aucun texte détecté');
+        console.log('Transcription result:', data);
+      } else {
+        const errorText = await response.text();
+        setError(`Échec de la transcription: ${response.status} - ${errorText}`);
+        console.error('Transcription failed:', response.status, errorText);
+      }
+    } catch (err) {
+      console.error('Error transcribing audio:', err);
+      setError('Erreur lors de la transcription. Veuillez réessayer.');
+    }
+  };
+
+  const playTestSound = () => {
+    if (!audioRef.current) {
+      // Create a simple test tone
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 440; // A4 note
+      oscillator.type = 'sine';
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      
+      oscillator.start();
+      setIsPlaying(true);
+      
+      setTimeout(() => {
+        oscillator.stop();
+        setIsPlaying(false);
+      }, 1000);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="p-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Test de Transcription Vocale</h1>
+          <p className="text-gray-600 mb-8">
+            Utilisez cette page pour tester la fonctionnalité de transcription vocale de votre chatbot.
+          </p>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-700 font-medium">Erreur: {error}</p>
+            </div>
+          )}
+
+          <div className="space-y-6">
+            <div className="flex flex-col items-center">
+              <button
+                onClick={isRecording ? stopRecording : startRecording}
+                className={`flex items-center justify-center w-20 h-20 rounded-full shadow-lg transition-all ${
+                  isRecording
+                    ? 'bg-red-500 hover:bg-red-600 animate-pulse'
+                    : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+              >
+                {isRecording ? (
+                  <MicOff className="w-8 h-8 text-white" />
+                ) : (
+                  <Mic className="w-8 h-8 text-white" />
+                )}
+              </button>
+              
+              <p className="mt-4 text-gray-700">
+                {isRecording ? `Enregistrement en cours... ${recordingTime}s` : 'Cliquez pour commencer à enregistrer'}
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <button
+                onClick={playTestSound}
+                disabled={isPlaying}
+                className={`flex items-center justify-center w-16 h-16 rounded-full shadow-lg transition-all ${
+                  isPlaying
+                    ? 'bg-yellow-500'
+                    : 'bg-green-500 hover:bg-green-600'
+                } ${isPlaying ? 'cursor-not-allowed' : ''}`}
+              >
+                {isPlaying ? (
+                  <Square className="w-6 h-6 text-white" />
+                ) : (
+                  <Play className="w-6 h-6 text-white ml-1" />
+                )}
+              </button>
+              
+              <p className="mt-4 text-gray-700">
+                {isPlaying ? 'Lecture en cours...' : 'Jouer un son de test'}
+              </p>
+            </div>
+
+            {transcript && (
+              <div className="p-6 bg-gray-50 rounded-lg">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">Transcription:</h2>
+                <p className="text-gray-700 whitespace-pre-wrap">{transcript}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Instructions:</h3>
+            <ul className="list-disc list-inside text-gray-600 space-y-1">
+              <li>Cliquez sur le microphone pour commencer l'enregistrement</li>
+              <li>Parlez clairement pendant l'enregistrement</li>
+              <li>Cliquez à nouveau sur le microphone pour arrêter l'enregistrement</li>
+              <li>La transcription apparaîtra automatiquement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,49 @@
+// Script to test the transcription API
+const fs = require('fs');
+const axios = require('axios');
+
+async function testTranscription() {
+  try {
+    console.log('🎤 Testing transcription API...');
+    
+    // Read the test audio file
+    const audioBuffer = fs.readFileSync('test-audio.wav');
+    console.log('📝 Audio file size:', audioBuffer.length, 'bytes');
+    
+    // Create form data using axios
+    const FormData = require('form-data');
+    const form = new FormData();
+    form.append('audio', audioBuffer, {
+      filename: 'test-audio.wav',
+      contentType: 'audio/wav'
+    });
+    
+    // Make the API request
+    const response = await axios.post('http://localhost:3000/api/chat/transcribe', form, {
+      headers: {
+        ...form.getHeaders()
+      }
+    });
+    
+    console.log('📥 Response status:', response.status);
+    console.log('✅ Transcription result:', response.data);
+  } catch (error) {
+    if (error.response) {
+      console.log('❌ Transcription failed:', error.response.status, error.response.data);
+    } else {
+      console.error('💥 Error testing transcription:', error.message);
+    }
+  }
+}
+
+// Install axios if not already installed
+try {
+  require('axios');
+  testTranscription();
+} catch (e) {
+  console.log('📦 Installing axios...');
+  const { execSync } = require('child_process');
+  execSync('npm install axios', { stdio: 'inherit' });
+  console.log('✅ Axios installed. Running test...');
+  testTranscription();
+}

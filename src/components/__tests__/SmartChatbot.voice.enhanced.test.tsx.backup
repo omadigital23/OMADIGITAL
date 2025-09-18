@@ -1,0 +1,178 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { SmartChatbot } from '../SmartChatbotNext';
+
+// Mock the tracking functions
+jest.mock('../../utils/supabase/info', () => ({
+  projectId: 'test-project-id',
+  publicAnonKey: 'test-public-key',
+  trackEvent: jest.fn(),
+  generateWhatsAppLink: jest.fn().mockReturnValue('https://wa.me/1234567890'),
+}));
+
+// Mock fetch API
+const mockFetch = jest.fn();
+global.fetch = mockFetch;
+
+// Mock MediaRecorder
+class MockMediaRecorder {
+  state = 'inactive';
+  ondataavailable: ((event: any) => void) | null = null;
+  onstop: ((event: any) => void) | null = null;
+  timeoutId: NodeJS.Timeout | null = null;
+  
+  constructor(stream: MediaStream, options?: any) {}
+  
+  start() {
+    this.state = 'recording';
+  }
+  
+  stop() {
+    this.state = 'inactive';
+    if (this.onstop) this.onstop(new Event('stop'));
+  }
+}
+
+global.MediaRecorder = MockMediaRecorder as any;
+
+// Mock navigator.mediaDevices.getUserMedia
+Object.defineProperty(navigator, 'mediaDevices', {
+  writable: true,
+  value: {
+    getUserMedia: jest.fn().mockResolvedValue({
+      getTracks: () => [{ stop: jest.fn() }]
+    })
+  }
+});
+
+// Mock speech synthesis
+Object.defineProperty(window, 'speechSynthesis', {
+  writable: true,
+  value: {
+    speak: jest.fn(),
+    cancel: jest.fn(),
+  },
+});
+
+Object.defineProperty(window, 'SpeechSynthesisUtterance', {
+  writable: true,
+  value: jest.fn().mockImplementation(() => ({})),
+});
+
+describe('SmartChatbot Enhanced Voice Functionality', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should show recording indicator when voice recording starts', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Click microphone button
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Check that recording indicator is visible
+    expect(screen.getByText('🎤 Parlez maintenant...')).toBeInTheDocument();
+    expect(document.querySelector('.animate-pulse')).toBeInTheDocument();
+  });
+
+  it('should handle low confidence transcription', async () => {
+    // Mock transcription API to return low confidence
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ transcript: 'Bonjour', confidence: 0.2 }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ response: 'Bonjour! Comment puis-je vous aider?', conversationId: 'test-conv-id' }),
+      });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for error message about low confidence
+    expect(await screen.findByText('Aucun texte détecté. Réessayez.')).toBeInTheDocument();
+  });
+
+  it('should handle file size validation', async () => {
+    // Mock a large file that exceeds the limit
+    const largeBlob = new Blob([new ArrayBuffer(15 * 1024 * 1024)], { type: 'audio/webm' });
+    
+    // We need to mock the actual transcribeAudio function to test this
+    // This would require more complex mocking, so we'll test the error handling instead
+    
+    // Mock transcription API to return file too large error
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 413,
+    });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for error message
+    expect(await screen.findByText('Message vocal trop long ! 🎤')).toBeInTheDocument();
+  });
+
+  it('should show visual feedback during recording', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Click microphone button
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Check that the placeholder changes to indicate recording
+    expect(screen.getByPlaceholderText(/Parlez maintenant/)).toBeInTheDocument();
+  });
+
+  it('should clean up timers and resources properly', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Check that recording state is properly cleaned up
+    expect(screen.getByLabelText('Commencer l\'enregistrement vocal')).toBeInTheDocument();
+  });
+});

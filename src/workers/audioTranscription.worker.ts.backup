@@ -1,0 +1,120 @@
+// Web Worker for audio transcription to offload processing from main thread
+
+interface TranscriptionMessage {
+  type: 'transcribe';
+  audioBlob: Blob;
+  projectId: string;
+  publicAnonKey: string;
+}
+
+interface TranscriptionResult {
+  type: 'transcription_result';
+  transcript?: string;
+  confidence?: number;
+  error?: string;
+  language?: string;
+}
+
+// Listen for messages from the main thread
+self.addEventListener('message', async (event: MessageEvent<TranscriptionMessage>) => {
+  const { type, audioBlob, projectId, publicAnonKey } = event.data;
+
+  if (type === 'transcribe') {
+    try {
+      // Validate audio blob size
+      if (audioBlob.size < 8000) {
+        self.postMessage({
+          type: 'transcription_result',
+          error: 'audio_too_short'
+        });
+        return;
+      }
+
+      if (audioBlob.size > 10 * 1024 * 1024) {
+        self.postMessage({
+          type: 'transcription_result',
+          error: 'audio_too_large'
+        });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('audio', audioBlob, 'audio.webm');
+
+      let response: Response;
+      
+      try {
+        // Try Supabase Edge Function first
+        response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-8066848d/transcribe`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${publicAnonKey}`
+          },
+          body: formData,
+          mode: 'cors',
+          credentials: 'omit'
+        });
+      } catch (corsError) {
+        // If CORS fails, fallback to Next.js API route
+        console.warn('Supabase Edge Function CORS failed, using Next.js API fallback');
+        const fallbackFormData = new FormData();
+        fallbackFormData.append('audio', audioBlob, 'audio.webm');
+        
+        response = await fetch('/api/chat/transcribe', {
+          method: 'POST',
+          body: fallbackFormData
+        });
+      }
+
+      if (!response.ok) {
+        throw new Error(`Transcription error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      self.postMessage({
+        type: 'transcription_result',
+        transcript: data.transcript,
+        confidence: data.confidence,
+        language: data.language
+      });
+
+    } catch (error: unknown) {
+      console.error('Web Worker transcription error:', error);
+      
+      let errorType = 'transcription_failed';
+      if ((error as Error).message && (error as Error).message.includes('413')) {
+        errorType = 'audio_too_large';
+      } else if ((error as Error).message && (error as Error).message.includes('400')) {
+        errorType = 'audio_format_unsupported';
+      } else if ((error as Error).message && (error as Error).message.includes('500')) {
+        errorType = 'server_error';
+      } else if ((error as Error).message && (error as Error).message.includes('403')) {
+        errorType = 'access_denied';
+      } else if ((error as Error).message && (error as Error).message.includes('timeout')) {
+        errorType = 'timeout';
+      } else if ((error as Error).message && ((error as Error).message.includes('CORS') || (error as Error).message.includes('preflight'))) {
+        errorType = 'cors_error';
+      } else if ((error as Error).message && (error as Error).message.includes('SecurityError')) {
+        errorType = 'security_error';
+      }
+
+      self.postMessage({
+        type: 'transcription_result',
+        error: errorType
+      });
+    }
+  }
+});
+
+// Handle errors in the worker
+self.addEventListener('error', (error) => {
+  console.error('Web Worker error:', error);
+  self.postMessage({
+    type: 'transcription_result',
+    error: 'worker_error'
+  });
+});
+
+// Export for TypeScript module compatibility
+export default {} as typeof Worker & { new(): Worker };

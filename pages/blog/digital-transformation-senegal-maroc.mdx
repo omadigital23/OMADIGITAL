@@ -1,0 +1,106 @@
+import { BlogLayout } from '../../src/components/blog/BlogLayout';
+import { BlogHeader } from '../../src/components/blog/BlogHeader';
+import { BlogContent } from '../../src/components/blog/BlogContent';
+import { BlogSidebar } from '../../src/components/blog/BlogSidebar';
+import { BlogFooter } from '../../src/components/blog/BlogFooter';
+
+export const meta = {
+  title: "Transformation Digitale au Sénégal et au Maroc : Stratégies Adaptées aux Marchés Africains",
+  description: "Découvrez comment OMA Digital accompagne les PME dans leur transformation digitale au Sénégal (Dakar, Thies) et au Maroc (Casablanca, Rabat, Marrakech) avec des solutions sur mesure.",
+  author: "OMA Digital",
+  date: "2025-09-09",
+  category: "Transformation Digitale",
+  readTime: "8 min",
+  image: "/images/blog/transformation-digitale-senegal-maroc.webp",
+  tags: ["transformation digitale", "Sénégal", "Maroc", "Dakar", "Casablanca", "Thies", "Rabat", "Marrakech", "PME africaines", "automatisation", "IA"]
+};
+
+export default function BlogPost() {
+  return (
+    <BlogLayout meta={meta}>
+      <BlogHeader meta={meta} />
+      
+      <div className="grid lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-2">
+          <BlogContent>
+            <h2>La Transformation Digitale en Afrique : Deux Marchés, Une Vision</h2>
+            
+            <p>
+              Le paysage numérique en Afrique est en constante évolution, avec des spécificités régionales qui nécessitent des approches adaptées. 
+              Au Sénégal et au Maroc, les entreprises vivent une transformation digitale accélérée, portée par des gouvernements engagés et une population 
+              de plus en plus connectée.
+            </p>
+            
+            <h3>Contexte Sénégalais : Une Croissance Dynamique</h3>
+            
+            <p>
+              Au Sénégal, les villes comme <strong>Dakar</strong> et <strong>Thies</strong> représentent des centres d'excellence pour l'innovation technologique. 
+              Avec plus de 80% des Sénégalais connectés via leur mobile, le marché offre des opportunités uniques pour les entreprises qui savent adapter 
+              leurs solutions aux réalités locales.
+            </p>
+            
+            <h3>Contexte Marocain : Une Hub Technologique en Expansion</h3>
+            
+            <p>
+              Le Maroc, quant à lui, se positionne comme un hub technologique majeur en Afrique du Nord. Les villes économiques comme 
+              <strong>Casablanca</strong>, les capitales administratives comme <strong>Rabat</strong>, et les centres touristiques comme 
+              <strong>Marrakech</strong> développent des écosystèmes numériques riches et diversifiés.
+            </p>
+            
+            <h2>Notre Approche : Localisation et Innovation</h2>
+            
+            <p>
+              Chez OMA Digital, nous comprenons que la transformation digitale ne peut être standardisée. Nos solutions sont conçues en tenant compte 
+              des spécificités culturelles, économiques et technologiques de chaque marché.
+            </p>
+            
+            <h3>Solutions Adaptées au Sénégal</h3>
+            
+            <ul>
+              <li>Automatisation WhatsApp Business pour les commerçants dakarois</li>
+              <li>Sites web ultra-rapides optimisés pour les connexions locales</li>
+              <li>Chatbots multilingues (français, wolof, peul) pour l'engagement client</li>
+              <li>Solutions de paiement mobile adaptées aux habitudes sénégalaises</li>
+            </ul>
+            
+            <h3>Solutions Adaptées au Maroc</h3>
+            
+            <ul>
+              <li>Plateformes e-commerce multilingues (français, arabe, amazigh)</li>
+              <li>Solutions d'analyse de données pour les entreprises casablancaises</li>
+              <li>Automatisation des processus administratifs pour les institutions rabataises</li>
+              <li>Outils de gestion touristique pour les acteurs de l'hôtellerie marrakchie</li>
+            </ul>
+            
+            <h2>Étude de Cas : Transformation d'une PME Agroalimentaire</h2>
+            
+            <p>
+              Une entreprise agroalimentaire basée à Thies a pu augmenter ses ventes de 150% en 6 mois grâce à notre solution d'automatisation 
+              WhatsApp Business. Parallèlement, une société de services à Casablanca a réduit ses coûts opérationnels de 40% en digitalisant 
+              ses processus de facturation.
+            </p>
+            
+            <h2>Conclusion : L'Avenir de la Transformation Digitale en Afrique</h2>
+            
+            <p>
+              Le Sénégal et le Maroc représentent deux marchés clés pour l'expansion digitale en Afrique. Chez OMA Digital, nous continuons 
+              à innover pour offrir des solutions qui répondent aux besoins spécifiques de chaque région, tout en maintenant notre engagement 
+              envers l'excellence technologique.
+            </p>
+            
+            <p>
+              Que vous soyez basé à <strong>Dakar</strong>, <strong>Thies</strong>, <strong>Casablanca</strong>, <strong>Rabat</strong> ou 
+              <strong>Marrakech</strong>, notre équipe locale est prête à vous accompagner dans votre transformation digitale.
+            </p>
+          </BlogContent>
+        </div>
+        
+        <div className="lg:col-span-1">
+          <BlogSidebar />
+        </div>
+      </div>
+      
+      <BlogFooter />
+    </BlogLayout>
+  );
+}

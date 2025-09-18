@@ -1,0 +1,165 @@
+{
+  "timestamp": "2025-09-13T19:20:09.143Z",
+  "score": 78,
+  "summary": {
+    "passed": 14,
+    "failed": 4,
+    "warnings": 0,
+    "details": [
+      {
+        "description": "Environment variables configured",
+        "status": "FAIL",
+        "error": "Missing: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY"
+      },
+      {
+        "description": "TypeScript configuration strict",
+        "status": "PASS"
+      },
+      {
+        "description": "Next.js configuration optimized",
+        "status": "PASS"
+      },
+      {
+        "description": "Security headers configured",
+        "status": "PASS"
+      },
+      {
+        "description": "No hardcoded secrets in code",
+        "status": "FAIL",
+        "error": "Potential secrets found"
+      },
+      {
+        "description": "Input sanitization implemented",
+        "status": "PASS"
+      },
+      {
+        "description": "Performance monitoring configured",
+        "status": "PASS"
+      },
+      {
+        "description": "Image optimization enabled",
+        "status": "PASS"
+      },
+      {
+        "description": "Bundle splitting configured",
+        "status": "PASS"
+      },
+      {
+        "description": "Supabase connection manager exists",
+        "status": "PASS"
+      },
+      {
+        "description": "Database migration files exist",
+        "status": "PASS"
+      },
+      {
+        "description": "Production optimization migration exists",
+        "status": "PASS"
+      },
+      {
+        "description": "Enhanced TTS implementation exists",
+        "status": "PASS"
+      },
+      {
+        "description": "Gemini API integration configured",
+        "status": "PASS"
+      },
+      {
+        "description": "Error handling implemented",
+        "status": "PASS"
+      },
+      {
+        "description": "No high severity vulnerabilities",
+        "status": "PASS"
+      },
+      {
+        "description": "Build succeeds without errors",
+        "status": "FAIL",
+        "error": "Build failed"
+      },
+      {
+        "description": "TypeScript compilation succeeds",
+        "status": "FAIL",
+        "error": "TypeScript errors found"
+      }
+    ]
+  },
+  "details": [
+    {
+      "description": "Environment variables configured",
+      "status": "FAIL",
+      "error": "Missing: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY"
+    },
+    {
+      "description": "TypeScript configuration strict",
+      "status": "PASS"
+    },
+    {
+      "description": "Next.js configuration optimized",
+      "status": "PASS"
+    },
+    {
+      "description": "Security headers configured",
+      "status": "PASS"
+    },
+    {
+      "description": "No hardcoded secrets in code",
+      "status": "FAIL",
+      "error": "Potential secrets found"
+    },
+    {
+      "description": "Input sanitization implemented",
+      "status": "PASS"
+    },
+    {
+      "description": "Performance monitoring configured",
+      "status": "PASS"
+    },
+    {
+      "description": "Image optimization enabled",
+      "status": "PASS"
+    },
+    {
+      "description": "Bundle splitting configured",
+      "status": "PASS"
+    },
+    {
+      "description": "Supabase connection manager exists",
+      "status": "PASS"
+    },
+    {
+      "description": "Database migration files exist",
+      "status": "PASS"
+    },
+    {
+      "description": "Production optimization migration exists",
+      "status": "PASS"
+    },
+    {
+      "description": "Enhanced TTS implementation exists",
+      "status": "PASS"
+    },
+    {
+      "description": "Gemini API integration configured",
+      "status": "PASS"
+    },
+    {
+      "description": "Error handling implemented",
+      "status": "PASS"
+    },
+    {
+      "description": "No high severity vulnerabilities",
+      "status": "PASS"
+    },
+    {
+      "description": "Build succeeds without errors",
+      "status": "FAIL",
+      "error": "Build failed"
+    },
+    {
+      "description": "TypeScript compilation succeeds",
+      "status": "FAIL",
+      "error": "TypeScript errors found"
+    }
+  ]
+}

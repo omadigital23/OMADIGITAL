@@ -1,0 +1,251 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:0.1" />
+      <stop offset="50%" style="stop-color:#f59e0b;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="socialGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6" />
+      <stop offset="100%" style="stop-color:#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="revenueGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#059669" />
+      <stop offset="100%" style="stop-color:#10b981" />
+    </linearGradient>
+    <linearGradient id="moroccoFlag" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#dc2626" />
+      <stop offset="100%" style="stop-color:#dc2626" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Morocco Flag -->
+  <g transform="translate(50, 50)">
+    <rect x="0" y="0" width="60" height="40" fill="#dc2626"/>
+    <polygon points="30,8 35,20 47,20 38,28 42,40 30,33 18,40 22,28 13,20 25,20" fill="#059669"/>
+  </g>
+  
+  <!-- Central Digital Hub -->
+  <g transform="translate(300, 200)">
+    <!-- Main Circle (Digital Hub) -->
+    <circle cx="0" cy="0" r="40" fill="url(#socialGradient)" opacity="0.9"/>
+    <circle cx="0" cy="0" r="30" fill="#ffffff" opacity="0.3"/>
+    <text x="0" y="-5" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold">DIGITAL</text>
+    <text x="0" y="8" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold">HUB</text>
+    
+    <!-- Connecting Lines to Social Platforms -->
+    <g stroke="#3b82f6" stroke-width="2" opacity="0.6">
+      <line x1="0" y1="0" x2="-80" y2="-60" stroke-dasharray="5,5">
+        <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="0" x2="80" y2="-60" stroke-dasharray="5,5">
+        <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="0" x2="-80" y2="60" stroke-dasharray="5,5">
+        <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="0" x2="80" y2="60" stroke-dasharray="5,5">
+        <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+      </line>
+    </g>
+  </g>
+  
+  <!-- Facebook/Meta -->
+  <g transform="translate(220, 140)">
+    <circle cx="0" cy="0" r="20" fill="#1877f2"/>
+    <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">f</text>
+    <text x="0" y="35" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">Facebook</text>
+    <text x="0" y="45" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" font-weight="bold">ROI: 350%</text>
+  </g>
+  
+  <!-- Instagram -->
+  <g transform="translate(380, 140)">
+    <circle cx="0" cy="0" r="20" fill="url(#socialGradient)"/>
+    <rect x="-8" y="-8" width="16" height="16" rx="4" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="0" cy="0" r="4" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="6" cy="-6" r="1.5" fill="#ffffff"/>
+    <text x="0" y="35" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">Instagram</text>
+    <text x="0" y="45" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" font-weight="bold">ROI: 320%</text>
+  </g>
+  
+  <!-- Google Ads -->
+  <g transform="translate(220, 260)">
+    <circle cx="0" cy="0" r="20" fill="#4285f4"/>
+    <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold">G</text>
+    <text x="0" y="35" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">Google Ads</text>
+    <text x="0" y="45" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" font-weight="bold">ROI: 280%</text>
+  </g>
+  
+  <!-- LinkedIn -->
+  <g transform="translate(380, 260)">
+    <circle cx="0" cy="0" r="20" fill="#0077b5"/>
+    <rect x="-8" y="-2" width="16" height="10" fill="#ffffff"/>
+    <rect x="-6" y="0" width="3" height="6" fill="#0077b5"/>
+    <rect x="-1" y="-1" width="3" height="7" fill="#0077b5"/>
+    <rect x="4" y="-2" width="3" height="8" fill="#0077b5"/>
+    <text x="0" y="35" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">LinkedIn</text>
+    <text x="0" y="45" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" font-weight="bold">ROI: 400%</text>
+  </g>
+  
+  <!-- Revenue Growth Chart -->
+  <g transform="translate(100, 120)">
+    <rect x="0" y="0" width="120" height="80" fill="#ffffff" opacity="0.95" rx="8" stroke="#e5e7eb"/>
+    <text x="60" y="15" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Croissance CA</text>
+    
+    <!-- Chart Bars -->
+    <rect x="15" y="55" width="12" height="15" fill="url(#revenueGradient)"/>
+    <rect x="30" y="45" width="12" height="25" fill="url(#revenueGradient)"/>
+    <rect x="45" y="30" width="12" height="40" fill="url(#revenueGradient)"/>
+    <rect x="60" y="20" width="12" height="50" fill="url(#revenueGradient)"/>
+    <rect x="75" y="25" width="12" height="45" fill="url(#revenueGradient)"/>
+    <rect x="90" y="15" width="12" height="55" fill="url(#revenueGradient)"/>
+    
+    <!-- Labels -->
+    <text x="21" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Jan</text>
+    <text x="36" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Fév</text>
+    <text x="51" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Mar</text>
+    <text x="66" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Avr</text>
+    <text x="81" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Mai</text>
+    <text x="96" y="78" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="6">Jun</text>
+    
+    <!-- Growth Indicator -->
+    <text x="60" y="92" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="12" font-weight="bold">+1M DH/mois</text>
+  </g>
+  
+  <!-- Case Studies -->
+  <g transform="translate(450, 120)">
+    <!-- Argan Beauty -->
+    <rect x="0" y="0" width="130" height="25" fill="#fef3c7" stroke="#f59e0b" rx="4"/>
+    <text x="5" y="12" fill="#92400e" font-family="Arial, sans-serif" font-size="8" font-weight="bold">🌿 Argan Beauty</text>
+    <text x="5" y="20" fill="#92400e" font-family="Arial, sans-serif" font-size="7">45K DH → 1.2M DH/mois</text>
+    
+    <!-- Tech Solutions -->
+    <rect x="0" y="30" width="130" height="25" fill="#dbeafe" stroke="#3b82f6" rx="4"/>
+    <text x="5" y="42" fill="#1e40af" font-family="Arial, sans-serif" font-size="8" font-weight="bold">💻 Tech Solutions</text>
+    <text x="5" y="50" fill="#1e40af" font-family="Arial, sans-serif" font-size="7">Services IT → 1.8M DH/mois</text>
+    
+    <!-- Pizza Express -->
+    <rect x="0" y="60" width="130" height="25" fill="#dcfce7" stroke="#10b981" rx="4"/>
+    <text x="5" y="72" fill="#047857" font-family="Arial, sans-serif" font-size="8" font-weight="bold">🍕 Pizza Express</text>
+    <text x="5" y="80" fill="#047857" font-family="Arial, sans-serif" font-size="7">45 → 320 commandes/jour</text>
+  </g>
+  
+  <!-- Mobile Phone (App) -->
+  <g transform="translate(500, 280)">
+    <rect x="-15" y="-35" width="30" height="70" rx="8" fill="#1f2937"/>
+    <rect x="-12" y="-30" width="24" height="50" rx="2" fill="#ffffff"/>
+    <circle cx="0" cy="30" r="4" fill="#374151"/>
+    
+    <!-- App Interface -->
+    <rect x="-10" y="-28" width="20" height="8" fill="#dc2626"/>
+    <text x="0" y="-21" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="6">APP</text>
+    
+    <!-- Social Media Icons -->
+    <circle cx="-6" cy="-15" r="3" fill="#1877f2"/>
+    <circle cx="0" cy="-15" r="3" fill="#e4405f"/>
+    <circle cx="6" cy="-15" r="3" fill="#0077b5"/>
+    
+    <!-- Engagement Stats -->
+    <rect x="-10" y="-8" width="20" height="3" fill="#10b981"/>
+    <rect x="-10" y="-4" width="15" height="3" fill="#f59e0b"/>
+    <rect x="-10" y="0" width="18" height="3" fill="#3b82f6"/>
+    
+    <!-- ROI Display -->
+    <rect x="-10" y="8" width="20" height="8" fill="#059669"/>
+    <text x="0" y="14" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="6" font-weight="bold">+450% ROI</text>
+  </g>
+  
+  <!-- Email Marketing -->
+  <g transform="translate(100, 280)">
+    <rect x="0" y="0" width="80" height="60" fill="#ffffff" stroke="#e5e7eb" rx="4"/>
+    <text x="40" y="12" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8" font-weight="bold">📧 Email Marketing</text>
+    
+    <!-- Email Template -->
+    <rect x="5" y="18" width="70" height="8" fill="#f59e0b"/>
+    <text x="40" y="24" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="6">Newsletter Hebdo</text>
+    
+    <rect x="5" y="30" width="70" height="4" fill="#e5e7eb"/>
+    <rect x="5" y="36" width="50" height="4" fill="#e5e7eb"/>
+    <rect x="5" y="42" width="60" height="4" fill="#e5e7eb"/>
+    
+    <!-- Stats -->
+    <text x="40" y="55" text-anchor="middle" fill="#059669" font-family="Arial, sans-serif" font-size="8" font-weight="bold">ROI: 600%</text>
+  </g>
+  
+  <!-- Budget Allocation -->
+  <g transform="translate(50, 320)">
+    <text x="0" y="0" fill="#1f2937" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Budget Répartition</text>
+    
+    <!-- Pie Chart Segments -->
+    <circle cx="40" cy="25" r="20" fill="none" stroke="#e5e7eb" stroke-width="40"/>
+    <circle cx="40" cy="25" r="20" fill="none" stroke="#1877f2" stroke-width="40" 
+            stroke-dasharray="50 100" stroke-dashoffset="25"/>
+    <circle cx="40" cy="25" r="20" fill="none" stroke="#10b981" stroke-width="40" 
+            stroke-dasharray="31 100" stroke-dashoffset="-25"/>
+    <circle cx="40" cy="25" r="20" fill="none" stroke="#f59e0b" stroke-width="40" 
+            stroke-dasharray="19 100" stroke-dashoffset="-56"/>
+    
+    <!-- Legend -->
+    <rect x="70" y="10" width="8" height="4" fill="#1877f2"/>
+    <text x="82" y="14" fill="#1f2937" font-family="Arial, sans-serif" font-size="6">Facebook 40%</text>
+    
+    <rect x="70" y="18" width="8" height="4" fill="#10b981"/>
+    <text x="82" y="22" fill="#1f2937" font-family="Arial, sans-serif" font-size="6">Google 25%</text>
+    
+    <rect x="70" y="26" width="8" height="4" fill="#f59e0b"/>
+    <text x="82" y="30" fill="#1f2937" font-family="Arial, sans-serif" font-size="6">Content 20%</text>
+    
+    <rect x="70" y="34" width="8" height="4" fill="#6b7280"/>
+    <text x="82" y="38" fill="#1f2937" font-family="Arial, sans-serif" font-size="6">Autres 15%</text>
+  </g>
+  
+  <!-- Moroccan Architecture -->
+  <g transform="translate(520, 50)" opacity="0.4">
+    <!-- Minaret -->
+    <rect x="0" y="0" width="8" height="30" fill="#dc2626"/>
+    <rect x="-2" y="-5" width="12" height="6" fill="#dc2626"/>
+    <polygon points="4,-8 0,-12 8,-12" fill="#dc2626"/>
+    
+    <!-- Traditional arch -->
+    <path d="M 15 25 Q 20 15 25 25" stroke="#d97706" stroke-width="3" fill="none"/>
+    <rect x="13" y="25" width="14" height="8" fill="#d97706"/>
+  </g>
+  
+  <!-- Currency (Dirham) -->
+  <g transform="translate(450, 320)">
+    <circle cx="0" cy="0" r="15" fill="#059669"/>
+    <text x="0" y="5" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold">DH</text>
+    
+    <!-- Money flow animation -->
+    <g opacity="0.7">
+      <circle cx="25" cy="-10" r="3" fill="#10b981">
+        <animate attributeName="cx" values="25;35;45" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.5;0" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="20" cy="15" r="2" fill="#059669">
+        <animate attributeName="cx" values="20;30;40" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.5;0" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="22" font-weight="bold">Marketing Digital Maroc</text>
+  <text x="300" y="50" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="14">Stratégies qui Génèrent +1M DH/Mois</text>
+  
+  <!-- Floating Elements -->
+  <g opacity="0.4">
+    <circle cx="150" cy="80" r="2" fill="#dc2626">
+      <animate attributeName="cy" values="80;70;80" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="450" cy="100" r="2" fill="#059669">
+      <animate attributeName="cy" values="100;90;100" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="200" r="2" fill="#f59e0b">
+      <animate attributeName="cy" values="200;190;200" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS Improvements Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 TTS Improvements Test</h1>
+        
+        <div class="test-section">
+            <h2>Pre-Fix vs Post-Fix Comparison</h2>
+            <p>This test demonstrates the improvement in French text-to-speech quality:</p>
+            
+            <div class="status info">
+                <strong>Before Fix:</strong> French TTS rate was 0.40 (extremely slow and robotic)<br>
+                <strong>After Fix:</strong> French TTS rate is 0.9 (natural and clear)
+            </div>
+            
+            <h3>English (Reference - Unchanged)</h3>
+            <textarea id="englishText">Hello! I'm OMA Digital's AI assistant. How can I help transform your business today? Our services include WhatsApp automation, website development, and digital marketing solutions tailored for Senegalese SMEs.</textarea>
+            <button onclick="speakText(document.getElementById('englishText').value, 'en')">Speak English (Rate: 1.0)</button>
+            
+            <h3>French (Improved)</h3>
+            <textarea id="frenchText">Bonjour ! Je suis l'assistant IA d'OMA Digital. Comment puis-je transformer votre business aujourd'hui ? Nos services incluent l'automatisation WhatsApp, le développement de sites web et les solutions de marketing digital adaptées aux PME sénégalaises.</textarea>
+            <button onclick="speakText(document.getElementById('frenchText').value, 'fr')">Speak French (Rate: 0.9 - IMPROVED)</button>
+            
+            <button onclick="stopSpeaking()">⏹️ Stop Speaking</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>Custom Text Test</h2>
+            <p>Test with your own text to compare the voice quality:</p>
+            <textarea id="customText" placeholder="Enter text to test TTS...">Bonjour, je veux automatiser WhatsApp pour mon business à Dakar.</textarea>
+            <div>
+                <button onclick="speakText(document.getElementById('customText').value, 'fr')">Speak in French</button>
+                <button onclick="speakText(document.getElementById('customText').value, 'en')">Speak in English</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to speak text with improved TTS settings
+        function speakText(text, language) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                // Clean text for TTS
+                const cleanText = text.replace(/[🤖✨🎯🏢📞📧💬🔄]/g, '').replace(/\n/g, ' ').trim();
+                
+                if (cleanText.length > 0) {
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
+                    
+                    // Configure TTS based on language with ENHANCED settings
+                    switch (language) {
+                        case 'en':
+                        case 'en-US':
+                        case 'en-GB':
+                            utterance.lang = 'en-US';
+                            utterance.rate = 1.0;     // Natural speaking rate
+                            utterance.pitch = 1.1;    // Slightly higher pitch for friendliness
+                            utterance.volume = 0.8;   // Comfortable volume level
+                            break;
+                        case 'fr':
+                        case 'fr-FR':
+                        case 'fr-CA':
+                        default:
+                            utterance.lang = 'fr-FR';
+                            utterance.rate = 0.9;     // IMPROVED: Natural speaking rate for French (was 0.40)
+                            utterance.pitch = 1.1;    // Slightly higher pitch for friendliness
+                            utterance.volume = 0.85;  // Slightly higher volume for French
+                            break;
+                    }
+                    
+                    console.log('Speaking with settings:', {
+                        language: utterance.lang,
+                        rate: utterance.rate,
+                        pitch: utterance.pitch,
+                        volume: utterance.volume
+                    });
+                    
+                    // Add slight delay before speaking
+                    setTimeout(() => {
+                        window.speechSynthesis.speak(utterance);
+                    }, 100);
+                    
+                    // Show status
+                    showStatus(`Speaking in ${language === 'en' ? 'English' : 'French'}...`, 'info');
+                }
+            } else {
+                showStatus('Text-to-speech not supported in this browser.', 'error');
+            }
+        }
+        
+        function stopSpeaking() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                showStatus('Speech stopped.', 'info');
+            }
+        }
+        
+        function showStatus(message, type) {
+            // Remove existing status messages
+            const existingStatus = document.querySelector('.status:not(.info)');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            
+            // Create new status message
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            
+            // Insert after the first test section
+            const firstSection = document.querySelector('.test-section');
+            firstSection.parentNode.insertBefore(statusDiv, firstSection.nextSibling);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.remove();
+                }
+            }, 3000);
+        }
+        
+        // Check if speech synthesis is supported
+        window.addEventListener('load', () => {
+            if (!('speechSynthesis' in window)) {
+                showStatus('⚠️ Text-to-speech is not supported in your browser. Please try Chrome, Edge, or Safari.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { SmartChatbot } from '../SmartChatbotNext';
+
+// Mock the tracking functions
+jest.mock('../../utils/supabase/info', () => ({
+  projectId: 'test-project-id',
+  publicAnonKey: 'test-public-key',
+  trackEvent: jest.fn(),
+  generateWhatsAppLink: jest.fn().mockReturnValue('https://wa.me/1234567890'),
+}));
+
+// Mock fetch API
+const mockFetch = jest.fn();
+global.fetch = mockFetch;
+
+// Mock MediaRecorder
+class MockMediaRecorder {
+  state = 'inactive';
+  ondataavailable: ((event: any) => void) | null = null;
+  onstop: ((event: any) => void) | null = null;
+  timeoutId: NodeJS.Timeout | null = null;
+  
+  constructor(stream: MediaStream, options?: any) {}
+  
+  start() {
+    this.state = 'recording';
+  }
+  
+  stop() {
+    this.state = 'inactive';
+    if (this.onstop) this.onstop(new Event('stop'));
+  }
+}
+
+global.MediaRecorder = MockMediaRecorder as any;
+
+// Mock navigator.mediaDevices.getUserMedia
+Object.defineProperty(navigator, 'mediaDevices', {
+  writable: true,
+  value: {
+    getUserMedia: jest.fn().mockResolvedValue({
+      getTracks: () => [{ stop: jest.fn() }]
+    })
+  }
+});
+
+// Mock speech synthesis
+Object.defineProperty(window, 'speechSynthesis', {
+  writable: true,
+  value: {
+    speak: jest.fn(),
+    cancel: jest.fn(),
+  },
+});
+
+Object.defineProperty(window, 'SpeechSynthesisUtterance', {
+  writable: true,
+  value: jest.fn().mockImplementation(() => ({})),
+});
+
+describe('SmartChatbot Voice Functionality', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should start voice recording when microphone button is clicked', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Click microphone button
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Check that recording state is active
+    expect(screen.getByLabelText('Arrêter l\'enregistrement')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('🎤 Parlez maintenant...')).toBeInTheDocument();
+    
+    // Verify getUserMedia was called
+    expect(navigator.mediaDevices.getUserMedia).toHaveBeenCalledWith({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 16000
+      }
+    });
+  });
+
+  it('should stop voice recording when stop button is clicked', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Check that recording state is inactive
+    expect(screen.getByLabelText('Commencer l\'enregistrement vocal')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Tapez votre message...')).toBeInTheDocument();
+  });
+
+  it('should handle microphone access denied', async () => {
+    // Mock getUserMedia to reject
+    (navigator.mediaDevices.getUserMedia as jest.Mock).mockRejectedValueOnce(
+      new Error('Permission denied')
+    );
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Click microphone button
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Wait for error message
+    expect(await screen.findByText('Accès micro refusé. Vérifiez les permissions.')).toBeInTheDocument();
+  });
+
+  it('should transcribe audio and send message', async () => {
+    // Mock transcription API
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ transcript: 'Bonjour, comment allez-vous?' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ response: 'Bonjour! Je vais bien, merci. Comment puis-je vous aider?', conversationId: 'test-conv-id' }),
+      });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for transcription and response
+    expect(await screen.findByText('Bonjour! Je vais bien, merci. Comment puis-je vous aider?')).toBeInTheDocument();
+  });
+
+  it('should handle transcription errors', async () => {
+    // Mock transcription API to fail
+    mockFetch.mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+    });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for error message
+    expect(await screen.findByText('Erreur transcription. Tapez votre message.')).toBeInTheDocument();
+  });
+
+  it('should handle empty transcription', async () => {
+    // Mock transcription API to return empty transcript
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ transcript: '' }),
+    });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for error message
+    expect(await screen.findByText('Aucun texte détecté. Réessayez.')).toBeInTheDocument();
+  });
+
+  it('should automatically stop recording after 60 seconds', async () => {
+    jest.useFakeTimers();
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Fast forward 60 seconds
+    jest.advanceTimersByTime(60000);
+    
+    // Check that recording has stopped
+    expect(screen.getByLabelText('Commencer l\'enregistrement vocal')).toBeInTheDocument();
+    
+    jest.useRealTimers();
+  });
+
+  it('should speak bot responses when using voice input', async () => {
+    // Mock transcription and chat API
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ transcript: 'Bonjour' }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ response: 'Bonjour! Comment allez-vous?', conversationId: 'test-conv-id' }),
+      });
+    
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Start recording
+    const micButton = screen.getByLabelText('Commencer l\'enregistrement vocal');
+    fireEvent.click(micButton);
+    
+    // Stop recording (this should trigger transcription and response)
+    const stopButton = screen.getByLabelText('Arrêter l\'enregistrement');
+    fireEvent.click(stopButton);
+    
+    // Wait for response and check that speech synthesis was called
+    expect(await screen.findByText('Bonjour! Comment allez-vous?')).toBeInTheDocument();
+    expect(window.speechSynthesis.speak).toHaveBeenCalled();
+  });
+
+  it('should stop speaking when stop button is clicked', async () => {
+    render(<SmartChatbot />);
+    
+    // Open chat
+    const chatButton = screen.getByLabelText('Ouvrir le chat OMA');
+    fireEvent.click(chatButton);
+    
+    // Mock that speaking is in progress
+    // This would normally be triggered by a voice response
+    
+    // Click stop speaking button
+    const stopSpeakingButton = screen.getByLabelText('Arrêter la lecture');
+    fireEvent.click(stopSpeakingButton);
+    
+    // Check that speech synthesis was cancelled
+    expect(window.speechSynthesis.cancel).toHaveBeenCalled();
+  });
+});

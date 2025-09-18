@@ -1,0 +1,44 @@
+// Script to create a test audio file
+const fs = require('fs');
+
+// Generate a simple test audio file (silent WAV file)
+function createTestAudioFile() {
+  // WAV file header for a silent 1-second mono audio at 44100 Hz
+  const header = Buffer.from([
+    0x52, 0x49, 0x46, 0x46, // "RIFF"
+    0x24, 0x00, 0x00, 0x00, // File size (36 bytes for header + 44100 bytes of audio data)
+    0x57, 0x41, 0x56, 0x45, // "WAVE"
+    0x66, 0x6D, 0x74, 0x20, // "fmt "
+    0x10, 0x00, 0x00, 0x00, // Format chunk size (16 bytes)
+    0x01, 0x00,             // Audio format (1 = PCM)
+    0x01, 0x00,             // Number of channels (1 = mono)
+    0x44, 0xAC, 0x00, 0x00, // Sample rate (44100 Hz)
+    0x88, 0x58, 0x01, 0x00, // Byte rate (44100 * 1 * 16/8 = 88200)
+    0x02, 0x00,             // Block align (1 * 16/8 = 2)
+    0x10, 0x00,             // Bits per sample (16)
+    0x64, 0x61, 0x74, 0x61, // "data"
+    0x00, 0x00, 0x00, 0x00  // Data chunk size (to be filled)
+  ]);
+
+  // Create 1 second of silent audio data (44100 samples * 2 bytes per sample)
+  const audioDataSize = 44100 * 2;
+  const audioData = Buffer.alloc(audioDataSize, 0);
+
+  // Update the file size in the header
+  const fileSize = 36 + audioDataSize;
+  header.writeUInt32LE(fileSize - 8, 4); // File size - 8 bytes for "RIFF" and size field
+
+  // Update the data chunk size in the header
+  header.writeUInt32LE(audioDataSize, 40);
+
+  // Combine header and audio data
+  const wavFile = Buffer.concat([header, audioData]);
+
+  // Write to file
+  fs.writeFileSync('test-audio.wav', wavFile);
+  console.log('✅ Created test-audio.wav file');
+  console.log('📝 File size:', wavFile.length, 'bytes');
+}
+
+// Create the test audio file
+createTestAudioFile();

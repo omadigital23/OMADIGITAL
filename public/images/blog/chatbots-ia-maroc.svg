@@ -1,0 +1,178 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.1" />
+    </linearGradient>
+    <linearGradient id="chatbotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6" />
+      <stop offset="100%" style="stop-color:#7c3aed" />
+    </linearGradient>
+    <linearGradient id="conversionGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b" />
+      <stop offset="100%" style="stop-color:#d97706" />
+    </linearGradient>
+    <linearGradient id="moroccoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626" />
+      <stop offset="100%" style="stop-color:#059669" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Morocco Flag Elements -->
+  <rect x="50" y="50" width="60" height="40" fill="#dc2626" opacity="0.3"/>
+  <polygon points="80,60 85,72 97,72 88,80 92,92 80,85 68,92 72,80 63,72 75,72" fill="#059669" opacity="0.7"/>
+  
+  <!-- Chatbot Character -->
+  <g transform="translate(300, 200)">
+    <!-- Main Body -->
+    <rect x="-30" y="-25" width="60" height="70" rx="15" fill="url(#chatbotGradient)"/>
+    <!-- Head -->
+    <circle cx="0" cy="-40" r="25" fill="url(#chatbotGradient)"/>
+    <!-- Eyes -->
+    <circle cx="-10" cy="-45" r="4" fill="#ffffff"/>
+    <circle cx="10" cy="-45" r="4" fill="#ffffff"/>
+    <circle cx="-10" cy="-45" r="2" fill="#f59e0b"/>
+    <circle cx="10" cy="-45" r="2" fill="#f59e0b"/>
+    <!-- Smile -->
+    <path d="M -12,-30 Q 0,-25 12,-30" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Speech Bubble -->
+    <ellipse cx="50" cy="-50" rx="35" ry="20" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+    <polygon points="15,-45 25,-50 25,-40" fill="#ffffff"/>
+    <text x="50" y="-47" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="10">Bonjour!</text>
+    <text x="50" y="-37" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">Comment puis-je</text>
+    <text x="50" y="-29" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">vous aider?</text>
+    <!-- Screen/Interface -->
+    <rect x="-20" y="-15" width="40" height="25" rx="3" fill="#1f2937"/>
+    <rect x="-18" y="-13" width="36" height="21" rx="2" fill="#059669"/>
+    <circle cx="-10" cy="-5" r="2" fill="#ffffff"/>
+    <circle cx="0" cy="-5" r="2" fill="#ffffff"/>
+    <circle cx="10" cy="-5" r="2" fill="#ffffff"/>
+  </g>
+  
+  <!-- E-commerce Elements -->
+  <g transform="translate(150, 150)">
+    <!-- Shopping Cart -->
+    <rect x="0" y="10" width="25" height="15" rx="2" fill="#f59e0b"/>
+    <circle cx="8" cy="30" r="3" fill="#374151"/>
+    <circle cx="20" cy="30" r="3" fill="#374151"/>
+    <rect x="5" y="5" width="15" height="8" fill="#fbbf24"/>
+    <!-- Products in cart -->
+    <rect x="7" y="12" width="3" height="3" fill="#dc2626"/>
+    <rect x="12" y="12" width="3" height="3" fill="#059669"/>
+    <rect x="17" y="12" width="3" height="3" fill="#3b82f6"/>
+  </g>
+  
+  <!-- Conversion Chart -->
+  <g transform="translate(450, 120)">
+    <!-- Chart Background -->
+    <rect x="0" y="0" width="100" height="60" fill="#ffffff" opacity="0.9" rx="5"/>
+    <!-- Bars showing growth -->
+    <rect x="10" y="45" width="12" height="10" fill="url(#conversionGradient)"/>
+    <rect x="25" y="35" width="12" height="20" fill="url(#conversionGradient)"/>
+    <rect x="40" y="25" width="12" height="30" fill="url(#conversionGradient)"/>
+    <rect x="55" y="15" width="12" height="40" fill="url(#conversionGradient)"/>
+    <rect x="70" y="5" width="12" height="50" fill="url(#conversionGradient)"/>
+    <!-- +250% Label -->
+    <text x="50" y="-5" text-anchor="middle" fill="#d97706" font-family="Arial, sans-serif" font-size="12" font-weight="bold">+250%</text>
+  </g>
+  
+  <!-- Mobile Phone (E-commerce) -->
+  <g transform="translate(500, 280)">
+    <rect x="-15" y="-30" width="30" height="60" rx="8" fill="#1f2937"/>
+    <rect x="-12" y="-25" width="24" height="40" rx="2" fill="#ffffff"/>
+    <circle cx="0" cy="25" r="4" fill="#374151"/>
+    <!-- App Interface -->
+    <rect x="-10" y="-23" width="20" height="8" fill="#f59e0b"/>
+    <rect x="-8" y="-12" width="6" height="6" fill="#dc2626"/>
+    <rect x="0" y="-12" width="6" height="6" fill="#059669"/>
+    <rect x="-8" y="-4" width="14" height="2" fill="#e5e7eb"/>
+    <rect x="-8" y="0" width="10" height="2" fill="#e5e7eb"/>
+    <rect x="-8" y="4" width="16" height="2" fill="#3b82f6"/>
+  </g>
+  
+  <!-- Chat Messages -->
+  <g transform="translate(100, 280)">
+    <!-- User message -->
+    <rect x="0" y="0" width="80" height="20" rx="10" fill="#3b82f6"/>
+    <text x="40" y="12" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="8">Je cherche une robe</text>
+    
+    <!-- Bot response -->
+    <rect x="20" y="25" width="90" height="20" rx="10" fill="#e5e7eb"/>
+    <text x="65" y="37" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="8">Voici nos meilleures robes!</text>
+  </g>
+  
+  <!-- Morocco Architecture Silhouette -->
+  <g transform="translate(50, 320)" opacity="0.4">
+    <!-- Minaret -->
+    <rect x="0" y="-40" width="8" height="40" fill="#dc2626"/>
+    <rect x="-2" y="-45" width="12" height="8" fill="#dc2626"/>
+    <polygon points="4,-50 0,-55 8,-55" fill="#dc2626"/>
+    
+    <!-- Traditional building -->
+    <rect x="15" y="-25" width="20" height="25" fill="#d97706"/>
+    <polygon points="25,-30 20,-35 30,-35" fill="#d97706"/>
+    <rect x="20" y="-20" width="3" height="6" fill="#92400e"/>
+    <rect x="27" y="-20" width="3" height="6" fill="#92400e"/>
+  </g>
+  
+  <!-- Digital Connections -->
+  <g stroke="#8b5cf6" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M 200 200 Q 250 180 300 200" stroke-dasharray="3,3">
+      <animate attributeName="stroke-dashoffset" values="0;6" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 350 200 Q 400 220 450 200" stroke-dasharray="3,3">
+      <animate attributeName="stroke-dashoffset" values="0;6" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 300 250 Q 350 270 400 250" stroke-dasharray="3,3">
+      <animate attributeName="stroke-dashoffset" values="0;6" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Currency Symbols (Dirham) -->
+  <g transform="translate(380, 320)">
+    <circle cx="0" cy="0" r="12" fill="#059669"/>
+    <text x="0" y="4" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="12" font-weight="bold">DH</text>
+  </g>
+  
+  <g transform="translate(420, 300)">
+    <circle cx="0" cy="0" r="10" fill="#047857"/>
+    <text x="0" y="3" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="10" font-weight="bold">DH</text>
+  </g>
+  
+  <!-- AI Brain Icon -->
+  <g transform="translate(200, 100)">
+    <ellipse cx="0" cy="0" rx="20" ry="15" fill="#8b5cf6" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="15" ry="10" fill="#a78bfa" opacity="0.6"/>
+    <ellipse cx="0" cy="0" rx="10" ry="7" fill="#c4b5fd" opacity="0.4"/>
+    <!-- Neural connections -->
+    <circle cx="-8" cy="-5" r="1.5" fill="#ffffff"/>
+    <circle cx="8" cy="-5" r="1.5" fill="#ffffff"/>
+    <circle cx="-5" cy="5" r="1.5" fill="#ffffff"/>
+    <circle cx="5" cy="5" r="1.5" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="1.5" fill="#ffffff"/>
+    <line x1="-8" y1="-5" x2="0" y2="0" stroke="#ffffff" stroke-width="0.5"/>
+    <line x1="8" y1="-5" x2="0" y2="0" stroke="#ffffff" stroke-width="0.5"/>
+    <line x1="-5" y1="5" x2="0" y2="0" stroke="#ffffff" stroke-width="0.5"/>
+    <line x1="5" y1="5" x2="0" y2="0" stroke="#ffffff" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="40" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="22" font-weight="bold">Chatbots IA Maroc</text>
+  <text x="300" y="65" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="14">+250% de Conversions E-commerce</text>
+  
+  <!-- Floating Elements -->
+  <g opacity="0.3">
+    <circle cx="100" cy="100" r="3" fill="#f59e0b">
+      <animate attributeName="cy" values="100;90;100" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="500" cy="150" r="2" fill="#8b5cf6">
+      <animate attributeName="cy" values="150;140;150" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="350" r="2.5" fill="#059669">
+      <animate attributeName="cy" values="350;340;350" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

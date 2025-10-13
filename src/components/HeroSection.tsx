@@ -78,6 +78,18 @@ export function HeroSection() {
         { label: t('hero.stats.tech_partners'), value: "25+" },
         { label: t('hero.stats.rd_budget'), value: "30%" }
       ]
+    },
+    {
+      title: t('hero.slide6.title'),
+      subtitle: t('hero.slide6.subtitle'),
+      description: t('hero.slide6.description'),
+      cta: t('hero.slide6.cta'),
+      video: "/videos/hero6.webm",
+      stats: [
+        { label: t('hero.stats.clients_satisfied'), value: "200+" },
+        { label: t('hero.stats.countries'), value: "2" },
+        { label: t('hero.stats.years_experience'), value: "9+" }
+      ]
     }
   ];
 

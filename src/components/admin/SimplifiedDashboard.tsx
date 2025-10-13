@@ -55,36 +55,47 @@ export function SimplifiedDashboard() {
       setError(null);
       
       // Fetch all data in parallel
-      const [newsletterRes, ctaRes, chatbotRes] = await Promise.all([
+      const [newsletterRes, quotesRes, chatbotRes] = await Promise.all([
         fetch('/api/admin/newsletter-analytics'),
-        fetch('/api/admin/cta-management?analytics=true'),
+        fetch('/api/admin/quote-submissions'),
         fetch('/api/admin/chatbot-interactions')
       ]);
 
+      console.log('API Responses:', {
+        newsletter: newsletterRes.status,
+        quotes: quotesRes.status,
+        chatbot: chatbotRes.status
+      });
+
       if (newsletterRes.ok) {
         const newsletterResult = await newsletterRes.json();
+        console.log('Newsletter data:', newsletterResult);
         setNewsletterData(newsletterResult.data?.dashboard || null);
+      } else {
+        console.error('Newsletter API error:', await newsletterRes.text());
       }
 
-      if (ctaRes.ok) {
-        const ctaResult = await ctaRes.json();
-        // Calculate CTA metrics from event counts
-        const eventCounts = ctaResult?.eventCounts || {};
-        const totalViews = Object.values(eventCounts).reduce((sum: number, count: number) => sum + count, 0);
-        const totalClicks = eventCounts['cta_click'] || 0;
-        const clickRate = totalViews > 0 ? Math.round((totalClicks / totalViews) * 100) : 0;
+      if (quotesRes.ok) {
+        const quotesResult = await quotesRes.json();
+        console.log('Quotes data:', quotesResult);
+        const quotes = quotesResult.data?.quotes || [];
         
         setCTAData({
-          total_views: totalViews,
-          total_clicks: totalClicks,
-          total_conversions: eventCounts['conversion'] || 0,
-          click_rate: clickRate
+          total_views: quotes.length,
+          total_clicks: quotes.filter((q: any) => q.status !== 'nouveau').length,
+          total_conversions: quotes.filter((q: any) => q.status === 'traité').length,
+          click_rate: quotes.length > 0 ? Math.round((quotes.filter((q: any) => q.status !== 'nouveau').length / quotes.length) * 100) : 0
         });
+      } else {
+        console.error('Quotes API error:', await quotesRes.text());
       }
 
       if (chatbotRes.ok) {
         const chatbotResult = await chatbotRes.json();
+        console.log('Chatbot data:', chatbotResult);
         setChatbotData(chatbotResult.stats || null);
+      } else {
+        console.error('Chatbot API error:', await chatbotRes.text());
       }
 
       setLastUpdated(new Date().toLocaleTimeString('fr-FR'));

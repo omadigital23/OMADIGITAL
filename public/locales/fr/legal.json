@@ -459,5 +459,11 @@
   "additional_resources_details": "Pour plus d'informations sur les cookies et comment les gérer, consultez www.allaboutcookies.org",
   "purpose": "Finalité",
   "retention": "Conservation",
-  "provider": "Fournisseur"
+  "provider": "Fournisseur",
+  "content_accuracy": "Exactitude du Contenu",
+  "technical_issues": "Problèmes Techniques",
+  "copyright_notice": "Avis de Droit d'Auteur",
+  "all_rights_reserved": "Tous droits réservés",
+  "responsibility_limitation": "Limitation de Responsabilité",
+  "senegalese_law": "Droit Sénégalais"
 }

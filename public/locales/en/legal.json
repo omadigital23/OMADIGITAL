@@ -77,7 +77,6 @@
   "external_links": "External Links",
   "external_links_text": "Our site may contain links to external sites. OMA DIGITAL is not responsible for the content of these third-party sites.",
   "applicable_law": "Applicable Law",
-  "senegalese_law": "Senegalese Law",
   "jurisdiction": "Any dispute relating to the use of this site is subject to Senegalese law. In case of dispute, the courts of Dakar shall have sole jurisdiction.",
   "contact_legal": "Legal Contact",
   "legal_questions": "For any legal questions regarding this site",
@@ -460,5 +459,11 @@
   "additional_resources_details": "For more information about cookies and how to manage them, visit www.allaboutcookies.org",
   "purpose": "Purpose",
   "retention": "Retention",
-  "provider": "Provider"
+  "provider": "Provider",
+  "content_accuracy": "Content Accuracy",
+  "technical_issues": "Technical Issues",
+  "copyright_notice": "Copyright Notice",
+  "all_rights_reserved": "All rights reserved",
+  "responsibility_limitation": "Limitation of Responsibility",
+  "senegalese_law": "Senegalese Law"
 }

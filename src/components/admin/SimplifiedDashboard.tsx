@@ -108,7 +108,11 @@ export function SimplifiedDashboard() {
             </div>
             
             <div className="flex space-x-2">
-              <Link href="/admin/focused-dashboard" className="flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+              <Link href="/admin/detailed-dashboard" className="flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                Vue Détaillée
+              </Link>
+              
+              <Link href="/admin/focused-dashboard" className="flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
                 Dashboard Focused
               </Link>
               

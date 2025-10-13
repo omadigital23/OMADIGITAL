@@ -15,21 +15,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const limit = parseInt(req.query['limit'] as string) || 50;
     const offset = parseInt(req.query['offset'] as string) || 0;
 
-    // Récupérer les interactions récentes du chatbot
+    // Récupérer les conversations récentes du chatbot depuis chatbot_conversations
     const { data: interactions, error: interactionsError } = await supabase
-      .from('chatbot_interactions')
+      .from('chatbot_conversations')
       .select(`
         id,
         session_id,
         user_message,
-        response,
+        bot_response,
         language,
-        source,
+        input_type,
         confidence,
-        response_time_ms,
         created_at,
         ip_address,
-        user_agent
+        user_agent,
+        sentiment,
+        lead_score
       `)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -40,8 +41,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Calculer les statistiques
     const { data: statsData, error: statsError } = await supabase
-      .from('chatbot_interactions')
-      .select('confidence, response_time_ms, language, source, created_at');
+      .from('chatbot_conversations')
+      .select('confidence, language, input_type, created_at, lead_score');
 
     if (statsError) {
       console.error('Erreur récupération stats:', statsError);
@@ -53,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Calculs de base
       const totalInteractions = statsData.length;
       const avgConfidence = statsData.reduce((sum, item) => sum + (item.confidence || 0), 0) / totalInteractions;
-      const avgResponseTime = statsData.reduce((sum, item) => sum + (item.response_time_ms || 0), 0) / totalInteractions;
+      const avgLeadScore = statsData.filter(item => item.lead_score).reduce((sum, item) => sum + (item.lead_score || 0), 0) / (statsData.filter(item => item.lead_score).length || 1);
 
       // Répartition par langue
       const languages = statsData.reduce((acc, item) => {
@@ -62,10 +63,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return acc;
       }, {} as Record<string, number>);
 
-      // Répartition par source
-      const sources = statsData.reduce((acc, item) => {
-        const source = item.source || 'unknown';
-        acc[source] = (acc[source] || 0) + 1;
+      // Répartition par type d'input
+      const inputTypes = statsData.reduce((acc, item) => {
+        const inputType = item.input_type || 'text';
+        acc[inputType] = (acc[inputType] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
 
@@ -84,9 +85,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       stats = {
         total_interactions: totalInteractions,
         avg_confidence: avgConfidence,
-        avg_response_time: avgResponseTime,
+        avg_response_time: 0, // Not tracked in new table
+        avg_lead_score: avgLeadScore,
         languages,
-        sources,
+        input_types: inputTypes,
         daily_interactions: dailyInteractions,
         weekly_interactions: weeklyInteractions
       };

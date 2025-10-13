@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import DOMPurify from 'isomorphic-dompurify';
 
+// Newsletter subscription API with double opt-in
 // Validate environment variables
 const SUPABASE_URL = process.env['NEXT_PUBLIC_SUPABASE_URL'];
 const SUPABASE_SERVICE_KEY = process.env['SUPABASE_SERVICE_ROLE_KEY'];

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test TTS Google Cloud</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        #logs {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>🔊 Test Google Cloud Text-to-Speech</h1>
+    
+    <div>
+        <button onclick="testTTS('fr')">🇫🇷 Tester en Français</button>
+        <button onclick="testTTS('en')">🇬🇧 Tester en Anglais</button>
+        <button onclick="clearLogs()">🗑️ Effacer les logs</button>
+    </div>
+
+    <div id="logs"></div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logs = document.getElementById('logs');
+            const time = new Date().toLocaleTimeString();
+            const className = type;
+            logs.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+
+        async function testTTS(language) {
+            const text = language === 'fr' 
+                ? 'Bonjour, ceci est un test de synthèse vocale avec Google Cloud.'
+                : 'Hello, this is a text-to-speech test with Google Cloud.';
+
+            log(`🎵 Test TTS démarré (${language})...`, 'info');
+            log(`📝 Texte: "${text}"`, 'info');
+
+            try {
+                // Appel à l'API TTS
+                log('📡 Appel à /api/tts/synthesize...', 'info');
+                
+                const response = await fetch('/api/tts/synthesize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        language: language
+                    })
+                });
+
+                log(`📊 Statut HTTP: ${response.status}`, response.ok ? 'success' : 'error');
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    log(`❌ Erreur API: ${JSON.stringify(errorData)}`, 'error');
+                    
+                    if (response.status === 503) {
+                        log('⚠️ Service non disponible. Vérifiez:', 'error');
+                        log('   1. Text-to-Speech API activée dans Google Cloud', 'error');
+                        log('   2. GOOGLE_CLOUD_API_KEY dans .env.local', 'error');
+                        log('   3. Clé API autorise Text-to-Speech API', 'error');
+                    }
+                    return;
+                }
+
+                const { audioUrl } = await response.json();
+                
+                if (!audioUrl) {
+                    log('❌ Pas d\'URL audio dans la réponse', 'error');
+                    return;
+                }
+
+                log('✅ URL audio reçue', 'success');
+                log(`🔗 URL: ${audioUrl.substring(0, 50)}...`, 'info');
+
+                // Lecture de l'audio
+                log('🎧 Lecture de l\'audio...', 'info');
+                const audio = new Audio(audioUrl);
+                
+                audio.onplay = () => {
+                    log('▶️ Lecture démarrée', 'success');
+                };
+
+                audio.onended = () => {
+                    log('⏹️ Lecture terminée', 'success');
+                    URL.revokeObjectURL(audioUrl);
+                };
+
+                audio.onerror = (error) => {
+                    log(`❌ Erreur de lecture audio: ${error}`, 'error');
+                    URL.revokeObjectURL(audioUrl);
+                };
+
+                await audio.play();
+
+            } catch (error) {
+                log(`❌ Erreur: ${error.message}`, 'error');
+                console.error('Erreur complète:', error);
+            }
+        }
+
+        // Log initial
+        log('✅ Page de test chargée', 'success');
+        log('📍 Serveur: ' + window.location.origin, 'info');
+        log('🔧 Cliquez sur un bouton pour tester le TTS', 'info');
+    </script>
+</body>
+</html>

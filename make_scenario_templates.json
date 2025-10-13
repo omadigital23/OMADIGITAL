@@ -1,0 +1,78 @@
+{
+  "scenario_1_inscription": {
+    "name": "Newsletter - Inscription + Confirmation",
+    "description": "Gère les nouvelles inscriptions et envoie email de confirmation",
+    "modules": [
+      {
+        "id": 1,
+        "type": "webhook",
+        "name": "Webhook Receiver",
+        "config": {
+          "url": "https://hook.us2.make.com/upafrqdjez0uoj8w8y5iloeqqkhd0xrf",
+          "method": "POST"
+        }
+      },
+      {
+        "id": 2,
+        "type": "filter",
+        "name": "Filter Nouvelles Inscriptions",
+        "conditions": [
+          {"field": "event", "operator": "equals", "value": "INSERT"},
+          {"field": "data.status", "operator": "equals", "value": "pending"},
+          {"field": "table", "operator": "equals", "value": "blog_subscribers"}
+        ]
+      },
+      {
+        "id": 3,
+        "type": "sendgrid",
+        "name": "Email Confirmation",
+        "config": {
+          "from": "noreply@oma-digital.com",
+          "from_name": "OMA Digital",
+          "to": "{{data.email}}",
+          "subject": "Confirmez votre inscription à la newsletter OMA Digital",
+          "html_template": "confirmation_email.html"
+        }
+      }
+    ]
+  },
+  
+  "scenario_2_welcome": {
+    "name": "Newsletter - Welcome Sequence",
+    "description": "Séquence emails de bienvenue après confirmation",
+    "modules": [
+      {
+        "id": 1,
+        "type": "webhook",
+        "name": "Webhook Receiver"
+      },
+      {
+        "id": 2,
+        "type": "filter",
+        "name": "Filter Confirmations",
+        "conditions": [
+          {"field": "event", "operator": "equals", "value": "UPDATE"},
+          {"field": "data.status", "operator": "equals", "value": "active"},
+          {"field": "data.confirmed_at", "operator": "not_empty"}
+        ]
+      },
+      {
+        "id": 3,
+        "type": "delay",
+        "name": "Attendre 1 heure",
+        "config": {
+          "delay": "1 hour"
+        }
+      },
+      {
+        "id": 4,
+        "type": "sendgrid",
+        "name": "Welcome Email",
+        "config": {
+          "subject": "🎉 Bienvenue chez OMA Digital ! Votre transformation commence maintenant",
+          "html_template": "welcome_email.html"
+        }
+      }
+    ]
+  }
+}

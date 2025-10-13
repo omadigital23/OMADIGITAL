@@ -1,0 +1,320 @@
+{
+  "timestamp": "2025-09-13T18:56:15.015Z",
+  "summary": {
+    "totalTests": 23,
+    "totalPassed": 0,
+    "totalFailed": 23,
+    "overallScore": 0,
+    "status": "POOR"
+  },
+  "categories": {
+    "functional": {
+      "passed": 0,
+      "failed": 6,
+      "tests": [
+        {
+          "name": "Homepage loads correctly",
+          "status": "FAILED",
+          "duration": 78,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Blog page loads correctly",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Health check endpoint",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Chatbot API responds",
+          "status": "FAILED",
+          "duration": 12,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Newsletter subscription",
+          "status": "FAILED",
+          "duration": 6,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Quote form submission",
+          "status": "FAILED",
+          "duration": 5,
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "performance": {
+      "passed": 0,
+      "failed": 5,
+      "tests": [
+        {
+          "name": "Homepage load time",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "API response time",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Chatbot response time",
+          "status": "FAILED",
+          "duration": 5,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Concurrent requests handling",
+          "status": "FAILED",
+          "duration": 19,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Static asset loading",
+          "status": "FAILED",
+          "duration": 8,
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "security": {
+      "passed": 0,
+      "failed": 5,
+      "tests": [
+        {
+          "name": "XSS protection",
+          "status": "FAILED",
+          "duration": 5,
+          "error": "fetch failed"
+        },
+        {
+          "name": "SQL injection protection",
+          "status": "FAILED",
+          "duration": 5,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Rate limiting",
+          "status": "FAILED",
+          "duration": 43,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Security headers",
+          "status": "FAILED",
+          "duration": 11,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Admin endpoint protection",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "integration": {
+      "passed": 0,
+      "failed": 4,
+      "tests": [
+        {
+          "name": "Database connectivity",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "AI service connectivity",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "End-to-end chatbot flow",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "Form to database flow",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        }
+      ]
+    },
+    "e2e": {
+      "passed": 0,
+      "failed": 3,
+      "tests": [
+        {
+          "name": "User journey: Homepage to Contact",
+          "status": "FAILED",
+          "duration": 4,
+          "error": "fetch failed"
+        },
+        {
+          "name": "User journey: Blog browsing",
+          "status": "FAILED",
+          "duration": 5,
+          "error": "fetch failed"
+        },
+        {
+          "name": "User journey: Chatbot interaction",
+          "status": "FAILED",
+          "duration": 6,
+          "error": "fetch failed"
+        }
+      ]
+    }
+  },
+  "recommendations": [
+    {
+      "category": "functional",
+      "test": "Homepage loads correctly",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "functional",
+      "test": "Blog page loads correctly",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "functional",
+      "test": "Health check endpoint",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "functional",
+      "test": "Chatbot API responds",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "functional",
+      "test": "Newsletter subscription",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "functional",
+      "test": "Quote form submission",
+      "issue": "fetch failed",
+      "priority": "MEDIUM"
+    },
+    {
+      "category": "performance",
+      "test": "Homepage load time",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "performance",
+      "test": "API response time",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "performance",
+      "test": "Chatbot response time",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "performance",
+      "test": "Concurrent requests handling",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "performance",
+      "test": "Static asset loading",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "security",
+      "test": "XSS protection",
+      "issue": "fetch failed",
+      "priority": "HIGH"
+    },
+    {
+      "category": "security",
+      "test": "SQL injection protection",
+      "issue": "fetch failed",
+      "priority": "HIGH"
+    },
+    {
+      "category": "security",
+      "test": "Rate limiting",
+      "issue": "fetch failed",
+      "priority": "HIGH"
+    },
+    {
+      "category": "security",
+      "test": "Security headers",
+      "issue": "fetch failed",
+      "priority": "HIGH"
+    },
+    {
+      "category": "security",
+      "test": "Admin endpoint protection",
+      "issue": "fetch failed",
+      "priority": "HIGH"
+    },
+    {
+      "category": "integration",
+      "test": "Database connectivity",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "integration",
+      "test": "AI service connectivity",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "integration",
+      "test": "End-to-end chatbot flow",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "integration",
+      "test": "Form to database flow",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "e2e",
+      "test": "User journey: Homepage to Contact",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "e2e",
+      "test": "User journey: Blog browsing",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    },
+    {
+      "category": "e2e",
+      "test": "User journey: Chatbot interaction",
+      "issue": "fetch failed",
+      "priority": "LOW"
+    }
+  ]
+}

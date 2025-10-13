@@ -1,0 +1,147 @@
+/** @type {import('next').NextConfig} */
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+// Performance-optimized configuration
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  
+  // Enable ESLint and TypeScript for production
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  
+  // Performance experimental features
+  experimental: {
+    // Enable modern bundling
+    esmExternals: true,
+    // Optimize server components
+    serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    // Enable optimized packages
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+  },
+  
+  // Optimized images configuration
+  images: {
+    domains: [
+      'images.unsplash.com', 
+      'kvwhpymdhgdavcgfdjsu.supabase.co',
+      'localhost',
+      '127.0.0.1'
+    ],
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000, // 1 year
+  },
+  
+  // Enable compression
+  compress: true,
+  poweredByHeader: false,
+  
+  // Optimized headers for performance
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate',
+          },
+        ],
+      },
+    ];
+  },
+  
+  // Webpack optimizations
+  webpack: (config, { isServer, webpack }) => {
+    // Reduce bundle size
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    
+    // Optimize chunks
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+            maxSize: 244000, // 244KB max vendor chunk
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            maxSize: 244000,
+          },
+        },
+      };
+    }
+    
+    // Bundle analyzer
+    if (process.env.ANALYZE === 'true') {
+      config.plugins.push(
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 5,
+        })
+      );
+    }
+    
+    return config;
+  },
+};
+
+module.exports = withBundleAnalyzer(nextConfig);

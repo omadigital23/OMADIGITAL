@@ -1,0 +1,55 @@
+{
+  "gdpr_commitment_details1": "Our commitment to GDPR compliance extends to all aspects of our organization. We have implemented rigorous data governance processes, including regular impact assessments, compliance audits, and ongoing staff training. This systematic approach ensures that data protection is integrated into all our business and operational decisions.",
+  
+  "gdpr_commitment_details2": "We actively collaborate with data protection authorities and participate in industry initiatives aimed at improving protection standards. Our commitment goes beyond mere regulatory compliance to create a corporate culture where respect for privacy is a fundamental value shared by all members of our team.",
+  
+  "retention_periods_details1": "Contractual data is retained for 10 years after the end of the contract in accordance with legal obligations for the retention of commercial documents. This period allows us to meet tax, accounting, and legal requirements, as well as to manage any disputes that may arise after the end of the contractual relationship.",
+  
+  "retention_periods_details2": "Marketing data is retained until you withdraw your consent or object to the processing. We regularly review our marketing contact lists to remove data of individuals who have been inactive for more than 3 years, even in the absence of explicit consent withdrawal.",
+  
+  "retention_periods_details3": "Accounting data is retained for 10 years in accordance with legal tax and accounting obligations. This retention is necessary to allow tax audits and respond to requests from competent authorities as part of their supervisory mission.",
+  
+  "retention_periods_details4": "Analytics data is retained for a maximum period of 25 months, in accordance with CNIL recommendations. Beyond this period, data is either deleted or irreversibly anonymized to allow long-term statistical analyses without compromising your privacy.",
+  
+  "retention_end_management_details1": "Upon expiration of retention periods, we proceed with secure deletion or irreversible anonymization of your personal data. Deletion procedures include complete erasure of data from all our systems, including backups, within a reasonable period not exceeding 90 days after the expiration of the retention period.",
+  
+  "retention_end_management_details2": "We maintain a detailed register of data deletions to ensure traceability and compliance of our processes. This register includes the deletion date, type of data deleted, method used, and identity of the person who performed the deletion. This information is retained to allow compliance audits and respond to requests from supervisory authorities.",
+  
+  "security_measures_details1": "Encryption of sensitive data uses bank-level encryption algorithms (AES-256) to protect your information in transit and at rest. All communications between your browser and our servers are secured by TLS 1.3, and data stored in our databases is encrypted with keys managed securely and renewed regularly.",
+  
+  "security_measures_details2": "Strict access controls limit access to personal data to only those employees and service providers who need it for their functions. We use multi-factor authentication, the principle of least privilege, and quarterly access reviews to ensure that permissions remain appropriate and up to date.",
+  
+  "security_measures_details3": "Regular backup procedures ensure the availability and resilience of your data. We perform automated daily backups, stored in geographically distributed data centers and protected by encryption. Backups are tested monthly to ensure their integrity and restoration capability.",
+  
+  "security_measures_details4": "Staff training in security and data protection is mandatory for all employees with access to personal data. This training covers GDPR principles, security best practices, threat detection, and incident response procedures. Refresher training is organized annually.",
+  
+  "security_measures_details5": "Our incident response plan defines the procedures to follow in the event of a data breach, including detection, containment, investigation, notification, and remediation. We conduct quarterly incident simulation exercises to test and improve our response capabilities.",
+  
+  "continuous_evaluation_details1": "We conduct regular security assessments, including annual penetration tests by independent experts, quarterly security audits, and continuous vulnerability analyses. These assessments allow us to proactively identify and correct potential weaknesses in our security infrastructure.",
+  
+  "continuous_evaluation_details2": "Our continuous security improvement program integrates lessons learned from incidents, evolving threats, new protection technologies, and industry best practices. We regularly invest in modernizing our security infrastructure to maintain an optimal level of protection.",
+  
+  "transfer_policy_details1": "Before any data transfer to a third country, we conduct a thorough assessment of the level of protection offered in the destination country. This assessment takes into account the local legal framework, government surveillance practices, the rights of data subjects, and available remedies in case of violation.",
+  
+  "transfer_policy_details2": "When the assessment reveals risks to data protection, we implement additional measures to compensate for these risks, such as enhanced encryption, minimization of transferred data, additional contractual guarantees, or limitation of the transfer duration. We document all our transfer decisions and review them regularly.",
+  
+  "breach_procedure_details1": "In the event of a data breach, we notify the competent supervisory authority within 72 hours of becoming aware of it, in accordance with GDPR requirements. This notification includes the nature of the breach, the categories and approximate number of affected data subjects, the categories and approximate number of affected data records, the probable consequences, and the measures taken or envisaged.",
+  
+  "breach_procedure_details2": "When the breach is likely to result in a high risk to your rights and freedoms, we notify you directly as soon as possible. This notification describes the nature of the breach in clear and simple terms, the contact details of the contact point, the probable consequences, and the measures you can take to mitigate potential risks.",
+  
+  "breach_prevention_details1": "We implement robust technical and organizational measures to prevent data breaches, including continuous security monitoring, intrusion detection, behavioral analysis, vulnerability management, and strict access controls. These measures are regularly tested and updated to address emerging threats.",
+  
+  "breach_prevention_details2": "Our risk mitigation strategy includes data segmentation, multi-layer encryption, secure backups, business continuity plans, and disaster recovery procedures. These measures ensure that even in the event of an incident, the impact on your personal data is minimized and we can quickly restore our services.",
+  
+  "complaint_right_details": "You have the right to lodge a complaint with the Commission Nationale de l'Informatique et des Libertés (CNIL) or any other competent supervisory authority if you believe that the processing of your personal data constitutes a violation of the GDPR. This right can be exercised without prejudice to any other administrative or judicial remedy. However, we encourage you to contact us first so that we can attempt to resolve your concern directly.",
+  
+  "cnil_contact_details": "CNIL Contact",
+  
+  "cnil_contact_details1": "Commission Nationale de l'Informatique et des Libertés (CNIL), 3 place de Fontenoy, TSA 80715, 75334 PARIS CEDEX 07, France. Phone: +33 1 53 73 22 22. Website: www.cnil.fr. The CNIL is the French supervisory authority responsible for ensuring the protection of personal data and can be contacted by anyone who believes their rights have been violated.",
+  
+  "cnil_contact_details2": "You can file a complaint online on the CNIL website (www.cnil.fr) or by postal mail to the address indicated above. The CNIL examines complaints and can conduct investigations, issue warnings, order corrective measures, or impose administrative sanctions in case of a confirmed GDPR violation.",
+  
+  "mediation_alternative_details1": "In case of a dispute concerning the processing of your personal data, we encourage you to explore mediation and alternative dispute resolution mechanisms before initiating legal proceedings. Mediation offers a confidential, fast, and less expensive process for resolving disputes, with the assistance of a neutral and qualified mediator.",
+  
+  "mediation_alternative_details2": "We commit to participating in good faith in any mediation procedure and actively seeking mutually acceptable solutions. Agreements reached through mediation are binding and can be enforced by competent courts. Mediation does not affect your right to contact the supervisory authority or the courts if an amicable resolution cannot be found."
+}

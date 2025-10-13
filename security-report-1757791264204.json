@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-09-13T19:21:04.203Z",
+  "overallScore": 81,
+  "status": "SECURE",
+  "summary": {
+    "totalTests": 11,
+    "passedTests": 6,
+    "vulnerabilities": 3,
+    "warnings": 2,
+    "criticalVulnerabilities": 0,
+    "highVulnerabilities": 0,
+    "mediumVulnerabilities": 3
+  },
+  "details": {
+    "passed": [
+      "Input Sanitization",
+      "SQL Injection Protection",
+      "XSS Protection",
+      "Security Headers",
+      "Authentication Security",
+      "API Endpoint Security"
+    ],
+    "vulnerabilities": [
+      {
+        "type": "CSRF",
+        "severity": "MEDIUM",
+        "description": "CSRF vulnerability detected on endpoint: /api/subscribe-newsletter",
+        "endpoint": "/api/subscribe-newsletter"
+      },
+      {
+        "type": "CSRF",
+        "severity": "MEDIUM",
+        "description": "CSRF vulnerability detected on endpoint: /api/send-quote-email",
+        "endpoint": "/api/send-quote-email"
+      },
+      {
+        "type": "CSRF",
+        "severity": "MEDIUM",
+        "description": "CSRF vulnerability detected on endpoint: /api/chat/gemini",
+        "endpoint": "/api/chat/gemini"
+      }
+    ],
+    "warnings": [
+      {
+        "type": "Rate Limiting",
+        "severity": "MEDIUM",
+        "description": "No rate limiting detected on API endpoints",
+        "recommendation": "Implement rate limiting to prevent abuse"
+      },
+      {
+        "type": "Environment Security",
+        "severity": "MEDIUM",
+        "description": "Missing environment variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, GOOGLE_AI_API_KEY, JWT_SECRET",
+        "recommendation": "Review and fix environment security issues"
+      }
+    ]
+  },
+  "recommendations": [
+    "Implement CSRF tokens for state-changing operations",
+    "Implement rate limiting on all API endpoints"
+  ]
+}

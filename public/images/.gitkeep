@@ -1,0 +1,6 @@
+# This file ensures the images directory exists
+# Replace with actual logo.webp and hero videos in production
+
+# Logo: /public/images/logo.webp
+# Hero videos: /public/images/hero1.webm through hero6.webm
+# OG image: /public/images/og-image.jpg

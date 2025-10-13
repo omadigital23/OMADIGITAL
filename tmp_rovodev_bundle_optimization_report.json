@@ -1,0 +1,39 @@
+{
+  "timestamp": "2025-09-21T10:01:46.816Z",
+  "optimizations": [
+    {
+      "category": "Dynamic Imports",
+      "impact": "HIGH",
+      "description": "Heavy components loaded on demand",
+      "expectedSaving": "~200KB"
+    },
+    {
+      "category": "Tree Shaking",
+      "impact": "MEDIUM",
+      "description": "Remove unused code from bundles",
+      "expectedSaving": "~50KB"
+    },
+    {
+      "category": "Chunk Splitting",
+      "impact": "HIGH",
+      "description": "Optimal bundle splitting for caching",
+      "expectedSaving": "Better caching"
+    },
+    {
+      "category": "Lightweight Alternatives",
+      "impact": "MEDIUM",
+      "description": "Replace heavy libs with custom solutions",
+      "expectedSaving": "~100KB"
+    }
+  ],
+  "recommendations": [
+    "Implement dynamic imports for all non-critical components",
+    "Use lightweight alternatives for simple animations",
+    "Load Recharts only in admin sections",
+    "Optimize Lucide icon imports",
+    "Enable aggressive tree shaking"
+  ],
+  "expectedBundleReduction": "40-60%",
+  "currentBundleEstimate": "~800KB",
+  "targetBundleSize": "~300KB"
+}

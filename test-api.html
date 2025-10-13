@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Chatbot API</title>
+</head>
+<body>
+    <h1>Test Chatbot API</h1>
+    <button onclick="testAPI()">Test Chatbot API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            try {
+                resultDiv.innerHTML = 'Testing...';
+                
+                const response = await fetch('http://localhost:3000/api/chat/gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello, how are you?',
+                        sessionId: 'test-session-123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = '<h2>✅ SUCCESS</h2><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                } else {
+                    const errorText = await response.text();
+                    resultDiv.innerHTML = '<h2>❌ FAILED</h2><p>Status: ' + response.status + '</p><pre>' + errorText + '</pre>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<h2>❌ ERROR</h2><p>' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

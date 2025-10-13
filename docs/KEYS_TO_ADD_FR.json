@@ -1,0 +1,55 @@
+{
+  "gdpr_commitment_details1": "Notre engagement envers la conformité RGPD s'étend à tous les aspects de notre organisation. Nous avons mis en place des processus rigoureux de gouvernance des données, incluant des évaluations d'impact régulières, des audits de conformité et une formation continue de notre personnel. Cette approche systématique garantit que la protection des données est intégrée dans toutes nos décisions commerciales et opérationnelles.",
+  
+  "gdpr_commitment_details2": "Nous collaborons activement avec les autorités de protection des données et participons aux initiatives sectorielles visant à améliorer les standards de protection. Notre engagement va au-delà de la simple conformité réglementaire pour créer une culture d'entreprise où le respect de la vie privée est une valeur fondamentale partagée par tous les membres de notre équipe.",
+  
+  "retention_periods_details1": "Les données contractuelles sont conservées pendant 10 ans après la fin du contrat conformément aux obligations légales de conservation des documents commerciaux. Cette durée permet de répondre aux exigences fiscales, comptables et juridiques, ainsi que de gérer d'éventuels litiges qui pourraient survenir après la fin de la relation contractuelle.",
+  
+  "retention_periods_details2": "Les données marketing sont conservées jusqu'au retrait de votre consentement ou jusqu'à ce que vous vous opposiez au traitement. Nous révisons régulièrement nos listes de contacts marketing pour supprimer les données des personnes inactives depuis plus de 3 ans, même en l'absence de retrait explicite du consentement.",
+  
+  "retention_periods_details3": "Les données comptables sont conservées pendant 10 ans conformément aux obligations légales fiscales et comptables. Cette conservation est nécessaire pour permettre les contrôles fiscaux et répondre aux demandes des autorités compétentes dans le cadre de leur mission de surveillance.",
+  
+  "retention_periods_details4": "Les données d'analyse sont conservées pour une durée maximale de 25 mois, conformément aux recommandations de la CNIL. Au-delà de cette période, les données sont soit supprimées, soit anonymisées de manière irréversible pour permettre des analyses statistiques à long terme sans compromettre votre vie privée.",
+  
+  "retention_end_management_details1": "À l'expiration des durées de conservation, nous procédons à la suppression sécurisée ou à l'anonymisation irréversible de vos données personnelles. Les procédures de suppression incluent l'effacement complet des données de tous nos systèmes, y compris les sauvegardes, dans un délai raisonnable ne dépassant pas 90 jours après l'expiration de la durée de conservation.",
+  
+  "retention_end_management_details2": "Nous maintenons un registre détaillé des suppressions de données pour assurer la traçabilité et la conformité de nos processus. Ce registre inclut la date de suppression, le type de données supprimées, la méthode utilisée et l'identité de la personne ayant effectué la suppression. Ces informations sont conservées pour permettre les audits de conformité et répondre aux demandes des autorités de contrôle.",
+  
+  "security_measures_details1": "Le chiffrement des données sensibles utilise des algorithmes de chiffrement de niveau bancaire (AES-256) pour protéger vos informations en transit et au repos. Toutes les communications entre votre navigateur et nos serveurs sont sécurisées par TLS 1.3, et les données stockées dans nos bases de données sont chiffrées avec des clés gérées de manière sécurisée et renouvelées régulièrement.",
+  
+  "security_measures_details2": "Les contrôles d'accès stricts limitent l'accès aux données personnelles aux seuls employés et prestataires qui en ont besoin pour leurs fonctions. Nous utilisons l'authentification multi-facteurs, le principe du moindre privilège et des revues d'accès trimestrielles pour garantir que les autorisations restent appropriées et à jour.",
+  
+  "security_measures_details3": "Les procédures de sauvegarde régulières assurent la disponibilité et la résilience de vos données. Nous effectuons des sauvegardes automatisées quotidiennes, stockées dans des centres de données géographiquement distribués et protégées par chiffrement. Les sauvegardes sont testées mensuellement pour garantir leur intégrité et leur capacité de restauration.",
+  
+  "security_measures_details4": "La formation du personnel en matière de sécurité et de protection des données est obligatoire pour tous les employés ayant accès aux données personnelles. Cette formation couvre les principes du RGPD, les bonnes pratiques de sécurité, la détection des menaces et les procédures de réponse aux incidents. Des formations de recyclage sont organisées annuellement.",
+  
+  "security_measures_details5": "Notre plan de réponse aux incidents définit les procédures à suivre en cas de violation de données, incluant la détection, la containment, l'investigation, la notification et la remédiation. Nous effectuons des exercices de simulation d'incidents trimestriellement pour tester et améliorer nos capacités de réponse.",
+  
+  "continuous_evaluation_details1": "Nous effectuons des évaluations de sécurité régulières, incluant des tests de pénétration annuels par des experts indépendants, des audits de sécurité trimestriels et des analyses de vulnérabilités continues. Ces évaluations nous permettent d'identifier et de corriger proactivement les faiblesses potentielles de notre infrastructure de sécurité.",
+  
+  "continuous_evaluation_details2": "Notre programme d'amélioration continue de la sécurité intègre les retours d'expérience des incidents, les évolutions des menaces, les nouvelles technologies de protection et les meilleures pratiques du secteur. Nous investissons régulièrement dans la modernisation de notre infrastructure de sécurité pour maintenir un niveau de protection optimal.",
+  
+  "transfer_policy_details1": "Avant tout transfert de données vers un pays tiers, nous effectuons une évaluation approfondie du niveau de protection offert dans le pays de destination. Cette évaluation prend en compte le cadre juridique local, les pratiques de surveillance gouvernementale, les droits des personnes concernées et les recours disponibles en cas de violation.",
+  
+  "transfer_policy_details2": "Lorsque l'évaluation révèle des risques pour la protection des données, nous mettons en place des mesures supplémentaires pour compenser ces risques, telles que le chiffrement renforcé, la minimisation des données transférées, des garanties contractuelles additionnelles ou la limitation de la durée du transfert. Nous documentons toutes nos décisions de transfert et les révisons régulièrement.",
+  
+  "breach_procedure_details1": "En cas de violation de données, nous notifions l'autorité de contrôle compétente dans un délai de 72 heures après en avoir pris connaissance, conformément aux exigences du RGPD. Cette notification inclut la nature de la violation, les catégories et le nombre approximatif de personnes concernées, les catégories et le nombre approximatif d'enregistrements de données concernés, les conséquences probables et les mesures prises ou envisagées.",
+  
+  "breach_procedure_details2": "Lorsque la violation est susceptible d'engendrer un risque élevé pour vos droits et libertés, nous vous notifions directement dans les meilleurs délais. Cette notification décrit la nature de la violation en termes clairs et simples, les coordonnées du point de contact, les conséquences probables et les mesures que vous pouvez prendre pour atténuer les risques potentiels.",
+  
+  "breach_prevention_details1": "Nous mettons en œuvre des mesures techniques et organisationnelles robustes pour prévenir les violations de données, incluant la surveillance continue de la sécurité, la détection d'intrusion, l'analyse comportementale, la gestion des vulnérabilités et les contrôles d'accès stricts. Ces mesures sont régulièrement testées et mises à jour pour faire face aux menaces émergentes.",
+  
+  "breach_prevention_details2": "Notre stratégie de mitigation des risques inclut la segmentation des données, le chiffrement multicouche, les sauvegardes sécurisées, les plans de continuité d'activité et les procédures de récupération après sinistre. Ces mesures garantissent que même en cas d'incident, l'impact sur vos données personnelles est minimisé et que nous pouvons restaurer rapidement nos services.",
+  
+  "complaint_right_details": "Vous avez le droit de déposer une plainte auprès de la Commission Nationale de l'Informatique et des Libertés (CNIL) ou de toute autre autorité de contrôle compétente si vous estimez que le traitement de vos données personnelles constitue une violation du RGPD. Ce droit peut être exercé sans préjudice de tout autre recours administratif ou juridictionnel. Nous vous encourageons toutefois à nous contacter d'abord pour que nous puissions tenter de résoudre votre préoccupation directement.",
+  
+  "cnil_contact_details": "Contact de la CNIL",
+  
+  "cnil_contact_details1": "Commission Nationale de l'Informatique et des Libertés (CNIL), 3 place de Fontenoy, TSA 80715, 75334 PARIS CEDEX 07, France. Téléphone : +33 1 53 73 22 22. Site web : www.cnil.fr. La CNIL est l'autorité de contrôle française chargée de veiller à la protection des données personnelles et peut être saisie par toute personne estimant que ses droits ont été violés.",
+  
+  "cnil_contact_details2": "Vous pouvez déposer une plainte en ligne sur le site de la CNIL (www.cnil.fr) ou par courrier postal à l'adresse indiquée ci-dessus. La CNIL examine les plaintes et peut mener des investigations, émettre des avertissements, ordonner des mesures correctrices ou imposer des sanctions administratives en cas de violation constatée du RGPD.",
+  
+  "mediation_alternative_details1": "En cas de litige concernant le traitement de vos données personnelles, nous vous encourageons à explorer les mécanismes de médiation et de résolution alternative des conflits avant d'engager une procédure judiciaire. La médiation offre un processus confidentiel, rapide et moins coûteux pour résoudre les différends, avec l'assistance d'un médiateur neutre et qualifié.",
+  
+  "mediation_alternative_details2": "Nous nous engageons à participer de bonne foi à toute procédure de médiation et à rechercher activement des solutions mutuellement acceptables. Les accords conclus dans le cadre de la médiation ont force obligatoire et peuvent être rendus exécutoires par les tribunaux compétents. La médiation n'affecte pas votre droit de saisir l'autorité de contrôle ou les tribunaux si une résolution amiable ne peut être trouvée."
+}

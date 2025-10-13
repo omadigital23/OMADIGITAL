@@ -1,0 +1,182 @@
+name: Type Safety & Quality Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  type-check:
+    name: TypeScript Type Checking
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: TypeScript type check
+      run: npm run type-check
+      
+    - name: Check for type errors
+      run: |
+        ERROR_COUNT=$(npm run type-check 2>&1 | grep -c "error TS" || true)
+        echo "TypeScript errors found: $ERROR_COUNT"
+        
+        # Set thresholds for different branches
+        if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+          MAX_ERRORS=0  # Production should have zero errors
+        elif [ "$GITHUB_REF" = "refs/heads/develop" ]; then
+          MAX_ERRORS=50  # Development allows some errors
+        else
+          MAX_ERRORS=100  # Feature branches more lenient
+        fi
+        
+        if [ $ERROR_COUNT -gt $MAX_ERRORS ]; then
+          echo "❌ Too many TypeScript errors: $ERROR_COUNT (max: $MAX_ERRORS)"
+          exit 1
+        else
+          echo "✅ TypeScript error count acceptable: $ERROR_COUNT (max: $MAX_ERRORS)"
+        fi
+        
+    - name: Generate type check report
+      run: |
+        mkdir -p reports
+        npm run type-check > reports/typescript-errors.txt 2>&1 || true
+        
+    - name: Upload type check report
+      uses: actions/upload-artifact@v3
+      with:
+        name: typescript-report
+        path: reports/typescript-errors.txt
+        retention-days: 30
+
+  lint-check:
+    name: ESLint & Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run ESLint
+      run: npm run lint --if-present
+      
+    - name: Run Prettier check
+      run: npm run format:check --if-present
+
+  security-audit:
+    name: Security & Dependency Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run security audit
+      run: npm audit --audit-level moderate
+      
+    - name: Check for outdated packages
+      run: npm outdated || true
+
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    needs: [type-check]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Run tests
+      run: npm test --if-present
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-output
+        path: .next/
+        retention-days: 7
+
+  type-coverage:
+    name: Type Coverage Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install type coverage tool
+      run: npm install -g typescript type-coverage
+      
+    - name: Generate type coverage report
+      run: |
+        mkdir -p reports
+        npx type-coverage --detail > reports/type-coverage.txt
+        
+    - name: Check type coverage threshold
+      run: |
+        COVERAGE=$(npx type-coverage | grep -oP '\d+\.\d+(?=%)')
+        THRESHOLD=85.0
+        
+        if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
+          echo "❌ Type coverage too low: $COVERAGE% (threshold: $THRESHOLD%)"
+          exit 1
+        else
+          echo "✅ Type coverage acceptable: $COVERAGE% (threshold: $THRESHOLD%)"
+        fi
+        
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: type-coverage-report
+        path: reports/type-coverage.txt
+        retention-days: 30

@@ -1,0 +1,12 @@
+{
+  "name": "omadigital-website",
+  "description": "Instructions pour ajouter @google/generative-ai",
+  "instructions": [
+    "Exécutez cette commande pour installer la dépendance Gemini:",
+    "npm install @google/generative-ai",
+    "",
+    "Ou ajoutez manuellement dans package.json:",
+    "\"@google/generative-ai\": \"^0.21.0\""
+  ],
+  "note": "Ce fichier est un guide. Supprimez-le après installation."
+}

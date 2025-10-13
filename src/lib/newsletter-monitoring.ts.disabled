@@ -1,0 +1,578 @@
+/**
+ * Enhanced Newsletter Monitoring & Analytics System
+ * - Real-time metrics tracking
+ * - Webhook reliability monitoring
+ * - Performance analytics
+ * - Automated alerting
+ */
+
+import { createClient } from '@supabase/supabase-js';
+import { NEXT_PUBLIC_SUPABASE_URL } from './env-public';
+import { SUPABASE_SERVICE_ROLE_KEY } from './env-server';
+
+const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+export interface NewsletterMetrics {
+  totalSubscribers: number;
+  activeSubscribers: number;
+  pendingSubscribers: number;
+  confirmationRate: number;
+  signupsToday: number;
+  confirmationsToday: number;
+  unsubscribesToday: number;
+  averageEmailScore: number;
+  suspiciousSignups: number;
+  webhookSuccessRate: number;
+  topSources: Array<{ source: string; count: number }>;
+  engagementDistribution: {
+    high: number;
+    medium: number;
+    low: number;
+  };
+  qualityDistribution: {
+    high: number;
+    medium: number;
+    low: number;
+  };
+  alerts: Alert[];
+}
+
+export interface Alert {
+  id: string;
+  type: 'warning' | 'error' | 'info';
+  title: string;
+  message: string;
+  timestamp: Date;
+  data?: any;
+}
+
+export interface WebhookHealth {
+  url: string;
+  isHealthy: boolean;
+  successRate: number;
+  averageResponseTime: number;
+  lastSuccess: Date | null;
+  lastFailure: Date | null;
+  recentErrors: string[];
+}
+
+class NewsletterMonitoring {
+  private alertThresholds = {
+    confirmationRate: 30, // Alert if < 30%
+    webhookFailureRate: 10, // Alert if > 10% failures
+    suspiciousSignupsRate: 20, // Alert if > 20% suspicious
+    dailyUnsubscribeRate: 5, // Alert if > 5% daily churn
+  };
+
+  /**
+   * Get comprehensive newsletter metrics
+   */
+  async getMetrics(): Promise<NewsletterMetrics> {
+    try {
+      // Get basic stats
+      const { data: stats } = await supabase.rpc('get_newsletter_stats');
+      
+      // Get webhook health
+      const webhookHealth = await this.getWebhookHealth();
+      
+      // Calculate rates and additional metrics
+      const confirmationRate = stats.pending_subscribers > 0 
+        ? (stats.active_subscribers / (stats.active_subscribers + stats.pending_subscribers)) * 100
+        : 0;
+
+      const suspiciousRate = stats.total_subscribers > 0
+        ? (stats.suspicious_signups / stats.total_subscribers) * 100
+        : 0;
+
+      // Generate alerts
+      const alerts = await this.generateAlerts(stats, webhookHealth, confirmationRate, suspiciousRate);
+
+      return {
+        totalSubscribers: stats.total_subscribers || 0,
+        activeSubscribers: stats.active_subscribers || 0,
+        pendingSubscribers: stats.pending_subscribers || 0,
+        confirmationRate: Math.round(confirmationRate),
+        signupsToday: stats.signed_up_today || 0,
+        confirmationsToday: stats.confirmed_today || 0,
+        unsubscribesToday: stats.unsubscribed_today || 0,
+        averageEmailScore: stats.average_email_score || 0,
+        suspiciousSignups: stats.suspicious_signups || 0,
+        webhookSuccessRate: webhookHealth.successRate,
+        topSources: stats.top_sources || [],
+        engagementDistribution: stats.engagement_distribution || { high: 0, medium: 0, low: 0 },
+        qualityDistribution: {
+          high: stats['high']_quality_emails || 0,
+          medium: (stats.total_subscribers - stats['high']_quality_emails - stats.suspicious_signups) || 0,
+          low: stats.suspicious_signups || 0
+        },
+        alerts
+      };
+    } catch (error) {
+      console.error('Error getting newsletter metrics:', error);
+      throw new Error('Failed to fetch newsletter metrics');
+    }
+  }
+
+  /**
+   * Get webhook health status
+   */
+  async getWebhookHealth(): Promise<WebhookHealth> {
+    try {
+      const { data: webhookLogs } = await supabase
+        .from('newsletter_webhook_logs')
+        .select('response_status, created_at, error_message')
+        .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      if (!webhookLogs || webhookLogs.length === 0) {
+        return {
+          url: process.env['MAKE_WEBHOOK_URL'] || '',
+          isHealthy: true,
+          successRate: 100,
+          averageResponseTime: 0,
+          lastSuccess: null,
+          lastFailure: null,
+          recentErrors: []
+        };
+      }
+
+      const successCount = webhookLogs.filter(log => log.response_status >= 200 && log.response_status < 300).length;
+      const successRate = (successCount / webhookLogs.length) * 100;
+      
+      const lastSuccess = webhookLogs.find(log => log.response_status >= 200 && log.response_status < 300);
+      const lastFailure = webhookLogs.find(log => log.response_status >= 400);
+      
+      const recentErrors = webhookLogs
+        .filter(log => log.error_message)
+        .slice(0, 5)
+        .map(log => log.error_message);
+
+      return {
+        url: process.env['MAKE_WEBHOOK_URL'] || '',
+        isHealthy: successRate > 90,
+        successRate: Math.round(successRate),
+        averageResponseTime: 0, // Would need response time tracking
+        lastSuccess: lastSuccess ? new Date(lastSuccess.created_at) : null,
+        lastFailure: lastFailure ? new Date(lastFailure.created_at) : null,
+        recentErrors
+      };
+    } catch (error) {
+      console.error('Error getting webhook health:', error);
+      return {
+        url: process.env['MAKE_WEBHOOK_URL'] || '',
+        isHealthy: false,
+        successRate: 0,
+        averageResponseTime: 0,
+        lastSuccess: null,
+        lastFailure: null,
+        recentErrors: ['Failed to fetch webhook logs']
+      };
+    }
+  }
+
+  /**
+   * Generate alerts based on metrics
+   */
+  private async generateAlerts(
+    stats: any, 
+    webhookHealth: WebhookHealth, 
+    confirmationRate: number, 
+    suspiciousRate: number
+  ): Promise<Alert[]> {
+    const alerts: Alert[] = [];
+
+    // Low confirmation rate alert
+    if (confirmationRate < this.alertThresholds.confirmationRate) {
+      alerts.push({
+        id: 'low-confirmation-rate',
+        type: 'warning',
+        title: 'Faible taux de confirmation',
+        message: `Le taux de confirmation est de ${confirmationRate.toFixed(1)}%, en dessous du seuil de ${this.alertThresholds.confirmationRate}%`,
+        timestamp: new Date(),
+        data: { rate: confirmationRate, threshold: this.alertThresholds.confirmationRate }
+      });
+    }
+
+    // Webhook failures alert
+    if (webhookHealth.successRate < (100 - this.alertThresholds.webhookFailureRate)) {
+      alerts.push({
+        id: 'webhook-failures',
+        type: 'error',
+        title: 'Échecs webhooks détectés',
+        message: `Taux de succès des webhooks: ${webhookHealth.successRate}%. Dernière erreur: ${webhookHealth.recentErrors[0] || 'Inconnue'}`,
+        timestamp: new Date(),
+        data: { successRate: webhookHealth.successRate, errors: webhookHealth.recentErrors }
+      });
+    }
+
+    // High suspicious signups alert
+    if (suspiciousRate > this.alertThresholds.suspiciousSignupsRate) {
+      alerts.push({
+        id: 'suspicious-signups',
+        type: 'warning',
+        title: 'Inscriptions suspectes détectées',
+        message: `${suspiciousRate.toFixed(1)}% des inscriptions sont marquées comme suspectes`,
+        timestamp: new Date(),
+        data: { rate: suspiciousRate, count: stats.suspicious_signups }
+      });
+    }
+
+    // High unsubscribe rate alert
+    const totalActiveYesterday = stats.active_subscribers + stats.unsubscribed_today;
+    const unsubscribeRate = totalActiveYesterday > 0 
+      ? (stats.unsubscribed_today / totalActiveYesterday) * 100 
+      : 0;
+    
+    if (unsubscribeRate > this.alertThresholds.dailyUnsubscribeRate) {
+      alerts.push({
+        id: 'high-unsubscribe-rate',
+        type: 'warning',
+        title: 'Taux de désabonnement élevé',
+        message: `${stats.unsubscribed_today} désabonnements aujourd'hui (${unsubscribeRate.toFixed(1)}%)`,
+        timestamp: new Date(),
+        data: { count: stats.unsubscribed_today, rate: unsubscribeRate }
+      });
+    }
+
+    // No signups today (if it's past noon)
+    const now = new Date();
+    if (now.getHours() > 12 && stats.signed_up_today === 0) {
+      alerts.push({
+        id: 'no-signups-today',
+        type: 'info',
+        title: 'Aucune inscription aujourd\'hui',
+        message: 'Aucune nouvelle inscription détectée depuis ce matin',
+        timestamp: new Date(),
+        data: { signupsToday: stats.signed_up_today }
+      });
+    }
+
+    return alerts;
+  }
+
+  /**
+   * Track newsletter event (email open, click, etc.)
+   */
+  async trackEvent(email: string, eventType: string, metadata?: any): Promise<void> {
+    try {
+      // Update engagement score
+      await supabase.rpc('update_engagement_score', {
+        subscriber_email: email,
+        action_type: eventType
+      });
+
+      // Log analytics event
+      await supabase.rpc('log_newsletter_event', {
+        p_subscriber_email: email,
+        p_event_type: eventType,
+        p_event_data: metadata || {},
+        p_ip_address: 'tracking',
+        p_user_agent: 'newsletter-monitoring'
+      });
+    } catch (error) {
+      console.error('Error tracking newsletter event:', error);
+    }
+  }
+
+  /**
+   * Get subscriber segmentation data
+   */
+  async getSegmentationData(): Promise<{
+    bySource: Array<{ source: string; count: number; percentage: number }>;
+    byEngagement: Array<{ level: string; count: number; percentage: number }>;
+    byQuality: Array<{ level: string; count: number; percentage: number }>;
+    byLocation: Array<{ domain: string; count: number; percentage: number }>;
+  }> {
+    try {
+      const { data: bySource } = await supabase
+        .from('blog_subscribers')
+        .select('source')
+        .eq('status', 'active');
+
+      const { data: byEngagement } = await supabase
+        .from('blog_subscribers')
+        .select('engagement_score')
+        .eq('status', 'active');
+
+      const { data: byQuality } = await supabase
+        .from('blog_subscribers')
+        .select('email_score')
+        .eq('status', 'active');
+
+      const { data: byDomain } = await supabase
+        .from('blog_subscribers')
+        .select('email')
+        .eq('status', 'active');
+
+      // Process source segmentation
+      const sourceCount = bySource?.reduce((acc, sub) => {
+        const source = sub.source || 'unknown';
+        acc[source] = (acc[source] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>) || {};
+
+      const totalActive = bySource?.length || 0;
+      const sourceSegmentation = Object.entries(sourceCount).map(([source, count]) => ({
+        source,
+        count,
+        percentage: totalActive > 0 ? Math.round((count / totalActive) * 100) : 0
+      }));
+
+      // Process engagement segmentation
+      const engagementSegmentation = [
+        {
+          level: 'High (70-100)',
+          count: byEngagement?.filter(s => s.engagement_score >= 70).length || 0,
+          percentage: 0
+        },
+        {
+          level: 'Medium (40-69)',
+          count: byEngagement?.filter(s => s.engagement_score >= 40 && s.engagement_score < 70).length || 0,
+          percentage: 0
+        },
+        {
+          level: 'Low (0-39)',
+          count: byEngagement?.filter(s => s.engagement_score < 40).length || 0,
+          percentage: 0
+        }
+      ];
+
+      engagementSegmentation.forEach(segment => {
+        segment.percentage = totalActive > 0 ? Math.round((segment['count'] / totalActive) * 100) : 0;
+      });
+
+      // Process quality segmentation
+      const qualitySegmentation = [
+        {
+          level: 'High Quality (80-100)',
+          count: byQuality?.filter(s => s.email_score >= 80).length || 0,
+          percentage: 0
+        },
+        {
+          level: 'Medium Quality (50-79)',
+          count: byQuality?.filter(s => s.email_score >= 50 && s.email_score < 80).length || 0,
+          percentage: 0
+        },
+        {
+          level: 'Low Quality (0-49)',
+          count: byQuality?.filter(s => s.email_score < 50).length || 0,
+          percentage: 0
+        }
+      ];
+
+      qualitySegmentation.forEach(segment => {
+        segment.percentage = totalActive > 0 ? Math.round((segment['count'] / totalActive) * 100) : 0;
+      });
+
+      // Process domain segmentation
+      const domainCount = byDomain?.reduce((acc, sub) => {
+        const domain = sub.email?.split('@')[1] || 'unknown';
+        acc[domain] = (acc[domain] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>) || {};
+
+      const topDomains = Object.entries(domainCount)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 10)
+        .map(([domain, count]) => ({
+          domain,
+          count,
+          percentage: totalActive > 0 ? Math.round((count / totalActive) * 100) : 0
+        }));
+
+      return {
+        bySource: sourceSegmentation,
+        byEngagement: engagementSegmentation,
+        byQuality: qualitySegmentation,
+        byLocation: topDomains
+      };
+    } catch (error) {
+      console.error('Error getting segmentation data:', error);
+      return {
+        bySource: [],
+        byEngagement: [],
+        byQuality: [],
+        byLocation: []
+      };
+    }
+  }
+
+  /**
+   * Generate performance report
+   */
+  async generatePerformanceReport(days: number = 30): Promise<{
+    period: string;
+    summary: {
+      totalSignups: number;
+      totalConfirmations: number;
+      totalUnsubscribes: number;
+      netGrowth: number;
+      conversionRate: number;
+    };
+    dailyTrends: Array<{
+      date: string;
+      signups: number;
+      confirmations: number;
+      unsubscribes: number;
+    }>;
+    topPerformingSources: Array<{
+      source: string;
+      signups: number;
+      confirmationRate: number;
+    }>;
+    recommendations: string[];
+  }> {
+    try {
+      const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+      
+      // Get summary data
+      const { data: summaryData } = await supabase
+        .from('blog_subscribers')
+        .select('created_at, confirmed_at, unsubscribed_at, source')
+        .gte('created_at', startDate.toISOString());
+
+      const totalSignups = summaryData?.length || 0;
+      const totalConfirmations = summaryData?.filter(s => s.confirmed_at).length || 0;
+      const totalUnsubscribes = summaryData?.filter(s => s.unsubscribed_at).length || 0;
+      const netGrowth = totalConfirmations - totalUnsubscribes;
+      const conversionRate = totalSignups > 0 ? (totalConfirmations / totalSignups) * 100 : 0;
+
+      // Generate daily trends (placeholder - would need more complex query)
+      const dailyTrends = [];
+      for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+        const dateStr = date.toISOString().split('T')[0];
+        
+        const daySignups = summaryData?.filter(s => 
+          s.created_at.startsWith(dateStr)
+        ).length || 0;
+        
+        const dayConfirmations = summaryData?.filter(s => 
+          s.confirmed_at && s.confirmed_at.startsWith(dateStr)
+        ).length || 0;
+        
+        const dayUnsubscribes = summaryData?.filter(s => 
+          s.unsubscribed_at && s.unsubscribed_at.startsWith(dateStr)
+        ).length || 0;
+        
+        dailyTrends.push({
+          date: dateStr,
+          signups: daySignups,
+          confirmations: dayConfirmations,
+          unsubscribes: dayUnsubscribes
+        });
+      }
+
+      // Get top performing sources
+      const sourcePerformance = summaryData?.reduce((acc, sub) => {
+        const source = sub.source || 'unknown';
+        if (!acc[source]) {
+          acc[source] = { signups: 0, confirmations: 0 };
+        }
+        acc[source].signups++;
+        if (sub.confirmed_at) {
+          acc[source].confirmations++;
+        }
+        return acc;
+      }, {} as Record<string, { signups: number; confirmations: number }>) || {};
+
+      const topPerformingSources = Object.entries(sourcePerformance)
+        .map(([source, data]) => ({
+          source,
+          signups: data.signups,
+          confirmationRate: data.signups > 0 ? Math.round((data.confirmations / data.signups) * 100) : 0
+        }))
+        .sort((a, b) => b.confirmationRate - a.confirmationRate)
+        .slice(0, 5);
+
+      // Generate recommendations
+      const recommendations = [];
+      
+      if (conversionRate < 50) {
+        recommendations.push('Améliorer le processus de confirmation (emails, UX)');
+      }
+      if (totalUnsubscribes > totalConfirmations * 0.1) {
+        recommendations.push('Analyser les raisons de désabonnement');
+      }
+      if (topPerformingSources.length > 0 && topPerformingSources[0].confirmationRate > 70) {
+        recommendations.push(`Investir davantage dans la source "${topPerformingSources[0].source}"`);
+      }
+      if (netGrowth < 0) {
+        recommendations.push('Mettre en place une stratégie de rétention');
+      }
+
+      return {
+        period: `${days} derniers jours`,
+        summary: {
+          totalSignups,
+          totalConfirmations,
+          totalUnsubscribes,
+          netGrowth,
+          conversionRate: Math.round(conversionRate)
+        },
+        dailyTrends,
+        topPerformingSources,
+        recommendations
+      };
+    } catch (error) {
+      console.error('Error generating performance report:', error);
+      throw new Error('Failed to generate performance report');
+    }
+  }
+
+  /**
+   * Send alert notifications (email, Slack, etc.)
+   */
+  async sendAlertNotification(alert: Alert): Promise<void> {
+    try {
+      // In a real implementation, you would:
+      // 1. Send email to admins
+      // 2. Post to Slack channel
+      // 3. Create ticket in support system
+      // 4. Log to external monitoring service
+      
+      console.warn('Newsletter Alert:', {
+        type: alert.type,
+        title: alert.title,
+        message: alert.message,
+        data: alert.data
+      });
+
+      // For now, just log to Supabase
+      await supabase.rpc('log_newsletter_event', {
+        p_subscriber_email: 'system@oma-digital.com',
+        p_event_type: 'alert_generated',
+        p_event_data: {
+          alert_type: alert.type,
+          alert_title: alert.title,
+          alert_message: alert.message,
+          alert_data: alert.data
+        },
+        p_ip_address: 'monitoring-system',
+        p_user_agent: 'newsletter-monitoring'
+      });
+    } catch (error) {
+      console.error('Error sending alert notification:', error);
+    }
+  }
+}
+
+// Export singleton instance
+export const newsletterMonitoring = new NewsletterMonitoring();
+
+// Utility function to format metrics for display
+export function formatMetrics(metrics: NewsletterMetrics) {
+  return {
+    ...metrics,
+    confirmationRateFormatted: `${metrics.confirmationRate}%`,
+    webhookSuccessRateFormatted: `${metrics.webhookSuccessRate}%`,
+    growthToday: metrics.confirmationsToday - metrics.unsubscribesToday,
+    qualityScore: Math.round(
+      (metrics.qualityDistribution['high'] * 100 + 
+       metrics.qualityDistribution['medium'] * 60 + 
+       metrics.qualityDistribution['low'] * 20) / 
+      metrics.totalSubscribers
+    )
+  };
+}

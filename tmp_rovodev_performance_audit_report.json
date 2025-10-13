@@ -1,0 +1,68 @@
+{
+  "timestamp": "2025-09-21T09:43:01.626Z",
+  "analysis": {
+    "bundle": {
+      "totalDeps": 80,
+      "heavyLibs": [
+        "framer-motion",
+        "@supabase/supabase-js",
+        "recharts",
+        "@tanstack/react-query",
+        "react-window",
+        "lucide-react"
+      ]
+    },
+    "pages": {
+      "pageCount": 20,
+      "apiCount": 84,
+      "isSSG": false,
+      "isSSR": false
+    },
+    "images": {
+      "count": 18,
+      "unoptimized": [
+        "og-homepage.svg",
+        "og-image.svg",
+        "blog\\automatisation-pme-dakar.svg",
+        "blog\\chatbots-ia-maroc.svg",
+        "blog\\marketing-digital-maroc.svg",
+        "blog\\sites-web-performants.svg"
+      ]
+    },
+    "css": {
+      "sizeKB": 10.6572265625,
+      "usesTailwind": true
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Bundle Size",
+      "issue": "Too many dependencies (80)",
+      "solution": "Audit and remove unused dependencies, use dynamic imports"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Bundle Size",
+      "issue": "Heavy libraries detected: framer-motion, @supabase/supabase-js, recharts, @tanstack/react-query, react-window, lucide-react",
+      "solution": "Implement code splitting and lazy loading for heavy components"
+    },
+    {
+      "priority": "CRITICAL",
+      "category": "Rendering Strategy",
+      "issue": "Not using Static Site Generation (SSG)",
+      "solution": "Implement getStaticProps for better performance and SEO"
+    },
+    {
+      "priority": "HIGH",
+      "category": "Images",
+      "issue": "6 unoptimized images",
+      "solution": "Convert images to WebP format and implement responsive images"
+    }
+  ],
+  "summary": {
+    "criticalIssues": 1,
+    "highPriorityIssues": 3,
+    "totalRecommendations": 4
+  }
+}

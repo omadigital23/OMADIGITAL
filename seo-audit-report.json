@@ -1,0 +1,107 @@
+{
+  "timestamp": "2025-10-12T14:05:28.845Z",
+  "baseUrl": "https://omadigital.net",
+  "overallScore": 86,
+  "sections": {
+    "technical": {
+      "score": 95,
+      "checks": [
+        {
+          "name": "Page speed > 90",
+          "status": "✅ Pass",
+          "details": "Score: 95/100"
+        },
+        {
+          "name": "Mobile responsive",
+          "status": "✅ Pass",
+          "details": "Responsive design implemented"
+        },
+        {
+          "name": "HTTPS encryption",
+          "status": "✅ Pass",
+          "details": "SSL certificate valid"
+        },
+        {
+          "name": "No broken links",
+          "status": "✅ Pass",
+          "details": "0 broken links found"
+        },
+        {
+          "name": "Proper canonical tags",
+          "status": "✅ Pass",
+          "details": "Canonical tags implemented"
+        },
+        {
+          "name": "XML sitemap present",
+          "status": "✅ Pass",
+          "details": "sitemap.xml available"
+        },
+        {
+          "name": "robots.txt configured",
+          "status": "✅ Pass",
+          "details": "robots.txt properly configured"
+        }
+      ]
+    },
+    "content": {
+      "score": 88,
+      "checks": [
+        {
+          "name": "Title tags optimized",
+          "status": "✅ Pass",
+          "details": "Titles within 50-60 characters"
+        },
+        {
+          "name": "Meta descriptions compelling",
+          "status": "✅ Pass",
+          "details": "Descriptions within 150-160 characters"
+        },
+        {
+          "name": "Header tags (H1-H6) used properly",
+          "status": "✅ Pass",
+          "details": "Proper heading hierarchy"
+        },
+        {
+          "name": "Keyword optimization",
+          "status": "⚠️ Warning",
+          "details": "Some keywords could be better optimized"
+        },
+        {
+          "name": "Content uniqueness",
+          "status": "✅ Pass",
+          "details": "100% unique content"
+        },
+        {
+          "name": "Internal linking strategy",
+          "status": "⚠️ Warning",
+          "details": "Could improve internal linking"
+        }
+      ]
+    },
+    "offPage": {
+      "score": 75,
+      "checks": [
+        {
+          "name": "Backlink profile quality",
+          "status": "⚠️ Warning",
+          "details": "Need to build more quality backlinks"
+        },
+        {
+          "name": "Social media presence",
+          "status": "✅ Pass",
+          "details": "Active on major platforms"
+        },
+        {
+          "name": "Local business listings",
+          "status": "⚠️ Warning",
+          "details": "Need to optimize Google Business Profile"
+        },
+        {
+          "name": "Directory submissions",
+          "status": "❌ Fail",
+          "details": "Not submitted to local directories"
+        }
+      ]
+    }
+  }
+}

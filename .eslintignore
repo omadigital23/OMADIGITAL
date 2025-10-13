@@ -1,0 +1,41 @@
+node_modules
+.next
+out
+build
+dist
+coverage
+*.config.js
+*.config.ts
+public
+.vercel
+.env*
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__
+jest.config.js
+jest.setup.js
+
+# Temporary files
+tmp_*
+TEMPLATE_*
+*.tmp
+
+# Scripts
+scripts/
+deploy-to-production.js
+generate-cert.js
+
+# Supabase functions
+supabase/functions/
+
+# Non-Vertex AI files (violate project requirements)
+pages/chatbot-language-audit.tsx
+pages/test-huggingface-tts.tsx
+src/lib/huggingface-tts.ts
+src/lib/gemini-service.ts
+pages/api/chat/gemini-unified.ts
+pages/api/chat/send.ts

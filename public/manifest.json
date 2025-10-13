@@ -1,0 +1,31 @@
+{
+  "name": "OMA Digital - Automatisation IA PME Dakar",
+  "short_name": "OMA Digital",
+  "description": "Solutions d'automatisation et d'intelligence artificielle pour PME sénégalaises",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/logo.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/images/logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "fr",
+  "scope": "/",
+  "id": "oma-digital-pwa",
+  "serviceworker": {
+    "src": "/service-worker.js",
+    "scope": "/",
+    "update_via_cache": "none"
+  }
+}

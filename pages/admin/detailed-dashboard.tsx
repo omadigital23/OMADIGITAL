@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Mail, FileText, MessageCircle, RefreshCw, ChevronDown, ChevronUp, Search, Filter } from 'lucide-react';
+import { useRouter } from 'next/router';
+import { Mail, FileText, MessageCircle, RefreshCw, ChevronDown, ChevronUp, Search, Filter, LogOut } from 'lucide-react';
 import { withAdminAuth } from '../../src/utils/adminAuth';
 
 export const getServerSideProps = withAdminAuth(async () => ({ props: {} }));
@@ -45,8 +46,24 @@ interface ChatbotConversation {
 }
 
 export default function DetailedDashboard() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'newsletter' | 'quotes' | 'chatbot'>('newsletter');
   const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+      const response = await fetch('/api/admin/logout', { method: 'POST' });
+      if (response.ok) {
+        router.push('/admin/login');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setLoggingOut(false);
+    }
+  };
   
   // Newsletter data
   const [newsletterData, setNewsletterData] = useState<NewsletterSubscriber[]>([]);
@@ -177,6 +194,15 @@ export default function DetailedDashboard() {
                 >
                   <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                   Actualiser
+                </button>
+                
+                <button
+                  onClick={handleLogout}
+                  disabled={loggingOut}
+                  className="flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg disabled:opacity-50 transition-colors"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  {loggingOut ? 'Déconnexion...' : 'Déconnexion'}
                 </button>
               </div>
             </div>

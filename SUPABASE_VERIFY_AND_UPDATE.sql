@@ -5,6 +5,28 @@
 -- Run this in Supabase SQL Editor
 -- ============================================
 
+-- 0. CREATE QUOTES TABLE IF NOT EXISTS
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS public.quotes (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  company TEXT,
+  service TEXT NOT NULL,
+  message TEXT NOT NULL,
+  budget TEXT,
+  location TEXT NOT NULL DEFAULT 'senegal',
+  status TEXT NOT NULL DEFAULT 'nouveau',
+  security_validated BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  
+  CONSTRAINT quotes_email_check CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+  CONSTRAINT quotes_status_check CHECK (status IN ('nouveau', 'en_cours', 'traité', 'fermé'))
+);
+
 -- 1. VERIFY QUOTES TABLE STRUCTURE
 -- ============================================
 
@@ -12,6 +34,13 @@
 DO $$
 BEGIN
   -- Add missing columns if they don't exist
+  
+  -- Ensure id column has UUID default
+  IF EXISTS (SELECT 1 FROM information_schema.columns 
+             WHERE table_name = 'quotes' AND column_name = 'id' AND column_default IS NULL) THEN
+    ALTER TABLE public.quotes ALTER COLUMN id SET DEFAULT gen_random_uuid();
+    RAISE NOTICE 'Set default UUID generation for id column in quotes';
+  END IF;
   
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
                  WHERE table_name = 'quotes' AND column_name = 'security_validated') THEN

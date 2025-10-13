@@ -1,18 +1,29 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
-import { NEXT_PUBLIC_SUPABASE_URL } from '../../src/lib/env-public';
-import { SUPABASE_SERVICE_ROLE_KEY } from '../../src/lib/env-server';
 import DOMPurify from 'isomorphic-dompurify';
 
-// Log environment variables for debugging (remove in production)
-console.log('Supabase URL:', NEXT_PUBLIC_SUPABASE_URL);
-console.log('Supabase Service Role Key exists:', !!SUPABASE_SERVICE_ROLE_KEY);
+// Validate environment variables
+const SUPABASE_URL = process.env['NEXT_PUBLIC_SUPABASE_URL'];
+const SUPABASE_SERVICE_KEY = process.env['SUPABASE_SERVICE_ROLE_KEY'];
 
-// Initialize Supabase client
-const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  console.error('❌ Missing Supabase environment variables:', {
+    hasUrl: !!SUPABASE_URL,
+    hasServiceKey: !!SUPABASE_SERVICE_KEY
+  });
+}
 
-// Log Supabase client initialization
-console.log('Supabase client initialized successfully');
+// Initialize Supabase client with fallback
+let supabase: ReturnType<typeof createClient> | null = null;
+
+try {
+  if (SUPABASE_URL && SUPABASE_SERVICE_KEY) {
+    supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+    console.log('✅ Supabase client initialized successfully');
+  }
+} catch (error) {
+  console.error('❌ Failed to initialize Supabase client:', error);
+}
 
 // Simple in-memory rate limiter
 const rateLimiter = new Map<string, { count: number; resetTime: number }>();
@@ -138,6 +149,15 @@ async function sendConfirmationEmail(email: string, token: string) {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Check if Supabase is initialized
+  if (!supabase) {
+    console.error('❌ Supabase client not initialized');
+    return res.status(500).json({ 
+      error: 'Service de newsletter temporairement indisponible',
+      details: 'Supabase configuration error'
+    });
+  }
+
   // Get client IP
   const clientIP = (req.headers['x-forwarded-for'] as string) || 
                    (req.connection.remoteAddress as string) || 

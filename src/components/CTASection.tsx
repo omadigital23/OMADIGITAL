@@ -3,24 +3,9 @@ import { Send, Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle, Lightbulb }
 import { useTranslation } from 'next-i18next';
 import { useABTest, useRecordConversion } from '../hooks/useABTest';
 import { trackQuoteSubmission } from '../lib/analytics';
-import { createClient } from '@supabase/supabase-js';
-import { projectId, publicAnonKey } from '../utils/supabase/info';
+import { supabase, isSupabaseConfigured } from '../lib/supabase-client';
 import { ctaService } from '../lib/cta-service';
-import { CTAAction } from './SmartChatbot/types'; // Add this import
-
-// Configuration Supabase - Using the same configuration as in info.tsx
-const supabaseUrl = typeof window !== 'undefined' ? `https://${projectId}.supabase.co` : process.env['NEXT_PUBLIC_SUPABASE_URL'] || `https://${projectId}.supabase.co`;
-const supabaseKey = typeof window !== 'undefined' ? publicAnonKey : process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || publicAnonKey;
-
-// Only create Supabase client if we have the required config
-let supabase: any = null;
-if (supabaseUrl && supabaseKey) {
-  try {
-    supabase = createClient(supabaseUrl, supabaseKey);
-  } catch (error) {
-    console.error('Failed to create Supabase client:', error);
-  }
-}
+import { CTAAction } from './SmartChatbot/types';
 
 // Define suggestion interface
 interface FormSuggestion {
@@ -248,10 +233,10 @@ export function CTASection() {
     e.preventDefault();
     
     // Check if Supabase is configured
-    if (!supabase) {
+    if (!isSupabaseConfigured() || !supabase) {
       console.error('Supabase is not configured properly');
       setSubmitStatus('error');
-      setErrors([t('contact.form_error_temporarily_unavailable')]);
+      setErrors([t('contact.form_error_temporarily_unavailable') || 'Le service est temporairement indisponible']);
       return;
     }
     

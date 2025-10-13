@@ -1,5 +1,6 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Header } from '../src/components/Header';
@@ -10,8 +11,22 @@ export default function About() {
   const { t } = useTranslation('about');
 
   return (
-    <div className="min-h-screen flex flex-col legal-page">
-      <Header />
+    <>
+      <Head>
+        <title>Mentions Légales - OMA Digital | Solutions IA & Sites Web au Sénégal & Maroc</title>
+        <meta name="description" content="OMA Digital transforme les PME africaines avec des solutions d'automatisation IA, sites web ultra-rapides, app mobile et chatbots intelligents au Sénégal et Maroc." />
+        <meta name="keywords" content="OMA Digital, automatisation IA Sénégal, sites web Maroc, chatbots intelligents, app mobile Afrique, PME digitales, solutions IA Dakar, développement web Casablanca" />
+        <link rel="canonical" href="https://omadigital.net/about" />
+        <meta property="og:title" content="Mentions Légales - OMA Digital | Solutions IA & Sites Web" />
+        <meta property="og:description" content="OMA Digital transforme les PME africaines avec des solutions d'automatisation IA, sites web ultra-rapides, app mobile et chatbots intelligents." />
+        <meta property="og:url" content="https://omadigital.net/about" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Mentions Légales - OMA Digital" />
+        <meta name="twitter:description" content="Solutions d'automatisation IA, sites web ultra-rapides et chatbots intelligents pour PME africaines." />
+      </Head>
+      <div className="min-h-screen flex flex-col legal-page">
+        <Header />
       
       <main className="flex-grow">
         <div className="bg-gradient-to-br from-gray-50 to-white py-16">
@@ -217,6 +232,7 @@ export default function About() {
       
       <Footer />
     </div>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import { DefaultSeoProps } from 'next-seo';
 const config: DefaultSeoProps = {
   titleTemplate: '%s | OMA Digital - Solutions IA & Automatisation pour PME au Sénégal et au Maroc',
   defaultTitle: 'OMA Digital - Solutions IA & Automatisation pour PME au Sénégal et au Maroc',
-  description: 'Transformez votre PME avec nos solutions IA : WhatsApp automatisé, sites ultra-rapides <1.5s, chatbots français. +200% ROI garanti. Spécialiste transformation digitale Dakar, Thies, Casablanca, Rabat, Marrakech.',
+  description: 'OMA Digital transforme les PME africaines avec des solutions d\'automatisation IA, sites web ultra-rapides, app mobile et chatbots intelligents au Sénégal et Maroc. +200% ROI garanti. Dakar, Thies, Casablanca, Rabat, Marrakech.',
   
   // Open Graph
   openGraph: {
@@ -186,11 +186,11 @@ const config: DefaultSeoProps = {
     },
     {
       name: 'phone',
-      content: '+221701193811'
+      content: '+212701193811'
     },
     {
       name: 'address',
-      content: 'Hersent Rue 15, Thies, Sénégal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt15, Maroc'
+      content: 'Hersent Rue 15, Thies, Sénégal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc'
     },
   ],
   

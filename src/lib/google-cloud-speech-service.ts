@@ -78,10 +78,36 @@ class GoogleCloudSpeechService {
       const audioBytes = new Uint8Array(audioBuffer);
       const audioBase64 = btoa(String.fromCharCode(...audioBytes));
 
+      // Détecter le format audio automatiquement
+      // Google Cloud Speech supporte: LINEAR16, FLAC, MULAW, AMR, AMR_WB, OGG_OPUS, SPEEX_WITH_HEADER_BYTE, WEBM_OPUS, MP3
+      let encoding = 'WEBM_OPUS';
+      let sampleRateHertz = 48000;
+      
+      // Essayer de détecter le format depuis les premiers bytes
+      const header = String.fromCharCode(...audioBytes.slice(0, 12));
+      
+      if (header.includes('ftyp')) {
+        // Format MP4/M4A (iOS Safari)
+        encoding = 'MP3'; // Google Cloud accepte MP3 pour les conteneurs MP4
+        console.log('🎤 Détecté: Format MP4/M4A (iOS)');
+      } else if (header.includes('RIFF') && header.includes('WAVE')) {
+        // Format WAV
+        encoding = 'LINEAR16';
+        sampleRateHertz = 16000;
+        console.log('🎤 Détecté: Format WAV');
+      } else if (header.includes('OggS')) {
+        // Format OGG
+        encoding = 'OGG_OPUS';
+        console.log('🎤 Détecté: Format OGG');
+      } else {
+        // Par défaut: WEBM_OPUS
+        console.log('🎤 Format par défaut: WEBM_OPUS');
+      }
+
       // Google Cloud Speech-to-Text configuration
       const config = {
-        encoding: 'WEBM_OPUS',
-        sampleRateHertz: 48000,
+        encoding,
+        sampleRateHertz,
         languageCode: language === 'fr' ? 'fr-FR' : 'en-US',
         // Enable automatic language detection between French and English
         alternativeLanguageCodes: language === 'fr' ? ['en-US'] : ['fr-FR'],

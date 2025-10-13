@@ -1,12 +1,18 @@
 /**
  * Hook STT principal pour le chatbot
  * 
- * @description 100% Vertex AI STT - No local fallbacks
- * @compliance Uses Vertex AI Speech API exclusively
+ * @description 100% Google Cloud Speech API - Optimisé pour iOS
+ * @compliance Uses Google Cloud Speech API with iOS compatibility
  */
 
 import { useState, useCallback, useRef } from 'react';
 import { STTService } from '../../../lib/apis/stt-service-vertex';
+import { 
+  getBestAudioFormat, 
+  requestMicrophonePermission,
+  isIOS,
+  getAudioCapabilities
+} from '../../../lib/utils/ios-audio-helper';
 
 export interface STTState {
   isRecording: boolean;
@@ -31,22 +37,33 @@ export function useSTT() {
 
   const startRecording = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          sampleRate: 16000,
-          channelCount: 1,
-          echoCancellation: true,
-          noiseSuppression: true
-        }
-      });
+      // Log des capacités audio pour debug
+      if (isIOS()) {
+        const capabilities = await getAudioCapabilities();
+        console.log('📱 iOS Audio Capabilities:', capabilities);
+      }
+
+      // Utiliser le helper iOS pour obtenir le stream avec les bonnes permissions
+      const stream = await requestMicrophonePermission();
       
-      // Try to use WAV format for better Hugging Face compatibility
-      let options = { mimeType: 'audio/webm;codecs=opus' };
-      if (MediaRecorder.isTypeSupported('audio/wav')) {
-        options = { mimeType: 'audio/wav' };
+      // Obtenir le meilleur format audio pour l'appareil
+      const audioFormat = getBestAudioFormat();
+      console.log('🎤 Format audio sélectionné:', audioFormat);
+      
+      // Créer le MediaRecorder avec le format optimal
+      const recorderOptions: MediaRecorderOptions = {};
+      if (audioFormat.mimeType) {
+        recorderOptions.mimeType = audioFormat.mimeType;
+      }
+      if (audioFormat.audioBitsPerSecond) {
+        recorderOptions.audioBitsPerSecond = audioFormat.audioBitsPerSecond;
       }
       
-      const mediaRecorder = new MediaRecorder(stream, options);
+      const mediaRecorder = new MediaRecorder(stream, recorderOptions);
+      console.log('✅ MediaRecorder créé avec:', {
+        mimeType: mediaRecorder.mimeType,
+        state: mediaRecorder.state
+      });
       audioChunksRef.current = [];
       
       mediaRecorder.ondataavailable = (event) => {
@@ -59,8 +76,10 @@ export function useSTT() {
         setState(prev => ({ ...prev, isRecording: false, isProcessing: true }));
         
         try {
-          const audioBlob = new Blob(audioChunksRef.current, { type: options.mimeType });
-          console.log('STT Hook: Audio blob created with size:', audioBlob.size, 'type:', options.mimeType);
+          const audioBlob = new Blob(audioChunksRef.current, { 
+            type: recorderOptions.mimeType || mediaRecorder.mimeType 
+          });
+          console.log('STT Hook: Audio blob created with size:', audioBlob.size, 'type:', mediaRecorder.mimeType);
           
           if (audioBlob.size === 0) {
             throw new Error('Empty audio recording');
@@ -91,13 +110,25 @@ export function useSTT() {
 
       mediaRecorderRef.current = mediaRecorder;
       setState(prev => ({ ...prev, isRecording: true, error: null }));
-      mediaRecorder.start(1000);
       
-    } catch (error) {
+      // Sur iOS, utiliser un timeslice plus court pour éviter les problèmes
+      const timeslice = isIOS() ? 500 : 1000;
+      mediaRecorder.start(timeslice);
+      
+      console.log('🎤 Enregistrement démarré (timeslice:', timeslice, 'ms)');
+      
+    } catch (error: any) {
       console.error('STT Hook: Microphone access error:', error);
+      
+      // Utiliser le message d'erreur du helper iOS s'il est disponible
+      let errorMessage = 'Accès au microphone refusé. Veuillez autoriser l\'accès dans les paramètres du navigateur.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       setState(prev => ({
         ...prev,
-        error: 'Accès au microphone refusé. Veuillez autoriser l\'accès dans les paramètres du navigateur.'
+        error: errorMessage
       }));
     }
   }, []);

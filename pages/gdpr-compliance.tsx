@@ -74,11 +74,10 @@ export default function GDPRCompliance() {
                         {t('controller_info')}
                       </h3>
                       <ul className="space-y-2 text-gray-700">
-                        <li><span className="font-medium">{t('company_name')}:</span> OMA Digital</li>
-                        <li><span className="font-medium">{t('address')}:</span> Hersent Rue 15, Thies, Senegal</li>
-                        <li><span className="font-medium">{t('contact_person')}:</span> Papa Amadou Fall</li>
-                        <li><span className="font-medium">{t('email')}:</span> dpo@oma-digital.com</li>
-                        <li><span className="font-medium">{t('phone')}:</span> +221 701 193 811</li>
+                        <li><span className="font-medium">{t('director')}:</span> {t('director_name')}</li>
+                        <li>{t('dpo_contact_details3')}</li>
+                        <li>{t('dpo_contact_details2')}</li>
+                        <li>{t('dpo_contact_details1')}</li>
                       </ul>
                       <div className="mt-4 space-y-3 text-gray-700">
                         <p>

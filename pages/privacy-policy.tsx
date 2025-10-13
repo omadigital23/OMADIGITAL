@@ -395,21 +395,10 @@ export default function PrivacyPolicy() {
                         {t('dpo_contact')}
                       </h3>
                       <ul className="space-y-2 text-gray-700">
-                        <li><span className="font-medium">{t('email')}:</span> dpo@oma-digital.com</li>
-                        <li><span className="font-medium">{t('address')}:</span> Hersent Rue 15, Thies, Senegal</li>
-                        <li><span className="font-medium">{t('phone')}:</span> +221 701 193 811</li>
+                        <li>{t('dpo_contact_details1')}</li>
+                        <li>{t('dpo_contact_details2')}</li>
+                        <li>{t('dpo_contact_details3')}</li>
                       </ul>
-                      <div className="mt-4 space-y-3 text-gray-700">
-                        <p>
-                          {t('dpo_contact_details1')}
-                        </p>
-                        <p>
-                          {t('dpo_contact_details2')}
-                        </p>
-                        <p>
-                          {t('dpo_contact_details3')}
-                        </p>
-                      </div>
                     </div>
                   </section>
                 </div>

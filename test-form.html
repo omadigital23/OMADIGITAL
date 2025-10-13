@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test CTA Form</title>
+</head>
+<body>
+    <h1>Test CTA Form Submission</h1>
+    <form id="ctaForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="HTML Test User" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="html-test@example.com" required>
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" value="+221701193811" required>
+        </div>
+        <div>
+            <label for="company">Company:</label>
+            <input type="text" id="company" name="company" value="HTML Test Company">
+        </div>
+        <div>
+            <label for="service">Service:</label>
+            <select id="service" name="service" required>
+                <option value="Website Development">Website Development</option>
+                <option value="Mobile App">Mobile App</option>
+                <option value="Consulting">Consulting</option>
+            </select>
+        </div>
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required>This is a test message from the HTML form.</textarea>
+        </div>
+        <div>
+            <label for="budget">Budget:</label>
+            <select id="budget" name="budget">
+                <option value="1000-5000 FCFA">1000-5000 FCFA</option>
+                <option value="5000-10000 FCFA">5000-10000 FCFA</option>
+                <option value="10000+ FCFA">10000+ FCFA</option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('ctaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value,
+                service: document.getElementById('service').value,
+                message: document.getElementById('message').value,
+                budget: document.getElementById('budget').value,
+                status: 'nouveau'
+            };
+            
+            try {
+                const response = await fetch('/api/test-cta-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ formData })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('result').innerHTML = '<p style="color: green;">Form submitted successfully!</p>';
+                    console.log('Success:', result);
+                } else {
+                    document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + result.error + '</p>';
+                    console.error('Error:', result);
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Network error: ' + error.message + '</p>';
+                console.error('Network error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

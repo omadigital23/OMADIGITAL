@@ -31,48 +31,48 @@ export function TestimonialsSection() {
       results: t('testimonials.cheikh.result')
     },
     {
-      name: "Fatou Seck",
-      position: "CEO",
-      company: "Mode Africaine Plus",
-      location: "Sacré-Cœur, Dakar",
+      name: t('testimonials.fatou.name'),
+      position: t('testimonials.fatou.position'),
+      company: t('testimonials.fatou.company'),
+      location: t('testimonials.fatou.location'),
       industry: "Mode & Textile",
-      testimonial: "Grâce à l'e-commerce et au branding d'OMA, nous vendons maintenant dans toute l'Afrique de l'Ouest. Le dashboard analytics nous aide à prendre les bonnes décisions chaque jour.",
+      testimonial: t('testimonials.fatou.text'),
       rating: 5,
       avatar: "FS",
-      results: "Expansion 5 pays en 8 mois"
+      results: t('testimonials.fatou.result')
     },
     {
-      name: "Moussa Fall",
-      position: "Directeur Commercial",
-      company: "Immobilier Dakar Plus",
-      location: "Mermoz, Dakar",
+      name: t('testimonials.moussa.name'),
+      position: t('testimonials.moussa.position'),
+      company: t('testimonials.moussa.company'),
+      location: t('testimonials.moussa.location'),
       industry: "Immobilier",
-      testimonial: "L'assistant IA d'OMA répond aux prospects 24h/24. Notre taux de conversion a doublé et nous économisons 60% sur les coûts de support client. Formidable !",
+      testimonial: t('testimonials.moussa.text'),
       rating: 5,
       avatar: "MF",
-      results: "Taux conversion x2"
+      results: t('testimonials.moussa.result')
     },
     {
-      name: "Aïssatou Ndoye",
-      position: "Gérante",
-      company: "Pharmacie du Centenaire",
-      location: "Grand Yoff, Dakar",
+      name: t('testimonials.aissatou.name'),
+      position: t('testimonials.aissatou.position'),
+      company: t('testimonials.aissatou.company'),
+      location: t('testimonials.aissatou.location'),
       industry: "Santé",
-      testimonial: "Le système de gestion automatisé d'OMA nous fait économiser 3h par jour sur la paperasse. Nos patients peuvent maintenant prendre rendez-vous en ligne facilement.",
+      testimonial: t('testimonials.aissatou.text'),
       rating: 5,
       avatar: "AN",
-      results: "-3h travail admin/jour"
+      results: t('testimonials.aissatou.result')
     },
     {
-      name: "Ibrahima Sarr",
-      position: "Président",
-      company: "Transport Express SN",
-      location: "Parcelles, Dakar",
+      name: t('testimonials.ibrahima.name'),
+      position: t('testimonials.ibrahima.position'),
+      company: t('testimonials.ibrahima.company'),
+      location: t('testimonials.ibrahima.location'),
       industry: "Transport",
-      testimonial: "L'app mobile PWA permet à nos clients de suivre leurs colis en temps réel. La satisfaction client est passée de 70% à 96%. OMA comprend vraiment les besoins des PME sénégalaises.",
+      testimonial: t('testimonials.ibrahima.text'),
       rating: 5,
       avatar: "IS",
-      results: "96% satisfaction client"
+      results: t('testimonials.ibrahima.result')
     }
   ];
 
@@ -93,6 +93,8 @@ export function TestimonialsSection() {
   };
 
   const current = testimonials[currentTestimonial];
+
+  if (!current) return null;
 
   return (
     <section className="py-24 bg-gradient-to-br from-orange-50 to-white">

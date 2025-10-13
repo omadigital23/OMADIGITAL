@@ -217,7 +217,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .from('blog_subscribers')
       .select('id, status, confirmation_token, confirmed_at')
       .eq('email', sanitizedEmail)
-      .single();
+      .maybeSingle();
 
     console.log('🔍 Existing subscriber check result:', { existingSubscriber, fetchError });
 

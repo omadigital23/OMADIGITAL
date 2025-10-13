@@ -465,7 +465,7 @@ export default function ConditionsGenerales() {
                           {t('applicable_law')}
                         </h3>
                         <p className="text-gray-700">
-                          {t('senegalese_law')}
+                          {t('senegalese_law_terms')}
                         </p>
                         <div className="mt-4 space-y-3 text-gray-700">
                           <p>

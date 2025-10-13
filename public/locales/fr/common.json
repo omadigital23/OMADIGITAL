@@ -432,6 +432,8 @@
   "newsletter.description": "Recevez nos conseils IA et automatisation",
   "newsletter.placeholder": "Votre email",
   "newsletter.subscribe": "S'abonner",
+  "newsletter.success": "Inscription réussie ! Vérifiez votre email.",
+  "newsletter.error": "Erreur lors de l'inscription. Réessayez.",
   "newsletter.privacy": "Nous respectons votre vie privée",
   "footer.follow_us": "Suivez-nous",
   "footer.language": "Langue",

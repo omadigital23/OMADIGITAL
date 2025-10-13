@@ -432,6 +432,8 @@
   "newsletter.description": "Receive our AI and automation tips",
   "newsletter.placeholder": "Your email",
   "newsletter.subscribe": "Subscribe",
+  "newsletter.success": "Successfully subscribed! Check your email.",
+  "newsletter.error": "Subscription failed. Please try again.",
   "newsletter.privacy": "We respect your privacy",
   "footer.follow_us": "Follow us",
   "footer.language": "Language",

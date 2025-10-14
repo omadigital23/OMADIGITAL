@@ -184,7 +184,26 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
             }
           } catch (err: any) {
             console.error('🎤 VoiceInput: STT API error:', err);
-            setError('Erreur de reconnaissance vocale');
+            
+            // Extract specific error message for iOS
+            let errorMessage = 'Erreur de reconnaissance vocale';
+            if (platform === 'ios' || isSafari) {
+              if (err.message?.includes('audio_channel_count')) {
+                errorMessage = 'Problème de compatibilité audio iOS. Essayez Chrome ou un autre navigateur.';
+              } else if (err.message?.includes('400') || err.message?.includes('INVALID_ARGUMENT')) {
+                errorMessage = 'Format audio non compatible avec iOS. Essayez de parler plus distinctement.';
+              } else if (err.message?.includes('500')) {
+                errorMessage = 'Service temporairement indisponible. Réessayez dans quelques instants.';
+              } else if (err.message?.includes('empty') || err.message?.includes('Aucune parole')) {
+                errorMessage = 'Aucune parole détectée. Parlez plus fort et plus distinctement.';
+              } else {
+                errorMessage = 'Erreur technique sur iOS. Vérifiez les permissions microphone dans Réglages → Safari.';
+              }
+            } else {
+              errorMessage = 'Erreur de reconnaissance vocale. Vérifiez votre connexion et réessayez.';
+            }
+            
+            setError(errorMessage);
           } finally {
             setIsListening(false);
             if (streamRef.current) {
@@ -309,7 +328,24 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
             }
           } catch (err: any) {
             console.error('🎤 iOS: STT error:', err);
-            setError(err.message || 'Erreur de reconnaissance vocale');
+            
+            // Extract specific error message for iOS
+            let errorMessage = 'Erreur de reconnaissance vocale';
+            if (err.message?.includes('audio_channel_count')) {
+              errorMessage = 'Problème de compatibilité audio iOS. Essayez Chrome ou un autre navigateur.';
+            } else if (err.message?.includes('400') || err.message?.includes('INVALID_ARGUMENT')) {
+              errorMessage = 'Format audio non compatible avec iOS Safari. Essayez de parler plus distinctement.';
+            } else if (err.message?.includes('500')) {
+              errorMessage = 'Service temporairement indisponible. Réessayez dans quelques instants.';
+            } else if (err.message?.includes('empty') || err.message?.includes('Aucune parole')) {
+              errorMessage = 'Aucune parole détectée. Parlez plus fort et plus distinctement.';
+            } else if (err.message?.includes('STT API error')) {
+              errorMessage = 'Erreur de connexion au service vocal. Vérifiez votre connexion internet.';
+            } else {
+              errorMessage = `Erreur technique: ${err.message || 'Problème de compatibilité iOS Safari'}`;
+            }
+            
+            setError(errorMessage);
           } finally {
             setIsListening(false);
             if (streamRef.current) {
@@ -528,6 +564,52 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         <div>
           <p className="font-medium">Aucune parole détectée</p>
           <p className="text-xs">Veuillez parler plus fort et réessayer</p>
+        </div>
+      );
+    }
+    
+    // iOS specific error messages
+    if (error.includes('compatibilité audio iOS')) {
+      return (
+        <div>
+          <p className="font-medium">Problème de compatibilité iOS</p>
+          <p className="text-xs">Essayez Chrome ou rafraîchissez la page</p>
+        </div>
+      );
+    }
+    
+    if (error.includes('Format audio non compatible')) {
+      return (
+        <div>
+          <p className="font-medium">Format audio non supporté</p>
+          <p className="text-xs">Parlez plus distinctement ou utilisez Chrome</p>
+        </div>
+      );
+    }
+    
+    if (error.includes('Service temporairement indisponible')) {
+      return (
+        <div>
+          <p className="font-medium">Service temporairement indisponible</p>
+          <p className="text-xs">Réessayez dans quelques instants</p>
+        </div>
+      );
+    }
+    
+    if (error.includes('Erreur de connexion')) {
+      return (
+        <div>
+          <p className="font-medium">Problème de connexion</p>
+          <p className="text-xs">Vérifiez votre connexion internet</p>
+        </div>
+      );
+    }
+    
+    if (error.includes('Erreur technique')) {
+      return (
+        <div>
+          <p className="font-medium">Erreur technique</p>
+          <p className="text-xs">Rafraîchissez la page et réessayez</p>
         </div>
       );
     }

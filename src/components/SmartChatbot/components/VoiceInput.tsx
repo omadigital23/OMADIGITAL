@@ -361,21 +361,37 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
     } catch (err: any) {
       console.error('🎤 VoiceInput: Error starting recognition:', err);
       
-      // Better error messages based on error type
+      // Better error messages based on error type and platform
       let errorMessage = 'Erreur de reconnaissance vocale';
       
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        errorMessage = 'Permission microphone refusée';
+        if (platform === 'ios') {
+          errorMessage = 'Microphone non autorisé. Allez dans Réglages → Safari → Microphone et activez l\'accès';
+        } else {
+          errorMessage = 'Permission microphone refusée. Autorisez l\'accès au microphone dans les paramètres de votre navigateur';
+        }
       } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-        errorMessage = 'Aucun microphone détecté';
+        errorMessage = 'Aucun microphone détecté sur cet appareil';
       } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
-        errorMessage = 'Microphone déjà utilisé par une autre application';
+        errorMessage = 'Microphone déjà utilisé par une autre application. Fermez les autres applications utilisant le microphone';
       } else if (err.name === 'OverconstrainedError') {
-        errorMessage = 'Microphone ne supporte pas les paramètres requis';
+        if (platform === 'ios') {
+          errorMessage = 'Problème de compatibilité audio sur iOS. Essayez de rafraîchir la page';
+        } else {
+          errorMessage = 'Microphone ne supporte pas les paramètres requis';
+        }
       } else if (err.name === 'SecurityError') {
-        errorMessage = 'Accès microphone bloqué (HTTPS requis)';
+        errorMessage = 'Accès microphone bloqué. Utilisez HTTPS pour activer le microphone';
+      } else if (err.message?.includes('STT API error')) {
+        if (platform === 'ios') {
+          errorMessage = 'Problème de compatibilité audio avec iOS. Essayez de parler plus fort ou de vous rapprocher du microphone';
+        } else {
+          errorMessage = 'Erreur de traitement audio. Vérifiez votre connexion et réessayez';
+        }
+      } else if (err.message?.includes('audio_channel_count')) {
+        errorMessage = 'Problème de configuration audio. Essayez de rafraîchir la page';
       } else if (err.message) {
-        errorMessage = err.message;
+        errorMessage = `Erreur: ${err.message}`;
       }
       
       setError(errorMessage);
@@ -387,8 +403,8 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         streamRef.current = null;
       }
       if (audioContextRef.current) {
-        try { 
-          audioContextRef.current.close(); 
+        try {
+          audioContextRef.current.close();
           audioContextRef.current = null;
         } catch {}
       }

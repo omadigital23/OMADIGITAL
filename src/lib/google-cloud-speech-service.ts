@@ -271,6 +271,22 @@ class GoogleCloudSpeechService {
 
     } catch (error) {
       console.error('❌ Google Cloud STT Error:', error);
+      
+      // Provide more specific error messages for common issues
+      if (error instanceof Error) {
+        if (error.message.includes('audio_channel_count')) {
+          throw new Error('Problème de configuration audio: conflit de canaux. Essayez de rafraîchir la page ou utilisez un autre navigateur.');
+        } else if (error.message.includes('400')) {
+          throw new Error('Format audio non supporté. Essayez de parler plus clairement ou de vous rapprocher du microphone.');
+        } else if (error.message.includes('403')) {
+          throw new Error('Erreur d\'authentification. Vérifiez la configuration des clés API.');
+        } else if (error.message.includes('500')) {
+          throw new Error('Erreur interne du service de reconnaissance vocale. Réessayez dans quelques instants.');
+        } else if (error.message.includes('empty')) {
+          throw new Error('Aucun son détecté. Vérifiez que votre microphone fonctionne et que vous parlez suffisamment fort.');
+        }
+      }
+      
       throw error;
     }
   }

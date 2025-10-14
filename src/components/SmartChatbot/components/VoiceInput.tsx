@@ -30,6 +30,7 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
   const audioChunksRef = React.useRef<BlobPart[]>([]);
   const streamRef = React.useRef<MediaStream | null>(null);
   const audioContextRef = React.useRef<AudioContext | null>(null);
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Detect platform
   const getPlatform = () => {
@@ -51,6 +52,13 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       setIsListening(true);
 
       console.log('🎤 Platform detected:', platform, '| Safari:', isSafari);
+      
+      // Safety timeout: force stop after 10 seconds to prevent hanging
+      timeoutRef.current = setTimeout(() => {
+        console.log('🎤 Safety timeout reached, forcing stop');
+        stopListening();
+        setError('Timeout: enregistrement trop long');
+      }, 10000);
 
       // Request microphone with platform-specific constraints
       const constraints: MediaStreamConstraints = {
@@ -122,6 +130,12 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
         mediaRecorder.onstop = async () => {
           try {
+            // Clear safety timeout
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current);
+              timeoutRef.current = null;
+            }
+            
             const blob = new Blob(audioChunksRef.current, { type: mimeType });
             const arrayBuffer = await blob.arrayBuffer();
             
@@ -172,90 +186,137 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         return;
       }
 
-      // 2) Fallback: PCM LINEAR16 via WebAudio (Safari/iOS/older browsers)
-      console.log('🎤 MediaRecorder not supported, using WebAudio fallback');
+      // 2) Fallback: Use MediaRecorder with any available format for iOS
+      console.log('🎤 Using iOS fallback with MediaRecorder');
       
-      const AudioCtx = (window as any).AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) {
-        throw new Error('AudioContext non supporté sur ce navigateur');
-      }
-      
-      const audioContext = new AudioCtx();
-      audioContextRef.current = audioContext;
-      
-      console.log('🎤 AudioContext created, sample rate:', audioContext.sampleRate);
-      const source = audioContext.createMediaStreamSource(stream);
-      const processor = audioContext.createScriptProcessor(4096, 1, 1);
-      const pcmData: Float32Array[] = [];
-
-      processor.onaudioprocess = (e: AudioProcessingEvent) => {
-        const input = e.inputBuffer.getChannelData(0);
-        pcmData.push(new Float32Array(input));
-      };
-
-      source.connect(processor);
-      processor.connect(audioContext.destination);
-
-      // Stop after 5s, assemble PCM, downsample to 16kHz, encode LINEAR16
-      setTimeout(async () => {
-        try {
-          processor.disconnect();
-          source.disconnect();
-          stream.getTracks().forEach(t => t.stop());
-
-          // Merge float32 chunks
-          const recorded = mergeFloat32Arrays(pcmData);
-          const fromRate = audioContext.sampleRate;
-          const targetRate = 16000;
-          const downsampled = downsampleBuffer(recorded, fromRate, targetRate);
-          const linear16 = floatTo16BitPCM(downsampled);
-          const arrayBuffer = linear16.buffer as ArrayBuffer;
-
-          // Convert ArrayBuffer to base64 for API transmission
-          const base64Audio = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-          
-          // Call the STT API
-          const response = await fetch('/api/stt/transcribe', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              audioData: base64Audio,
-              language: 'fr',
-              encoding: 'LINEAR16',
-              sampleRateHertz: targetRate
-            })
-          });
-
-          if (!response.ok) {
-            throw new Error(`STT API error: ${response.status}`);
-          }
-
-          const result = await response.json();
-          const transcript = result.text?.trim();
-          if (transcript && transcript.length > 1) {
-            handleTranscript(transcript, result.language);
-          } else {
-            setError('Aucune parole détectée');
-          }
-        } catch (err: any) {
-          console.error('🎤 VoiceInput: PCM STT error:', err);
-          setError('Erreur de reconnaissance vocale');
-        } finally {
-          setIsListening(false);
-          if (streamRef.current) {
-            streamRef.current.getTracks().forEach(t => t.stop());
-            streamRef.current = null;
-          }
-          if (audioContextRef.current) {
-            try { 
-              audioContextRef.current.close(); 
-              audioContextRef.current = null;
-            } catch {}
-          }
+      try {
+        // iOS Safari supports MediaRecorder but with limited formats
+        // Try to use any available format
+        let mimeType = '';
+        let encoding = 'WEBM_OPUS';
+        
+        // Try different formats for iOS
+        if ((MediaRecorder as any).isTypeSupported?.('audio/mp4')) {
+          mimeType = 'audio/mp4';
+          encoding = 'MP4';
+        } else if ((MediaRecorder as any).isTypeSupported?.('audio/webm')) {
+          mimeType = 'audio/webm';
+          encoding = 'WEBM_OPUS';
+        } else if ((MediaRecorder as any).isTypeSupported?.('audio/ogg')) {
+          mimeType = 'audio/ogg';
+          encoding = 'OGG_OPUS';
+        } else {
+          // No mimeType specified - let browser choose
+          console.log('🎤 No specific mimeType supported, using default');
         }
-      }, 5000);
+        
+        console.log('🎤 iOS: Using MediaRecorder with mimeType:', mimeType || 'default');
+        
+        const mediaRecorder = mimeType 
+          ? new MediaRecorder(stream, { mimeType })
+          : new MediaRecorder(stream);
+          
+        audioChunksRef.current = [];
+        mediaRecorderRef.current = mediaRecorder;
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            console.log('🎤 iOS: Data chunk received, size:', event.data.size);
+            audioChunksRef.current.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = async () => {
+          console.log('🎤 iOS: MediaRecorder stopped, processing audio...');
+          try {
+            // Clear safety timeout
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current);
+              timeoutRef.current = null;
+            }
+            
+            const actualMimeType = mimeType || mediaRecorder.mimeType || 'audio/webm';
+            const blob = new Blob(audioChunksRef.current, { type: actualMimeType });
+            
+            console.log('🎤 iOS: Blob created, size:', blob.size, 'type:', actualMimeType);
+            
+            if (blob.size === 0) {
+              throw new Error('Enregistrement audio vide');
+            }
+            
+            const arrayBuffer = await blob.arrayBuffer();
+            
+            // Convert ArrayBuffer to base64 for API transmission
+            const base64Audio = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+            
+            console.log('🎤 iOS: Sending to STT API, base64 length:', base64Audio.length);
+            
+            // Call the STT API
+            const response = await fetch('/api/stt/transcribe', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                audioData: base64Audio,
+                language: 'fr',
+                encoding: encoding
+              })
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('🎤 iOS: STT API error:', response.status, errorText);
+              throw new Error(`STT API error: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('🎤 iOS: STT result:', result);
+            
+            const transcript = result.text?.trim();
+            if (transcript && transcript.length > 1) {
+              handleTranscript(transcript, result.language);
+            } else {
+              setError('Aucune parole détectée');
+            }
+          } catch (err: any) {
+            console.error('🎤 iOS: STT error:', err);
+            setError(err.message || 'Erreur de reconnaissance vocale');
+          } finally {
+            setIsListening(false);
+            if (streamRef.current) {
+              streamRef.current.getTracks().forEach(t => t.stop());
+              streamRef.current = null;
+            }
+          }
+        };
+
+        mediaRecorder.onerror = (event: any) => {
+          console.error('🎤 iOS: MediaRecorder error:', event.error);
+          setError('Erreur d\'enregistrement audio');
+          setIsListening(false);
+        };
+
+        console.log('🎤 iOS: Starting MediaRecorder...');
+        mediaRecorder.start();
+        
+        // Stop after 5 seconds
+        setTimeout(() => {
+          console.log('🎤 iOS: Timeout reached, stopping MediaRecorder...');
+          if (mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+          }
+        }, 5000);
+        
+      } catch (err: any) {
+        console.error('🎤 iOS: MediaRecorder fallback failed:', err);
+        setError('Enregistrement audio non supporté sur cet appareil');
+        setIsListening(false);
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(t => t.stop());
+          streamRef.current = null;
+        }
+      }
 
     } catch (err: any) {
       console.error('🎤 VoiceInput: Error starting recognition:', err);
@@ -296,6 +357,12 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
   const stopListening = () => {
     console.log('🎤 Stopping recording...');
+    
+    // Clear safety timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     
     // Stop MediaRecorder if active
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {

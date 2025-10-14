@@ -1,9 +1,9 @@
 import { DefaultSeoProps } from 'next-seo';
 
 const config: DefaultSeoProps = {
-  titleTemplate: '%s | OMA Digital - Solutions IA & Automatisation pour PME au Sénégal et au Maroc',
-  defaultTitle: 'OMA Digital - Solutions IA & Automatisation pour PME au Sénégal et au Maroc',
-  description: 'OMA Digital transforme les PME africaines avec des solutions d\'automatisation IA, sites web ultra-rapides, app mobile et chatbots intelligents au Sénégal et Maroc. +200% ROI garanti. Dakar, Thies, Casablanca, Rabat, Marrakech.',
+  titleTemplate: '%s | OMA Digital - Chatbot Vocal IA & Automatisation WhatsApp Business',
+  defaultTitle: 'OMA Digital - Chatbot Vocal Intelligent & Automatisation WhatsApp Business | Solutions IA Sénégal Maroc',
+  description: '🚀 Leader en solutions IA au Sénégal & Maroc : Chatbot vocal multilingue (FR/EN/AR), automatisation WhatsApp Business API, sites web ultra-rapides Next.js, intégration Vertex AI Google. +150 PME accompagnées. Devis gratuit 24h. ☎️ +221 70 119 38 11',
   
   // Open Graph
   openGraph: {
@@ -42,7 +42,7 @@ const config: DefaultSeoProps = {
   additionalMetaTags: [
     {
       name: 'keywords',
-      content: 'automatisation PME Dakar, IA Sénégal, WhatsApp Business automatique, site web rapide Dakar, chatbot français, transformation digitale PME africaine, solutions IA sur mesure, business automation Senegal, automatisation PME Casablanca, IA Maroc, WhatsApp Business automatique Maroc, site web rapide Casablanca, chatbot français Maroc, transformation digitale PME marocaine, solutions IA sur mesure Maroc, business automation Maroc, automatisation PME Rabat, automatisation PME Marrakech, automatisation PME Thies, digital transformation Senegal Morocco, IA solutions Dakar Casablanca, SEO Dakar, SEO Casablanca, SEO Thies, SEO Rabat, SEO Marrakech, marketing digital Sénégal, marketing digital Maroc, agence digitale Dakar, agence digitale Casablanca, développement web Thies, développement web Rabat, e-commerce Marrakech'
+      content: 'chatbot vocal intelligent Sénégal, chatbot vocal Maroc, automatisation WhatsApp Business API Dakar, WhatsApp Business automatique Casablanca, IA conversationnelle multilingue, assistant virtuel français arabe wolof, Vertex AI chatbot Sénégal, Google AI chatbot Maroc, chatbot reconnaissance vocale Dakar, speech to text Sénégal, text to speech Maroc, automatisation service client WhatsApp, chatbot PME Afrique, intelligence artificielle Thiès, IA entreprise Casablanca, développement web Next.js Sénégal, sites web ultra-rapides Maroc, agence digitale IA Dakar, transformation digitale PME africaine, solutions IA abordables Sénégal, chatbot multilingue Casablanca, automatisation PME Rabat, chatbot vocal Marrakech, développement application web Dakar, intégration API WhatsApp Business, chatbot Supabase Sénégal, backend Node.js Maroc, frontend React Sénégal, SEO local Dakar, référencement Google Casablanca, marketing digital IA Sénégal, agence web Thiès, développeur chatbot Maroc'
     },
     {
       name: 'author',

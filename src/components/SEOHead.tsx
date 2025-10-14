@@ -29,13 +29,13 @@ export function SEOHead({
   const { t, i18n } = useTranslation();
   
   const currentLanguage = i18n?.language || 'fr';
-  const baseUrl = 'https://omadigital.net';
+  const baseUrl = 'https://www.omadigital.net';
   const currentUrl = `${baseUrl}${router.asPath}`;
   
-  // SEO-optimized titles and descriptions for Senegal/Morocco
-  const seoTitle = title || t('seo.title', 'OMA Digital - Solutions IA et Automatisation au Sénégal et Maroc | WhatsApp Business, Sites Web Ultra-Rapides');
-  const seoDescription = description || t('seo.description', 'Transformez votre entreprise avec nos solutions IA au Sénégal et Maroc. Automatisation WhatsApp Business, sites web ultra-rapides, chatbots intelligents. Devis gratuit 24h.');
-  const seoKeywords = keywords || t('seo.keywords', 'automatisation WhatsApp Sénégal, sites web rapides Maroc, IA entreprise Dakar, chatbot WhatsApp Casablanca, transformation digitale Afrique, solutions IA PME, développement web Sénégal Maroc');
+  // SEO-optimized titles and descriptions for Senegal/Morocco with enhanced keywords
+  const seoTitle = title || t('seo.title', 'OMA Digital - Solutions IA & Chatbot Vocal Intelligent | Automatisation WhatsApp Business Sénégal Maroc | Sites Web Ultra-Rapides');
+  const seoDescription = description || t('seo.description', '🚀 Transformez votre PME avec nos solutions IA au Sénégal et Maroc : Chatbot vocal multilingue (FR/EN/AR), automatisation WhatsApp Business, sites web ultra-rapides Next.js, intégration Vertex AI. Devis gratuit 24h. +221 70 119 38 11');
+  const seoKeywords = keywords || t('seo.keywords', 'chatbot vocal intelligent Sénégal, automatisation WhatsApp Business Maroc, IA conversationnelle Dakar, assistant virtuel multilingue Casablanca, transformation digitale PME Afrique, développement web Next.js Sénégal, Vertex AI chatbot francophone, sites web rapides Maroc, intelligence artificielle entreprise Thiès, solutions IA abordables Afrique Ouest, chatbot français arabe wolof, automatisation service client Sénégal, agence digitale IA Casablanca, développement application web Dakar, chatbot WhatsApp API Maroc');
 
   // Local business structured data for both markets
   const localBusinessSchema = {

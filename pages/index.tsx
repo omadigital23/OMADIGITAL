@@ -9,6 +9,7 @@ import { ImprovedLandingStructure } from '../src/components/ImprovedLandingStruc
 import { SmartChatbotNext } from '../src/components/SmartChatbotNext';
 import { SEOHead } from '../src/components/SEOHead';
 import { initGA, trackPageView } from '../src/lib/analytics';
+import { faqSchema, breadcrumbSchema, serviceSchema } from '../src/lib/seo-faq-schema';
 
 // Critical CSS for above-the-fold content
 const criticalCSS = `
@@ -69,6 +70,20 @@ export default function Home({ seoData, performanceData }: HomeProps) {
         canonical={seoData.canonicalUrl}
       />
       
+      {/* Enhanced SEO - FAQ, Breadcrumb, and Service Schemas for Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      
       {/* Critical CSS - Inline for LCP optimization */}
       <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
 
@@ -125,15 +140,25 @@ export const getStaticProps: GetStaticProps<HomeProps> = async ({ locale }) => {
     title: "OMA Digital - Solutions IA et Automatisation au Sénégal et Maroc | WhatsApp Business, Sites Web Ultra-Rapides",
     description: "Transformez votre entreprise avec nos solutions IA au Sénégal et Maroc. Automatisation WhatsApp Business, sites web ultra-rapides, chatbots intelligents. Devis gratuit 24h.",
     keywords: [
-      "automatisation WhatsApp Sénégal",
-      "sites web rapides Maroc", 
-      "IA entreprise Dakar",
-      "chatbot WhatsApp Casablanca",
-      "transformation digitale Afrique",
-      "solutions IA PME",
-      "développement web Sénégal Maroc",
-      "marketing digital Afrique de l'Ouest",
-      "automatisation business Sénégal",
+      "chatbot vocal intelligent Sénégal",
+      "chatbot vocal Maroc",
+      "automatisation WhatsApp Business API Dakar",
+      "WhatsApp Business automatique Casablanca",
+      "IA conversationnelle multilingue",
+      "assistant virtuel français arabe wolof",
+      "Vertex AI chatbot Sénégal",
+      "chatbot reconnaissance vocale Dakar",
+      "speech to text Sénégal",
+      "text to speech Maroc",
+      "automatisation service client WhatsApp",
+      "chatbot PME Afrique",
+      "intelligence artificielle Thiès",
+      "IA entreprise Casablanca",
+      "développement web Next.js Sénégal",
+      "sites web ultra-rapides Maroc",
+      "agence digitale IA Dakar",
+      "transformation digitale PME africaine",
+      "solutions IA abordables Sénégal",
       "OMA Digital"
     ],
     ogImage: "https://www.omadigital.net/images/og-homepage.jpg",

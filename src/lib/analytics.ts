@@ -10,13 +10,20 @@ declare global {
   }
 }
 
-export const GA_MEASUREMENT_ID = 'G-MHSXEJMW8C';
+// Get GA4 Measurement ID from environment variable
+export const GA_MEASUREMENT_ID = process.env['NEXT_PUBLIC_GA_ID'] || 'G-MHSXEJMW8C';
 
 /**
  * Initialize Google Analytics 4
  */
 export const initGA = () => {
   if (typeof window === 'undefined') return;
+  
+  // Don't initialize if no GA ID is configured
+  if (!GA_MEASUREMENT_ID) {
+    console.warn('⚠️ Google Analytics not configured: NEXT_PUBLIC_GA_ID is missing');
+    return;
+  }
 
   // Initialize dataLayer
   window.dataLayer = window.dataLayer || [];

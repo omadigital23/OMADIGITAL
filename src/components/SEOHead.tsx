@@ -266,30 +266,6 @@ export function SEOHead({
           __html: JSON.stringify(combinedSchema)
         }}
       />
-      
-      {/* Google Analytics 4 */}
-      <script
-        async
-        src={`https://www.googletagmanager.com/gtag/js?id=G-MHSXEJMW8C`}
-      />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-MHSXEJMW8C', {
-              page_title: '${seoTitle}',
-              page_location: '${currentUrl}',
-              custom_map: {
-                'custom_parameter_1': 'market_region'
-              },
-              anonymize_ip: true,
-              allow_google_signals: true
-            });
-          `
-        }}
-      />
     </Head>
   );
 }

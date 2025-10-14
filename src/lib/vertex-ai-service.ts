@@ -11,7 +11,7 @@ interface VertexAISpeechConfig {
 
 interface SpeechRecognitionConfig {
   encoding: 'LINEAR16' | 'FLAC' | 'MULAW' | 'AMR' | 'AMR_WB' | 'OGG_OPUS' | 'WEBM_OPUS' | 'SPEEX_WITH_HEADER_BYTE';
-  sampleRateHertz: number;
+  sampleRateHertz?: number; // Optional for OPUS formats (auto-detected)
   languageCode: 'fr-FR' | 'en-US';
   alternativeLanguageCodes?: ('fr-FR' | 'en-US')[];
   enableAutomaticPunctuation: boolean;
@@ -98,22 +98,25 @@ class VertexAIService {
 
   constructor() {
     // Get configuration from environment variables
-    this.projectId = process.env['GOOGLE_CLOUD_PROJECT_ID'] || '';
-    this.location = process.env['GOOGLE_CLOUD_LOCATION'] || 'us-central1';
-    this.apiKey = process.env['GOOGLE_AI_API_KEY'] || '';
+    this.projectId = process.env['GOOGLE_CLOUD_PROJECT_ID'] || process.env['GCP_PROJECT'] || '';
+    this.location = process.env['GOOGLE_CLOUD_LOCATION'] || process.env['GCP_LOCATION'] || 'us-central1';
+    // Support both GOOGLE_CLOUD_API_KEY and GOOGLE_AI_API_KEY for backward compatibility
+    this.apiKey = process.env['GOOGLE_CLOUD_API_KEY'] || process.env['GOOGLE_AI_API_KEY'] || '';
     this.clientEmail = process.env['GOOGLE_CLOUD_CLIENT_EMAIL'] || '';
     this.clientId = process.env['GOOGLE_CLOUD_CLIENT_ID'] || '';
     this.privateKey = process.env['GOOGLE_CLOUD_PRIVATE_KEY'] || '';
     
     if (!this.projectId) {
-      console.warn('Vertex AI: GOOGLE_CLOUD_PROJECT_ID not configured');
+      console.warn('⚠️ Vertex AI: GOOGLE_CLOUD_PROJECT_ID or GCP_PROJECT not configured');
     }
     
     // Prefer service account credentials over API key if available
     if (this.clientEmail && this.privateKey) {
-      console.log('Vertex AI: Using service account credentials');
-    } else if (!this.apiKey) {
-      console.warn('Vertex AI: No authentication method configured (API key or service account)');
+      console.log('✅ Vertex AI: Using service account credentials');
+    } else if (this.apiKey) {
+      console.log('✅ Vertex AI: Using API key authentication');
+    } else {
+      console.warn('⚠️ Vertex AI: No authentication method configured (need API key or service account)');
     }
   }
 
@@ -179,12 +182,19 @@ class VertexAIService {
     confidence: number;
     language: 'fr' | 'en';
   }> {
-    // Use service account credentials if available, otherwise use API key
-    const useServiceAccount = this.clientEmail && this.privateKey;
-    const authKey = useServiceAccount ? await this.getAccessToken() : this.apiKey;
+    // Determine authentication method
+    const useServiceAccount = !!(this.clientEmail && this.privateKey && this.projectId);
+    let authKey: string | null = null;
+    
+    try {
+      authKey = useServiceAccount ? await this.getAccessToken() : this.apiKey;
+    } catch (error) {
+      console.error('Vertex AI: Failed to get auth token, trying fallback to API key:', error);
+      authKey = this.apiKey;
+    }
 
     if (!authKey) {
-      throw new Error('Vertex AI authentication not configured');
+      throw new Error('Vertex AI authentication not configured - missing API key or service account credentials');
     }
 
     try {
@@ -194,14 +204,23 @@ class VertexAIService {
 
       // Configuration pour la reconnaissance vocale
       const recognitionConfig: SpeechRecognitionConfig = {
-        encoding: options?.encoding || 'LINEAR16',
-        sampleRateHertz: options?.sampleRateHertz || 16000,
+        encoding: options?.encoding || 'WEBM_OPUS', // Default to WEBM_OPUS for browser compatibility
         languageCode: language === 'fr' ? 'fr-FR' : 'en-US',
         alternativeLanguageCodes: language === 'fr' ? ['en-US'] : ['fr-FR'],
         enableAutomaticPunctuation: true,
         maxAlternatives: 1,
         profanityFilter: false
       };
+      
+      // Only include sampleRateHertz for formats that require it
+      // OPUS codecs (WEBM_OPUS, OGG_OPUS) auto-detect sample rate AND channel count
+      // MP3 also auto-detects these parameters
+      // CRITICAL FIX: Do NOT set sampleRateHertz for OPUS formats to avoid channel count conflicts
+      if (recognitionConfig.encoding === 'LINEAR16' || recognitionConfig.encoding === 'FLAC' || recognitionConfig.encoding === 'MULAW') {
+        recognitionConfig.sampleRateHertz = options?.sampleRateHertz || 16000;
+      }
+      // For OPUS and MP3 formats, DO NOT specify sampleRateHertz or audioChannelCount
+      // as they are auto-detected from the audio stream
 
       // Préparer la requête
       const requestBody = {
@@ -211,14 +230,17 @@ class VertexAIService {
         }
       };
 
+      // Determine if we should use service account auth
+      const useAuthHeader = useServiceAccount && authKey !== this.apiKey;
+      
       // Appel à l'API Vertex AI Speech-to-Text
       const response = await fetch(
-        `https://speech.googleapis.com/v1/speech:recognize?key=${useServiceAccount ? '' : authKey}`,
+        `https://speech.googleapis.com/v1/speech:recognize${useAuthHeader ? '' : `?key=${authKey}`}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            ...(useServiceAccount ? { 'Authorization': `Bearer ${authKey}` } : {})
+            ...(useAuthHeader ? { 'Authorization': `Bearer ${authKey}` } : {})
           },
           body: JSON.stringify(requestBody)
         }
@@ -226,6 +248,11 @@ class VertexAIService {
 
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('Vertex AI STT API Error:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorText
+        });
         throw new Error(`Vertex AI Speech-to-Text API error: ${response.status} - ${errorText}`);
       }
 
@@ -259,12 +286,19 @@ class VertexAIService {
     language: 'fr' | 'en' = 'fr',
     useSSML: boolean = true
   ): Promise<string | null> {
-    // Use service account credentials if available, otherwise use API key
-    const useServiceAccount = this.clientEmail && this.privateKey;
-    const authKey = useServiceAccount ? await this.getAccessToken() : this.apiKey;
+    // Determine authentication method
+    const useServiceAccount = !!(this.clientEmail && this.privateKey && this.projectId);
+    let authKey: string | null = null;
+    
+    try {
+      authKey = useServiceAccount ? await this.getAccessToken() : this.apiKey;
+    } catch (error) {
+      console.error('Vertex AI: Failed to get auth token for TTS, trying fallback to API key:', error);
+      authKey = this.apiKey;
+    }
 
     if (!authKey) {
-      throw new Error('Vertex AI authentication not configured');
+      throw new Error('Vertex AI authentication not configured - missing API key or service account credentials');
     }
 
     const cleanText = this.cleanTextForTTS(text);
@@ -307,14 +341,17 @@ class VertexAIService {
         audioConfig: audioConfig
       };
 
+      // Determine if we should use service account auth
+      const useAuthHeader = useServiceAccount && authKey !== this.apiKey;
+
       // Appel à l'API Vertex AI Text-to-Speech
       const response = await fetch(
-        `https://texttospeech.googleapis.com/v1/text:synthesize?key=${useServiceAccount ? '' : authKey}`,
+        `https://texttospeech.googleapis.com/v1/text:synthesize${useAuthHeader ? '' : `?key=${authKey}`}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            ...(useServiceAccount ? { 'Authorization': `Bearer ${authKey}` } : {})
+            ...(useAuthHeader ? { 'Authorization': `Bearer ${authKey}` } : {})
           },
           body: JSON.stringify(requestBody)
         }
@@ -364,16 +401,17 @@ class VertexAIService {
    * Generate access token for service account authentication
    */
   private async getAccessToken(): Promise<string> {
-    try {
-      // Check if we have all required service account credentials
-      if (!this.clientEmail || !this.privateKey || !this.projectId) {
-        console.warn('Vertex AI: Missing service account credentials, falling back to API key');
-        if (this.apiKey) {
-          return this.apiKey;
-        }
-        throw new Error('No authentication method available');
+    // Check if we have all required service account credentials FIRST
+    if (!this.clientEmail || !this.privateKey || !this.projectId) {
+      console.log('Vertex AI: Missing service account credentials, using API key');
+      if (!this.apiKey) {
+        throw new Error('No authentication method available - missing both service account credentials and API key');
       }
+      return this.apiKey;
+    }
 
+    try {
+      // Only try to import google-auth-library if we have credentials
       const { GoogleAuth } = await import('google-auth-library');
       
       // Create auth client with service account credentials
@@ -388,7 +426,16 @@ class VertexAIService {
       const client = await auth.getClient();
       const accessToken = await client.getAccessToken();
       
-      return accessToken.token || this.apiKey;
+      if (!accessToken.token) {
+        console.warn('Vertex AI: No access token received, falling back to API key');
+        if (!this.apiKey) {
+          throw new Error('Failed to get access token and no API key available');
+        }
+        return this.apiKey;
+      }
+      
+      console.log('Vertex AI: Successfully authenticated with service account');
+      return accessToken.token;
     } catch (error) {
       console.error('Vertex AI: Failed to get access token:', error);
       // Fallback to API key if service account auth fails

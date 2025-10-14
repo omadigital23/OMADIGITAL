@@ -58,25 +58,59 @@ class GoogleCloudSpeechService {
     audioBuffer: ArrayBuffer,
     language: 'fr' | 'en' = 'fr'
   ): Promise<STTResult> {
-    // First try Vertex AI service if available
-    if (vertexAIService.isAvailable()) {
+    // Skip Vertex AI service if only API key is available (no service account)
+    // Vertex AI service with just API key has issues with WEBM OPUS format detection
+    // Use direct Google Cloud Speech API instead for better format auto-detection
+    const hasServiceAccount = vertexAIService.isAvailable() && 
+      !!(process.env['GOOGLE_CLOUD_CLIENT_EMAIL'] && process.env['GOOGLE_CLOUD_PRIVATE_KEY']);
+    
+    if (hasServiceAccount) {
       try {
-        console.log('🎤 Using Vertex AI for STT...');
+        console.log('🎤 Using Vertex AI with service account for STT...');
         return await vertexAIService.transcribeAudio(audioBuffer, language);
       } catch (error) {
         console.warn('Vertex AI STT failed, falling back to Google Cloud API:', error);
       }
     }
 
-    // Fallback to Google Cloud API Key method
+    // Use Google Cloud API Key method (better for WEBM OPUS auto-detection)
     if (!this.apiKey) {
       throw new Error('Google Cloud API Key not configured');
     }
 
     try {
+      // Validate audio buffer
+      if (!audioBuffer || audioBuffer.byteLength === 0) {
+        throw new Error('Audio buffer is empty');
+      }
+
       // Convert audio buffer to base64
       const audioBytes = new Uint8Array(audioBuffer);
-      const audioBase64 = btoa(String.fromCharCode(...audioBytes));
+      
+      console.log('🎤 Google Cloud STT: Processing audio', {
+        size: audioBytes.length,
+        language
+      });
+      
+      // Convert to base64 - handle large files in chunks to avoid stack overflow
+      let audioBase64: string;
+      try {
+        if (audioBytes.length > 100000) {
+          // For large files, convert in chunks
+          const chunks: string[] = [];
+          const chunkSize = 50000;
+          for (let i = 0; i < audioBytes.length; i += chunkSize) {
+            const chunk = audioBytes.slice(i, i + chunkSize);
+            chunks.push(String.fromCharCode(...chunk));
+          }
+          audioBase64 = btoa(chunks.join(''));
+        } else {
+          audioBase64 = btoa(String.fromCharCode(...audioBytes));
+        }
+      } catch (error) {
+        console.error('❌ Error converting audio to base64:', error);
+        throw new Error('Failed to encode audio data');
+      }
 
       // Détecter le format audio automatiquement
       // Google Cloud Speech supporte: LINEAR16, FLAC, MULAW, AMR, AMR_WB, OGG_OPUS, SPEEX_WITH_HEADER_BYTE, WEBM_OPUS, MP3
@@ -84,30 +118,47 @@ class GoogleCloudSpeechService {
       let sampleRateHertz = 48000;
       
       // Essayer de détecter le format depuis les premiers bytes
-      const header = String.fromCharCode(...audioBytes.slice(0, 12));
+      const headerBytes = audioBytes.slice(0, 20);
+      const header = String.fromCharCode(...headerBytes);
+      const headerHex = Array.from(headerBytes)
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
       
-      if (header.includes('ftyp')) {
-        // Format MP4/M4A (iOS Safari)
-        encoding = 'MP3'; // Google Cloud accepte MP3 pour les conteneurs MP4
-        console.log('🎤 Détecté: Format MP4/M4A (iOS)');
+      console.log('🎤 Audio header (first 20 bytes):', headerHex);
+      
+      // Détection du format avec plusieurs signatures
+      if (header.includes('ftyp') || headerHex.includes('66747970')) {
+        // Format MP4/M4A (iOS Safari) - Google Cloud doesn't support this directly
+        // We'll try encoding as WEBM_OPUS and let Google figure it out
+        encoding = 'WEBM_OPUS';
+        console.log('🎤 Détecté: Format MP4/M4A (iOS) - Tentative avec WEBM_OPUS');
       } else if (header.includes('RIFF') && header.includes('WAVE')) {
         // Format WAV
         encoding = 'LINEAR16';
         sampleRateHertz = 16000;
-        console.log('🎤 Détecté: Format WAV');
-      } else if (header.includes('OggS')) {
-        // Format OGG
+        console.log('🎤 Détecté: Format WAV/LINEAR16');
+      } else if (header.includes('OggS') || headerHex.startsWith('4f676753')) {
+        // Format OGG Opus
         encoding = 'OGG_OPUS';
-        console.log('🎤 Détecté: Format OGG');
+        console.log('🎤 Détecté: Format OGG_OPUS');
+      } else if (headerHex.startsWith('1a45dfa3')) {
+        // Format WebM (starts with EBML header)
+        encoding = 'WEBM_OPUS';
+        console.log('🎤 Détecté: Format WEBM_OPUS');
+      } else if (headerHex.startsWith('fffb') || headerHex.startsWith('fff3')) {
+        // Format MP3
+        encoding = 'MP3';
+        console.log('🎤 Détecté: Format MP3');
       } else {
-        // Par défaut: WEBM_OPUS
-        console.log('🎤 Format par défaut: WEBM_OPUS');
+        // Par défaut: WEBM_OPUS (most common for modern browsers)
+        encoding = 'WEBM_OPUS';
+        console.log('🎤 Format par défaut: WEBM_OPUS (header inconnu)');
       }
 
       // Google Cloud Speech-to-Text configuration
-      const config = {
+      // Note: For OPUS codecs (WEBM_OPUS, OGG_OPUS), sample rate and channel count are auto-detected
+      const config: any = {
         encoding,
-        sampleRateHertz,
         languageCode: language === 'fr' ? 'fr-FR' : 'en-US',
         // Enable automatic language detection between French and English
         alternativeLanguageCodes: language === 'fr' ? ['en-US'] : ['fr-FR'],
@@ -115,6 +166,29 @@ class GoogleCloudSpeechService {
         model: 'default',
         maxAlternatives: 1
       };
+      
+      // Only include sampleRateHertz for formats that require it
+      // OPUS codecs (WEBM_OPUS, OGG_OPUS) auto-detect sample rate AND channel count
+      // MP3 also auto-detects these parameters
+      // CRITICAL FIX: Do NOT set audioChannelCount for ANY format
+      // Different browsers (iOS Safari, Firefox) record with different channel counts (1 or 2)
+      // Let Google Cloud auto-detect the channel count from the audio stream
+      if (encoding === 'LINEAR16' || encoding === 'FLAC' || encoding === 'MULAW') {
+        config.sampleRateHertz = sampleRateHertz;
+        // DO NOT set audioChannelCount - let Google Cloud auto-detect it
+      }
+      // For OPUS and MP3 formats, DO NOT specify sampleRateHertz or audioChannelCount
+      // as they are auto-detected from the audio stream
+      
+      // Remove any audioChannelCount from config to avoid conflicts
+      delete config.audioChannelCount;
+      
+      console.log('🎤 Google Cloud STT Config:', {
+        encoding: config.encoding,
+        sampleRateHertz: config.sampleRateHertz,
+        audioChannelCount: config.audioChannelCount,
+        languageCode: config.languageCode
+      });
 
       const requestBody = {
         config,
@@ -126,7 +200,12 @@ class GoogleCloudSpeechService {
       // Google Cloud Speech-to-Text endpoint
       const endpoint = `https://speech.googleapis.com/v1/speech:recognize?key=${this.apiKey}`;
 
-      console.log('🎤 Google Cloud STT: Calling API...');
+      console.log('🎤 Google Cloud STT: Calling API...', {
+        encoding,
+        sampleRateHertz,
+        languageCode: config.languageCode,
+        audioSize: audioBytes.length
+      });
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -140,12 +219,29 @@ class GoogleCloudSpeechService {
         const errorText = await response.text();
         console.error('❌ Google Cloud STT Error:', {
           status: response.status,
-          error: errorText
+          statusText: response.statusText,
+          error: errorText,
+          encoding,
+          sampleRateHertz
         });
+        
+        // Try to parse error for more details
+        try {
+          const errorJson = JSON.parse(errorText);
+          console.error('❌ Google Cloud STT Error JSON:', errorJson);
+        } catch (e) {
+          // Error text is not JSON
+        }
+        
         throw new Error(`Google Cloud STT API error: ${response.status} - ${errorText}`);
       }
 
       const result = await response.json();
+      
+      console.log('🎤 Google Cloud STT: Response received', {
+        hasResults: !!result.results,
+        resultsCount: result.results?.length || 0
+      });
 
       // Extract transcription
       const transcript = result.results?.[0]?.alternatives?.[0]?.transcript || '';

@@ -61,16 +61,14 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       }, 10000);
 
       // Request microphone with platform-specific constraints
+      // Force mono recording to avoid channel count mismatch between browsers
       const constraints: MediaStreamConstraints = {
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
           autoGainControl: true,
-          // iOS/Safari specific
-          ...(platform === 'ios' || isSafari ? {
-            sampleRate: 16000,
-            channelCount: 1
-          } : {})
+          channelCount: 1,  // Force mono to avoid channel count conflicts
+          sampleRate: 16000 // Standard sample rate for speech recognition
         }
       };
 
@@ -155,7 +153,9 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
             });
 
             if (!response.ok) {
-              throw new Error(`STT API error: ${response.status}`);
+              const errorData = await response.json().catch(() => ({}));
+              console.error('🎤 VoiceInput: STT API error response:', errorData);
+              throw new Error(`STT API error: ${response.status} - ${errorData.message || ''} - ${JSON.stringify(errorData.debug || {})}`);
             }
 
             const result = await response.json();
@@ -265,9 +265,9 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
             });
 
             if (!response.ok) {
-              const errorText = await response.text();
-              console.error('🎤 iOS: STT API error:', response.status, errorText);
-              throw new Error(`STT API error: ${response.status}`);
+              const errorData = await response.json().catch(() => ({}));
+              console.error('🎤 iOS: STT API error response:', errorData);
+              throw new Error(`STT API error: ${response.status} - ${errorData.message || ''} - ${JSON.stringify(errorData.debug || {})}`);
             }
 
             const result = await response.json();

@@ -129,9 +129,10 @@ class GoogleCloudSpeechService {
       // Détection du format avec plusieurs signatures
       if (header.includes('ftyp') || headerHex.includes('66747970')) {
         // Format MP4/M4A (iOS Safari) - Google Cloud doesn't support this directly
-        // We'll try encoding as WEBM_OPUS and let Google figure it out
-        encoding = 'WEBM_OPUS';
-        console.log('🎤 Détecté: Format MP4/M4A (iOS) - Tentative avec WEBM_OPUS');
+        // For iOS, we should use LINEAR16 format for better compatibility
+        encoding = 'LINEAR16';
+        sampleRateHertz = 16000;
+        console.log('🎤 Détecté: Format MP4/M4A (iOS) - Utilisation de LINEAR16 pour meilleure compatibilité');
       } else if (header.includes('RIFF') && header.includes('WAVE')) {
         // Format WAV
         encoding = 'LINEAR16';
@@ -155,10 +156,10 @@ class GoogleCloudSpeechService {
         console.log('🎤 Format par défaut: WEBM_OPUS (header inconnu)');
       }
 
-      // Fallback pour iOS: si le format détecté est MP4 et que nous avons des erreurs précédentes,
-      // essayer LINEAR16 comme format de secours
-      if (encoding === 'WEBM_OPUS' && header.includes('ftyp')) {
-        console.log('🎤 iOS MP4 détecté, préparation du fallback LINEAR16 si nécessaire');
+      // For iOS MP4 recordings, always use LINEAR16 for better Google Cloud Speech compatibility
+      // This avoids channel count conflicts and format detection issues
+      if (encoding === 'LINEAR16') {
+        console.log('🎤 Utilisation de LINEAR16 pour compatibilité optimale avec Google Cloud Speech');
       }
 
       // Google Cloud Speech-to-Text configuration

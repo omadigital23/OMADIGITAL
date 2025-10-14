@@ -65,15 +65,15 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       let constraints: MediaStreamConstraints;
       
       if (platform === 'ios' || isSafari) {
-        // iOS/Safari requires more permissive constraints
-        console.log('🎤 iOS/Safari detected, using permissive audio constraints');
+        // iOS/Safari: Force mono recording and specific sample rate for compatibility
+        console.log('🎤 iOS/Safari detected, using iOS-optimized audio constraints');
         constraints = {
           audio: {
             echoCancellation: true,
             noiseSuppression: true,
             autoGainControl: true,
-            channelCount: { ideal: 1, min: 1 }, // More flexible for iOS
-            sampleRate: { ideal: 16000, min: 8000 } // More flexible for iOS
+            channelCount: 1,  // Force mono to avoid channel count conflicts
+            sampleRate: 16000 // Force 16kHz for better Google Cloud Speech compatibility
           }
         };
       } else {
@@ -116,6 +116,19 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       if (supportsWebmOpus || supportsOggOpus || supportsWebm || supportsMp4) {
         let mimeType: string;
         let encoding: string;
+
+        // For iOS Safari, prefer LINEAR16 format for better Google Cloud Speech compatibility
+        if (platform === 'ios' || isSafari) {
+          console.log('🎤 iOS/Safari detected, using AudioContext fallback for LINEAR16 format');
+          // Use AudioContext fallback for iOS to get LINEAR16 format
+          try {
+            await startAudioContextRecording(stream);
+            return;
+          } catch (audioContextError) {
+            console.error('🎤 iOS: AudioContext fallback failed, trying MediaRecorder:', audioContextError);
+            // Fall back to MediaRecorder if AudioContext fails
+          }
+        }
 
         if (supportsWebmOpus) {
           mimeType = 'audio/webm;codecs=opus';
@@ -165,7 +178,8 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
               },
               body: JSON.stringify({
                 audioData: base64Audio,
-                language: 'fr'
+                language: 'fr',
+                encoding: encoding
               })
             });
 
@@ -222,16 +236,28 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         return;
       }
 
-      // 2) Fallback: Use MediaRecorder with any available format for iOS
+      // 2) Fallback: Use MediaRecorder with iOS-optimized format selection
       console.log('🎤 Using iOS fallback with MediaRecorder');
       
       try {
         // iOS Safari supports MediaRecorder but with limited formats
-        // Try to use any available format
+        // Use LINEAR16 format via AudioContext for best Google Cloud Speech compatibility
+        if (platform === 'ios' || isSafari) {
+          console.log('🎤 iOS: Using AudioContext fallback for LINEAR16 format');
+          try {
+            await startAudioContextRecording(stream);
+            return;
+          } catch (audioContextError) {
+            console.error('🎤 iOS: AudioContext fallback failed, trying MediaRecorder:', audioContextError);
+            // Continue with MediaRecorder fallback
+          }
+        }
+
+        // Try different formats for iOS - prioritize formats that work best
         let mimeType = '';
         let encoding = 'WEBM_OPUS';
         
-        // Try different formats for iOS - prioritize formats that work best
+        // For iOS, try MP4 first (native iOS format) then fallback to others
         if ((MediaRecorder as any).isTypeSupported?.('audio/mp4')) {
           mimeType = 'audio/mp4';
           encoding = 'MP4';
@@ -329,20 +355,22 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
           } catch (err: any) {
             console.error('🎤 iOS: STT error:', err);
             
-            // Extract specific error message for iOS
+            // Enhanced error handling for iOS with specific fallback suggestions
             let errorMessage = 'Erreur de reconnaissance vocale';
             if (err.message?.includes('audio_channel_count')) {
               errorMessage = 'Problème de compatibilité audio iOS. Essayez Chrome ou un autre navigateur.';
             } else if (err.message?.includes('400') || err.message?.includes('INVALID_ARGUMENT')) {
-              errorMessage = 'Format audio non compatible avec iOS Safari. Essayez de parler plus distinctement.';
+              errorMessage = 'Format audio non compatible avec iOS Safari. Essayez de parler plus distinctement ou utilisez Chrome.';
             } else if (err.message?.includes('500')) {
               errorMessage = 'Service temporairement indisponible. Réessayez dans quelques instants.';
             } else if (err.message?.includes('empty') || err.message?.includes('Aucune parole')) {
               errorMessage = 'Aucune parole détectée. Parlez plus fort et plus distinctement.';
             } else if (err.message?.includes('STT API error')) {
               errorMessage = 'Erreur de connexion au service vocal. Vérifiez votre connexion internet.';
+            } else if (err.message?.includes('MP4') || err.message?.includes('format')) {
+              errorMessage = 'Format audio iOS non supporté. Essayez Chrome ou rafraîchissez la page.';
             } else {
-              errorMessage = `Erreur technique: ${err.message || 'Problème de compatibilité iOS Safari'}`;
+              errorMessage = `Erreur technique iOS: ${err.message || 'Problème de compatibilité Safari'}`;
             }
             
             setError(errorMessage);

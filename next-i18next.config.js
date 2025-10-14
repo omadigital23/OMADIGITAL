@@ -9,7 +9,7 @@ module.exports = {
     default: ['fr'],
   },
   localePath: path.resolve('./public/locales'),
-  ns: ['common', 'legal', 'about'],
+  ns: ['common', 'legal', 'about', 'blog', 'cities'],
   defaultNS: 'common',
   debug: process.env.NODE_ENV === 'development',
   reloadOnPrerender: process.env.NODE_ENV === 'development',

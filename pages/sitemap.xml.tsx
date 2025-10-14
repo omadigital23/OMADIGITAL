@@ -23,6 +23,74 @@ const publicPages = [
     priority: 0.9,
     lastmod: new Date().toISOString(),
   },
+  // Blog pages
+  {
+    url: '/blog',
+    changefreq: 'daily',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/blog/chatbot-whatsapp-senegal',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/blog/chatbot-vocal-multilingue',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/blog/sites-web-rapides-nextjs',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/blog/vertex-ai-vs-alternatives',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/blog/roi-automatisation-pme-afrique',
+    changefreq: 'weekly',
+    priority: 0.8,
+    lastmod: new Date().toISOString(),
+  },
+  // City pages
+  {
+    url: '/villes/dakar',
+    changefreq: 'monthly',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/villes/thies',
+    changefreq: 'monthly',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/villes/casablanca',
+    changefreq: 'monthly',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/villes/rabat',
+    changefreq: 'monthly',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
+  {
+    url: '/villes/marrakech',
+    changefreq: 'monthly',
+    priority: 0.9,
+    lastmod: new Date().toISOString(),
+  },
   // Legal pages
   {
     url: '/politique-confidentialite',

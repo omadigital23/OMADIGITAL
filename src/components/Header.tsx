@@ -266,7 +266,7 @@ export function Header() {
     { label: t('header.offers'), id: 'offers' },
     { label: t('header.case_studies'), id: 'case-studies' },
     { label: t('header.process'), id: 'process' },
-    { label: t('header.blog'), href: 'https://blog.omadigital.net' },
+    { label: t('header.blog'), href: '/blog' },
     { label: t('header.contact'), id: 'contact' },
   ];
 
@@ -279,7 +279,7 @@ export function Header() {
       { label: t('header.offers'), id: 'offers' },
       { label: t('header.case_studies'), id: 'case-studies' },
       { label: t('header.process'), id: 'process' },
-      { label: t('header.blog'), href: 'https://blog.omadigital.net' },
+      { label: t('header.blog'), href: '/blog' },
       { label: t('header.contact'), id: 'contact' },
     ];
     

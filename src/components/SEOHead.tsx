@@ -132,8 +132,12 @@ export function SEOHead({
       ]
     },
     "sameAs": [
-      "https://blog.omadigital.net",
-      "https://wa.me/221701193811"
+      "https://www.omadigital.net/blog",
+      "https://wa.me/221701193811",
+      "https://web.facebook.com/profile.php?id=61579740432372",
+      "https://x.com/omadigital23",
+      "https://www.instagram.com/omadigital123",
+      "https://www.tiktok.com/@omadigital23"
     ]
   };
 

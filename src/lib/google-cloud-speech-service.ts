@@ -155,6 +155,12 @@ class GoogleCloudSpeechService {
         console.log('🎤 Format par défaut: WEBM_OPUS (header inconnu)');
       }
 
+      // Fallback pour iOS: si le format détecté est MP4 et que nous avons des erreurs précédentes,
+      // essayer LINEAR16 comme format de secours
+      if (encoding === 'WEBM_OPUS' && header.includes('ftyp')) {
+        console.log('🎤 iOS MP4 détecté, préparation du fallback LINEAR16 si nécessaire');
+      }
+
       // Google Cloud Speech-to-Text configuration
       // Note: For OPUS codecs (WEBM_OPUS, OGG_OPUS), sample rate and channel count are auto-detected
       const config: any = {

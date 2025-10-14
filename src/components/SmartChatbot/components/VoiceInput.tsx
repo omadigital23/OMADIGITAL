@@ -62,15 +62,32 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
       // Request microphone with platform-specific constraints
       // Force mono recording to avoid channel count mismatch between browsers
-      const constraints: MediaStreamConstraints = {
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-          channelCount: 1,  // Force mono to avoid channel count conflicts
-          sampleRate: 16000 // Standard sample rate for speech recognition
-        }
-      };
+      let constraints: MediaStreamConstraints;
+      
+      if (platform === 'ios' || isSafari) {
+        // iOS/Safari requires more permissive constraints
+        console.log('🎤 iOS/Safari detected, using permissive audio constraints');
+        constraints = {
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            channelCount: { ideal: 1, min: 1 }, // More flexible for iOS
+            sampleRate: { ideal: 16000, min: 8000 } // More flexible for iOS
+          }
+        };
+      } else {
+        // Standard constraints for other browsers
+        constraints = {
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            channelCount: 1,  // Force mono to avoid channel count conflicts
+            sampleRate: 16000 // Standard sample rate for speech recognition
+          }
+        };
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       streamRef.current = stream;
@@ -195,24 +212,35 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         let mimeType = '';
         let encoding = 'WEBM_OPUS';
         
-        // Try different formats for iOS
+        // Try different formats for iOS - prioritize formats that work best
         if ((MediaRecorder as any).isTypeSupported?.('audio/mp4')) {
           mimeType = 'audio/mp4';
           encoding = 'MP4';
+          console.log('🎤 iOS: Using MP4 format');
+        } else if ((MediaRecorder as any).isTypeSupported?.('audio/webm;codecs=opus')) {
+          mimeType = 'audio/webm;codecs=opus';
+          encoding = 'WEBM_OPUS';
+          console.log('🎤 iOS: Using WEBM OPUS format');
         } else if ((MediaRecorder as any).isTypeSupported?.('audio/webm')) {
           mimeType = 'audio/webm';
           encoding = 'WEBM_OPUS';
+          console.log('🎤 iOS: Using WEBM format');
+        } else if ((MediaRecorder as any).isTypeSupported?.('audio/ogg;codecs=opus')) {
+          mimeType = 'audio/ogg;codecs=opus';
+          encoding = 'OGG_OPUS';
+          console.log('🎤 iOS: Using OGG OPUS format');
         } else if ((MediaRecorder as any).isTypeSupported?.('audio/ogg')) {
           mimeType = 'audio/ogg';
           encoding = 'OGG_OPUS';
+          console.log('🎤 iOS: Using OGG format');
         } else {
           // No mimeType specified - let browser choose
-          console.log('🎤 No specific mimeType supported, using default');
+          console.log('🎤 iOS: No specific mimeType supported, using default');
         }
         
         console.log('🎤 iOS: Using MediaRecorder with mimeType:', mimeType || 'default');
         
-        const mediaRecorder = mimeType 
+        const mediaRecorder = mimeType
           ? new MediaRecorder(stream, { mimeType })
           : new MediaRecorder(stream);
           

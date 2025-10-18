@@ -68,7 +68,7 @@ const OMA_KNOWLEDGE_BASE = {
   company: {
     name: "OMA Digital",
     location: "Liberté 6 Extension, Dakar, Sénégal",
-    phone: "+212 701 193 811",
+    phone: "+221 701 193 811",
     email: "omasenegal25@gmail.com",
     specialties: ["IA", "Automatisation", "Transformation digitale PME"],
     languages: ["Français", "Anglais"],
@@ -94,7 +94,7 @@ async function generateAIResponse(message: string, context: string = '', inputMe
 CONTEXTE ENTREPRISE:
 - Spécialiste automatisation WhatsApp, sites ultra-rapides, IA conversationnelle
 - 150+ clients PME sénégalaises, ROI moyen +200% en 6 mois  
-- Basé Liberté 6 Extension, Dakar - Tel: +212 701 193 811
+- Basé Liberté 6 Extension, Dakar - Tel: +221 701 193 811
 - Email: omasenegal25@gmail.com
 - Langues: Français, support 24/7
 
@@ -168,11 +168,11 @@ Réponds maintenant EN FRANÇAIS:`;
 
     const data = await response.json();
     return data.candidates?.[0]?.content?.parts?.[0]?.text || 
-           "Désolé, je rencontre un problème technique. Contactez-nous directement au +212 701 193 811 ou omasenegal25@gmail.com 📞";
+           "Désolé, je rencontre un problème technique. Contactez-nous directement au +221 701 193 811 ou omasenegal25@gmail.com 📞";
 
   } catch (error) {
     console.error('Google AI API error:', error);
-    return "Je vous connecte avec notre équipe ! 🚀\n\nContactez-nous directement :\n📞 +212 701 193 811\n📧 omasenegal25@gmail.com\n\nOu via WhatsApp pour une réponse immédiate ! 💬";
+    return "Je vous connecte avec notre équipe ! 🚀\n\nContactez-nous directement :\n📞 +221 701 193 811\n📧 omasenegal25@gmail.com\n\nOu via WhatsApp pour une réponse immédiate ! 💬";
   }
 }
 
@@ -244,7 +244,7 @@ app.post('/make-server-8066848d/chat', async (c) => {
   } catch (error) {
     console.error('Chat error:', error);
     return c.json({ 
-      error: 'Service temporairement indisponible. Contactez +212 701 193 811' 
+      error: 'Service temporairement indisponible. Contactez +221 701 193 811' 
     }, 500);
   }
 });

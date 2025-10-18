@@ -151,18 +151,18 @@ class SmartFallbackSystem {
     ]);
 
     this.contextualResponses.set('pricing_fr', [
-      'Pour les tarifs détaillés, je vous invite à contacter directement notre équipe au +212 701 193 811.',
-      'Les prix varient selon vos besoins. Contactez-nous au +212 701 193 811 pour un devis personnalisé.',
+      'Pour les tarifs détaillés, je vous invite à contacter directement notre équipe au +221 701 193 811.',
+      'Les prix varient selon vos besoins. Contactez-nous au +221 701 193 811 pour un devis personnalisé.',
     ]);
 
     this.contextualResponses.set('services_fr', [
-      'OMA Digital propose : sites web, applications mobiles, automatisation WhatsApp, et chatbots IA. Contactez +212 701 193 811.',
-      'Nos services incluent la transformation digitale complète. Plus d\'infos : +212 701 193 811.',
+      'OMA Digital propose : sites web, applications mobiles, automatisation WhatsApp, et chatbots IA. Contactez +221 701 193 811.',
+      'Nos services incluent la transformation digitale complète. Plus d\'infos : +221 701 193 811.',
     ]);
 
     this.contextualResponses.set('whatsapp_fr', [
-      'Notre automatisation WhatsApp garantit +200% d\'engagement client. Démo gratuite : +212 701 193 811.',
-      'WhatsApp Business automatisé à partir de 50,000 CFA/mois. Contactez : +212 701 193 811.',
+      'Notre automatisation WhatsApp garantit +200% d\'engagement client. Démo gratuite : +221 701 193 811.',
+      'WhatsApp Business automatisé à partir de 50,000 CFA/mois. Contactez : +221 701 193 811.',
     ]);
 
     // English fallbacks
@@ -172,29 +172,29 @@ class SmartFallbackSystem {
     ]);
 
     this.contextualResponses.set('pricing_en', [
-      'For detailed pricing, please contact our team directly at +212 701 193 811.',
-      'Prices vary based on your needs. Contact us at +212 701 193 811 for a custom quote.',
+      'For detailed pricing, please contact our team directly at +221 701 193 811.',
+      'Prices vary based on your needs. Contact us at +221 701 193 811 for a custom quote.',
     ]);
 
     this.contextualResponses.set('services_en', [
-      'OMA Digital offers: websites, mobile apps, WhatsApp automation, and AI chatbots. Contact: +212 701 193 811.',
-      'Our services include complete digital transformation. More info: +212 701 193 811.',
+      'OMA Digital offers: websites, mobile apps, WhatsApp automation, and AI chatbots. Contact: +221 701 193 811.',
+      'Our services include complete digital transformation. More info: +221 701 193 811.',
     ]);
 
     this.contextualResponses.set('whatsapp_en', [
-      'Our WhatsApp automation guarantees +200% customer engagement. Free demo: +212 701 193 811.',
-      'Automated WhatsApp Business from 50,000 CFA/month. Contact: +212 701 193 811.',
+      'Our WhatsApp automation guarantees +200% customer engagement. Free demo: +221 701 193 811.',
+      'Automated WhatsApp Business from 50,000 CFA/month. Contact: +221 701 193 811.',
     ]);
 
     // Default fallbacks
     this.contextualResponses.set('default_fr', [
-      'Je rencontre des difficultés techniques. Pour une assistance immédiate, contactez-nous au +212 701 193 811.',
-      'Désolé pour le désagrément technique. Notre équipe est disponible au +212 701 193 811.',
+      'Difficultés techniques. Pour assistance immédiate: +221 701 193 811.',
+      'Problème technique. Notre équipe est disponible au +221 701 193 811.',
     ]);
 
     this.contextualResponses.set('default_en', [
-      'I\'m experiencing technical difficulties. For immediate assistance, contact us at +212 701 193 811.',
-      'Sorry for the technical inconvenience. Our team is available at +212 701 193 811.',
+      'Technical difficulties. For immediate assistance: +221 701 193 811.',
+      'Technical issue. Our team is available at +221 701 193 811.',
     ]);
   }
 
@@ -213,7 +213,7 @@ class SmartFallbackSystem {
     // Get appropriate fallback responses
     const responses = this.contextualResponses.get(contextKey) || 
                      this.contextualResponses.get(`default_${language}`) || 
-                     ['Technical error. Contact: +212 701 193 811'];
+                     ['Technical error. Contact: +221 701 193 811'];
 
     // Select random response to avoid repetition
     const selectedResponse = responses[Math.floor(Math.random() * responses.length)];

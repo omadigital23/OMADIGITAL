@@ -140,12 +140,10 @@ export const MARKETING_CTA_STRATEGIES = {
     },
     scarcity: {
       fr: [
-        "Places limitées pour notre audit gratuit ce mois-ci",
         "Seulement quelques créneaux disponibles pour une démo",
         "Offre découverte réservée aux 10 premières PME"
       ],
       en: [
-        "Limited spots for our free audit this month",
         "Only a few slots available for a demo",
         "Discovery offer reserved for the first 10 SMEs"
       ]

@@ -74,26 +74,21 @@ export function useTTSClient(sessionId: string): TTSHook {
 
   const stopSpeaking = useCallback(() => {
     try {
-      // Stop Web Speech API
-      if (typeof window !== 'undefined' && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
-
-      // Stop audio playback (legacy)
+      // Stop audio playback (Vertex AI TTS)
       if (currentAudioRef.current) {
         currentAudioRef.current.pause();
         currentAudioRef.current.currentTime = 0;
         currentAudioRef.current = null;
       }
 
-      // Cancel current request (legacy)
+      // Cancel current request
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
         abortControllerRef.current = null;
       }
 
       setTTSState(prev => ({ ...prev, isSpeaking: false }));
-      console.log('TTS stopped');
+      console.log('✅ Vertex AI TTS stopped');
     } catch (error) {
       console.error('Error stopping TTS:', error);
     }
@@ -121,16 +116,32 @@ export function useTTSClient(sessionId: string): TTSHook {
       return;
     }
 
-    // Clean text for speech synthesis
-    const cleanText = text
-      .replace(/[🎯🚀💡🔥✅❌⚡🎨🎁💎🏆📊📈🎪💬📱🛠️⭐]/g, '') // Remove emojis
-      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove markdown bold
-      .replace(/\*(.*?)\*/g, '$1') // Remove markdown italic
-      .replace(/`(.*?)`/g, '$1') // Remove markdown code
-      .replace(/#{1,6}\s/g, '') // Remove markdown headers
-      .replace(/\n+/g, '. ') // Replace line breaks with periods
-      .replace(/\s+/g, ' ') // Normalize spaces
-      .trim();
+    // Clean text for speech synthesis - SAFE regex patterns to prevent recursion
+    let cleanText = text;
+    
+    // Remove emojis safely
+    cleanText = cleanText.replace(/[\u{1F300}-\u{1F9FF}]/gu, '');
+    
+    // Remove markdown bold - limit to 200 chars max to prevent backtracking
+    cleanText = cleanText.replace(/\*\*([^*]{1,200}?)\*\*/g, '$1');
+    
+    // Remove markdown italic - limit to 200 chars max
+    cleanText = cleanText.replace(/\*([^*]{1,200}?)\*/g, '$1');
+    
+    // Remove markdown code - limit to 100 chars max
+    cleanText = cleanText.replace(/`([^`]{1,100}?)`/g, '$1');
+    
+    // Remove markdown headers
+    cleanText = cleanText.replace(/#{1,6}\s+/g, '');
+    
+    // Replace line breaks with periods
+    cleanText = cleanText.replace(/\n+/g, '. ');
+    
+    // Normalize spaces
+    cleanText = cleanText.replace(/\s+/g, ' ');
+    
+    // Final trim
+    cleanText = cleanText.trim();
 
     if (cleanText.length > 500) {
       // Truncate long texts to avoid timeouts
@@ -144,13 +155,13 @@ export function useTTSClient(sessionId: string): TTSHook {
     stopSpeaking();
 
     try {
-      console.log('🎵 Starting TTS with Google Cloud API:', { 
+      console.log('🎵 Starting TTS with Vertex AI:', { 
         textLength: cleanText.length,
         language: validatedLanguage,
         active: ttsState.isActive
       });
 
-      // Use Google Cloud Text-to-Speech API
+      // Use Vertex AI Text-to-Speech API
       const response = await fetch('/api/tts/synthesize', {
         method: 'POST',
         headers: {
@@ -185,18 +196,18 @@ export function useTTSClient(sessionId: string): TTSHook {
         // Handle audio events
         audio.onplay = () => {
           setTTSState(prev => ({ ...prev, isSpeaking: true }));
-          console.log('🎵 Google Cloud TTS started');
+          console.log('✅ Vertex AI TTS started');
         };
 
         audio.onended = () => {
           setTTSState(prev => ({ ...prev, isSpeaking: false }));
           URL.revokeObjectURL(audioUrl);
           currentAudioRef.current = null;
-          console.log('🎵 Google Cloud TTS ended');
+          console.log('✅ Vertex AI TTS ended');
         };
 
         audio.onerror = (error) => {
-          console.error('🎵 Google Cloud TTS audio error:', error);
+          console.error('❌ Vertex AI TTS audio error:', error);
           setTTSState(prev => ({ ...prev, isSpeaking: false }));
           URL.revokeObjectURL(audioUrl);
           currentAudioRef.current = null;
@@ -207,7 +218,7 @@ export function useTTSClient(sessionId: string): TTSHook {
       }
       
     } catch (error) {
-      console.error('🎵 Google Cloud TTS failed:', error);
+      console.error('❌ Vertex AI TTS failed:', error);
       setTTSState(prev => ({ ...prev, isSpeaking: false }));
       // TTS is non-critical, don't block the interface
     }

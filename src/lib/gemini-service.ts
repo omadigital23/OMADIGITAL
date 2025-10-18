@@ -188,8 +188,8 @@ YOUR RESPONSE:`;
       // Fallback response
       return {
         response: detectedLanguage === 'fr'
-          ? 'Désolé, je rencontre un problème technique. Contactez-nous au +221 701 193 811.'
-          : 'Sorry, I\'m experiencing technical issues. Contact us at +221 701 193 811.',
+          ? 'Problème technique. Contactez-nous au +221 701 193 811.'
+          : 'Technical issue. Contact us at +221 701 193 811.',
         language: detectedLanguage,
         suggestions: undefined,
         cta: undefined,

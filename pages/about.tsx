@@ -239,7 +239,7 @@ export default function About() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['common', 'legal', 'about'])),
+      ...(await serverSideTranslations(locale ?? 'en', ['about'])),
     },
   };
 };

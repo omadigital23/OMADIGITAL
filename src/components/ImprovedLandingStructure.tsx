@@ -173,10 +173,10 @@ function WhyChooseUsSection() {
           {advantages.map((advantage, index) => {
             const IconComponent = advantage.icon;
             const colorClasses = {
-              yellow: 'from-yellow-400 to-yellow-500',
-              blue: 'from-blue-400 to-blue-500',
-              green: 'from-green-400 to-green-500',
-              orange: 'from-orange-400 to-orange-500'
+              yellow: 'from-yellow-600 to-yellow-700',
+              blue: 'from-blue-600 to-blue-700',
+              green: 'from-green-600 to-green-700',
+              orange: 'from-orange-600 to-orange-700'
             };
             
             return (

@@ -246,7 +246,7 @@ export default function BlogArticlePage({ slug, locale }: BlogArticlePageProps) 
                     Demander un devis gratuit
                   </a>
                   <a
-                    href="tel:+221701193811"
+                    href="tel:+212701193811"
                     className="inline-block px-6 py-3 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors text-center"
                   >
                     Appeler maintenant
@@ -287,7 +287,7 @@ export default function BlogArticlePage({ slug, locale }: BlogArticlePageProps) 
                   {t('cta_section.button_primary')}
                 </a>
                 <a
-                  href="tel:+221701193811"
+                  href="tel:+212701193811"
                   className="inline-block px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors"
                 >
                   {t('cta_section.button_secondary')}
@@ -307,20 +307,23 @@ export default function BlogArticlePage({ slug, locale }: BlogArticlePageProps) 
  * Generate static paths for all blog articles
  */
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Get article slugs from both locales
-  const locales = ['fr', 'en'];
+  // Import blog translations directly
+  const blogFr = require('../../public/locales/fr/blog.json');
+  const blogEn = require('../../public/locales/en/blog.json');
+
   const paths: { params: { slug: string }; locale: string }[] = [];
 
-  for (const locale of locales) {
-    const { serverSideTranslations: getTranslations } = await import('next-i18next/serverSideTranslations');
-    const translations = await getTranslations(locale, ['blog']);
-    
-    // Import the translation file to get article keys
-    const blogTranslations = await import(`../../public/locales/${locale}/blog.json`);
-    const articleSlugs = Object.keys(blogTranslations.articles);
+  // Get French article slugs
+  if (blogFr.articles) {
+    Object.keys(blogFr.articles).forEach((slug) => {
+      paths.push({ params: { slug }, locale: 'fr' });
+    });
+  }
 
-    articleSlugs.forEach((slug) => {
-      paths.push({ params: { slug }, locale });
+  // Get English article slugs
+  if (blogEn.articles) {
+    Object.keys(blogEn.articles).forEach((slug) => {
+      paths.push({ params: { slug }, locale: 'en' });
     });
   }
 

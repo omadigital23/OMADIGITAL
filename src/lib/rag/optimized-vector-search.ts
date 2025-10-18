@@ -217,18 +217,32 @@ class OptimizedRAGSearch {
     // Extraction intelligente des mots-clés
     const keywordMap = {
       fr: {
-        'whatsapp|chatbot|automatisation': 'whatsapp',
-        'site|web|website': 'site web', 
-        'mobile|app|application': 'mobile',
-        'prix|tarif|coût|cost': 'prix',
-        'contact|téléphone|phone': 'contact'
+        'whatsapp|chatbot|automatisation|bot': 'whatsapp',
+        'site|web|website|internet': 'site web', 
+        'mobile|app|application|smartphone': 'mobile',
+        'prix|tarif|coût|cost|budget|investissement|combien': 'prix',
+        'roi|retour.*investissement|rentabilité|rentable|bénéfice': 'roi',
+        'contact|téléphone|phone|numéro|appeler|appel|joindre': 'contact',
+        'email|mail|e-mail|courriel|écrire': 'contact',
+        'adresse|localisation|où|lieu|bureau|siège': 'contact',
+        'fondateur|créateur|propriétaire|qui|dirigeant|ceo': 'contact',
+        'service|offre|solution|prestation|produit': 'services',
+        'horaire|heure|ouvert|disponible|quand': 'contact',
+        'devis|estimation|quote|proposition': 'pricing'
       },
       en: {
-        'whatsapp|chatbot|automation': 'whatsapp',
-        'website|site|web': 'website',
-        'mobile|app|application': 'mobile', 
-        'price|cost|pricing': 'pricing',
-        'contact|phone|call': 'contact'
+        'whatsapp|chatbot|automation|bot': 'whatsapp',
+        'website|site|web|internet': 'website',
+        'mobile|app|application|smartphone': 'mobile', 
+        'price|cost|pricing|budget|investment|how much': 'pricing',
+        'roi|return.*investment|profitability|profitable|benefit': 'roi',
+        'contact|phone|call|number|reach': 'contact',
+        'email|mail|e-mail|write': 'contact',
+        'address|location|where|office|headquarters': 'contact',
+        'founder|creator|owner|who|ceo|director': 'contact',
+        'service|offer|solution|product': 'services',
+        'hours|schedule|open|available|when': 'contact',
+        'quote|estimate|proposal': 'pricing'
       }
     };
 
@@ -279,10 +293,11 @@ class OptimizedRAGSearch {
    */
   private async searchByCategory(query: string, language: 'fr' | 'en', limit: number) {
     const categoryMap = {
-      'prix|tarif|cost': 'pricing',
-      'service|offer': 'services', 
-      'contact|info': 'contact',
-      'technique|tech': 'technical'
+      'prix|tarif|cost|roi|retour|investissement|rentabilité': 'pricing',
+      'service|offer|solution': 'services', 
+      'contact|info|téléphone|email|adresse': 'contact',
+      'technique|tech|sécurité': 'technical',
+      'faq|question|comment': 'faq'
     };
 
     let matchedCategory = 'services'; // Default

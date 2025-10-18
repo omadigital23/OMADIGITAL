@@ -10,8 +10,10 @@ import { VoiceInput } from './components/VoiceInput';
 import { generateSessionId } from '../../lib/analytics';
 
 export function SmartChatbotNext() {
-  // Debug logging
-  console.log('SmartChatbotNext: Component initializing');
+  // Debug logging (disabled in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('SmartChatbotNext: Component initializing');
+  }
   
   // Initialize basic hooks first
   const [sessionId, setSessionId] = React.useState('');
@@ -21,16 +23,22 @@ export function SmartChatbotNext() {
   
   // Enhanced initialization with error boundary
   React.useEffect(() => {
-    console.log('SmartChatbotNext: useEffect initializing');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('SmartChatbotNext: useEffect initializing');
+    }
     if (typeof window !== 'undefined') {
       try {
         setSessionId(generateSessionId());
-        console.log('SmartChatbotNext: Session ID generated');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('SmartChatbotNext: Session ID generated');
+        }
         
         // Test initial connectivity
         fetch('/api/health', { method: 'HEAD' })
           .then(() => {
-            console.log('SmartChatbotNext: Initial connectivity check: OK');
+            if (process.env.NODE_ENV === 'development') {
+              console.log('SmartChatbotNext: Initial connectivity check: OK');
+            }
           })
           .catch(() => {
             console.warn('SmartChatbotNext: Initial connectivity check: Failed');
@@ -117,12 +125,14 @@ export function SmartChatbotNext() {
     updateState
   } = useChatLogic({ onTTSRequest: handleTTSRequest });
 
-  console.log('SmartChatbotNext: useChatLogic state:', {
-    isClient,
-    sessionId: state.sessionId,
-    isOpen: state.isOpen,
-    messagesCount: state.messages.length
-  });
+  if (process.env.NODE_ENV === 'development') {
+    console.log('SmartChatbotNext: useChatLogic state:', {
+      isClient,
+      sessionId: state.sessionId,
+      isOpen: state.isOpen,
+      messagesCount: state.messages.length
+    });
+  }
 
   // Enhanced message submission with exponential backoff and circuit breaker
   const handleSubmit = React.useCallback(async (e: React.FormEvent) => {
@@ -155,9 +165,9 @@ export function SmartChatbotNext() {
             } else if (errorMessage.includes('timeout')) {
               setError('Temps de réponse dépassé. Le service est peut-être surchargé. Réessayez dans quelques minutes.');
             } else if (errorMessage.includes('503') || errorMessage.includes('502')) {
-              setError('Service temporairement indisponible. Notre équipe technique a été notifiée. Contactez-nous au +212 701 193 811.');
+              setError('Service temporairement indisponible. Notre équipe technique a été notifiée. Contactez-nous au +221 701 193 811.');
             } else {
-              setError('Erreur inattendue. Si le problème persiste, contactez-nous au +212 701 193 811.');
+              setError('Erreur inattendue. Si le problème persiste, contactez-nous au +221 701 193 811.');
             }
           } else {
             // Exponential backoff: wait longer between retries
@@ -221,7 +231,9 @@ export function SmartChatbotNext() {
 
   // Enhanced SSR handling with loading state
   if (!isClient) {
-    console.log('SmartChatbotNext: Rendering SSR loading state');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('SmartChatbotNext: Rendering SSR loading state');
+    }
     return (
       <div className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-gray-300 animate-pulse z-50" 
            aria-label="Chargement du chat..." />
@@ -230,7 +242,9 @@ export function SmartChatbotNext() {
   
   // Error boundary for critical errors
   if (error && error.includes('initialisation')) {
-    console.log('SmartChatbotNext: Rendering error boundary');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('SmartChatbotNext: Rendering error boundary');
+    }
     return (
       <div className="fixed bottom-6 right-6 p-4 bg-red-100 border border-red-300 rounded-lg text-red-700 z-50 max-w-xs">
         <p className="font-medium">Erreur critique</p>
@@ -258,7 +272,9 @@ export function SmartChatbotNext() {
     }
   };
 
-  console.log('SmartChatbotNext: Rendering main component');
+  if (process.env.NODE_ENV === 'development') {
+    console.log('SmartChatbotNext: Rendering main component');
+  }
 
   return (
     <>
@@ -386,7 +402,7 @@ export function SmartChatbotNext() {
                       </button>
                     )}
                     <a
-                      href="tel:+212701193811"
+                      href="tel:+221701193811"
                       className="text-xs bg-green-100 hover:bg-green-200 text-green-700 px-2 py-1 rounded transition-colors"
                     >
                       Appeler support

@@ -84,7 +84,7 @@ export const supabase = createClient(
  * Génère un lien WhatsApp avec message pré-rempli pour OMA Digital
  * Optimisé pour le marché sénégalais avec numéro local Dakar
  */
-export const generateWhatsAppLink = (message: string = '', phone: string = '221701193811') => {
+export const generateWhatsAppLink = (message: string = '', phone: string = '212701193811') => {
   const defaultMessage = `Bonjour OMA Digital ! 👋
 
 Je suis intéressé(e) par vos solutions d'automatisation pour PME à Dakar.

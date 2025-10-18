@@ -601,7 +601,7 @@ export default function GDPRCompliance() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['common', 'legal'])),
+      ...(await serverSideTranslations(locale ?? 'en', ['legal'])),
     },
   };
 };

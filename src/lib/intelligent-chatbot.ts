@@ -172,7 +172,7 @@ CONTEXTE ENTREPRISE:
 - Marché: PME sénégalaises (restaurants, boutiques, services)
 - Prix: 50 000 CFA/mois pour automatisation WhatsApp
 - ROI garanti: 200% en 6 mois
-- Contact: +212 701 193 811, omadigital23@gmail.com
+- Contact: +221 701 193 811, omadigital23@gmail.com
 
 INSTRUCTIONS:
 1. Réponds UNIQUEMENT en français
@@ -193,7 +193,7 @@ COMPANY CONTEXT:
 - Market: Senegalese SMEs (restaurants, shops, services)
 - Price: 50,000 CFA/month for WhatsApp automation
 - Guaranteed ROI: 200% in 6 months
-- Contact: +212 701 193 811, omadigital23@gmail.com
+- Contact: +221 701 193 811, omadigital23@gmail.com
 
 INSTRUCTIONS:
 1. Respond ONLY in English
@@ -253,16 +253,16 @@ ${context.map(item => `- ${item.title}: ${item.content}`).join('\n')}
           return "Bonjour ! Je suis l'assistant d'OMA Digital. Nous spécialisons l'automatisation WhatsApp pour PME sénégalaises avec un ROI de 200%. Comment puis-je vous aider ?";
         
         case 'services':
-          return "OMA Digital propose :\n\n• Automatisation WhatsApp (50 000 CFA/mois)\n• Développement web et mobile\n• Transformation digitale PME\n• ROI garanti 200% en 6 mois\n\nContactez-nous : +212 701 193 811";
+          return "OMA Digital propose :\n\n• Automatisation WhatsApp (50 000 CFA/mois)\n• Développement web et mobile\n• Transformation digitale PME\n• ROI garanti 200% en 6 mois\n\nContactez-nous : +221 701 193 811";
         
         case 'pricing':
-          return "Nos tarifs démarrent à 50 000 CFA/mois pour l'automatisation WhatsApp avec ROI garanti de 200%. Devis gratuit personnalisé. Contactez-nous : +212 701 193 811";
+          return "Nos tarifs démarrent à 50 000 CFA/mois pour l'automatisation WhatsApp avec ROI garanti de 200%. Devis gratuit personnalisé. Contactez-nous : +221 701 193 811";
         
         case 'contact':
-          return "Contactez OMA Digital :\n\n📞 +212 701 193 811\n📧 omadigital23@gmail.com\n🕒 Lun-Ven 9h-18h\n\nDevis gratuit sous 24h !";
+          return "Contactez OMA Digital :\n\n📞 +221 701 193 811\n📧 omadigital23@gmail.com\n🕒 Lun-Ven 9h-18h\n\nDevis gratuit sous 24h !";
         
         default:
-          return "Merci pour votre message ! Pour une réponse personnalisée sur nos services d'automatisation WhatsApp, contactez-nous :\n\n📞 +212 701 193 811\n📧 omadigital23@gmail.com";
+          return "Merci pour votre message ! Pour une réponse personnalisée sur nos services d'automatisation WhatsApp, contactez-nous :\n\n📞 +221 701 193 811\n📧 omadigital23@gmail.com";
       }
     } else {
       switch (intent) {
@@ -270,16 +270,16 @@ ${context.map(item => `- ${item.title}: ${item.content}`).join('\n')}
           return "Hello! I'm OMA Digital's assistant. We specialize in WhatsApp automation for Senegalese SMEs with 200% ROI. How can I help you?";
         
         case 'services':
-          return "OMA Digital offers:\n\n• WhatsApp Automation (50,000 CFA/month)\n• Web and mobile development\n• Digital transformation for SMEs\n• Guaranteed 200% ROI in 6 months\n\nContact us: +212 701 193 811";
+          return "OMA Digital offers:\n\n• WhatsApp Automation (50,000 CFA/month)\n• Web and mobile development\n• Digital transformation for SMEs\n• Guaranteed 200% ROI in 6 months\n\nContact us: +221 701 193 811";
         
         case 'pricing':
-          return "Our rates start at 50,000 CFA/month for WhatsApp automation with guaranteed 200% ROI. Free personalized quote. Contact us: +212 701 193 811";
+          return "Our rates start at 50,000 CFA/month for WhatsApp automation with guaranteed 200% ROI. Free personalized quote. Contact us: +221 701 193 811";
         
         case 'contact':
-          return "Contact OMA Digital:\n\n📞 +212 701 193 811\n📧 omadigital23@gmail.com\n🕒 Mon-Fri 9am-6pm\n\nFree quote within 24h!";
+          return "Contact OMA Digital:\n\n📞 +221 701 193 811\n📧 omadigital23@gmail.com\n🕒 Mon-Fri 9am-6pm\n\nFree quote within 24h!";
         
         default:
-          return "Thank you for your message! For a personalized response about our WhatsApp automation services, contact us:\n\n📞 +212 701 193 811\n📧 omadigital23@gmail.com";
+          return "Thank you for your message! For a personalized response about our WhatsApp automation services, contact us:\n\n📞 +221 701 193 811\n📧 omadigital23@gmail.com";
       }
     }
   }

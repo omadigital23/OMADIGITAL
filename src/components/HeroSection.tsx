@@ -25,6 +25,7 @@ export function HeroSection() {
       description: t('hero.slide1.description'),
       cta: t('hero.slide1.cta'),
       video: "/videos/hero1.webm",
+      duration: 6000, // 6 seconds
       stats: [
         { label: t('hero.stats.pme_transformed'), value: "200+" },
         { label: t('hero.stats.satisfaction_rate'), value: "98%" },
@@ -37,6 +38,7 @@ export function HeroSection() {
       description: t('hero.slide2.description'),
       cta: t('hero.slide2.cta'),
       video: "/videos/hero2.webm",
+      duration: 6000, // 6 seconds
       stats: [
         { label: t('hero.stats.chatbots_deployed'), value: "150+" },
         { label: t('hero.stats.cost_reduction'), value: "60%" },
@@ -49,6 +51,7 @@ export function HeroSection() {
       description: t('hero.slide3.description'),
       cta: t('hero.slide3.cta'),
       video: "/videos/hero3.webm",
+      duration: 6000, // 6 seconds
       stats: [
         { label: t('hero.stats.average_speed'), value: "1.2s" },
         { label: t('hero.stats.seo_improvement'), value: "95+" },
@@ -61,6 +64,7 @@ export function HeroSection() {
       description: t('hero.slide4.description'),
       cta: t('hero.slide4.cta'),
       video: "/videos/hero4.webm",
+      duration: 6000, // 6 seconds
       stats: [
         { label: t('hero.stats.projects_completed'), value: "300+" },
         { label: t('hero.stats.average_roi'), value: "+200%" },
@@ -73,6 +77,7 @@ export function HeroSection() {
       description: t('hero.slide5.description'),
       cta: t('hero.slide5.cta'),
       video: "/videos/hero5.webm",
+      duration: 6000, // 6 seconds
       stats: [
         { label: t('hero.stats.patents'), value: "12" },
         { label: t('hero.stats.tech_partners'), value: "25+" },
@@ -85,6 +90,7 @@ export function HeroSection() {
       description: t('hero.slide6.description'),
       cta: t('hero.slide6.cta'),
       video: "/videos/hero6.webm",
+      duration: 10000, // 10 seconds
       stats: [
         { label: t('hero.stats.clients_satisfied'), value: "200+" },
         { label: t('hero.stats.countries'), value: "2" },
@@ -99,58 +105,68 @@ export function HeroSection() {
       icon: MessageSquare,
       title: t('hero.key_offers.whatsapp.title'),
       description: t('hero.key_offers.whatsapp.description'),
-      cta: t('hero.key_offers.whatsapp.cta')
+      cta: t('hero.key_offers.whatsapp.cta'),
+      targetSection: 'contact-form'
     },
     {
       icon: Globe,
       title: t('hero.key_offers.website.title'),
       description: t('hero.key_offers.website.description'),
-      cta: t('hero.key_offers.website.cta')
+      cta: t('hero.key_offers.website.cta'),
+      targetSection: 'contact-form'
     },
     {
       icon: Bot,
       title: t('hero.key_offers.ai.title'),
       description: t('hero.key_offers.ai.description'),
-      cta: t('hero.key_offers.ai.cta')
+      cta: t('hero.key_offers.ai.cta'),
+      targetSection: 'contact-form'
     }
   ];
 
   // Ensure currentSlideData is properly defined with a fallback
   const currentSlideData = slides[currentSlide] || slides[0];
   
-  // Clear existing interval and set up new one when slides length changes
+  // Clear existing interval and set up new one when slides change
   useEffect(() => {
     // Clear any existing interval
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
     
-    // Set up new interval
-    intervalRef.current = setInterval(() => {
-      setCurrentSlide((prev) => {
-        const nextSlide = (prev + 1) % slides.length;
-        
-        // Pause previous video and play current one
-        if (videoRefs.current[prev]) {
-          videoRefs.current[prev]!.pause();
-        }
-        if (videoRefs.current[nextSlide]) {
-          videoRefs.current[nextSlide]!.play().catch(() => {
-            // Ignore autoplay errors
-          });
-        }
-        
-        return nextSlide;
-      });
-    }, 6000);
+    // Function to schedule next slide transition
+    const scheduleNextSlide = () => {
+      const currentSlideDuration = slides[currentSlide]?.duration || 6000;
+      
+      intervalRef.current = setTimeout(() => {
+        setCurrentSlide((prev) => {
+          const nextSlide = (prev + 1) % slides.length;
+          
+          // Pause previous video and play current one
+          if (videoRefs.current[prev]) {
+            videoRefs.current[prev]!.pause();
+          }
+          if (videoRefs.current[nextSlide]) {
+            videoRefs.current[nextSlide]!.play().catch(() => {
+              // Ignore autoplay errors
+            });
+          }
+          
+          return nextSlide;
+        });
+      }, currentSlideDuration);
+    };
+    
+    // Schedule the next slide
+    scheduleNextSlide();
 
-    // Cleanup function to clear interval
+    // Cleanup function to clear timeout
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearTimeout(intervalRef.current);
       }
     };
-  }, [slides.length]); // Only depend on slides.length
+  }, [currentSlide, slides.length]); // Depend on currentSlide to reschedule with correct duration
 
   // Play first video on mount
   useEffect(() => {
@@ -246,7 +262,7 @@ export function HeroSection() {
     trackEvent('cta_whatsapp_click', {
       event_label: 'hero_whatsapp_direct',
       slide_content: currentSlideData?.title || '',
-      phone_number: '+221701193811'
+      phone_number: '+212701193811'
     });
     
     const message = "Salut ! Je souhaite en savoir plus sur vos solutions d'automatisation IA pour mon business au Sénégal ou au Maroc.";
@@ -282,10 +298,10 @@ export function HeroSection() {
               {t('hero.badge')}
             </motion.div>
 
-            {/* Main Content */}
-            <div className="space-y-6">
+            {/* Main Content - Optimisé Mobile */}
+            <div className="space-y-4 md:space-y-6">
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
                 key={currentSlide}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -295,7 +311,7 @@ export function HeroSection() {
               </motion.h1>
               
               <motion.p 
-                className="text-xl md:text-2xl text-orange-600 font-semibold"
+                className="text-lg sm:text-xl md:text-2xl text-orange-600 font-semibold"
                 key={`subtitle-${currentSlide}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -305,7 +321,7 @@ export function HeroSection() {
               </motion.p>
               
               <motion.p 
-                className="text-lg text-gray-700 leading-relaxed max-w-2xl"
+                className="text-base sm:text-lg text-gray-800 leading-relaxed max-w-2xl"
                 key={`description-${currentSlide}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -330,9 +346,9 @@ export function HeroSection() {
                 )) || []}
               </motion.div>
 
-              {/* CTA Buttons */}
+              {/* CTA Buttons - Optimisé Mobile (min 44px tactile) */}
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4 pt-4"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4"
                 key={`buttons-${currentSlide}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -343,17 +359,17 @@ export function HeroSection() {
                     scrollToContact();
                     trackConversion('cta_click');
                   }}
-                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center space-x-2"
+                  className="w-full sm:flex-1 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white px-6 sm:px-8 py-4 min-h-[48px] rounded-xl font-semibold transition-all duration-300 hover:shadow-lg active:scale-95 flex items-center justify-center space-x-2 touch-manipulation"
                 >
-                  <span>{ctaVariant === 'A' ? (currentSlideData?.cta || '') : t('hero.cta_alternative')}</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <span className="text-base sm:text-lg">{ctaVariant === 'A' ? (currentSlideData?.cta || '') : t('hero.cta_alternative')}</span>
+                  <ArrowRight className="w-5 h-5 flex-shrink-0" />
                 </button>
                 <button
                   onClick={handleDemoClick}
-                  className="flex-1 bg-white/80 hover:bg-white text-gray-800 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg border border-gray-200 flex items-center justify-center space-x-2"
+                  className="w-full sm:flex-1 bg-white/90 hover:bg-white active:bg-gray-50 text-gray-800 px-6 sm:px-8 py-4 min-h-[48px] rounded-xl font-semibold transition-all duration-300 hover:shadow-lg active:scale-95 border-2 border-gray-200 flex items-center justify-center space-x-2 touch-manipulation"
                 >
-                  <Play className="w-5 h-5" />
-                  <span>{t('hero.demo')}</span>
+                  <Play className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-base sm:text-lg">{t('hero.demo')}</span>
                 </button>
               </motion.div>
             </div>
@@ -450,28 +466,58 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Key Offers Section - New addition for better visibility */}
-      <div className="pb-16">
+      {/* Key Offers Section - Recréé complètement */}
+      <div className="pb-16 relative z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">{t('hero.key_offers.title')}</h3>
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">{t('hero.key_offers.title')}</h3>
+            <div className="grid md:grid-cols-3 gap-8">
               {keyOffers.map((offer, index) => {
                 const IconComponent = offer.icon;
                 return (
-                  <div key={index} className="text-center p-4 rounded-xl hover:bg-gray-50 transition-colors">
-                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <IconComponent className="w-6 h-6 text-orange-600" />
+                  <motion.div 
+                    key={index} 
+                    className="flex flex-col items-center text-center space-y-4 bg-white rounded-xl p-6 border border-gray-100 hover:shadow-xl transition-shadow"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ y: -4 }}
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                      <IconComponent className="w-8 h-8 text-white" />
                     </div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{offer.title}</h4>
-                    <p className="text-sm text-gray-600 mb-4">{offer.description}</p>
-                    <button 
-                      onClick={scrollToContact}
-                      className="text-orange-600 hover:text-orange-700 text-sm font-medium"
+                    <h4 className="font-bold text-gray-900 text-lg">{offer.title}</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">{offer.description}</p>
+                    <motion.button 
+                      type="button"
+                      onClick={() => {
+                        console.log('Button clicked:', offer.title);
+                        const element = document.getElementById(offer.targetSection);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
+                          setTimeout(() => {
+                            const firstInput = element.querySelector('input[name="name"]') as HTMLInputElement;
+                            if (firstInput) {
+                              firstInput.focus();
+                            }
+                          }, 800);
+                        }
+                        trackEvent('key_offer_cta_click', {
+                          event_label: 'hero_key_offers',
+                          offer_title: offer.title,
+                          offer_cta: offer.cta,
+                          offer_index: index,
+                          target_section: offer.targetSection
+                        });
+                      }}
+                      className="group w-full bg-white hover:bg-orange-50 border-2 border-orange-500 text-gray-900 font-semibold py-3 px-6 rounded-xl transition-all flex flex-col items-center justify-center gap-2 relative z-10 pointer-events-auto cursor-pointer hover:shadow-lg"
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      {offer.cta} →
-                    </button>
-                  </div>
+                      <span className="text-base">{offer.cta}</span>
+                      <ArrowRight className="w-5 h-5 text-orange-500 group-hover:translate-y-1 transition-transform duration-300" />
+                    </motion.button>
+                  </motion.div>
                 );
               })}
             </div>

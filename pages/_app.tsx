@@ -17,6 +17,9 @@ import { LanguageProvider } from '../src/contexts/LanguageContext';
 // Toaster for notifications
 import { Toaster } from '../src/components/ui/sonner';
 
+// Scroll to top button
+import { ScrollToTopButton } from '../src/components/ScrollToTopButton';
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <LanguageProvider>
         <Component {...pageProps} />
         <Toaster />
+        <ScrollToTopButton />
       </LanguageProvider>
     </QueryClientProvider>
   );

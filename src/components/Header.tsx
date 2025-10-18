@@ -166,7 +166,7 @@ export function Header() {
         event_category: 'Contact'
       });
       const message = "Bonjour ! Je souhaite obtenir un devis pour transformer mon business avec vos solutions IA au Sénégal ou au Maroc.";
-      const whatsappUrl = `https://wa.me/221701193811?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/212701193811?text=${encodeURIComponent(message)}`;
       
       // Security: Validate URL before opening
       if (isValidInternalUrl(whatsappUrl) || whatsappUrl.startsWith('https://wa.me/')) {

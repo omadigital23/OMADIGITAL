@@ -230,3 +230,15 @@ Thumbs.db
 # Ignore token files
 token.txt
 certificates
+
+# Vertex AI credentials (CRITICAL - NEVER COMMIT)
+vertex-ai-credentials.json
+vertex-credentials-temp.json
+*credentials*.json
+service-account*.json
+
+# Scripts temporaires
+fix-*.ps1
+fix-*.js
+test-*.js
+check-*.js

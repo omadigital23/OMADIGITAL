@@ -16,7 +16,8 @@ export function ServicesSection() {
       features: [t('services.whatsapp.feature1'), t('services.whatsapp.feature2'), t('services.whatsapp.feature3')],
       color: "bg-green-500",
       lightColor: "bg-green-50",
-      popular: true
+      popular: true,
+      ctaText: "Automatiser WhatsApp"
     },
     {
       icon: Globe,
@@ -24,7 +25,8 @@ export function ServicesSection() {
       description: t('services.website.description'),
       features: [t('services.website.feature1'), t('services.website.feature2'), t('services.website.feature3')],
       color: "bg-blue-500",
-      lightColor: "bg-blue-50"
+      lightColor: "bg-blue-50",
+      ctaText: "Créer mon site"
     },
     {
       icon: Palette,
@@ -32,7 +34,8 @@ export function ServicesSection() {
       description: t('services.branding.description'),
       features: [t('services.branding.feature1'), t('services.branding.feature2'), t('services.branding.feature3')],
       color: "bg-purple-500",
-      lightColor: "bg-purple-50"
+      lightColor: "bg-purple-50",
+      ctaText: "Créer mon identité"
     },
     {
       icon: BarChart3,
@@ -40,7 +43,8 @@ export function ServicesSection() {
       description: t('services.analytics.description'),
       features: [t('services.analytics.feature1'), t('services.analytics.feature2'), t('services.analytics.feature3')],
       color: "bg-orange-500",
-      lightColor: "bg-orange-50"
+      lightColor: "bg-orange-50",
+      ctaText: "Voir les dashboards"
     },
     {
       icon: Bot,
@@ -48,7 +52,8 @@ export function ServicesSection() {
       description: t('services.ai_assistant.description'),
       features: [t('services.ai_assistant.feature1'), t('services.ai_assistant.feature2'), t('services.ai_assistant.feature3')],
       color: "bg-indigo-500",
-      lightColor: "bg-indigo-50"
+      lightColor: "bg-indigo-50",
+      ctaText: "Découvrir l'IA"
     },
     {
       icon: Shield,
@@ -56,7 +61,8 @@ export function ServicesSection() {
       description: t('services.security.description'),
       features: [t('services.security.feature1'), t('services.security.feature2'), t('services.security.feature3')],
       color: "bg-red-500",
-      lightColor: "bg-red-50"
+      lightColor: "bg-red-50",
+      ctaText: "Sécuriser mes données"
     },
     {
       icon: Zap,
@@ -64,7 +70,8 @@ export function ServicesSection() {
       description: t('services.automation.description'),
       features: [t('services.automation.feature1'), t('services.automation.feature2'), t('services.automation.feature3')],
       color: "bg-yellow-500",
-      lightColor: "bg-yellow-50"
+      lightColor: "bg-yellow-50",
+      ctaText: "Automatiser mon business"
     },
     {
       icon: Smartphone,
@@ -72,7 +79,8 @@ export function ServicesSection() {
       description: t('services.mobile_apps.description'),
       features: [t('services.mobile_apps.feature1'), t('services.mobile_apps.feature2'), t('services.mobile_apps.feature3')],
       color: "bg-teal-500",
-      lightColor: "bg-teal-50"
+      lightColor: "bg-teal-50",
+      ctaText: "Créer mon app"
     }
   ];
 
@@ -175,7 +183,7 @@ export function ServicesSection() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  {t('services.get_started')}
+                  {service.ctaText}
                 </motion.button>
               </motion.div>
             );

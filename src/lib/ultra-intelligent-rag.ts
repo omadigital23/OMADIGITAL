@@ -396,7 +396,7 @@ class UltraIntelligentRAG {
 
 ✉️ **omadigital23@gmail.com**
 
-Désolée, je rencontre un petit souci technique ! 😅 Mais je peux quand même te donner nos coordonnées.
+Voici nos coordonnées pour te contacter directement :
 
 Tu peux nous écrire pour :
 • Demander un devis personnalisé 💰
@@ -426,7 +426,7 @@ Disponible :
         case 'pricing':
           return `💰 **Tarifs OMA Digital :**
 
-Désolée, je ne peux pas afficher nos tarifs en détail pour le moment ! 🙏
+Pour des tarifs détaillés et personnalisés :
 
 Mais je peux te dire que nos services sont adaptés aux PME sénégalaises avec :
 • 🔍 **Consultation gratuite** pour comprendre tes besoins
@@ -470,7 +470,7 @@ Hey entrepreneur ! 👋 Je suis OMADIGITAL, ton assistant digital. Même si je n
 
 ✉️ **omadigital23@gmail.com**
 
-Sorry, I'm having a small technical issue! 😅 But I can still give you our contact details.
+Here are our contact details to reach us directly:
 
 You can write to us for:
 • Personalized quote 💰
@@ -500,7 +500,7 @@ Available:
         case 'pricing':
           return `💰 **OMA Digital Pricing:**
 
-Sorry, I can't display our detailed pricing right now! 🙏
+For detailed and personalized pricing:
 
 But I can tell you that our services are tailored for Senegalese SMEs with:
 • 🔍 **Free consultation** to understand your needs

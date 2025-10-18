@@ -24,7 +24,7 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { name: 'WhatsApp', icon: Mail, href: 'https://wa.me/221701193811' },
+    { name: 'WhatsApp', icon: Mail, href: 'https://wa.me/212701193811' },
     { name: 'Facebook', icon: Facebook, href: 'https://facebook.com' },
     { name: 'Instagram', icon: Instagram, href: 'https://instagram.com' },
     { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com' },

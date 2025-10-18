@@ -7,6 +7,7 @@ import { Header } from '../src/components/Header';
 import { Footer } from '../src/components/Footer';
 import { ImprovedLandingStructure } from '../src/components/ImprovedLandingStructure';
 import { SmartChatbotNext } from '../src/components/SmartChatbotNext';
+import { StickyWhatsAppButton } from '../src/components/StickyWhatsAppButton';
 import { SEOHead } from '../src/components/SEOHead';
 import { initGA, trackPageView } from '../src/lib/analytics';
 import { faqSchema, breadcrumbSchema, serviceSchema } from '../src/lib/seo-faq-schema';
@@ -109,6 +110,9 @@ export default function Home({ seoData, performanceData }: HomeProps) {
         
         {/* Chatbot - Loaded only on client side */}
         <SmartChatbotNext />
+        
+        {/* Bouton WhatsApp Sticky Mobile */}
+        <StickyWhatsAppButton />
       </div>
     </>
   );

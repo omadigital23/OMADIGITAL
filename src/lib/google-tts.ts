@@ -66,7 +66,7 @@ class GoogleTTSService {
   private apiKey: string;
   private baseUrl: string;
   private audioCache = new Map<string, string>(); // Cache des URLs audio
-  private currentVoice: keyof typeof VOICE_CONFIGS = 'fr-professional-female';
+  private currentVoice: keyof typeof VOICE_CONFIGS = 'fr-professional-male';
 
   constructor(apiKey?: string) {
     this.apiKey = apiKey || process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY || '';
@@ -150,8 +150,8 @@ class GoogleTTSService {
     useSSML: boolean = true
   ): Promise<string | null> {
     if (!this.apiKey) {
-      console.warn('Google TTS: Pas de clé API, utilisation du TTS natif');
-      return await this.fallbackToNativeTTS(text, language);
+      console.error('Google TTS: Pas de clé API');
+      return null;
     }
 
     // Nettoyer le texte
@@ -162,8 +162,10 @@ class GoogleTTSService {
     }
 
     // Sélectionner la voix appropriée
+    // FR: Homme (Studio-B) - Voix masculine douce et chaleureuse
+    // EN: Femme (Studio-O) - Voix féminine douce et chaleureuse
     const voiceKey = language === 'fr' 
-      ? this.currentVoice.startsWith('fr-') ? this.currentVoice : 'fr-professional-female'
+      ? 'fr-professional-male'
       : 'en-professional-female';
 
     // Vérifier le cache
@@ -239,8 +241,7 @@ class GoogleTTSService {
           error: errorText
         });
         
-        // Fallback to native TTS on API error
-        return await this.fallbackToNativeTTS(text, language);
+        return null;
       }
 
       const data = await response.json();
@@ -248,7 +249,7 @@ class GoogleTTSService {
       
       if (!data.audioContent) {
         console.error('Google TTS: Pas de contenu audio dans la réponse');
-        return await this.fallbackToNativeTTS(text, language);
+        return null;
       }
 
       // Créer une URL blob pour l'audio
@@ -273,8 +274,7 @@ class GoogleTTSService {
 
     } catch (error) {
       console.error('Google TTS Synthesis Error:', error);
-      // Fallback to native TTS on exception
-      return await this.fallbackToNativeTTS(text, language);
+      return null;
     }
   }
 
@@ -336,58 +336,6 @@ class GoogleTTSService {
    */
   getAvailableVoices() {
     return Object.keys(VOICE_CONFIGS);
-  }
-
-  /**
-   * Fallback to native browser TTS
-   */
-  private async fallbackToNativeTTS(text: string, language: 'fr' | 'en'): Promise<string | null> {
-    console.log('Google TTS: Using native TTS fallback');
-    
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      console.warn('Native TTS not available');
-      return null;
-    }
-
-    return new Promise((resolve) => {
-      const utterance = new SpeechSynthesisUtterance(text);
-      
-      // Set language
-      utterance.lang = language === 'fr' ? 'fr-FR' : 'en-US';
-      
-      // Set voice if available
-      const voices = speechSynthesis.getVoices();
-      if (voices.length > 0) {
-        const preferredVoice = voices.find(voice => 
-          voice.lang.startsWith(language === 'fr' ? 'fr-' : 'en-')
-        ) || voices[0];
-        utterance.voice = preferredVoice;
-      }
-      
-      // Set speech parameters
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      
-      // Create a temporary audio element to generate a blob URL
-      utterance.onend = () => {
-        console.log('Native TTS completed');
-        // For native TTS, we can't create a blob URL, so we return null
-        // but the speech has already been played
-        resolve(null);
-      };
-      
-      utterance.onerror = (event) => {
-        console.error('Native TTS Error:', event);
-        resolve(null);
-      };
-      
-      // Play the utterance
-      speechSynthesis.speak(utterance);
-      
-      // Return null since we can't create a blob URL for native TTS
-      resolve(null);
-    });
   }
 }
 

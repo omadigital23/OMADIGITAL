@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Send, Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, Clock, CheckCircle, AlertCircle, Lightbulb, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'next-i18next';
 import { useABTest, useRecordConversion } from '../hooks/useABTest';
+import { useIsMobile } from '../hooks/useMediaQuery';
 import { trackQuoteSubmission } from '../lib/analytics';
 import { supabase, isSupabaseConfigured } from '../lib/supabase-client';
 import { ctaService } from '../lib/cta-service';
@@ -18,6 +19,7 @@ interface FormSuggestion {
 
 export function CTASection() {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -34,6 +36,7 @@ export function CTASection() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [suggestions, setSuggestions] = useState<FormSuggestion[]>([]); // New state for suggestions
   const [errors, setErrors] = useState<string[]>([]); // State for validation errors
+  const [showOptionalFields, setShowOptionalFields] = useState(false); // Pour mobile
   
   // A/B Testing hooks
   const contactFormVariant = useABTest('contact_form');
@@ -499,13 +502,13 @@ export function CTASection() {
       icon: Phone,
       title: "WhatsApp",
       value: t('footer.phone'),
-      link: "https://wa.me/221701193811"
+      link: "https://wa.me/212701193811"
     },
     {
       icon: Phone,
       title: t('header.phone'),
       value: t('footer.phone'),
-      link: "tel:+221701193811"
+      link: "tel:+212701193811"
     },
     {
       icon: MapPin,
@@ -575,10 +578,11 @@ export function CTASection() {
               )
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              {/* Champs essentiels - Toujours visibles */}
+              <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-800 mb-2">
                     {t('contact.fields.name')}*
                   </label>
                   <input
@@ -587,25 +591,43 @@ export function CTASection() {
                     required
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3.5 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-manipulation"
                     placeholder={t('contact.fields.name_placeholder')}
+                    autoComplete="name"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t('contact.fields.email')}*
+                  <label className="block text-sm font-medium text-gray-800 mb-2">
+                    {t('contact.fields.phone')}*
                   </label>
                   <input
-                    type="email"
-                    name="email"
+                    type="tel"
+                    name="phone"
                     required
-                    value={formData.email}
+                    value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder={t('contact.fields.email_placeholder')}
+                    className="w-full px-4 py-3.5 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-manipulation"
+                    placeholder={t('contact.fields.phone_placeholder')}
+                    autoComplete="tel"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-800 mb-2">
+                  {t('contact.fields.email')}*
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3.5 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-manipulation"
+                  placeholder={t('contact.fields.email_placeholder')}
+                  autoComplete="email"
+                />
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
@@ -878,7 +900,7 @@ export function CTASection() {
                 {t('contact.emergency.description')}
               </p>
               <a
-                href="tel:+221701193811"
+                href="tel:+212701193811"
                 className="inline-flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
               >
                 <Phone className="w-4 h-4 mr-2" />

@@ -435,7 +435,7 @@ export class PromptOptimizer {
 ### Règles essentielles:
 1. **Concision**: Réponses courtes, claires et actionables (max 2-3 phrases)
 2. **Source unique**: Utilise UNIQUEMENT les documents de référence fournis
-3. **Contact**: Toujours proposer +212 701 193 811 pour plus d'informations
+3. **Contact**: Toujours proposer +221 701 193 811 pour plus d'informations
 4. **Focus ROI**: Mentionner le ROI de 200% pour l'automatisation WhatsApp quand pertinent
 5. **CTA**: Proposer des actions concrètes liées aux services OMA
 
@@ -454,7 +454,7 @@ ${historySection}
 ### Essential Rules:
 1. **Conciseness**: Short, clear, actionable responses (max 2-3 sentences)
 2. **Single Source**: Use ONLY the provided reference documents
-3. **Contact**: Always offer +212 701 193 811 for more information
+3. **Contact**: Always offer +221 701 193 811 for more information
 4. **Focus ROI**: Mention 200% ROI for WhatsApp automation when relevant
 5. **CTA**: Propose concrete actions related to OMA services
 
@@ -759,8 +759,8 @@ export class AIOptimizationManager {
 
   private getFallbackResponse(language: 'fr' | 'en', processingTime: number): EnhancedChatResponse {
     const fallbackText = language === 'fr' ?
-      'Désolé, je rencontre un problème technique. Contactez-nous au +212 701 193 811 pour une assistance immédiate.' :
-      'Sorry, I\'m experiencing technical difficulties. Contact us at +212 701 193 811 for immediate assistance.';
+      'Problème technique. Contactez-nous au +221 701 193 811 pour assistance immédiate.' :
+      'Technical issue. Contact us at +221 701 193 811 for immediate assistance.';
 
     return {
       response: fallbackText,

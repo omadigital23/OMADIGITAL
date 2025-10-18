@@ -82,7 +82,7 @@ export function ChatInput({
       <div className="flex justify-center space-x-4 mt-3 text-xs text-gray-500">
         <div className="flex items-center space-x-1">
           <Phone className="w-3 h-3" />
-          <span>+212 701 193 811</span>
+          <span>+221 701 193 811</span>
         </div>
         <div className="flex items-center space-x-1">
           <Mail className="w-3 h-3" />

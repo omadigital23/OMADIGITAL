@@ -257,3 +257,44 @@ export const getChatbotInteractions = async (sessionId: string) => {
     return [];
   }
 };
+
+/**
+ * Track A/B test conversion to Supabase
+ */
+export const trackABTestConversion = async (conversionData: {
+  test_name: string;
+  variant: string;
+  conversion: boolean;
+  timestamp: string;
+  metadata?: Record<string, any>;
+}) => {
+  try {
+    // Create Supabase client
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
+      process.env['NEXT_PUBLIC_SUPABASE_URL'] || '',
+      process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || ''
+    );
+
+    // Save A/B test data to ab_test_results table
+    const { error } = await supabase
+      .from('ab_test_results')
+      .insert({
+        test_name: conversionData.test_name,
+        variant: conversionData.variant,
+        conversion: conversionData.conversion,
+        timestamp: conversionData.timestamp,
+        metadata: conversionData.metadata || {}
+      });
+
+    if (error) {
+      console.error('Error saving A/B test conversion:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error creating Supabase client or saving A/B test conversion:', error);
+    return false;
+  }
+};

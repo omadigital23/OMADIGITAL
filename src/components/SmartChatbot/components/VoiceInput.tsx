@@ -31,6 +31,9 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
   const streamRef = React.useRef<MediaStream | null>(null);
   const audioContextRef = React.useRef<AudioContext | null>(null);
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const silenceTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const analyserRef = React.useRef<AnalyserNode | null>(null);
+  const recordingStartTimeRef = React.useRef<number>(0);
 
   // Detect platform
   const getPlatform = () => {
@@ -53,12 +56,15 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
       console.log('🎤 Platform detected:', platform, '| Safari:', isSafari);
       
-      // Safety timeout: force stop after 10 seconds to prevent hanging
+      // Safety timeout: force stop after 30 seconds to prevent hanging
       timeoutRef.current = setTimeout(() => {
         console.log('🎤 Safety timeout reached, forcing stop');
         stopListening();
         setError('Timeout: enregistrement trop long');
-      }, 10000);
+      }, 30000);
+      
+      // Track recording start time
+      recordingStartTimeRef.current = Date.now();
 
       // Request microphone with platform-specific constraints
       // Force mono recording to avoid channel count mismatch between browsers
@@ -93,6 +99,9 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       streamRef.current = stream;
 
       console.log('🎤 Microphone access granted');
+      
+      // Setup silence detection
+      setupSilenceDetection(stream);
 
       // 1) Try MediaRecorder with supported codecs (Chrome, Edge, Firefox, Android)
 
@@ -228,11 +237,7 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
         };
 
         mediaRecorder.start();
-        setTimeout(() => {
-          if (mediaRecorder.state !== 'inactive') {
-            mediaRecorder.stop();
-          }
-        }, 5000);
+        console.log('🎤 Recording started with silence detection');
         return;
       }
 
@@ -391,14 +396,7 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
         console.log('🎤 iOS: Starting MediaRecorder...');
         mediaRecorder.start();
-        
-        // Stop after 5 seconds
-        setTimeout(() => {
-          console.log('🎤 iOS: Timeout reached, stopping MediaRecorder...');
-          if (mediaRecorder.state !== 'inactive') {
-            mediaRecorder.stop();
-          }
-        }, 5000);
+        console.log('🎤 iOS: Recording started with silence detection');
         
       } catch (err: any) {
         console.error('🎤 iOS: MediaRecorder fallback failed:', err);
@@ -475,8 +473,85 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
     }
   };
 
+  // Setup silence detection to auto-stop after 2s of silence (min 4s recording)
+  const setupSilenceDetection = (stream: MediaStream) => {
+    try {
+      const audioContext = new AudioContext();
+      const source = audioContext.createMediaStreamSource(stream);
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.8;
+      
+      source.connect(analyser);
+      analyserRef.current = analyser;
+      audioContextRef.current = audioContext;
+      
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      
+      const SILENCE_THRESHOLD = 30; // Seuil de silence (0-255)
+      const SILENCE_DURATION = 2000; // 2 secondes de silence
+      const MIN_RECORDING_DURATION = 4000; // 4 secondes minimum
+      
+      let lastSoundTime = Date.now();
+      
+      const checkAudioLevel = () => {
+        if (!analyserRef.current || !isListening) return;
+        
+        analyser.getByteFrequencyData(dataArray);
+        
+        // Calculate average volume
+        const average = dataArray.reduce((sum, value) => sum + value, 0) / bufferLength;
+        
+        const now = Date.now();
+        const recordingDuration = now - recordingStartTimeRef.current;
+        
+        // If sound detected, update last sound time
+        if (average > SILENCE_THRESHOLD) {
+          lastSoundTime = now;
+          // Clear any pending silence timeout
+          if (silenceTimeoutRef.current) {
+            clearTimeout(silenceTimeoutRef.current);
+            silenceTimeoutRef.current = null;
+          }
+        } else {
+          // Silence detected
+          const silenceDuration = now - lastSoundTime;
+          
+          // Only trigger auto-stop if:
+          // 1. Recording has been going for at least 4s
+          // 2. Silence has lasted for 2s
+          // 3. No pending timeout already set
+          if (recordingDuration >= MIN_RECORDING_DURATION && 
+              silenceDuration >= SILENCE_DURATION && 
+              !silenceTimeoutRef.current) {
+            console.log('🔇 Silence detected for 2s after 4s+ recording, auto-stopping...');
+            stopListening();
+            return;
+          }
+        }
+        
+        // Continue monitoring
+        requestAnimationFrame(checkAudioLevel);
+      };
+      
+      // Start monitoring
+      checkAudioLevel();
+      
+    } catch (error) {
+      console.error('🎤 Error setting up silence detection:', error);
+      // Continue without silence detection if it fails
+    }
+  };
+
   const stopListening = () => {
     console.log('🎤 Stopping recording...');
+    
+    // Clear silence timeout
+    if (silenceTimeoutRef.current) {
+      clearTimeout(silenceTimeoutRef.current);
+      silenceTimeoutRef.current = null;
+    }
     
     // Clear safety timeout
     if (timeoutRef.current) {

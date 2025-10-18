@@ -46,7 +46,7 @@ export function SEOHead({
     "url": baseUrl,
     "logo": `${baseUrl}/images/logo.webp`,
     "image": `${baseUrl}${image}`,
-    "telephone": "+221701193811",
+    "telephone": "+212701193811",
     "email": "omadigital23@gmail.com",
     "priceRange": "$$",
     "currenciesAccepted": ["XOF", "MAD", "EUR"],
@@ -133,7 +133,7 @@ export function SEOHead({
     },
     "sameAs": [
       "https://www.omadigital.net/blog",
-      "https://wa.me/221701193811",
+      "https://wa.me/212701193811",
       "https://web.facebook.com/profile.php?id=61579740432372",
       "https://x.com/omadigital23",
       "https://www.instagram.com/omadigital123",
@@ -160,7 +160,7 @@ export function SEOHead({
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+221701193811",
+        "telephone": "+212701193811",
         "contactType": "customer service",
         "areaServed": ["SN", "MA"],
         "availableLanguage": ["French", "Arabic", "Wolof"]
@@ -237,7 +237,7 @@ export function SEOHead({
       <meta name="business:contact_data:region" content="Thiès" />
       <meta name="business:contact_data:postal_code" content="21000" />
       <meta name="business:contact_data:country_name" content="Senegal" />
-      <meta name="business:contact_data:phone_number" content="+221701193811" />
+      <meta name="business:contact_data:phone_number" content="+212701193811" />
       <meta name="business:contact_data:email" content="omadigital23@gmail.com" />
       <meta name="business:contact_data:website" content="https://omadigital.net" />
       

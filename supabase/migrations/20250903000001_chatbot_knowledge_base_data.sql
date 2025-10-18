@@ -19,9 +19,9 @@ ARRAY['site web', 'application mobile', 'développement', 'react', 'nextjs', 'ec
 ARRAY['transformation digitale', 'pme', 'audit', 'formation', 'stratégie']),
 
 ('Contact et support',
-'Contactez OMA Digital : Téléphone/WhatsApp +212 701 193 811, Email omadigital23@gmail.com. Horaires : Lundi-Vendredi 9h-18h. Support technique 24/7. Devis gratuit sous 24h. Siège social Dakar, interventions tout Sénégal.',
+'Contactez OMA Digital : Téléphone/WhatsApp +212 701 193 811, Emails omadigital23@gmail.com / amadou@omadigital.net, Site web https://omadigital.net. Horaires : Lundi-Vendredi 9h-18h. Support technique 24/7. Devis gratuit sous 24h. Adresses : Hersent Rue 15, Thiès, Sénégal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc.',
 'contact', 'fr',
-ARRAY['contact', 'téléphone', 'email', 'support', 'devis', 'dakar']),
+ARRAY['contact', 'téléphone', 'email', 'support', 'devis', 'thiès', 'casablanca', 'maroc', 'sénégal']),
 
 ('Tarification et ROI',
 'Nos solutions se remboursent en 3 mois grâce aux ventes qu''elles génèrent ! ROI garanti +200% en 6 mois. Investissement accessible aux PME. Chaque projet est unique selon vos besoins. Devis personnalisé gratuit en 24h.',
@@ -46,9 +46,9 @@ ARRAY['website', 'mobile app', 'development', 'react', 'nextjs', 'ecommerce']),
 ARRAY['digital transformation', 'sme', 'audit', 'training', 'strategy']),
 
 ('Contact and Support',
-'Contact OMA Digital: Phone/WhatsApp +212 701 193 811, Email omadigital23@gmail.com. Hours: Monday-Friday 9am-6pm. 24/7 technical support. Free quote within 24h. Head office Dakar, interventions throughout Senegal.',
+'Contact OMA Digital: Phone/WhatsApp +212 701 193 811, Emails omadigital23@gmail.com / amadou@omadigital.net, Website https://omadigital.net. Hours: Monday-Friday 9am-6pm. 24/7 technical support. Free quote within 24h. Addresses: Hersent Rue 15, Thiès, Senegal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Morocco.',
 'contact', 'en',
-ARRAY['contact', 'phone', 'email', 'support', 'quote', 'dakar']),
+ARRAY['contact', 'phone', 'email', 'support', 'quote', 'thiès', 'casablanca', 'morocco', 'senegal']),
 
 ('Pricing and ROI',
 'Our solutions pay for themselves within 3 months through the sales they generate! Guaranteed ROI +200% in 6 months. Accessible investment for SMEs. Each project is unique according to your needs. Free personalized quote in 24h.',

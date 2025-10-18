@@ -207,9 +207,9 @@ const frTranslations = {
     
     // Footer
     'footer.address': 'Hersent Rue 15, Thies, Sénégal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc',
-    'footer.phone': '+221 701 193 811',
+    'footer.phone': '+212 701 193 811',
     'footer.email': 'omadigital23@gmail.com',
-    'footer.copyright': '© 2025 OMA Digital. Tous droits réservés.',
+    'footer.copyright': ' 2025 OMA Digital. Tous droits réservés.',
     'footer.made_with': 'Fait avec',
     'footer.in_dakar': 'à Thies, Sénégal & Casablanca, Maroc',
     'footer.senegal_office': 'Bureau Sénégal',
@@ -642,28 +642,24 @@ const enTranslations = {
     
     // WhatsApp Automation Service (legacy)
     'service.whatsapp.title': 'WhatsApp Automation',
-    'service.whatsapp.description': 'Smart chatbots for WhatsApp Business. Automatic responses, order management and 24/7 customer support.',
-    'service.whatsapp.feature1': 'Instant responses',
-    'service.whatsapp.feature2': 'Order management',
-    'service.whatsapp.feature3': 'Advanced analytics',
     
-    // Footer
-    'footer.address': 'Hersent Rue 15, Thies, Senegal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt15, Morocco',
-    'footer.phone': '+221 701 193 811',
-    'footer.email': 'omadigital23@gmail.com',
-    'footer.copyright': '© 2025 OMA Digital. All rights reserved.',
-    'footer.made_with': 'Made with',
-    'footer.in_dakar': 'in Thies, Senegal & Casablanca, Morocco',
-    'footer.senegal_office': 'Senegal Office',
-    'footer.morocco_office': 'Morocco Office',
-    'footer.stay_informed': 'Stay Informed',
-    'footer.newsletter_description': 'Receive our latest news and AI insights for SMEs in Senegal and Morocco',
-    'footer.your_email': 'Your email',
-    'footer.compliance_legal': 'Compliance & Legal',
-    'footer.gdpr_compliant': 'GDPR compliant & Local laws',
-    'footer.data_protection': 'on data protection',
-    'footer.support_active': 'Support 24/7 active',
-    'footer.back_to_top': 'Back to top',
+// Footer
+'footer.address': 'Hersent Rue 15, Thies, Senegal | Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt15, Morocco',
+'footer.phone': '+212 701 193 811',
+'footer.email': 'omadigital23@gmail.com',
+'footer.copyright': ' 2025 OMA Digital. All rights reserved.',
+'footer.made_with': 'Made with',
+'footer.in_dakar': 'in Thies, Senegal & Casablanca, Morocco',
+'footer.senegal_office': 'Senegal Office',
+'footer.morocco_office': 'Morocco Office',
+'footer.stay_informed': 'Stay Informed',
+'footer.newsletter_description': 'Receive our latest news and AI insights for SMEs in Senegal and Morocco',
+'footer.your_email': 'Your email',
+'footer.compliance_legal': 'Compliance & Legal',
+'footer.gdpr_compliant': 'GDPR compliant & Local laws',
+'footer.data_protection': 'on data protection',
+'footer.support_active': 'Support 24/7 active',
+'footer.back_to_top': 'Back to top',
     
     // Common
     'common.loading': 'Loading...',

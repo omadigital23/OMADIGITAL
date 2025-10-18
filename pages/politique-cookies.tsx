@@ -385,7 +385,7 @@ export default function PolitiqueCookies() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'fr', ['common', 'legal'])),
+      ...(await serverSideTranslations(locale ?? 'fr', ['legal'])),
     },
   };
 };

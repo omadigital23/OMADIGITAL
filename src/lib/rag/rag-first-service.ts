@@ -97,11 +97,10 @@ class RAGFirstService {
       const normalizedQuery = this.normalizeAccents(query);
       
       // Extraire les mots-clés de la question (mots de 3+ caractères)
-      const stopwords = ['the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does', 'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 'cest', 'you', 'have', 'has', 'had', 'was', 'were', 'been', 'being', 'for', 'with', 'from', 'this', 'that', 'these', 'those', 'and', 'but', 'not', 'all', 'any', 'some', 'more', 'most', 'les', 'des', 'une', 'aux', 'dans', 'sur', 'pour', 'avec', 'sans', 'sous'];
       const keywords = normalizedQuery
         .split(/\s+/)
         .filter(word => word.length >= 3)
-        .filter(word => !stopwords.includes(word));
+        .filter(word => !['the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does', 'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 'cest'].includes(word));
       
       console.log(`🔍 RAG: Keywords extracted: ${keywords.join(', ')}`);
 
@@ -120,11 +119,11 @@ class RAGFirstService {
           const conditions: string[] = [];
           
           keywords.forEach(kw => {
-            // Chercher dans title et content (plus fiable que keywords array)
+            // Chercher dans le tableau keywords avec l'opérateur contains
+            conditions.push(`keywords.cs.{${kw}}`);
+            // Aussi chercher dans title et content
             conditions.push(`title.ilike.%${kw}%`);
             conditions.push(`content.ilike.%${kw}%`);
-            // Aussi chercher dans category si pertinent
-            conditions.push(`category.ilike.%${kw}%`);
           });
           
           queryBuilder = queryBuilder.or(conditions.join(','));
@@ -158,7 +157,21 @@ class RAGFirstService {
   ): Promise<RAGResult> {
     console.log('🤖 Using Vertex AI with RAG context');
 
+    const ragContext = documents
+      .map((doc, i) => `[Doc ${i + 1}] ${doc.title}: ${doc.content.substring(0, 400)}`)
+      .join('\n\n');
 
+    const prompt = `You are the OMA Digital assistant. Answer based on this context:
+
+${ragContext}
+
+User: ${question}
+
+IMPORTANT: 
+1. Detect the language of the user's question automatically
+2. Respond in the SAME language as the user's question (French if they write in French, English if they write in English)
+3. Keep your response to maximum 8 sentences. Be concise.
+4. Start your response with [LANG:FR] if responding in French or [LANG:EN] if responding in English
 
 Assistant:`;
 

@@ -5,7 +5,17 @@ import { NextI18nLanguageSwitcher } from './NextI18nLanguageSwitcher';
 import { NewsletterSignupFooter } from './NewsletterSignupFooter';
 
 export function Footer() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render anything until mounted on client to prevent hydration errors
+  if (!mounted) {
+    return null;
+  }
 
   const legalLinks = [
     { label: t('footer.links.privacy'), href: '/politique-confidentialite' },

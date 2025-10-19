@@ -180,7 +180,7 @@ export function LandingPageManager() {
     title: 'Prêt à transformer votre business?',
     description: 'Contactez notre équipe pour une démonstration personnalisée de nos solutions',
     servicePrefill: '',
-    whatsappNumber: '+221 77 123 45 67',
+    whatsappNumber: '+212 70 119 38 11',
     email: 'contact@oma-digital.sn'
   });
 

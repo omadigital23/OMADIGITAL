@@ -225,7 +225,7 @@ export default function MentionsLegales() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'fr', ['legal'])),
+      ...(await serverSideTranslations(locale ?? 'fr', ['common', 'legal'])),
     },
   };
 };

@@ -52,8 +52,8 @@
             "content": "Un restaurant à Dakar a automatisé ses réservations via WhatsApp. Résultat : +300% de réservations, -70% de temps de gestion, et une satisfaction client de 98%. Le chatbot gère les réservations, le menu, et les commandes de livraison automatiquement."
           },
           {
-            "title": "Tarifs adaptés au marché sénégalais",
-            "content": "À partir de 200 000 FCFA/mois, notre solution inclut : installation complète, formation de votre équipe, support 24/7, et mises à jour gratuites. ROI garanti en 3 mois."
+            "title": "Solution rentable et accessible",
+            "content": "Notre solution s'adapte à votre budget avec des plans de paiement flexibles. Installation complète, formation de votre équipe, support 24/7, et mises à jour gratuites incluses. ROI garanti en 3 mois - la plupart de nos clients récupèrent leur investissement dès le premier mois grâce à l'augmentation des ventes. Demandez un devis personnalisé gratuit."
           }
         ],
         "cta": "Demandez une démo gratuite de notre chatbot WhatsApp"
@@ -88,8 +88,8 @@
             "content": "Une boutique en ligne à Casablanca a déployé notre chatbot vocal. Résultat : +250% de conversions, support client en français et arabe marocain, et une satisfaction de 97%. Le chatbot gère les demandes produits, le suivi de commandes, et les retours."
           },
           {
-            "title": "Déploiement rapide",
-            "content": "Installation en 5-7 jours, formation incluse, support 24/7. À partir de 150 000 FCFA/mois (Sénégal) ou 2 500 MAD/mois (Maroc)."
+            "title": "Déploiement rapide et sans risque",
+            "content": "Installation en 5-7 jours, formation incluse, support 24/7. Nos clients constatent un ROI moyen de 250% en 3 mois. Nous proposons des plans de paiement adaptés aux PME avec possibilité de tester gratuitement pendant 7 jours. Demandez une démonstration personnalisée pour découvrir comment notre solution peut transformer votre service client."
           }
         ],
         "cta": "Testez notre chatbot vocal gratuitement"
@@ -124,8 +124,8 @@
             "content": "Une agence immobilière à Thiès a migré vers Next.js. Résultat : temps de chargement passé de 8s à 1.2s, trafic organique +180%, conversions +120%. Le site est maintenant #1 sur Google pour 'immobilier Thiès'."
           },
           {
-            "title": "Tarifs transparents",
-            "content": "Site vitrine : 500 000 FCFA (one-time)\nSite e-commerce : 1 200 000 FCFA (one-time)\nMaintenance : 50 000 FCFA/mois\nHébergement Vercel inclus la première année."
+            "title": "Investissement rentable",
+            "content": "Nos clients constatent généralement un retour sur investissement en 3-4 mois grâce à l'augmentation des conversions et la réduction du taux de rebond. Nous proposons des plans de paiement flexibles adaptés aux budgets des PME, avec hébergement inclus la première année. Demandez un devis personnalisé gratuit pour découvrir combien vous pourriez économiser avec un site ultra-rapide."
           }
         ],
         "cta": "Demandez un audit gratuit de votre site actuel"
@@ -185,23 +185,23 @@
         "sections": [
           {
             "title": "Cas 1 : Restaurant à Dakar",
-            "content": "Problème : Gestion manuelle des réservations, perte de clients, surcharge de travail.\n\nSolution : Chatbot WhatsApp pour réservations automatiques.\n\nRésultats : +300% de réservations, -70% de temps de gestion, ROI de 250% en 2 mois.\n\nInvestissement : 200 000 FCFA/mois\nGain mensuel : 500 000 FCFA (nouvelles réservations)"
+            "content": "Problème : Gestion manuelle des réservations, perte de clients, surcharge de travail.\n\nSolution : Chatbot WhatsApp pour réservations automatiques.\n\nRésultats : +300% de réservations, -70% de temps de gestion, ROI de 250% en 2 mois. L'investissement a été remboursé dès le premier mois grâce aux nouvelles réservations générées automatiquement."
           },
           {
             "title": "Cas 2 : E-commerce à Casablanca",
-            "content": "Problème : Service client débordé, taux d'abandon panier élevé, coûts de support.\n\nSolution : Chatbot vocal multilingue (FR/AR) + automatisation WhatsApp.\n\nRésultats : +250% de conversions, -60% de coûts support, ROI de 300% en 3 mois.\n\nInvestissement : 3 500 MAD/mois\nGain mensuel : 10 500 MAD (réduction coûts + nouvelles ventes)"
+            "content": "Problème : Service client débordé, taux d'abandon panier élevé, coûts de support.\n\nSolution : Chatbot vocal multilingue (FR/AR) + automatisation WhatsApp.\n\nRésultats : +250% de conversions, -60% de coûts support, ROI de 300% en 3 mois. La solution s'est autofinancée grâce à la réduction des coûts et l'augmentation des ventes."
           },
           {
             "title": "Cas 3 : Agence immobilière à Thiès",
-            "content": "Problème : Site web lent, mauvais référencement Google, peu de leads.\n\nSolution : Refonte site Next.js + SEO local optimisé.\n\nRésultats : Temps chargement 8s → 1.2s, trafic +180%, leads +120%, ROI de 200% en 4 mois.\n\nInvestissement : 500 000 FCFA (one-time) + 50 000 FCFA/mois\nGain mensuel : 300 000 FCFA (nouveaux leads)"
+            "content": "Problème : Site web lent, mauvais référencement Google, peu de leads.\n\nSolution : Refonte site Next.js + SEO local optimisé.\n\nRésultats : Temps chargement 8s → 1.2s, trafic +180%, leads +120%, ROI de 200% en 4 mois. L'investissement initial a été rapidement amorti grâce à l'afflux de nouveaux leads qualifiés."
           },
           {
             "title": "Cas 4 : Boutique de mode à Rabat",
-            "content": "Problème : Gestion manuelle Instagram, perte de commandes, pas de suivi client.\n\nSolution : Automatisation Instagram + WhatsApp + CRM Supabase.\n\nRésultats : +400% de commandes Instagram, suivi client automatisé, ROI de 350% en 2 mois.\n\nInvestissement : 4 000 MAD/mois\nGain mensuel : 14 000 MAD (nouvelles commandes)"
+            "content": "Problème : Gestion manuelle Instagram, perte de commandes, pas de suivi client.\n\nSolution : Automatisation Instagram + WhatsApp + CRM Supabase.\n\nRésultats : +400% de commandes Instagram, suivi client automatisé, ROI de 350% en 2 mois. Le retour sur investissement a dépassé toutes les attentes grâce à l'explosion des commandes."
           },
           {
             "title": "Cas 5 : Centre de formation à Dakar",
-            "content": "Problème : Inscriptions manuelles, rappels oubliés, taux d'abandon élevé.\n\nSolution : Plateforme web Next.js + chatbot + emails automatisés.\n\nRésultats : +200% d'inscriptions, -80% de tâches manuelles, ROI de 280% en 3 mois.\n\nInvestissement : 800 000 FCFA (one-time) + 100 000 FCFA/mois\nGain mensuel : 500 000 FCFA (nouvelles inscriptions)"
+            "content": "Problème : Inscriptions manuelles, rappels oubliés, taux d'abandon élevé.\n\nSolution : Plateforme web Next.js + chatbot + emails automatisés.\n\nRésultats : +200% d'inscriptions, -80% de tâches manuelles, ROI de 280% en 3 mois. La solution a permis de tripler le nombre d'inscriptions tout en libérant l'équipe pour se concentrer sur la qualité des formations."
           },
           {
             "title": "Conclusion : L'automatisation est rentable",

@@ -2,6 +2,7 @@
  * RAG-FIRST SERVICE avec Vertex AI
  * 100% Vertex AI - Pas de Google AI Studio
  * Credentials depuis .env.local
+ * FIXED: Meilleure recherche en anglais
  */
 
 import { vertexAIChatbot } from '../vertex-ai-chatbot';
@@ -85,7 +86,7 @@ class RAGFirstService {
   }
 
   /**
-   * Rechercher dans Supabase
+   * Rechercher dans Supabase - FIXED pour mieux fonctionner en anglais
    */
   private async searchKnowledgeBase(
     query: string,
@@ -96,34 +97,41 @@ class RAGFirstService {
       // Normaliser la query (enlever les accents)
       const normalizedQuery = this.normalizeAccents(query);
       
+      // Stopwords étendus (FR + EN)
+      const stopwords = [
+        // English
+        'the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does',
+        'you', 'have', 'has', 'had', 'was', 'were', 'been', 'being', 'for', 'with', 
+        'from', 'this', 'that', 'these', 'those', 'and', 'but', 'not', 'all', 'any', 
+        'some', 'more', 'most', 'who', 'which', 'will', 'would', 'could', 'should',
+        // French
+        'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 
+        'cest', 'les', 'des', 'une', 'aux', 'dans', 'sur', 'pour', 'avec', 'sans', 'sous'
+      ];
+      
       // Extraire les mots-clés de la question (mots de 3+ caractères)
-      const stopwords = ['the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does', 'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 'cest', 'you', 'have', 'has', 'had', 'was', 'were', 'been', 'being', 'for', 'with', 'from', 'this', 'that', 'these', 'those', 'and', 'but', 'not', 'all', 'any', 'some', 'more', 'most', 'les', 'des', 'une', 'aux', 'dans', 'sur', 'pour', 'avec', 'sans', 'sous'];
       const keywords = normalizedQuery
         .split(/\s+/)
         .filter(word => word.length >= 3)
         .filter(word => !stopwords.includes(word));
       
-      console.log(`🔍 RAG: Keywords extracted: ${keywords.join(', ')}`);
+      console.log(`🔍 RAG [${language}]: Keywords extracted: ${keywords.join(', ')}`);
 
       const result = await supabaseManager.executeQuery(async (client) => {
-        // Recherche dans le champ keywords (array) avec l'opérateur @>
         let queryBuilder = client
           .from('knowledge_base')
           .select('*')
           .eq('language', language)
           .eq('is_active', true);
 
-        // Chercher dans keywords (array) ET dans title/content
+        // Chercher dans title, content ET category
         if (keywords.length > 0) {
-          // Construire une requête OR correcte pour Supabase
-          // Pour chaque mot-clé, chercher dans keywords, title ET content
           const conditions: string[] = [];
           
           keywords.forEach(kw => {
-            // Chercher dans title et content (plus fiable que keywords array)
+            // Chercher dans title, content et category (plus fiable)
             conditions.push(`title.ilike.%${kw}%`);
             conditions.push(`content.ilike.%${kw}%`);
-            // Aussi chercher dans category si pertinent
             conditions.push(`category.ilike.%${kw}%`);
           });
           
@@ -150,7 +158,7 @@ class RAGFirstService {
   }
 
   /**
-   * Répondre avec RAG + Vertex AI
+   * Répondre avec RAG + Vertex AI - IMPROVED prompt
    */
   private async answerWithRAGAndVertexAI(
     documents: any[],
@@ -158,52 +166,20 @@ class RAGFirstService {
   ): Promise<RAGResult> {
     console.log('🤖 Using Vertex AI with RAG context');
 
+    const ragContext = documents
+      .map((doc, i) => `[Doc ${i + 1}] ${doc.title}: ${doc.content.substring(0, 400)}`)
+      .join('\n\n');
 
+    const prompt = `You are the OMA Digital assistant. Answer based on this context:
 
-Assistant:`;
+${ragContext}
 
-    const response = await vertexAIChatbot.generateContent(prompt);
+User question: ${question}
 
-    return {
-      answer: response.answer,
-      source: 'rag_gemini',
-      confidence: 0.8,
-      documents,
-      language: response.language
-    };
-  }
-
-  /**
-   * Répondre avec Vertex AI seulement (sans RAG)
-   */
-  private async answerWithVertexAIOnly(
-    question: string
-  ): Promise<RAGResult> {
-    console.log('🤖 Using Vertex AI only (no RAG)');
-
-    const prompt = `You are the OMA Digital assistant.
-
-User: ${question}
-
-IMPORTANT: 
+IMPORTANT INSTRUCTIONS: 
 1. Detect the language of the user's question automatically
-2. Respond in the SAME language as the user's question (French if they write in French, English if they write in English)
-3. Keep your response to maximum 8 sentences. Be concise.
-4. Start your response with [LANG:FR] if responding in French or [LANG:EN] if responding in English
-
-Assistant:`;
-
-    const response = await vertexAIChatbot.generateContent(prompt);
-
-    return {
-      answer: response.answer,
-      source: 'gemini_fallback',
-      confidence: 0.6,
-      documents: [],
-      language: response.language
-    };
-  }
-}
-
-// Export singleton
-export const ragFirstService = new RAGFirstService();
+2. Respond in the SAME language as the user's question (French if they ask in French, English if they ask in English)
+3. Use ONLY the information from the context above to answer
+4. Keep your response concise (maximum 8 sentences)
+5. Start your response with [LANG:FR] if responding in French or [LANG:EN] if responding in English
+6. If the context mentions offers, services, or products, provide specific details from the documents

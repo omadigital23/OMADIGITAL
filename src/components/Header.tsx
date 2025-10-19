@@ -272,15 +272,15 @@ export function Header() {
 
   // Don't render dropdown content on server to prevent hydration issues
   if (!isClient) {
-    // Use default French labels for server-side rendering to ensure consistency
+    // Use hardcoded French labels for server-side rendering to prevent hydration errors
     const serverNavigationItems = [
-      { label: t('header.home'), id: 'hero' },
-      { label: t('header.services'), id: 'services' },
-      { label: t('header.offers'), id: 'offers' },
-      { label: t('header.case_studies'), id: 'case-studies' },
-      { label: t('header.process'), id: 'process' },
-      { label: t('header.blog'), href: '/blog' },
-      { label: t('header.contact'), id: 'contact' },
+      { label: 'Accueil', id: 'hero' },
+      { label: 'Services', id: 'services' },
+      { label: 'Offres', id: 'offers' },
+      { label: 'Études de cas', id: 'case-studies' },
+      { label: 'Processus', id: 'process' },
+      { label: 'Blog IA', href: '/blog' },
+      { label: 'Contact', id: 'contact' },
     ];
     
     return (

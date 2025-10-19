@@ -200,7 +200,7 @@ export const OptimizedLandingPage = memo(() => {
               ],
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+221701193811",
+                "telephone": "+212701193811",
                 "contactType": "customer service"
               }
             })

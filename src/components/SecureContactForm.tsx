@@ -397,7 +397,7 @@ export const SecureContactForm = memo(() => {
             value={formData.phone}
             onChange={(value) => updateField('phone', value)}
             error={errors.phone}
-            placeholder="+221 XX XXX XX XX"
+            placeholder="+212 XX XXX XX XX"
             maxLength={20}
           />
           
@@ -499,7 +499,7 @@ export const SecureContactForm = memo(() => {
             🚀 <strong>Réponse garantie sous 2h</strong> en jours ouvrés
           </p>
           <p className="mt-1">
-            📞 Ou appelez directement : <a href="tel:+221701193811" className="text-orange-600 hover:text-orange-700 font-medium">+221 70 119 38 11</a>
+            📞 Ou appelez directement : <a href="tel:+212701193811" className="text-orange-600 hover:text-orange-700 font-medium">+212 70 119 38 11</a>
           </p>
         </div>
       </form>

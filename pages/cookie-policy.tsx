@@ -385,7 +385,7 @@ export default function CookiePolicy() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['legal'])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common', 'legal'])),
     },
   };
 };

@@ -165,9 +165,9 @@ export function SmartChatbotNext() {
             } else if (errorMessage.includes('timeout')) {
               setError('Temps de réponse dépassé. Le service est peut-être surchargé. Réessayez dans quelques minutes.');
             } else if (errorMessage.includes('503') || errorMessage.includes('502')) {
-              setError('Service temporairement indisponible. Notre équipe technique a été notifiée. Contactez-nous au +221 701 193 811.');
+              setError('Service temporairement indisponible. Notre équipe technique a été notifiée. Contactez-nous au +212 70 119 38 11.');
             } else {
-              setError('Erreur inattendue. Si le problème persiste, contactez-nous au +221 701 193 811.');
+              setError('Erreur inattendue. Si le problème persiste, contactez-nous au +212 70 119 38 11.');
             }
           } else {
             // Exponential backoff: wait longer between retries
@@ -402,7 +402,7 @@ export function SmartChatbotNext() {
                       </button>
                     )}
                     <a
-                      href="tel:+221701193811"
+                      href="tel:+212701193811"
                       className="text-xs bg-green-100 hover:bg-green-200 text-green-700 px-2 py-1 rounded transition-colors"
                     >
                       Appeler support

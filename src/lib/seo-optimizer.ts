@@ -297,7 +297,7 @@ class SEOOptimizer {
       "logo": `${this.baseUrl}/images/logo.webp`,
       "description": "Spécialiste en transformation digitale pour PME sénégalaises et marocaines. Solutions d'automatisation WhatsApp, sites web ultra-rapides et intelligence artificielle.",
       "email": "contact@oma-digital.com",
-      "telephone": "+221 77 123 45 67",
+      "telephone": "+212 70 119 38 11",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Rue 123, Plateau",
@@ -475,7 +475,7 @@ export const OMA_DIGITAL_BUSINESS_DATA: LocalBusinessData = {
     postalCode: "12500",
     addressCountry: "SN"
   },
-  telephone: "+221 77 123 45 67",
+  telephone: "+212 70 119 38 11",
   email: "contact@oma-digital.com",
   url: "https://oma-digital.sn",
   geo: {

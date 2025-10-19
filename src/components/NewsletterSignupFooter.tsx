@@ -11,7 +11,7 @@ import { useTranslation } from 'next-i18next';
 import { Send } from 'lucide-react';
 
 export function NewsletterSignupFooter() {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');

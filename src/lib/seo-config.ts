@@ -3,7 +3,7 @@ import { DefaultSeoProps } from 'next-seo';
 const config: DefaultSeoProps = {
   titleTemplate: '%s | OMA Digital - Chatbot Vocal IA & Automatisation WhatsApp Business',
   defaultTitle: 'OMA Digital - Chatbot Vocal Intelligent & Automatisation WhatsApp Business | Solutions IA Sénégal Maroc',
-  description: '🚀 Leader en solutions IA au Sénégal & Maroc : Chatbot vocal multilingue (FR/EN/AR), automatisation WhatsApp Business API, sites web ultra-rapides Next.js, intégration Vertex AI Google. +150 PME accompagnées. Devis gratuit 24h. ☎️ +221 70 119 38 11',
+  description: '🚀 Leader en solutions IA au Sénégal & Maroc : Chatbot vocal multilingue (FR/EN/AR), automatisation WhatsApp Business API, sites web ultra-rapides Next.js, intégration Vertex AI Google. +150 PME accompagnées. Devis gratuit 24h. ☎️ +212 70 119 38 11',
   
   // Open Graph
   openGraph: {

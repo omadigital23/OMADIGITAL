@@ -28,7 +28,7 @@ export const faqSchema = {
       "name": "Quels sont les tarifs pour un chatbot vocal ou une automatisation WhatsApp Business ?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Nos tarifs sont adaptés aux PME africaines : Chatbot vocal basique à partir de 150 000 FCFA (230€) par mois, automatisation WhatsApp Business à partir de 200 000 FCFA (305€) par mois, sites web ultra-rapides à partir de 500 000 FCFA (760€). Devis personnalisé gratuit en 24h. Paiement en FCFA (Sénégal) ou MAD (Maroc). Contactez-nous : +221 70 119 38 11"
+        "text": "Nos tarifs sont adaptés aux PME africaines : Chatbot vocal basique à partir de 150 000 FCFA (230€) par mois, automatisation WhatsApp Business à partir de 200 000 FCFA (305€) par mois, sites web ultra-rapides à partir de 500 000 FCFA (760€). Devis personnalisé gratuit en 24h. Paiement en FCFA (Sénégal) ou MAD (Maroc). Contactez-nous : +212 70 119 38 11"
       }
     },
     {
@@ -124,7 +124,7 @@ export const serviceSchema = {
     "name": "OMA Digital",
     "url": "https://www.omadigital.net",
     "logo": "https://www.omadigital.net/images/logo.webp",
-    "telephone": "+221701193811",
+    "telephone": "+212701193811",
     "email": "omadigital23@gmail.com",
     "address": [
       {

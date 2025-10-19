@@ -1,20 +1,28 @@
 # robots.txt for OMA Digital
 # Your digital partner in Senegal and Morocco
+# Site: https://www.omadigital.net
 
+# Default rules for all bots
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /_next/
 Disallow: /test-*
+Disallow: /*-test.tsx
+Disallow: /chatbot-test
+Disallow: /voice-chat
 
-# Sitemap
+# Sitemap location
 Sitemap: https://www.omadigital.net/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1
 
-# Specific rules for major search engines
+# ============================================
+# MAJOR SEARCH ENGINES - Full Access
+# ============================================
+
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
@@ -30,7 +38,46 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-# Block bad bots
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# ============================================
+# AI BOTS - Blocked (Google Recommendations)
+# ============================================
+
+# OpenAI GPT
+User-agent: GPTBot
+Disallow: /
+
+# Google Extended (Bard/Gemini training)
+User-agent: Google-Extended
+Disallow: /
+
+# Common Crawl
+User-agent: CCBot
+Disallow: /
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Meta AI
+User-agent: FacebookBot
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# ============================================
+# SEO TOOLS & SCRAPERS - Blocked
+# ============================================
+
 User-agent: AhrefsBot
 Disallow: /
 
@@ -38,4 +85,32 @@ User-agent: SemrushBot
 Disallow: /
 
 User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+# ============================================
+# MALICIOUS BOTS - Blocked
+# ============================================
+
+User-agent: SiteBot
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+User-agent: WebCopier
 Disallow: /

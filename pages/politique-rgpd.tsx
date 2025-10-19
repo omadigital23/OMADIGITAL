@@ -601,7 +601,7 @@ export default function PolitiqueRGPD() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? 'fr', ['legal'])),
+      ...(await serverSideTranslations(locale ?? 'fr', ['common', 'legal'])),
     },
   };
 };

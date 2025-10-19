@@ -55,11 +55,11 @@ class RAGFirstService {
     
     if (allDocuments.length > 0) {
       // Vertex AI détectera la langue dans sa réponse avec [LANG:FR|EN]
-      result = await this.answerWithRAGAndVertexAI(allDocuments, cleanQuestion, language || 'fr');
+      result = await this.answerWithRAGAndVertexAI(allDocuments, cleanQuestion);
     } else {
       // Fallback: Vertex AI sans RAG (détectera la langue lui-même)
       console.log('⚠️ RAG: No documents, using Vertex AI fallback');
-      result = await this.answerWithVertexAIOnly(cleanQuestion, language || 'fr');
+      result = await this.answerWithVertexAIOnly(cleanQuestion);
     }
     
     // Mettre en cache le résultat
@@ -153,8 +153,7 @@ class RAGFirstService {
    */
   private async answerWithRAGAndVertexAI(
     documents: any[],
-    question: string,
-    language: 'fr' | 'en'
+    question: string
   ): Promise<RAGResult> {
     console.log('🤖 Using Vertex AI with RAG context');
 
@@ -168,9 +167,13 @@ ${ragContext}
 
 User: ${question}
 
-IMPORTANT: Respond in maximum 8 sentences. Be concise.
+IMPORTANT: 
+1. Detect the language of the user's question automatically
+2. Respond in the SAME language as the user's question (French if they write in French, English if they write in English)
+3. Keep your response to maximum 8 sentences. Be concise.
+4. Start your response with [LANG:FR] if responding in French or [LANG:EN] if responding in English
 
-Assistant: [LANG:${language.toUpperCase()}]`;
+Assistant:`;
 
     const response = await vertexAIChatbot.generateContent(prompt);
 
@@ -187,8 +190,7 @@ Assistant: [LANG:${language.toUpperCase()}]`;
    * Répondre avec Vertex AI seulement (sans RAG)
    */
   private async answerWithVertexAIOnly(
-    question: string,
-    language: 'fr' | 'en'
+    question: string
   ): Promise<RAGResult> {
     console.log('🤖 Using Vertex AI only (no RAG)');
 
@@ -196,9 +198,13 @@ Assistant: [LANG:${language.toUpperCase()}]`;
 
 User: ${question}
 
-IMPORTANT: Respond in maximum 8 sentences. Be concise.
+IMPORTANT: 
+1. Detect the language of the user's question automatically
+2. Respond in the SAME language as the user's question (French if they write in French, English if they write in English)
+3. Keep your response to maximum 8 sentences. Be concise.
+4. Start your response with [LANG:FR] if responding in French or [LANG:EN] if responding in English
 
-Assistant: [LANG:${language.toUpperCase()}]`;
+Assistant:`;
 
     const response = await vertexAIChatbot.generateContent(prompt);
 

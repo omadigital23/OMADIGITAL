@@ -80,7 +80,10 @@ export default function CityPage({ city, locale }: CityPageProps) {
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
-      reviewCount: cityData.stats.clients.replace('+', ''),
+      bestRating: '5',
+      worstRating: '1',
+      ratingCount: parseInt(cityData.stats.clients.replace('+', '')) || 50,
+      reviewCount: parseInt(cityData.stats.clients.replace('+', '')) || 50,
     },
     priceRange: '$$',
   };

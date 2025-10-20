@@ -255,15 +255,16 @@ const OptimizedHomePage = memo(() => {
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "AggregateRating",
-                "itemReviewed": {
-                  "@type": "Organization",
-                  "name": "OMA Digital"
-                },
-                "ratingValue": "4.9",
-                "bestRating": "5",
-                "worstRating": "1",
-                "ratingCount": "150"
+                "@type": "Organization",
+                "name": "OMA Digital",
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.9",
+                  "bestRating": "5",
+                  "worstRating": "1",
+                  "ratingCount": 150,
+                  "reviewCount": 150
+                }
               })
             }}
           />

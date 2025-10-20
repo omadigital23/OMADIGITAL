@@ -588,6 +588,9 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
   };
 
   const isSupported = typeof window !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
+  
+  // Désactiver le micro uniquement sur iOS (iPhone, iPad, iPod)
+  const isIOSDevice = typeof window !== 'undefined' && /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   const handleToggleRecording = () => {
     if (isListening) {
@@ -596,6 +599,15 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
       startListening();
     }
   };
+
+  // Désactiver le micro sur iOS uniquement
+  if (isIOSDevice) {
+    return (
+      <div className="p-3 rounded-full bg-gray-100 text-gray-400 cursor-not-allowed" title="Micro désactivé sur iOS">
+        <MicOff className="w-5 h-5" />
+      </div>
+    );
+  }
 
   if (!isSupported) {
     return (

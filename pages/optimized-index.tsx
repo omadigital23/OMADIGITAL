@@ -87,10 +87,10 @@ const OptimizedHomePage = memo(() => {
       <div className="min-h-screen bg-white">
         <Head>
           {/* Meta tags essentiels */}
-          <title>OMA Digital - Solutions IA & Automatisation PME Sénégal & Maroc | ROI +200% Garanti</title>
+          <title>OMA Digital - Solutions IA & Automatisation PME Sénégal & Maroc | ROI +98% Garanti</title>
           <meta 
             name="description" 
-            content="Transformez votre PME avec nos solutions IA : WhatsApp automatisé, sites ultra-rapides <1.5s, chatbots français. +200% ROI garanti en 3 mois. Spécialiste transformation digitale Dakar, Thies, Casablanca, Rabat, Marrakech." 
+            content="Transformez votre PME avec nos solutions IA : WhatsApp automatisé, sites ultra-rapides <1.5s, chatbots français. +98% ROI garanti en 3 mois. Spécialiste transformation digitale Dakar, Thies, Casablanca, Rabat, Marrakech." 
           />
           <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
           
@@ -117,7 +117,7 @@ const OptimizedHomePage = memo(() => {
           
           {/* Open Graph */}
           <meta property="og:title" content="OMA Digital - Solutions IA pour PME au Sénégal et au Maroc" />
-          <meta property="og:description" content="Automatisation WhatsApp, sites ultra-rapides, IA conversationnelle. 200+ clients PME, ROI +200%. Spécialiste transformation digitale Dakar, Thies, Casablanca, Rabat, Marrakech." />
+          <meta property="og:description" content="Automatisation WhatsApp, sites ultra-rapides, IA conversationnelle. 200+ clients PME, ROI +98%. Spécialiste transformation digitale Dakar, Thies, Casablanca, Rabat, Marrakech." />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://oma-digital.sn" />
           <meta property="og:image" content="https://oma-digital.sn/images/og-image.svg" />
@@ -131,7 +131,7 @@ const OptimizedHomePage = memo(() => {
           <meta name="twitter:site" content="@OMADigitalSN" />
           <meta name="twitter:creator" content="@OMADigitalSN" />
           <meta name="twitter:title" content="OMA Digital - Solutions IA PME Sénégal & Maroc" />
-          <meta name="twitter:description" content="Transformez votre PME avec nos solutions IA. ROI +200% garanti en 3 mois." />
+          <meta name="twitter:description" content="Transformez votre PME avec nos solutions IA. ROI +98% garanti en 3 mois." />
           <meta name="twitter:image" content="https://oma-digital.sn/images/og-image.svg" />
           
           {/* Géolocalisation */}
@@ -167,7 +167,7 @@ const OptimizedHomePage = memo(() => {
                 "alternateName": "OMA Digital Sénégal Maroc",
                 "url": "https://oma-digital.sn",
                 "logo": "https://oma-digital.sn/images/logo.webp",
-                "description": "Solutions IA et automatisation pour PME au Sénégal et au Maroc. Automatisation WhatsApp, sites ultra-rapides, chatbots intelligents. ROI +200% garanti.",
+                "description": "Solutions IA et automatisation pour PME au Sénégal et au Maroc. Automatisation WhatsApp, sites ultra-rapides, chatbots intelligents. ROI +98% garanti.",
                 "foundingDate": "2023",
                 "founders": [
                   {

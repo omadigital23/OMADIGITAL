@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://omadigital.net',
+  siteUrl: process.env.SITE_URL || 'https://www.omadigital.net',
   generateRobotsFile: true,
   generateIndexSitemap: false,
   
@@ -110,7 +110,7 @@ module.exports = {
       }
     ],
     additionalSitemaps: [
-      'https://omadigital.net/sitemap.xml',
+      'https://www.omadigital.net/sitemap.xml',
     ],
   },
   

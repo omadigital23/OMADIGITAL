@@ -243,13 +243,13 @@ export default function BlogArticlePage({ slug, locale }: BlogArticlePageProps) 
                     href="/#contact"
                     className="inline-block px-6 py-3 bg-white text-orange-600 font-bold rounded-lg hover:bg-gray-100 transition-colors text-center"
                   >
-                    Demander un devis gratuit
+                    {t('cta_section.button_primary')}
                   </a>
                   <a
                     href="tel:+212701193811"
                     className="inline-block px-6 py-3 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors text-center"
                   >
-                    Appeler maintenant
+                    {t('cta_section.button_secondary')}
                   </a>
                 </div>
               </div>

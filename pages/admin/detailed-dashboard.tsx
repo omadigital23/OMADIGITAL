@@ -128,6 +128,27 @@ export default function DetailedDashboard() {
     setExpandedRows(newExpanded);
   };
 
+  const [activating, setActivating] = useState<string | null>(null);
+
+  const activateSubscriber = async (id: string) => {
+    setActivating(id);
+    try {
+      const response = await fetch('/api/admin/activate-subscriber', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      
+      if (response.ok) {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error('Error activating subscriber:', error);
+    } finally {
+      setActivating(null);
+    }
+  };
+
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString('fr-FR', {
@@ -314,13 +335,24 @@ export default function DetailedDashboard() {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(item.subscribed_at)}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(item.confirmed_at)}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm">
-                            <button
-                              onClick={() => toggleRow(item.id)}
-                              className="text-blue-600 hover:text-blue-900 flex items-center"
-                            >
-                              {expandedRows.has(item.id) ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                              <span className="ml-1">Détails</span>
-                            </button>
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => toggleRow(item.id)}
+                                className="text-blue-600 hover:text-blue-900 flex items-center"
+                              >
+                                {expandedRows.has(item.id) ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                <span className="ml-1">Détails</span>
+                              </button>
+                              {item.status === 'pending' && (
+                                <button
+                                  onClick={() => activateSubscriber(item.id)}
+                                  disabled={activating === item.id}
+                                  className="px-2 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded disabled:opacity-50"
+                                >
+                                  {activating === item.id ? 'En cours...' : 'Activer'}
+                                </button>
+                              )}
+                            </div>
                           </td>
                         </tr>
                         {expandedRows.has(item.id) && (

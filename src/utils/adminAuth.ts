@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { JWT_SECRET, ADMIN_USERNAME } from '../lib/env-server';
 import { logError, AuthenticationError } from './error-handling';
@@ -163,6 +163,22 @@ export function withAdminAuth<P = Record<string, unknown>>(
     return {
       props: {} as P,
     };
+  };
+}
+
+// ============================================================================
+// API Route Protection
+// ============================================================================
+
+export function withAdminApiAuth(handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>) {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    const authResult = isAuthenticated({ req } as GetServerSidePropsContext);
+    
+    if (!authResult.isAuthenticated) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    return handler(req, res);
   };
 }
 

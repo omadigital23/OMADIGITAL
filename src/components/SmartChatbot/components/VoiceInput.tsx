@@ -56,12 +56,12 @@ export function VoiceInput({ onTranscript, disabled = false }: VoiceInputProps) 
 
       console.log('🎤 Platform detected:', platform, '| Safari:', isSafari);
       
-      // Safety timeout: force stop after 30 seconds to prevent hanging
+      // Safety timeout: force stop after 10 seconds to prevent hanging
       timeoutRef.current = setTimeout(() => {
         console.log('🎤 Safety timeout reached, forcing stop');
         stopListening();
-        setError('Timeout: enregistrement trop long');
-      }, 30000);
+        setError('Timeout: enregistrement trop long (max 10s)');
+      }, 10000);
       
       // Track recording start time
       recordingStartTimeRef.current = Date.now();

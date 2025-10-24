@@ -114,12 +114,7 @@ export function EnhancedOffersSection() {
 
   const handleOfferClick = (offerId: string) => {
     const offer = offers[offerId as keyof typeof offers];
-    trackEvent({
-      event_name: 'offer_selected',
-      offer_id: offerId,
-      offer_name: offer.name,
-      price: offer.price
-    });
+    trackEvent('offer_selected');
 
     const message = t('offers.whatsapp_message', { offerName: offer.name });
     window.open(generateWhatsAppLink(message), '_blank');
@@ -348,7 +343,7 @@ export function EnhancedOffersSection() {
           </p>
           <button
             onClick={() => {
-              trackEvent({ event_name: 'consultation_request' });
+              trackEvent('consultation_request');
               window.open(generateWhatsAppLink(t('offers.consultation_message')), '_blank');
             }}
             className="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200"

@@ -121,7 +121,7 @@ export function EnhancedOffersSection() {
       price: offer.price
     });
 
-    const message = `Bonjour ! Je suis intéressé(e) par l'offre ${offer.name}. Pouvez-vous me donner plus d'informations ?`;
+    const message = t('offers.whatsapp_message', { offerName: offer.name });
     window.open(generateWhatsAppLink(message), '_blank');
   };
 
@@ -349,7 +349,7 @@ export function EnhancedOffersSection() {
           <button
             onClick={() => {
               trackEvent({ event_name: 'consultation_request' });
-              window.open(generateWhatsAppLink("Bonjour ! J'aimerais découvrir comment transformer mon entreprise avec vos solutions sur mesure."), '_blank');
+              window.open(generateWhatsAppLink(t('offers.consultation_message')), '_blank');
             }}
             className="inline-flex items-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-orange-200"
           >

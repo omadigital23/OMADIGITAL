@@ -31,17 +31,17 @@ interface Offer {
   guarantee: string;
 }
 
-const offers: Offer[] = [
+const getOffers = (t: any): Offer[] => [
   {
     id: 'whatsapp-automation',
-    title: 'Automatisation WhatsApp',
-    subtitle: 'Solution IA Complète',
-    description: 'Transformez votre WhatsApp en machine à vendre 24h/24 avec notre IA conversationnelle avancée.',
+    title: t('services.whatsapp.title'),
+    subtitle: t('services.whatsapp.description'),
+    description: t('services.whatsapp.description'),
     valueProposition: 'ROI garanti 300% en 30 jours',
     features: [
-      'Chatbot IA multilingue (FR/EN)',
-      'Réponses automatiques intelligentes',
-      'Gestion des commandes automatisée',
+      t('services.whatsapp.feature1'),
+      t('services.whatsapp.feature2'),
+      t('services.whatsapp.feature3'),
       'Intégration catalogue produits',
       'Analytics et rapports détaillés',
       'Formation équipe incluse'
@@ -50,20 +50,20 @@ const offers: Offer[] = [
     icon: MessageCircle,
     gradient: 'from-green-500 to-emerald-600',
     popular: true,
-    cta: 'Automatiser WhatsApp',
+    cta: t('services.get_started'),
     deliveryTime: '7 jours',
     guarantee: 'Satisfait ou remboursé 30 jours'
   },
   {
     id: 'website-ultra-fast',
-    title: 'Site Web Ultra-Rapide',
-    subtitle: 'Performance & SEO',
-    description: 'Site web professionnel optimisé pour la conversion avec temps de chargement < 1 seconde.',
+    title: t('services.website.title'),
+    subtitle: t('services.website.description'),
+    description: t('services.website.description'),
     valueProposition: 'Multipliez votre trafic par 3',
     features: [
-      'Design responsive moderne',
-      'Optimisation SEO avancée',
-      'Temps de chargement < 1s',
+      t('services.website.feature1'),
+      t('services.website.feature2'),
+      t('services.website.feature3'),
       'Hébergement 1 an inclus',
       'SSL et sécurité renforcée',
       'Maintenance 6 mois offerte'
@@ -71,20 +71,20 @@ const offers: Offer[] = [
     highlights: ['+250% de trafic', 'Top 3 Google', 'Mobile-first'],
     icon: Globe,
     gradient: 'from-blue-500 to-cyan-600',
-    cta: 'Créer Mon Site',
+    cta: t('services.get_started'),
     deliveryTime: '5 jours',
     guarantee: 'Performance garantie'
   },
   {
     id: 'ai-assistant',
-    title: 'Assistant IA Personnalisé',
-    subtitle: 'Intelligence Artificielle',
-    description: 'Assistant IA sur mesure pour automatiser vos processus métier et améliorer la productivité.',
+    title: t('services.ai_assistant.title'),
+    subtitle: t('services.ai_assistant.description'),
+    description: t('services.ai_assistant.description'),
     valueProposition: 'Économisez 50h/mois de travail',
     features: [
-      'IA entraînée sur vos données',
-      'Intégration multi-plateformes',
-      'Automatisation des tâches',
+      t('services.ai_assistant.feature1'),
+      t('services.ai_assistant.feature2'),
+      t('services.ai_assistant.feature3'),
       'Analyse prédictive',
       'API personnalisée',
       'Support technique dédié'
@@ -92,7 +92,7 @@ const offers: Offer[] = [
     highlights: ['+400% productivité', 'Économie 50h/mois', 'ROI 200%'],
     icon: Bot,
     gradient: 'from-purple-500 to-pink-600',
-    cta: 'Créer Mon IA',
+    cta: t('services.get_started'),
     deliveryTime: '14 jours',
     guarantee: 'Performance mesurable'
   }
@@ -101,6 +101,7 @@ const offers: Offer[] = [
 export function OffersSection() {
   const { t } = useTranslation();
   const [selectedOffer, setSelectedOffer] = useState<string | null>(null);
+  const offers = getOffers(t);
 
   const handleOfferClick = (offer: Offer) => {
     trackEvent('offer_interest', {

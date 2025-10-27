@@ -6,56 +6,86 @@
 const fs = require('fs');
 const path = require('path');
 
-// Define all pages with their priorities and change frequencies
+// Enhanced: dynamically read blog posts and city pages from locales
+function getBlogPosts() {
+  const blogPosts = [];
+  try {
+    const frBlogPath = path.join(__dirname, '..', 'public', 'locales', 'fr', 'blog.json');
+    const enBlogPath = path.join(__dirname, '..', 'public', 'locales', 'en', 'blog.json');
+    const frBlogData = JSON.parse(fs.readFileSync(frBlogPath, 'utf8'));
+    // const enBlogData = JSON.parse(fs.readFileSync(enBlogPath, 'utf8')); // not needed for slugs, ensure file exists
+
+    const frSlugs = Object.keys(frBlogData.articles || {});
+
+    frSlugs.forEach((slug) => {
+      blogPosts.push({ path: `/fr/blog/${slug}`, priority: 0.8, changefreq: 'monthly' });
+      blogPosts.push({ path: `/en/blog/${slug}`, priority: 0.8, changefreq: 'monthly' });
+    });
+  } catch (error) {
+    console.error('Error reading blog posts for sitemap:', error);
+  }
+  return blogPosts;
+}
+
+function getCityPages() {
+  const cityPages = [];
+  try {
+    const frCitiesPath = path.join(__dirname, '..', 'public', 'locales', 'fr', 'cities.json');
+    const frCities = JSON.parse(fs.readFileSync(frCitiesPath, 'utf8'));
+    const citySlugs = Object.keys((frCities && frCities.cities) || {});
+
+    citySlugs.forEach((city) => {
+      // Site routes use /villes for both locales
+      cityPages.push({ path: `/fr/villes/${city}`, priority: 0.9, changefreq: 'monthly' });
+      cityPages.push({ path: `/en/villes/${city}`, priority: 0.9, changefreq: 'monthly' });
+    });
+  } catch (error) {
+    console.error('Error reading city pages for sitemap:', error);
+  }
+  return cityPages;
+}
+
+// Define core pages with locale-prefixed paths
 const pages = [
-  // Homepage
-  { path: '/', priority: 1.0, changefreq: 'daily' },
+  // Homepage (locale specific)
+  { path: '/fr', priority: 1.0, changefreq: 'daily' },
   { path: '/en', priority: 1.0, changefreq: 'daily' },
-  
+
   // Main pages
-  { path: '/services', priority: 0.9, changefreq: 'weekly' },
+  { path: '/fr/services', priority: 0.9, changefreq: 'weekly' },
   { path: '/en/services', priority: 0.9, changefreq: 'weekly' },
-  
-  { path: '/about', priority: 0.8, changefreq: 'monthly' },
+
+  { path: '/fr/about', priority: 0.8, changefreq: 'monthly' },
   { path: '/en/about', priority: 0.8, changefreq: 'monthly' },
-  
-  { path: '/contact', priority: 0.8, changefreq: 'monthly' },
+
+  { path: '/fr/contact', priority: 0.8, changefreq: 'monthly' },
   { path: '/en/contact', priority: 0.8, changefreq: 'monthly' },
-  
-  // Blog posts (example)
-  { path: '/blog', priority: 0.7, changefreq: 'weekly' },
+
+  // Blog index
+  { path: '/fr/blog', priority: 0.7, changefreq: 'weekly' },
   { path: '/en/blog', priority: 0.7, changefreq: 'weekly' },
-  
-  { path: '/blog/automatisation-whatsapp-pme-senegal', priority: 0.8, changefreq: 'monthly' },
-  { path: '/en/blog/whatsapp-automation-sme-senegal', priority: 0.8, changefreq: 'monthly' },
-  
-  { path: '/blog/sites-ultra-rapides-seo-dakar', priority: 0.8, changefreq: 'monthly' },
-  { path: '/en/blog/lightning-fast-websites-seo-dakar', priority: 0.8, changefreq: 'monthly' },
-  
-  { path: '/blog/transformation-digitale-pme-africaine', priority: 0.7, changefreq: 'monthly' },
-  { path: '/en/blog/digital-transformation-african-sme', priority: 0.7, changefreq: 'monthly' },
-  
+
   // Legal pages
-  { path: '/mentions-legales', priority: 0.3, changefreq: 'yearly' },
+  { path: '/fr/mentions-legales', priority: 0.3, changefreq: 'yearly' },
   { path: '/en/legal-notice', priority: 0.3, changefreq: 'yearly' },
-  
-  { path: '/privacy-policy', priority: 0.3, changefreq: 'yearly' },
+
+  { path: '/fr/privacy-policy', priority: 0.3, changefreq: 'yearly' },
   { path: '/en/privacy-policy', priority: 0.3, changefreq: 'yearly' },
-  
-  { path: '/terms-conditions', priority: 0.3, changefreq: 'yearly' },
-  { path: '/en/terms-conditions', priority: 0.3, changefreq: 'yearly' }
-];
+
+  { path: '/fr/terms-conditions', priority: 0.3, changefreq: 'yearly' },
+  { path: '/en/terms-conditions', priority: 0.3, changefreq: 'yearly' },
+].concat(getBlogPosts()).concat(getCityPages());
 
 // Generate sitemap.xml
 function generateSitemap() {
-  const baseUrl = 'https://omadigital.net';
+  const baseUrl = 'https://www.omadigital.net';
   const lastmod = new Date().toISOString();
-  
+
   let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
-  
+
   pages.forEach(page => {
     xml += `  <url>
     <loc>${baseUrl}${page.path}</loc>
@@ -63,84 +93,37 @@ function generateSitemap() {
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority.toFixed(1)}</priority>
 `;
-    
-    // Add hreflang alternates
-    if (page.path.endsWith('/en') || page.path.includes('/en/')) {
-      const frenchPath = page.path.replace('/en', '') || '/';
-      xml += `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${page.path}" />
-    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${frenchPath}" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${frenchPath}" />
-`;
-    } else {
-      const englishPath = page.path === '/' ? '/en' : `/en${page.path}`;
+
+    // Add hreflang alternates for locale-prefixed paths
+    if (page.path.startsWith('/fr')) {
+      // Handle special-case mappings where slugs differ between locales
+      let englishPath = page.path.replace('/fr', '/en');
+      if (page.path === '/fr/mentions-legales') englishPath = '/en/legal-notice';
       xml += `    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${page.path}" />
     <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${englishPath}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${page.path}" />
 `;
+    } else if (page.path.startsWith('/en')) {
+      let frenchPath = page.path.replace('/en', '/fr');
+      if (page.path === '/en/legal-notice') frenchPath = '/fr/mentions-legales';
+      xml += `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${page.path}" />
+    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${frenchPath}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${frenchPath}" />
+`;
     }
-    
+
     xml += `  </url>
 `;
   });
-  
+
   xml += `</urlset>`;
+
   
   // Write sitemap.xml
   fs.writeFileSync(path.join(__dirname, '..', 'public', 'sitemap.xml'), xml);
   console.log('✅ Sitemap generated successfully at public/sitemap.xml');
 }
 
-// Generate robots.txt
-function generateRobots() {
-  const robotsTxt = `# robots.txt for OMA Digital
-# Your digital partner in Senegal and Morocco
-
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-Disallow: /_next/
-Disallow: /test-*
-
-# Sitemap
-Sitemap: https://omadigital.net/sitemap.xml
-
-# Crawl-delay for better server performance
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-
-User-agent: Bingbot
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-
-User-agent: Slurp
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-
-# Block bad bots
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /
-`;
-  
-  fs.writeFileSync(path.join(__dirname, '..', 'public', 'robots.txt'), robotsTxt);
-  console.log('✅ Robots.txt generated successfully at public/robots.txt');
-}
-
 // Run the generators
 generateSitemap();
-generateRobots();
-
-console.log('🚀 SEO files generated for omadigital.net');
+console.log('🚀 Sitemap generated. robots.txt left unchanged.');

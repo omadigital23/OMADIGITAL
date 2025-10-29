@@ -34,7 +34,6 @@ class RAGFirstService {
     const { language, limit = this.RAG_LIMIT } = options;
 
     const cleanQuestion = question.trim();
-    
     // Vérifier le cache (économise des appels Vertex AI)
     const cacheKey = `${cleanQuestion.toLowerCase()}_${language || 'auto'}`;
     const cached = this.responseCache.get(cacheKey);
@@ -42,14 +41,22 @@ class RAGFirstService {
       console.log('💾 Cache hit - returning cached response');
       return cached.result;
     }
-    
+
     // Rechercher dans les 2 langues (FR et EN) pour éviter un appel de détection
-    const ragDocumentsFr = await this.searchKnowledgeBase(cleanQuestion, 'fr', limit);
-    const ragDocumentsEn = await this.searchKnowledgeBase(cleanQuestion, 'en', limit);
+    const ragDocumentsFr = await this.searchKnowledgeBase(cleanQuestion, 'fr', limit * 2);
+    const ragDocumentsEn = await this.searchKnowledgeBase(cleanQuestion, 'en', limit * 2);
     
-    // Prendre les meilleurs résultats (peu importe la langue)
-    const allDocuments = [...ragDocumentsFr, ...ragDocumentsEn];
+    // Fusionner puis classer par pertinence selon l'intention
+    let allDocuments = [...ragDocumentsFr, ...ragDocumentsEn];
     console.log(`📚 RAG: Found ${allDocuments.length} documents (FR: ${ragDocumentsFr.length}, EN: ${ragDocumentsEn.length})`);
+
+    if (allDocuments.length > 0) {
+      const normalized = this.normalizeAccents(cleanQuestion);
+      const isOfferIntent = this.isOffersServicesIntent(normalized);
+      const baseKeywords = normalized.split(/\s+/).filter((w: string) => w.length >= 3);
+      const expanded = this.expandKeywords(baseKeywords, 'en');
+      allDocuments = this.rankDocuments(allDocuments, expanded, isOfferIntent).slice(0, limit);
+    }
 
     let result: RAGResult;
     
@@ -74,6 +81,8 @@ class RAGFirstService {
     return result;
   }
 
+  
+
   /**
    * Normaliser les accents pour la recherche
    */
@@ -82,6 +91,109 @@ class RAGFirstService {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase();
+  }
+
+  /**
+   * Étend la liste de mots-clés avec variantes singulier/pluriel et synonymes FR/EN
+   */
+  private expandKeywords(base: string[], language: 'fr' | 'en'): string[] {
+    const variants = new Set<string>();
+
+    const add = (w: string) => {
+      const k = w.trim().toLowerCase();
+      if (k) variants.add(k);
+    };
+
+    // Synonymes dédiés services/offres en FR et EN
+    const synonymsMap: Record<string, string[]> = {
+      // EN + generic
+      'offer': ['offers', 'service', 'services', 'proposal', 'package', 'plans'],
+      'offers': ['offer', 'service', 'services', 'proposal', 'package', 'plans'],
+      'service': ['services', 'offer', 'offers', 'solutions', 'offre', 'offres'],
+      'services': ['service', 'offer', 'offers', 'solutions', 'offre', 'offres'],
+      // FR specific
+      'offre': ['offres', 'service', 'services', 'proposition', 'forfait', 'packs'],
+      'offres': ['offre', 'service', 'services', 'proposition', 'forfait', 'packs']
+    };
+
+    const isPluralCandidate = (w: string) => /[a-z]$/.test(w) && !/(ss|us|is)$/.test(w);
+
+    for (const w of base) {
+      add(w);
+
+      // Basculer singulier/pluriel simple
+      if (w.endsWith('s') && w.length > 3) {
+        add(w.slice(0, -1));
+      } else if (isPluralCandidate(w)) {
+        add(`${w}s`);
+      }
+
+      // Ajouter synonymes si connus
+      if (synonymsMap[w]) {
+        for (const s of synonymsMap[w]) add(s);
+      }
+
+      // Synonymes spécifiques par langue
+      if (language === 'en') {
+        if (w === 'pricing' || w === 'prices' || w === 'price') {
+          add('plans'); add('packages'); add('offer'); add('offers');
+        }
+      } else {
+        if (w === 'tarif' || w === 'tarifs' || w === 'prix') {
+          add('offre'); add('offres'); add('packs');
+        }
+      }
+    }
+
+    return Array.from(variants);
+  }
+
+  /**
+   * Détecte si la question concerne les offres/services
+   */
+  private isOffersServicesIntent(normalized: string): boolean {
+    return /(offer|offers|service|services|offre|offres|prestations)/i.test(normalized);
+  }
+
+  /**
+   * Classe les documents par pertinence en privilégiant la catégorie services
+   * et en démotant la catégorie contact pour les requêtes d'offres/services
+   */
+  private rankDocuments(docs: any[], keywords: string[], isOfferIntent: boolean): any[] {
+    const kwSet = new Set(keywords.map(k => k.toLowerCase()));
+
+    const scoreOf = (doc: any): number => {
+      let score = 0;
+
+      const title: string = (doc.title || '').toLowerCase();
+      const content: string = (doc.content || '').toLowerCase();
+      const category: string = (doc.category || '').toLowerCase();
+      const kwords: string[] = Array.isArray(doc.keywords) ? doc.keywords.map((k: string) => String(k).toLowerCase()) : [];
+
+      // Poids catégorie
+      if (isOfferIntent) {
+        if (category === 'services') score += 8; // booster services
+        if (category === 'contact') score -= 4;  // éviter site officiel pour cette intention
+        if (category === 'about') score -= 2;
+      }
+
+      // Occurrences dans title/content/keywords
+      for (const k of kwSet) {
+        if (!k) continue;
+        if (title.includes(k)) score += 3;
+        if (content.includes(k)) score += 1.5;
+        if (kwords.includes(k)) score += 2;
+      }
+
+      // Mots-clés directs utiles
+      const direct = /(offer|offers|service|services|offre|offres)/;
+      if (direct.test(title)) score += 3;
+      if (direct.test(content)) score += 1.5;
+
+      return score;
+    };
+
+    return [...docs].sort((a, b) => scoreOf(b) - scoreOf(a));
   }
 
   /**
@@ -97,12 +209,15 @@ class RAGFirstService {
       const normalizedQuery = this.normalizeAccents(query);
       
       // Extraire les mots-clés de la question (mots de 3+ caractères)
-      const keywords = normalizedQuery
+      const baseKeywords = normalizedQuery
         .split(/\s+/)
-        .filter(word => word.length >= 3)
-        .filter(word => !['the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does', 'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 'cest'].includes(word));
+        .filter((word: string) => word.length >= 3)
+        .filter((word: string) => !['the', 'what', 'where', 'when', 'how', 'your', 'are', 'is', 'can', 'do', 'does', 'qui', 'que', 'quoi', 'ou', 'comment', 'votre', 'est', 'sont', 'peut', 'faire', 'cest'].includes(word));
+
+      // Étendre avec variantes singulier/pluriel + synonymes
+      const keywords = this.expandKeywords(baseKeywords, language);
       
-      console.log(`🔍 RAG: Keywords extracted: ${keywords.join(', ')}`);
+      console.log(`🔍 RAG: Keywords expanded: ${keywords.join(', ')}`);
 
       const result = await supabaseManager.executeQuery(async (client) => {
         // Recherche dans le champ keywords (array) avec l'opérateur @>
@@ -117,19 +232,25 @@ class RAGFirstService {
           // Construire une requête OR correcte pour Supabase
           // Pour chaque mot-clé, chercher dans keywords, title ET content
           const conditions: string[] = [];
-          
-          keywords.forEach(kw => {
-            // Chercher dans le tableau keywords avec l'opérateur contains
-            conditions.push(`keywords.cs.{${kw}}`);
-            // Aussi chercher dans title et content
-            conditions.push(`title.ilike.%${kw}%`);
-            conditions.push(`content.ilike.%${kw}%`);
+
+          keywords.forEach((kw: string) => {
+            const safeKw = kw.replace(/[",{}]/g, '');
+            // Chercher dans le tableau keywords (text[]) avec l'opérateur contains
+            // Format PostgREST: keywords.cs.{"value"}
+            if (safeKw && !/\s/.test(safeKw)) {
+              conditions.push(`keywords.cs.{"${safeKw}"}`);
+            }
+            // Aussi chercher dans title et content (ILIKE)
+            const like = safeKw.replace(/%/g, '');
+            conditions.push(`title.ilike.%${like}%`);
+            conditions.push(`content.ilike.%${like}%`);
           });
-          
+
           queryBuilder = queryBuilder.or(conditions.join(','));
         } else {
           // Si pas de mots-clés, chercher la phrase complète
-          queryBuilder = queryBuilder.or(`title.ilike.%${normalizedQuery}%,content.ilike.%${normalizedQuery}%`);
+          const likeAll = normalizedQuery.replace(/%/g, '');
+          queryBuilder = queryBuilder.or(`title.ilike.%${likeAll}%,content.ilike.%${likeAll}%`);
         }
 
         const { data, error } = await queryBuilder.limit(limit);

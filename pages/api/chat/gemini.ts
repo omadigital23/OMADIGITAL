@@ -33,14 +33,14 @@ const SUGGESTIONS = {
     whatsapp: ['Request WhatsApp demo', 'See automation pricing', 'View success stories'],
     website: ['Get website quote', 'See performance examples', 'Schedule consultation'],
     pricing: ['View all pricing', 'Get custom quote', 'Compare packages'],
-    default: ['Discover all services', 'Request free consultation', 'Get our email address']
+    default: ['Discover all services', 'Request free consultation', 'Contact us by email']
   },
   fr: {
     mobile: ['Obtenir devis app mobile', 'Voir portfolio apps', 'Discuter fonctionnalités'],
     whatsapp: ['Demander démo WhatsApp', 'Voir tarifs automatisation', 'Voir cas de succès'],
     website: ['Obtenir devis site', 'Voir exemples performance', 'Planifier consultation'],
     pricing: ['Voir tous les tarifs', 'Obtenir devis personnalisé', 'Comparer les packages'],
-    default: ['Découvrir tous les services', 'Demander consultation gratuite', "Obtenir notre adresse email"]
+    default: ['Découvrir tous les services', 'Demander consultation gratuite', 'Nous contacter par email']
   }
 } as const;
 

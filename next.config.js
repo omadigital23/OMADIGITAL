@@ -16,6 +16,25 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+
+  // Redirect non-localized routes to default locale (fr)
+  async redirects() {
+    return [
+      // Root to default locale
+      { source: '/', destination: '/fr', permanent: true },
+
+      // Specific known pages
+      { source: '/about', destination: '/fr/about', permanent: true },
+      { source: '/blog', destination: '/fr/blog', permanent: true },
+      { source: '/blog/:slug', destination: '/fr/blog/:slug', permanent: true },
+      { source: '/conditions-generales', destination: '/fr/terms-conditions', permanent: true },
+      { source: '/cookie-policy', destination: '/fr/privacy-policy', permanent: true },
+      { source: '/gdpr-compliance', destination: '/fr/privacy-policy', permanent: true },
+
+      // Generic catch-all: any non-localized path → /fr equivalent
+      { source: '/:path((?!fr/|en/).*)', destination: '/fr/:path', permanent: true },
+    ];
+  },
   
   typescript: {
     ignoreBuildErrors: true,

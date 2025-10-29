@@ -37,15 +37,17 @@ function getBlogPosts() {
           ? frSlug
           : frSlug; // fallback if no override and no matching key
 
+      // FR at root
       blogPosts.push({
-        path: `/fr/blog/${frSlug}`,
+        path: `/blog/${frSlug}`,
         alt: { en: `/en/blog/${mappedEnSlug}` },
         priority: 0.8,
         changefreq: 'monthly'
       });
+      // EN localized
       blogPosts.push({
         path: `/en/blog/${mappedEnSlug}`,
-        alt: { fr: `/fr/blog/${frSlug}` },
+        alt: { fr: `/blog/${frSlug}` },
         priority: 0.8,
         changefreq: 'monthly'
       });
@@ -64,9 +66,10 @@ function getCityPages() {
     const citySlugs = Object.keys((frCities && frCities.cities) || {});
 
     citySlugs.forEach((city) => {
-      // Site routes use /villes for both locales
-      cityPages.push({ path: `/fr/villes/${city}`, priority: 0.9, changefreq: 'monthly' });
-      cityPages.push({ path: `/en/villes/${city}`, priority: 0.9, changefreq: 'monthly' });
+      // FR at root
+      cityPages.push({ path: `/villes/${city}`, alt: { en: `/en/villes/${city}` }, priority: 0.9, changefreq: 'monthly' });
+      // EN localized
+      cityPages.push({ path: `/en/villes/${city}`, alt: { fr: `/villes/${city}` }, priority: 0.9, changefreq: 'monthly' });
     });
   } catch (error) {
     console.error('Error reading city pages for sitemap:', error);
@@ -74,35 +77,23 @@ function getCityPages() {
   return cityPages;
 }
 
-// Define core pages with locale-prefixed paths
+// Define core pages with FR at root and EN prefixed
 const pages = [
-  // Homepage (locale specific)
-  { path: '/fr', priority: 1.0, changefreq: 'daily' },
-  { path: '/en', priority: 1.0, changefreq: 'daily' },
+  // Homepage (FR at root, EN localized)
+  { path: '/', priority: 1.0, changefreq: 'daily', alt: { en: '/en' } },
 
   // Main pages
-  { path: '/fr/services', priority: 0.9, changefreq: 'weekly' },
-  { path: '/en/services', priority: 0.9, changefreq: 'weekly' },
-
-  { path: '/fr/about', priority: 0.8, changefreq: 'monthly' },
-  { path: '/en/about', priority: 0.8, changefreq: 'monthly' },
-
-  { path: '/fr/contact', priority: 0.8, changefreq: 'monthly' },
-  { path: '/en/contact', priority: 0.8, changefreq: 'monthly' },
+  { path: '/services', priority: 0.9, changefreq: 'weekly', alt: { en: '/en/services' } },
+  { path: '/about', priority: 0.8, changefreq: 'monthly', alt: { en: '/en/about' } },
+  { path: '/contact', priority: 0.8, changefreq: 'monthly', alt: { en: '/en/contact' } },
 
   // Blog index
-  { path: '/fr/blog', priority: 0.7, changefreq: 'weekly' },
-  { path: '/en/blog', priority: 0.7, changefreq: 'weekly' },
+  { path: '/blog', priority: 0.7, changefreq: 'weekly', alt: { en: '/en/blog' } },
 
   // Legal pages
-  { path: '/fr/mentions-legales', priority: 0.3, changefreq: 'yearly' },
-  { path: '/en/legal-notice', priority: 0.3, changefreq: 'yearly' },
-
-  { path: '/fr/privacy-policy', priority: 0.3, changefreq: 'yearly' },
-  { path: '/en/privacy-policy', priority: 0.3, changefreq: 'yearly' },
-
-  { path: '/fr/terms-conditions', priority: 0.3, changefreq: 'yearly' },
-  { path: '/en/terms-conditions', priority: 0.3, changefreq: 'yearly' },
+  { path: '/mentions-legales', priority: 0.3, changefreq: 'yearly', alt: { en: '/en/legal-notice' } },
+  { path: '/privacy-policy', priority: 0.3, changefreq: 'yearly', alt: { en: '/en/privacy-policy' } },
+  { path: '/terms-conditions', priority: 0.3, changefreq: 'yearly', alt: { en: '/en/terms-conditions' } },
 ].concat(getBlogPosts()).concat(getCityPages());
 
 // Generate sitemap.xml
@@ -123,21 +114,18 @@ function generateSitemap() {
     <priority>${page.priority.toFixed(1)}</priority>
 `;
 
-    // Add hreflang alternates for locale-prefixed paths
-    if (page.path.startsWith('/fr')) {
-      // Use explicit alt if provided (for mapped blog slugs), else simple replace
-      let englishPath = page.alt?.en ? page.alt.en : page.path.replace('/fr', '/en');
-      if (page.path === '/fr/mentions-legales') englishPath = '/en/legal-notice';
+    // Add hreflang alternates with FR at root and EN under /en
+    if (page.path.startsWith('/en')) {
+      const frenchPath = page.alt?.fr ? page.alt.fr : page.path.replace('/en', '');
+      xml += `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${page.path}" />
+    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${frenchPath || '/'}" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${frenchPath || '/'}" />
+`;
+    } else {
+      const englishPath = page.alt?.en ? page.alt.en : (page.path === '/' ? '/en' : `/en${page.path}`);
       xml += `    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${page.path}" />
     <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${englishPath}" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${page.path}" />
-`;
-    } else if (page.path.startsWith('/en')) {
-      let frenchPath = page.alt?.fr ? page.alt.fr : page.path.replace('/en', '/fr');
-      if (page.path === '/en/legal-notice') frenchPath = '/fr/mentions-legales';
-      xml += `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}${page.path}" />
-    <xhtml:link rel="alternate" hreflang="fr" href="${baseUrl}${frenchPath}" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${frenchPath}" />
 `;
     }
 

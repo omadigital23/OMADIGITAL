@@ -17,22 +17,19 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // Redirect non-localized routes to default locale (fr)
+  // Redirect legacy "/fr" URLs to root (FR served at /)
   async redirects() {
     return [
-      // Root to default locale
-      { source: '/', destination: '/fr', permanent: true },
+      // Consolidate old FR-prefixed URLs to root FR
+      { source: '/fr', destination: '/', permanent: true },
+      { source: '/fr/:path*', destination: '/:path*', permanent: true },
 
-      // Specific known pages
-      { source: '/about', destination: '/fr/about', permanent: true },
-      { source: '/blog', destination: '/fr/blog', permanent: true },
-      { source: '/blog/:slug', destination: '/fr/blog/:slug', permanent: true },
-      { source: '/conditions-generales', destination: '/fr/terms-conditions', permanent: true },
-      { source: '/cookie-policy', destination: '/fr/privacy-policy', permanent: true },
-      { source: '/gdpr-compliance', destination: '/fr/privacy-policy', permanent: true },
+      // Keep English localized
+      // No change required for '/en/*'
 
-      // Generic catch-all: any non-localized path → /fr equivalent
-      { source: '/:path((?!fr/|en/).*)', destination: '/fr/:path', permanent: true },
+      // Optional legacy normalizations (if you had historic non-localized pages with other slugs)
+      { source: '/conditions-generales', destination: '/terms-conditions', permanent: true },
+      { source: '/gdpr-compliance', destination: '/privacy-policy', permanent: true },
     ];
   },
   

@@ -7,6 +7,7 @@ import { trackQuoteSubmission } from '../lib/analytics';
 import { supabase, isSupabaseConfigured } from '../lib/supabase-client';
 import { ctaService } from '../lib/cta-service';
 import { CTAAction } from './SmartChatbot/types';
+import { motion } from 'framer-motion';
 
 // Define suggestion interface
 interface FormSuggestion {
@@ -770,7 +771,7 @@ export function CTASection() {
               </div>
 
               <div>
-                <button
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
                   className={`w-full flex items-center justify-center px-8 py-4 rounded-lg font-semibold transition-colors ${
@@ -780,6 +781,9 @@ export function CTASection() {
                       ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white'
                       : 'bg-orange-500 hover:bg-orange-600 text-white'
                   }`}
+                  whileHover={!isSubmitting ? { scale: 1.03, y: -1, boxShadow: '0 20px 25px -5px rgba(251,146,60,0.35)' } : undefined}
+                  whileTap={!isSubmitting ? { scale: 0.98, y: 0 } : undefined}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
                   {isSubmitting ? (
                     <>
@@ -792,7 +796,7 @@ export function CTASection() {
                       {t('contact.form_send')}
                     </>
                   )}
-                </button>
+                </motion.button>
                 
                 <p className="text-sm text-gray-500 mt-3 text-center">
                   {t('contact.form_privacy')}

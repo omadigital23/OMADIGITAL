@@ -8,6 +8,19 @@ export function ServicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+  };
+  
   const services = [
     {
       icon: MessageSquare,
@@ -119,8 +132,13 @@ export function ServicesSection() {
           </motion.p>
         </motion.div>
 
-        {/* Services Grid - Improved for better visibility */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {/* Services Grid - Staggered reveal */}
+        <motion.div 
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'show' : 'hidden'}
+        >
           {services.map((service, index) => {
             const IconComponent = service.icon;
             
@@ -128,13 +146,7 @@ export function ServicesSection() {
               <motion.div 
                 key={index} 
                 className="relative group bg-white rounded-xl border border-gray-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full"
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 0.6 + index * 0.1,
-                  ease: "easeOut"
-                }}
+                variants={itemVariants}
                 whileHover={{ 
                   scale: 1.02,
                   y: -8,
@@ -188,7 +200,7 @@ export function ServicesSection() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Clear Value Proposition Section */}
         <motion.div 

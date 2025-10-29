@@ -10,7 +10,10 @@ import {
   Move, 
   Eye,
   Smartphone,
-  Monitor
+  Monitor,
+  Zap,
+  Mail,
+  FileText
 } from 'lucide-react';
 
 interface HeroSection {
@@ -48,15 +51,6 @@ interface ProcessStep {
   deliverables: string;
   illustration: string;
   order: number;
-}
-
-interface Testimonial {
-  id: string;
-  name: string;
-  company: string;
-  quote: string;
-  rating: number;
-  photo: string;
 }
 
 interface ContactSection {
@@ -157,25 +151,6 @@ export function LandingPageManager() {
     }
   ]);
 
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([
-    { 
-      id: '1', 
-      name: 'Aminata Diop', 
-      company: 'Boulangerie Liberté', 
-      quote: 'Grâce à l\'automatisation WhatsApp d\'OMA Digital, nos ventes ont augmenté de 300% en 3 mois!', 
-      rating: 5, 
-      photo: '/images/testimonial1.webp' 
-    },
-    { 
-      id: '2', 
-      name: 'Moussa Fall', 
-      company: 'Agence Marketing Dakar', 
-      quote: 'Le chatbot IA a réduit notre temps de réponse de 80% tout en améliorant la satisfaction client.', 
-      rating: 5, 
-      photo: '/images/testimonial2.webp' 
-    }
-  ]);
-
   const [contactSection, setContactSection] = useState<ContactSection>({
     title: 'Prêt à transformer votre business?',
     description: 'Contactez notre équipe pour une démonstration personnalisée de nos solutions',
@@ -256,15 +231,6 @@ export function LandingPageManager() {
                 );
               }
               break;
-            case 'testimonial':
-              if (id) {
-                setTestimonials(prev => 
-                  prev.map(testimonial => 
-                    testimonial.id === id ? { ...testimonial, photo: imageUrl } : testimonial
-                  )
-                );
-              }
-              break;
           }
         }
       };
@@ -325,24 +291,6 @@ export function LandingPageManager() {
 
   const removeProcessStep = (id: string) => {
     setProcessSteps(prev => prev.filter(step => step.id !== id));
-  };
-
-  const addTestimonial = () => {
-    setTestimonials(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        name: '',
-        company: '',
-        quote: '',
-        rating: 5,
-        photo: ''
-      }
-    ]);
-  };
-
-  const removeTestimonial = (id: string) => {
-    setTestimonials(prev => prev.filter(testimonial => testimonial.id !== id));
   };
 
   const moveItem = (array: any[], setArray: Function, id: string, direction: 'up' | 'down') => {
@@ -821,128 +769,6 @@ export function LandingPageManager() {
     </div>
   );
 
-  const renderTestimonialsSection = () => (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Témoignages</h3>
-          <button
-            onClick={addTestimonial}
-            className="flex items-center space-x-1 bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-md text-sm"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Ajouter Témoignage</span>
-          </button>
-        </div>
-        
-        <div className="space-y-4">
-          {testimonials.map((testimonial, index) => (
-            <div key={testimonial.id} className="border rounded-lg p-4">
-              <div className="flex justify-between items-start mb-3">
-                <h4 className="font-medium text-gray-900">Témoignage #{index + 1}</h4>
-                <button
-                  onClick={() => removeTestimonial(testimonial.id)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
-                  <input
-                    type="text"
-                    value={testimonial.name}
-                    onChange={(e) => setTestimonials(prev => 
-                      prev.map(item => item.id === testimonial.id ? { ...item, name: e.target.value } : item)
-                    )}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
-                  <input
-                    type="text"
-                    value={testimonial.company}
-                    onChange={(e) => setTestimonials(prev => 
-                      prev.map(item => item.id === testimonial.id ? { ...item, company: e.target.value } : item)
-                    )}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Citation</label>
-                  <textarea
-                    value={testimonial.quote}
-                    onChange={(e) => setTestimonials(prev => 
-                      prev.map(item => item.id === testimonial.id ? { ...item, quote: e.target.value } : item)
-                    )}
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Note</label>
-                  <select
-                    value={testimonial.rating}
-                    onChange={(e) => setTestimonials(prev => 
-                      prev.map(item => item.id === testimonial.id ? { ...item, rating: parseInt(e.target.value) } : item)
-                    )}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>{rating} étoile{rating > 1 ? 's' : ''}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Photo</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                    {testimonial.photo ? (
-                      <div className="relative">
-                        <img 
-                          src={testimonial.photo} 
-                          alt="Testimonial" 
-                          className="w-16 h-16 object-cover rounded-full mx-auto"
-                        />
-                        <button
-                          onClick={() => setTestimonials(prev => 
-                            prev.map(item => item.id === testimonial.id ? { ...item, photo: '' } : item)
-                          )}
-                          className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="space-y-2 text-center">
-                        <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
-                          <Image className="w-6 h-6 text-gray-400" />
-                        </div>
-                        <p className="text-gray-500 text-sm">Aucune image sélectionnée</p>
-                      </div>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleImageUpload(e, 'testimonial', testimonial.id)}
-                      className="mt-2 w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
   const renderContactSection = () => (
     <div className="space-y-6">
       <div className="bg-white rounded-xl shadow-lg p-6">
@@ -1107,7 +933,6 @@ export function LandingPageManager() {
     { id: 'kpi', label: 'KPIs', icon: Zap },
     { id: 'services', label: 'Services', icon: Smartphone },
     { id: 'process', label: 'Processus', icon: Move },
-    { id: 'testimonials', label: 'Témoignages', icon: Users },
     { id: 'contact', label: 'Contact', icon: Mail },
     { id: 'footer', label: 'Footer', icon: FileText }
   ];
@@ -1187,7 +1012,6 @@ export function LandingPageManager() {
           {activeTab === 'kpi' && renderKpiSection()}
           {activeTab === 'services' && renderServicesSection()}
           {activeTab === 'process' && renderProcessSection()}
-          {activeTab === 'testimonials' && renderTestimonialsSection()}
           {activeTab === 'contact' && renderContactSection()}
           {activeTab === 'footer' && renderFooterSection()}
         </div>

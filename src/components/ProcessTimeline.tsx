@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Lightbulb, Code, Rocket, BarChart3, HeadphonesIcon, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'next-i18next';
+import { motion } from 'framer-motion';
 
 export function ProcessTimeline() {
   const { t } = useTranslation();
@@ -118,7 +119,13 @@ export function ProcessTimeline() {
                     {isEven ? (
                       <>
                         {/* Content Left */}
-                        <div className="text-right">
+                        <motion.div 
+                          className="text-right"
+                          initial={{ opacity: 0, x: -30 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, amount: 0.3 }}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
+                        >
                           <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
                             <div className="mb-4">
                               <span className="text-sm font-medium text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
@@ -149,26 +156,44 @@ export function ProcessTimeline() {
                               </ul>
                             </div>
                           </div>
-                        </div>
+                        </motion.div>
 
                         {/* Icon Center */}
-                        <div className="flex justify-start">
+                        <motion.div 
+                          className="flex justify-start"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true, amount: 0.4 }}
+                          transition={{ duration: 0.4 }}
+                        >
                           <div className={`w-16 h-16 ${step.color} rounded-full flex items-center justify-center shadow-lg relative z-10`}>
                             <IconComponent className="w-8 h-8 text-white" />
                           </div>
-                        </div>
+                        </motion.div>
                       </>
                     ) : (
                       <>
                         {/* Icon Center */}
-                        <div className="flex justify-end">
+                        <motion.div 
+                          className="flex justify-end"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true, amount: 0.4 }}
+                          transition={{ duration: 0.4 }}
+                        >
                           <div className={`w-16 h-16 ${step.color} rounded-full flex items-center justify-center shadow-lg relative z-10`}>
                             <IconComponent className="w-8 h-8 text-white" />
                           </div>
-                        </div>
+                        </motion.div>
 
                         {/* Content Right */}
-                        <div className="text-left">
+                        <motion.div 
+                          className="text-left"
+                          initial={{ opacity: 0, x: 30 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, amount: 0.3 }}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
+                        >
                           <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
                             <div className="mb-4">
                               <span className="text-sm font-medium text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
@@ -199,7 +224,7 @@ export function ProcessTimeline() {
                               </ul>
                             </div>
                           </div>
-                        </div>
+                        </motion.div>
                       </>
                     )}
                   </div>
@@ -207,9 +232,15 @@ export function ProcessTimeline() {
                   {/* Mobile Layout - Improved for better readability */}
                   <div className="lg:hidden">
                     <div className="flex items-start space-x-4">
-                      <div className={`w-12 h-12 ${step.color} rounded-full flex items-center justify-center flex-shrink-0 relative z-10`}>
+                      <motion.div 
+                        className={`w-12 h-12 ${step.color} rounded-full flex items-center justify-center flex-shrink-0 relative z-10`}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, amount: 0.4 }}
+                        transition={{ duration: 0.4 }}
+                      >
                         <IconComponent className="w-6 h-6 text-white" />
-                      </div>
+                      </motion.div>
                       
                       <div className="flex-1">
                         <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 mb-6">

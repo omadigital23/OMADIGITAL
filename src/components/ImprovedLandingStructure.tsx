@@ -3,9 +3,7 @@ import { motion } from 'framer-motion';
 import { HeroSection } from './HeroSection';
 import { EnhancedOffersSection } from './EnhancedOffersSection';
 import { ServicesSection } from './ServicesSection';
-import { CaseStudiesSection } from './CaseStudiesSection';
 import { ProcessTimeline } from './ProcessTimeline';
-import { TestimonialsSection } from './TestimonialsSection';
 import { CTASection } from './CTASection';
 
 import { 
@@ -229,22 +227,12 @@ export function ImprovedLandingStructure() {
       {/* 5. Why Choose Us - Différenciation */}
       <WhyChooseUsSection />
       
-      {/* 6. Case Studies - Preuves sociales */}
-      <section id="case-studies">
-        <CaseStudiesSection />
-      </section>
-      
-      {/* 7. Process - Comment ça marche */}
+      {/* 6. Process - Comment ça marche */}
       <section id="process">
         <ProcessTimeline />
       </section>
       
-      {/* 8. Testimonials - Validation sociale */}
-      <section id="testimonials">
-        <TestimonialsSection />
-      </section>
-      
-      {/* 9. Final CTA - Conversion */}
+      {/* 7. Final CTA - Conversion */}
       <section id="contact">
         <CTASection />
       </section>

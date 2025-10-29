@@ -8,9 +8,7 @@ import { useTranslation } from 'next-i18next';
 const HeroSection = lazy(() => import('./HeroSection').then(m => ({ default: m.HeroSection })));
 const EnhancedOffersSection = lazy(() => import('./EnhancedOffersSection').then(m => ({ default: m.EnhancedOffersSection })));
 const ServicesSection = lazy(() => import('./ServicesSection').then(m => ({ default: m.ServicesSection })));
-const CaseStudiesSection = lazy(() => import('./CaseStudiesSection').then(m => ({ default: m.CaseStudiesSection })));
 const ProcessTimeline = lazy(() => import('./ProcessTimeline').then(m => ({ default: m.ProcessTimeline })));
-const TestimonialsSection = lazy(() => import('./TestimonialsSection').then(m => ({ default: m.TestimonialsSection })));
 const CTASection = lazy(() => import('./CTASection').then(m => ({ default: m.CTASection })));
 
 // Composant de fallback pour le chargement
@@ -38,31 +36,31 @@ const ErrorFallback = memo(({ error, resetErrorBoundary }: { error: Error; reset
 const TrustMetrics = memo(() => {
   const { t } = useTranslation();
   const metrics = [
-    { value: "200+", label: t('benefits.clients.title'), icon: "🏢" },
-    { value: "98%", label: t('hero.stats.satisfaction_rate'), icon: "⭐" },
-    { value: "24/7", label: 'Support dédié', icon: "🛟" },
-    { value: "3 mois", label: 'ROI garanti', icon: "📈" }
+    { value: t('metrics.clients.value'), label: t('metrics.clients.label'), icon: "🏢" },
+    { value: t('metrics.satisfaction.value'), label: t('metrics.satisfaction.label'), icon: "⭐" },
+    { value: t('metrics.support.value'), label: t('metrics.support.label'), icon: "🛟" },
+    { value: t('metrics.roi.value'), label: t('metrics.roi.label'), icon: "📈" }
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-r from-orange-50 via-white to-blue-50" aria-label="Métriques de confiance">
+    <section className="py-14 sm:py-16 bg-gradient-to-r from-orange-50 via-white to-blue-50" aria-label="Métriques de confiance">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-10 sm:mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             {t('benefits.title')}
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             {t('benefits.description')}
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {metrics.map((metric, index) => (
             <motion.div
               key={index}
@@ -70,13 +68,13 @@ const TrustMetrics = memo(() => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="text-center group"
+              className="text-center group p-4"
             >
-              <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:shadow-xl transition-shadow duration-300">
-                <span className="text-3xl">{metric.icon}</span>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:shadow-xl transition-shadow duration-300">
+                <span className="text-2xl sm:text-3xl">{metric.icon}</span>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">{metric.value}</div>
-              <h3 className="text-lg font-semibold text-gray-900">{metric.label}</h3>
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{metric.value}</div>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">{metric.label}</h3>
             </motion.div>
           ))}
         </div>
@@ -87,35 +85,36 @@ const TrustMetrics = memo(() => {
 
 // Section avantages concurrentiels
 const CompetitiveAdvantages = memo(() => {
+  const { t } = useTranslation();
   const advantages = [
     {
-      title: "Déploiement Rapide",
-      description: "Solution opérationnelle en 48h maximum",
+      title: t('advantages.rapid_deployment.title'),
+      description: t('advantages.rapid_deployment.description'),
       icon: "⚡",
       color: "yellow"
     },
     {
-      title: "Sécurité Garantie", 
-      description: "Données protégées, conformité RGPD assurée",
+      title: t('advantages.security.title'),
+      description: t('advantages.security.description'),
       icon: "🛡️",
       color: "blue"
     },
     {
-      title: "ROI Mesurable",
-      description: "Tableaux de bord temps réel pour suivre vos gains",
+      title: t('advantages.measurable_roi.title'),
+      description: t('advantages.measurable_roi.description'),
       icon: "🎯",
       color: "green"
     },
     {
-      title: "Expertise Locale",
-      description: "Équipe basée au Sénégal et Maroc",
+      title: t('advantages.local_expertise.title'),
+      description: t('advantages.local_expertise.description'),
       icon: "🌍",
       color: "orange"
     }
   ];
 
   return (
-    <section className="py-20 bg-gray-900 text-white relative overflow-hidden" aria-label="Nos avantages">
+    <section className="py-16 sm:py-20 bg-gray-900 text-white relative overflow-hidden" aria-label="Nos avantages">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,theme(colors.orange.500),transparent_50%)] opacity-10"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -124,20 +123,20 @@ const CompetitiveAdvantages = memo(() => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             🚀 Garantie{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
               +200% de CA
             </span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             <strong>Ou on vous rembourse 200%</strong> - Rejoignez les PME qui explosent leurs ventes grâce à l'IA
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {advantages.map((advantage, index) => (
             <motion.div
               key={index}
@@ -145,13 +144,13 @@ const CompetitiveAdvantages = memo(() => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="text-center group"
+              className="text-center group p-4"
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-2xl">{advantage.icon}</span>
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-xl sm:text-2xl">{advantage.icon}</span>
               </div>
-              <h3 className="text-xl font-semibold mb-4">{advantage.title}</h3>
-              <p className="text-gray-300 leading-relaxed">{advantage.description}</p>
+              <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">{advantage.title}</h3>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{advantage.description}</p>
             </motion.div>
           ))}
         </div>
@@ -242,29 +241,11 @@ export const OptimizedLandingPage = memo(() => {
         {/* Competitive Advantages */}
         <CompetitiveAdvantages />
 
-        {/* Case Studies */}
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<LoadingFallback />}>
-            <section id="case-studies" aria-label="Études de cas">
-              <CaseStudiesSection />
-            </section>
-          </Suspense>
-        </ErrorBoundary>
-
         {/* Process Timeline */}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Suspense fallback={<LoadingFallback />}>
             <section id="process" aria-label="Notre processus">
               <ProcessTimeline />
-            </section>
-          </Suspense>
-        </ErrorBoundary>
-
-        {/* Testimonials */}
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<LoadingFallback />}>
-            <section id="testimonials" aria-label="Témoignages clients">
-              <TestimonialsSection />
             </section>
           </Suspense>
         </ErrorBoundary>

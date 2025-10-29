@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { 
   MessageCircle, 
   Globe, 
@@ -25,6 +26,19 @@ export function EnhancedOffersSection() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('starter');
   const [hoveredOffer, setHoveredOffer] = useState<string | null>(null);
+
+  const featuresContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+    }
+  };
+
+  const featureItem = {
+    hidden: { opacity: 0, x: 20 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  };
 
   // Offres structurées avec approche marketing
   const offers = {
@@ -291,20 +305,24 @@ export function EnhancedOffersSection() {
                       <Shield className="w-5 h-5 mr-2 text-blue-500" />
                       {t('offers.everything_included')}
                     </h4>
-                    <div className="space-y-4">
+                    <motion.div 
+                      className="space-y-4"
+                      variants={featuresContainer}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, amount: 0.2 }}
+                    >
                       {currentOffer.features.map((feature, index) => (
                         <motion.div
                           key={index}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
+                          variants={featureItem}
                           className="flex items-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                         >
                           <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
                           <span className="text-gray-700">{feature}</span>
                         </motion.div>
                       ))}
-                    </div>
+                    </motion.div>
 
                     {/* Trust Indicators */}
                     <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl">

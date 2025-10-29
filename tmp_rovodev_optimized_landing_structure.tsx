@@ -4,9 +4,7 @@ import dynamic from 'next/dynamic';
 // Lazy load des composants non-critiques
 const EnhancedOffersSection = lazy(() => import('./EnhancedOffersSection'));
 const ServicesSection = lazy(() => import('./ServicesSection'));
-const CaseStudiesSection = lazy(() => import('./CaseStudiesSection'));
 const ProcessTimeline = lazy(() => import('./ProcessTimeline'));
-const TestimonialsSection = lazy(() => import('./TestimonialsSection'));
 
 // Dynamic import avec SSR désactivé pour les composants lourds
 const SmartChatbotNext = dynamic(() => import('./SmartChatbot'), {
@@ -49,15 +47,7 @@ export function OptimizedLandingStructure() {
       </Suspense>
       
       <Suspense fallback={<SectionSkeleton />}>
-        <CaseStudiesSection />
-      </Suspense>
-      
-      <Suspense fallback={<SectionSkeleton />}>
         <ProcessTimeline />
-      </Suspense>
-      
-      <Suspense fallback={<SectionSkeleton />}>
-        <TestimonialsSection />
       </Suspense>
       
       <CTASection />

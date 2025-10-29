@@ -86,7 +86,7 @@ export default function BlogArticlePage({ slug, locale }: BlogArticlePageProps) 
   return (
     <>
       <Head>
-        <title>{article.title} | OMA Digital Blog</title>
+        <title>{`${article.title} | OMA Digital Blog`}</title>
         <meta name="description" content={article.excerpt} />
         <meta name="keywords" content={article.tags.join(', ')} />
         <meta name="author" content={article.author} />

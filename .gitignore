@@ -241,4 +241,4 @@ service-account*.json
 fix-*.ps1
 fix-*.js
 test-*.js
-check-*.js
+check-*.js\

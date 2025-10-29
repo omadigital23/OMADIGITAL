@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, Play, ArrowRight, Star, Users, TrendingUp, MessageSquare, Globe, Bot } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { trackEvent, generateWhatsAppLink } from '../utils/supabase/info';
 import { useABTest, useRecordConversion } from '../hooks/useABTest';
 import { useABTestSimple } from '../hooks/useABTestSimple';
@@ -12,6 +12,20 @@ export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const heroRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReducedMotion(!!mq.matches);
+    update();
+    mq.addEventListener?.('change', update);
+    return () => mq.removeEventListener?.('change', update);
+  }, []);
   
   // A/B Testing hooks
   const heroCtaVariant = useABTest('hero_cta_button');
@@ -271,11 +285,24 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen bg-gradient-to-br from-gray-50 to-white pt-16 md:pt-20">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+    <section ref={heroRef as any} id="hero" className="relative min-h-screen bg-gradient-to-br from-gray-50 to-white pt-16 md:pt-20">
+      {/* Background Pattern with parallax */}
+      <motion.div style={{ y }} className="absolute inset-0 opacity-5 will-change-transform">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,theme(colors.orange.500),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,theme(colors.orange.400),transparent_50%)]"></div>
+      </motion.div>
+      {/* Breathing halos (respect reduced motion) */}
+      <div className="pointer-events-none absolute inset-0">
+        <motion.div
+          className="absolute w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-orange-300/10 blur-3xl -top-24 -left-24"
+          animate={reducedMotion ? { opacity: 0.06 } : { scale: [1, 1.08, 1], opacity: [0.05, 0.1, 0.05] }}
+          transition={reducedMotion ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] rounded-full bg-orange-400/10 blur-3xl bottom-0 right-0"
+          animate={reducedMotion ? { opacity: 0.06 } : { scale: [1, 1.06, 1], opacity: [0.04, 0.08, 0.04] }}
+          transition={reducedMotion ? undefined : { duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
@@ -287,14 +314,16 @@ export function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Badge */}
+            {/* Badge with scroll-linked rotation */}
             <motion.div 
               className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Star className="w-4 h-4 mr-2" />
+              <motion.span style={{ rotate }} className="mr-2 inline-flex">
+                <Star className="w-4 h-4" />
+              </motion.span>
               {t('hero.badge')}
             </motion.div>
 
@@ -490,6 +519,7 @@ export function HeroSection() {
                     <p className="text-sm text-gray-600 leading-relaxed">{offer.description}</p>
                     <motion.button 
                       type="button"
+                      aria-label={offer.cta}
                       onClick={() => {
                         console.log('Button clicked:', offer.title);
                         const element = document.getElementById(offer.targetSection);
@@ -510,12 +540,11 @@ export function HeroSection() {
                           target_section: offer.targetSection
                         });
                       }}
-                      className="group w-full bg-white hover:bg-orange-50 border-2 border-orange-500 text-gray-900 font-semibold py-3 px-6 rounded-xl transition-all flex flex-col items-center justify-center gap-2 relative z-10 pointer-events-auto cursor-pointer hover:shadow-lg"
-                      whileHover={{ scale: 1.02, y: -2 }}
+                      className="group inline-flex items-center justify-center p-3 sm:p-4 md:p-5 rounded-full text-orange-600 hover:bg-orange-50 transition-colors"
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <span className="text-base">{offer.cta}</span>
-                      <ArrowRight className="w-5 h-5 text-orange-500 group-hover:translate-y-1 transition-transform duration-300" />
+                      <ArrowRight className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-orange-600 group-hover:translate-x-1.5 transition-transform duration-300" strokeWidth={2.4} />
                     </motion.button>
                   </motion.div>
                 );

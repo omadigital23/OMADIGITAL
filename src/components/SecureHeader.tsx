@@ -216,7 +216,7 @@ export const SecureHeader = memo(() => {
   const { t } = useTranslation();
   const { isScrolled, isAtTop } = useOptimizedScroll();
   
-  const sectionIds = ['hero', 'services', 'offers', 'case-studies', 'process', 'contact'];
+  const sectionIds = ['hero', 'services', 'offers', 'process', 'contact'];
   const activeSection = useScrollSpy(sectionIds, {
     threshold: 0.3,
     rootMargin: '0px 0px -60% 0px'
@@ -254,7 +254,6 @@ export const SecureHeader = memo(() => {
     { label: t('header.home'), id: 'hero' },
     { label: t('header.services'), id: 'services', hasDropdown: true },
     { label: t('header.offers'), id: 'offers' },
-    { label: t('header.case_studies'), id: 'case-studies' },
     { label: t('header.process'), id: 'process' },
     { label: t('header.blog'), href: '/blog' },
     { label: t('header.contact'), id: 'contact' }

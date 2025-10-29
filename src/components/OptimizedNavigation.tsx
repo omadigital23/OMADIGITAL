@@ -21,7 +21,6 @@ export function OptimizedNavigation({
     { label: t('header.home'), id: 'hero' },
     { label: t('header.services'), id: 'services' },
     { label: t('header.offers'), id: 'offers' },
-    { label: t('header.case_studies'), id: 'case-studies' },
     { label: t('header.process'), id: 'process' },
     { label: t('header.blog'), href: '/blog' },
     { label: t('header.contact'), id: 'contact' },

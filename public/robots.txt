@@ -7,7 +7,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
-Disallow: /_next/
 Disallow: /test-*
 Disallow: /*-test.tsx
 Disallow: /chatbot-test

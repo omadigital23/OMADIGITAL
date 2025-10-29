@@ -67,7 +67,7 @@ export function Header() {
   const { isScrolled, isAtTop } = useThrottledScroll(10); // 10ms throttle
   
   // ScrollSpy optimisé avec Intersection Observer
-  const sectionIds = ['hero', 'services', 'offers', 'case-studies', 'process', 'contact'];
+  const sectionIds = ['hero', 'services', 'offers', 'process', 'contact'];
   const activeSection = useScrollSpy(sectionIds, {
     threshold: 0.3,
     rootMargin: '0px 0px -60% 0px',
@@ -264,7 +264,6 @@ export function Header() {
     { label: t('header.home'), id: 'hero' },
     { label: t('header.services'), id: 'services' },
     { label: t('header.offers'), id: 'offers' },
-    { label: t('header.case_studies'), id: 'case-studies' },
     { label: t('header.process'), id: 'process' },
     { label: t('header.blog'), href: '/blog' },
     { label: t('header.contact'), id: 'contact' },
@@ -277,7 +276,6 @@ export function Header() {
       { label: 'Accueil', id: 'hero' },
       { label: 'Services', id: 'services' },
       { label: 'Offres', id: 'offers' },
-      { label: 'Études de cas', id: 'case-studies' },
       { label: 'Processus', id: 'process' },
       { label: 'Blog IA', href: '/blog' },
       { label: 'Contact', id: 'contact' },

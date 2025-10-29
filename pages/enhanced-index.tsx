@@ -5,10 +5,10 @@ import { HeroSection } from '../src/components/HeroSection';
 import { OffersSection } from '../src/components/OffersSection';
 import { ServicesSection } from '../src/components/ServicesSection';
 import { ProcessTimeline } from '../src/components/ProcessTimeline';
-import { TestimonialsSection } from '../src/components/TestimonialsSection';
 import { CTASection } from '../src/components/CTASection';
 import { Footer } from '../src/components/Footer';
 import dynamic from 'next/dynamic';
+
 import { CheckCircle, TrendingUp, Users, Award, Zap, Shield, Clock } from 'lucide-react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -212,11 +212,6 @@ export default function EnhancedHome() {
         {/* Process Section */}
         <section id="processus">
           <ProcessTimeline />
-        </section>
-        
-        {/* Testimonials Section */}
-        <section id="temoignages">
-          <TestimonialsSection />
         </section>
         
         {/* Final CTA Section */}

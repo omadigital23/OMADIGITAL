@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArticle } from '@/lib/articles'
+import { getArticle } from '../../../../../lib/articles'
 
 interface BlogPostProps {
   params: { 

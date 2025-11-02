@@ -1,7 +1,7 @@
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { supabaseAdmin } from '../../../lib/supabase/admin'
 import AdminDashboard from './AdminDashboard'
 import AdminAuth from './AdminAuth'
-import { getAdminSession } from '@/lib/auth'
+import { getAdminSession } from '../../../lib/auth'
 
 interface Newsletter {
   id: string

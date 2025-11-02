@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import Header from '../../components/layout/Header'
 import Footer from '../../components/layout/Footer'
 import GoogleAnalytics from '../../components/GoogleAnalytics'
+import CookieConsent from '../../components/CookieConsent'
 import './globals.css'
 
 const inter = Inter({ 
@@ -94,6 +95,7 @@ export default function RootLayout({
         <Header locale={params.locale} />
         {children}
         <Footer locale={params.locale} />
+        <CookieConsent />
       </body>
     </html>
   )

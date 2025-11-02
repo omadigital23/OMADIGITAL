@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getLocalizedContent } from '@/lib/utils/content'
+import { getLocalizedContent } from '../../../../lib/utils/content'
 
 interface CookiePolicyPageProps {
   params: { locale: string }

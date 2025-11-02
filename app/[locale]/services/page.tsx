@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: ServicesPageProps): Promise<M
   }
 }
 
-import { getLocalizedContent } from '@/lib/utils/content'
+import { getLocalizedContent } from '../../../lib/utils/content'
 
 async function getServices(locale: string) {
   const data = await getLocalizedContent(locale)

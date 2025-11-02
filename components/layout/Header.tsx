@@ -49,6 +49,8 @@ export default function Header({ locale }: HeaderProps) {
               width={120}
               height={40}
               className="h-10 w-auto"
+              priority
+              sizes="(max-width: 640px) 100px, 120px"
             />
           </Link>
           

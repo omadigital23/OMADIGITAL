@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { setAdminCookie, hashPasswordWithSalt } from '../../../lib/auth'
+import { setAdminCookie, hashPasswordWithSalt } from '../../../../lib/auth'
 
 export async function POST(request: NextRequest) {
   try {

@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
-import HeroSection from '@/components/sections/HeroSection'
-import ServicesOverview from '@/components/sections/ServicesOverview'
-import LocalSEO from '@/components/sections/LocalSEO'
-import BlogOverview from '@/components/sections/BlogOverview'
-import SmartChatbot from '@/components/chatbot/SmartChatbot'
-import ScrollAnimations from '@/components/ScrollAnimations'
+import HeroSection from '../../components/sections/HeroSection'
+import ServicesOverview from '../../components/sections/ServicesOverview'
+import LocalSEO from '../../components/sections/LocalSEO'
+import BlogOverview from '../../components/sections/BlogOverview'
+import SmartChatbot from '../../components/chatbot/SmartChatbot'
+import ScrollAnimations from '../../components/ScrollAnimations'
 
 interface HomePageProps {
   params: { locale: string }

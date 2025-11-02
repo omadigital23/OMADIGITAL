@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import ContactForm from '@/components/forms/ContactForm'
+import ContactForm from '../../../components/forms/ContactForm'
 
 interface ContactPageProps {
   params: { locale: string }

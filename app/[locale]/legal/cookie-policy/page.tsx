@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: CookiePolicyPageProps): Promi
 export default async function CookiePolicyPage({ params }: CookiePolicyPageProps) {
   let content
   try {
-    const data = await import(`@/public/locales/${params.locale}/common.json`)
+    const data = await import(`../../../../public/locales/${params.locale}/common.json`)
     content = data.default?.legal?.cookie_policy
   } catch (error) {
     content = null

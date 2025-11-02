@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: GDPRCompliancePageProps): Pro
 export default async function GDPRCompliancePage({ params }: GDPRCompliancePageProps) {
   let content
   try {
-    const data = await import(`@/public/locales/${params.locale}/common.json`)
+    const data = await import(`../../../../public/locales/${params.locale}/common.json`)
     content = data.default?.legal?.gdpr_compliance
   } catch (error) {
     content = null

@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PrivacyPolicyPageProps): Prom
 export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPageProps) {
   let content
   try {
-    const data = await import(`@/public/locales/${params.locale}/common.json`)
+    const data = await import(`../../../../public/locales/${params.locale}/common.json`)
     content = data.default?.legal?.privacy_policy
   } catch (error) {
     content = null

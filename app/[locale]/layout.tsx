@@ -5,7 +5,10 @@ import Footer from '../../components/layout/Footer'
 import GoogleAnalytics from '../../components/GoogleAnalytics'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const locale = params.locale
@@ -17,6 +20,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
         ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
         : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal'
     },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'),
     description: locale === 'fr'
       ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.'
       : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.',

@@ -1,0 +1,8 @@
+{
+  "buildCommand": "rm -rf .next && next build",
+  "env": {
+    "NEXT_PUBLIC_DOMAIN": "@NEXT_PUBLIC_DOMAIN",
+    "NEXT_PUBLIC_GA_ID": "@NEXT_PUBLIC_GA_ID",
+    "GOOGLE_SITE_VERIFICATION": "@GOOGLE_SITE_VERIFICATION"
+  }
+}

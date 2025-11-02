@@ -39,12 +39,14 @@ export default function CookieConsent() {
         <div className="flex gap-2 whitespace-nowrap">
           <button
             onClick={handleReject}
+            aria-label="Reject cookies"
             className="px-4 py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 rounded transition-colors"
           >
             Reject
           </button>
           <button
             onClick={handleAccept}
+            aria-label="Accept cookies"
             className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 rounded transition-colors"
           >
             Accept

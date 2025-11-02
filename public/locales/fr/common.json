@@ -1,0 +1,199 @@
+{
+  "seo": {
+    "home": {
+      "title": "OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal",
+      "description": "Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.",
+      "keywords": "agence web maroc, développement web casablanca, marketing digital sénégal, e-commerce afrique"
+    },
+    "services": {
+      "title": "Nos Services - Développement Web & Marketing Digital",
+      "description": "Découvrez nos services : développement web, applications mobiles, e-commerce, SEO, marketing digital et consulting IT au Maroc et Sénégal."
+    },
+    "about": {
+      "title": "À Propos - OMA Digital Maroc & Sénégal",
+      "description": "Agence digitale innovante basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Notre équipe d'experts vous accompagne dans votre transformation digitale."
+    },
+    "contact": {
+      "title": "Contact - OMA Digital Casablanca",
+      "description": "Contactez OMA Digital pour vos projets digitaux au Maroc et Sénégal. Bureau à Casablanca (Maroc). Devis gratuit et consultation personnalisée."
+    },
+    "blog": {
+      "title": "Blog - Actualités Tech & Marketing Digital",
+      "description": "Découvrez nos articles sur le développement web, le marketing digital, l'e-commerce et les dernières tendances technologiques au Maroc et Sénégal."
+    }
+  },
+  "hero": {
+    "title": "Transformez Votre",
+    "subtitle": "Présence Digitale",
+    "description": "Agence digitale experte au Maroc & Sénégal. Solutions web, mobile et marketing sur mesure.",
+    "cta_primary": "Démarrer un Projet",
+    "cta_secondary": "Nos Services",
+    "services_slider": [
+      {
+        "title": "Développement Web",
+        "description": "Sites web modernes et performants avec les dernières technologies. Solutions sur mesure pour votre présence digitale.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "Applications Mobiles",
+        "description": "Apps natives et cross-platform pour iOS et Android. Développement MVP et applications complètes.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "Marketing Digital",
+        "description": "Stratégies SEO, SEM et réseaux sociaux pour votre croissance. Campagnes publicitaires optimisées.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "Automatisation IA",
+        "description": "Solutions d'automatisation intelligentes pour optimiser vos processus. Chatbots IA et workflows personnalisés.",
+        "image_path": "/images/logo.webp"
+      }
+    ],
+    "video_slider": [
+      "/videos/hero1.mp4",
+      "/videos/hero2.mp4",
+      "/videos/hero3.mp4"
+    ]
+  },
+  "services": [
+    {
+      "id": "site-vitrine",
+      "title": "Site Vitrine (Standard)",
+      "description": "Sites web modernes, rapides et sécurisés",
+      "price": "5 000 DH"
+    },
+    {
+      "id": "ecommerce-essentiel",
+      "title": "E-commerce Essentiel",
+      "description": "Boutiques en ligne optimisées pour les ventes",
+      "price": "10 000 DH"
+    },
+    {
+      "id": "app-mobile-mvp",
+      "title": "Application Mobile (MVP)",
+      "description": "Applications mobiles MVP pour tester votre concept",
+      "price": "À partir de 10 999 DH"
+    },
+    {
+      "id": "app-mobile-standard",
+      "title": "Application Mobile (Standard)",
+      "description": "Applications mobiles complètes et performantes",
+      "price": "À partir de 20 000 DH"
+    },
+    {
+      "id": "chatbot-ia-rag",
+      "title": "Chatbot IA Personnalisé (RAG)",
+      "description": "Chatbot intelligent avec IA et base de connaissances",
+      "price": "10 000 DH + 500 DH/mois"
+    },
+    {
+      "id": "bot-simple",
+      "title": "Bot Simple (WhatsApp/Telegram)",
+      "description": "Chatbot basique pour réponses automatisées",
+      "price": "3 000 DH + 500 DH/mois"
+    },
+    {
+      "id": "automatisation-ia",
+      "title": "Automatisation IA (Workflow)",
+      "description": "Solutions d'automatisation avec intelligence artificielle",
+      "price": "À partir de 5 999 DH"
+    },
+    {
+      "id": "marketing-digital",
+      "title": "Marketing Digital (Gestion)",
+      "description": "Stratégies SEO, SEM et réseaux sociaux",
+      "price": "3 500 DH/mois"
+    },
+    {
+      "id": "creation-video",
+      "title": "Création Vidéo",
+      "description": "Vidéos promotionnelles et contenu visuel",
+      "price": "À partir de 3 000 DH"
+    }
+  ],
+  "blog": {
+    "categories": [
+      {
+        "id": "web-development",
+        "name": "Développement Web",
+        "description": "Actualités et tutoriels sur le développement web moderne"
+      },
+      {
+        "id": "mobile-development",
+        "name": "Développement Mobile",
+        "description": "Tendances et guides pour les applications mobiles"
+      },
+      {
+        "id": "digital-marketing",
+        "name": "Marketing Digital",
+        "description": "Stratégies et conseils en marketing numérique"
+      }
+    ],
+    "articles": [
+      {
+        "id": "next-js-14-nouveautes",
+        "slug": "next-js-14-nouveautes-app-router",
+        "title": "Next.js 14 : Les Nouveautés de l'App Router",
+        "excerpt": "Découvrez les nouvelles fonctionnalités de Next.js 14 et comment l'App Router révolutionne le développement React.",
+        "content": "Next.js 14 : Les Nouveautés de l'App Router\n\nNext.js 14 marque une étape importante dans l'évolution du framework React le plus populaire. Avec l'App Router désormais stable, les développeurs peuvent créer des applications plus performantes et plus maintenables.\n\nLes Principales Nouveautés\n\nApp Router Stable : L'App Router, introduit en version expérimentale dans Next.js 13, est maintenant stable et prêt pour la production. Cette nouvelle approche du routage offre un routage basé sur les dossiers plus intuitif, des layouts imbriqués pour une réutilisation optimisée des composants, et des Server Components par défaut pour des performances améliorées.\n\nTurbopack (Alpha) : Turbopack, le successeur de Webpack écrit en Rust, promet des temps de compilation jusqu'à 10x plus rapides. Cette amélioration révolutionnaire permet aux développeurs de voir leurs modifications instantanément.\n\nServer Actions : Les Server Actions permettent d'exécuter du code côté serveur directement depuis les composants clients, simplifiant drastiquement les interactions avec la base de données et les APIs.\n\nMigration depuis Pages Router\n\nLa migration vers l'App Router nécessite quelques ajustements structurels :\n\n```javascript\n// Ancien : pages/index.js\nexport default function Home() {\n  return <h1>Accueil</h1>\n}\n\n// Nouveau : app/page.js\nexport default function Page() {\n  return <h1>Accueil</h1>\n}\n```\n\nAvantages Clés\n\nPerformance améliorée avec chargement plus rapide des pages, SEO optimisé pour un meilleur référencement naturel, expérience développeur améliorée avec des outils plus intuitifs, et scalabilité renforcée grâce à une architecture plus robuste pour les grandes applications.\n\nConclusion\n\nNext.js 14 avec l'App Router stable représente l'avenir du développement React. Les équipes qui migrent maintenant bénéficieront d'une meilleure performance, d'une expérience développeur améliorée et d'une architecture plus moderne pour leurs projets web.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-15",
+        "readTime": "8 min",
+        "tags": ["Next.js", "React", "App Router", "Performance"]
+      },
+      {
+        "id": "react-server-components",
+        "slug": "react-server-components-guide-complet",
+        "title": "React Server Components : Guide Complet 2024",
+        "excerpt": "Maîtrisez les React Server Components pour créer des applications plus rapides et plus efficaces.",
+        "content": "React Server Components : Guide Complet 2024\n\nLes React Server Components (RSC) révolutionnent la façon dont nous construisons les applications React en permettant le rendu côté serveur de composants spécifiques.\n\nQu'est-ce que les Server Components ?\n\nLes Server Components sont des composants React qui s'exécutent exclusivement côté serveur. Ils offrent des avantages majeurs : réduction du bundle JavaScript (le code n'est pas envoyé au client), accès direct aux données avec connexion directe aux bases de données, et sécurité renforcée car les clés API restent côté serveur.\n\nServer vs Client Components\n\nServer Components :\n```javascript\n// app/posts/page.js (Server Component par défaut)\nimport { getPosts } from '@/lib/database'\n\nexport default async function PostsPage() {\n  const posts = await getPosts()\n  return (\n    <div>\n      {posts.map(post => (\n        <article key={post.id}>\n          <h2>{post.title}</h2>\n          <p>{post.excerpt}</p>\n        </article>\n      ))}\n    </div>\n  )\n}\n```\n\nClient Components :\n```javascript\n'use client'\nimport { useState } from 'react'\n\nexport default function Counter() {\n  const [count, setCount] = useState(0)\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Compteur: {count}\n    </button>\n  )\n}\n```\n\nBonnes Pratiques\n\nUtilisez Server Components par défaut sauf besoin d'interactivité. Minimisez les Client Components pour réduire le JavaScript côté client. Combinez efficacement les deux types avec une composition intelligente.\n\nCas d'Usage Pratiques\n\n```javascript\n// Server Component pour les données\nasync function UserProfile({ userId }) {\n  const user = await fetchUser(userId)\n  return (\n    <div>\n      <h1>{user.name}</h1>\n      <UserActions user={user} /> {/* Client Component */}\n    </div>\n  )\n}\n```\n\nOptimisation des Performances\n\nLes Server Components permettent de réduire le Time to Interactive (TTI), améliorer le First Contentful Paint (FCP), diminuer la taille du bundle JavaScript, et améliorer le SEO naturellement.\n\nLes React Server Components représentent l'avenir du développement React. En maîtrisant cette technologie, vous créerez des applications plus rapides, plus sécurisées et plus maintenables.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-10",
+        "readTime": "12 min",
+        "tags": ["React", "Server Components", "Performance", "Next.js"]
+      },
+      {
+        "id": "typescript-bonnes-pratiques",
+        "slug": "typescript-bonnes-pratiques-2024",
+        "title": "TypeScript : Bonnes Pratiques pour 2024",
+        "excerpt": "Découvrez les meilleures pratiques TypeScript pour écrire du code plus robuste et maintenable.",
+        "content": "TypeScript : Bonnes Pratiques pour 2024\n\nTypeScript continue d'évoluer et de s'imposer comme le standard pour le développement JavaScript moderne. Voici les bonnes pratiques essentielles pour 2024.\n\nConfiguration Stricte\n\ntsconfig.json Optimal :\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noUncheckedIndexedAccess\": true,\n    \"exactOptionalPropertyTypes\": true,\n    \"noImplicitReturns\": true,\n    \"noFallthroughCasesInSwitch\": true\n  }\n}\n```\n\nTypes Utilitaires Avancés\n\nTypes Conditionnels :\n```typescript\ntype ApiResponse<T> = T extends string \n  ? { message: T } \n  : { data: T }\n\ntype StringResponse = ApiResponse<string> // { message: string }\ntype DataResponse = ApiResponse<User[]>   // { data: User[] }\n```\n\nMapped Types :\n```typescript\ntype Partial<T> = {\n  [P in keyof T]?: T[P]\n}\n```\n\nPatterns Modernes\n\nBranded Types :\n```typescript\ntype UserId = string & { __brand: 'UserId' }\ntype Email = string & { __brand: 'Email' }\n\nfunction createUser(id: UserId, email: Email) {\n  // Sécurité de type garantie\n}\n```\n\nDiscriminated Unions :\n```typescript\ntype LoadingState = \n  | { status: 'loading' }\n  | { status: 'success'; data: any }\n  | { status: 'error'; error: string }\n\nfunction handleState(state: LoadingState) {\n  switch (state.status) {\n    case 'loading': return 'Chargement...'\n    case 'success': return state.data\n    case 'error': return state.error\n  }\n}\n```\n\nValidation avec Zod\n\n```typescript\nimport { z } from 'zod'\n\nconst UserSchema = z.object({\n  id: z.string().uuid(),\n  email: z.string().email(),\n  age: z.number().min(0).max(120)\n})\n\ntype User = z.infer<typeof UserSchema>\n```\n\nType Guards Efficaces\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string'\n}\n\nfunction processValue(value: unknown) {\n  if (isString(value)) {\n    return value.toUpperCase()\n  }\n}\n```\n\nCes bonnes pratiques TypeScript vous aideront à créer des applications plus robustes, maintenables et performantes. L'investissement dans une configuration stricte se traduit par moins de bugs et une meilleure expérience développeur.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-05",
+        "readTime": "10 min",
+        "tags": ["TypeScript", "Bonnes Pratiques", "Types", "Validation"]
+      }
+    ]
+  },
+  "service_details": {
+    "ecommerce-essentiel": {
+      "title": "E-commerce Essentiel : Votre Boutique en Ligne Performante",
+      "content": "E-commerce Essentiel : Transformez Votre Commerce\n\nLe commerce électronique représente plus de 25% du commerce mondial. Au Maroc, le marché e-commerce croît de 30% par an. C'est le moment idéal pour digitaliser votre commerce avec notre solution à 10 000 DH.\n\nPourquoi Passer au E-commerce ?\n\nLe e-commerce africain devrait atteindre 75 milliards de dollars d'ici 2025. Avec l'e-commerce, vendez dans tout le Maroc, l'Afrique et l'international, multipliant votre marché potentiel par 100. Une boutique en ligne réduit vos coûts opérationnels de 60% tout en fonctionnant 24h/24.\n\nNotre Solution à 10 000 DH\n\nTechnologies Modernes : Next.js 14, React & TypeScript, Tailwind CSS, Stripe & PayPal pour des paiements sécurisés.\n\nFonctionnalités E-commerce\n\nGestion Produits : Catalogue illimité avec catégories, variantes produits, gestion automatique des stocks, galeries photos multiples.\n\nExpérience Client : Recherche avancée avec filtres, panier persistant, wishlist et favoris, système d'avis clients.\n\nTunnel de Commande : Checkout en 3 étapes, paiement sans inscription, calcul automatique livraison, confirmation email/SMS.\n\nPaiements Sécurisés\n\nStripe & PayPal, cartes Visa/Mastercard/Amex, sécurité PCI DSS niveau 1, protection acheteur intégrée. Options locales : paiement à la livraison, virements bancaires, Mobile Money.\n\nProcessus de Développement\n\nPhase 1 (3 jours) : Analyse catalogue, étude marché, architecture e-commerce.\nPhase 2 (10 jours) : Création catalogue, intégration paiements, tunnel de commande, tests.\nPhase 3 (2 jours) : Configuration finale, formation, lancement marketing.\n\nSécurité et Performance\n\nChiffrement SSL 256-bit, conformité PCI DSS, protection RGPD/CNDP, prévention fraudes avec géolocalisation et limites IP.\n\nOptimisation Ventes\n\nSEO e-commerce avec URLs optimisées, Rich Snippets, sitemap dynamique. Outils de conversion : A/B testing, récupération paniers, codes promo, cross-selling.\n\nMarketing Intégré\n\nEmail marketing automatisé, newsletters produits, campagnes de récupération. Intégration réseaux sociaux avec partage automatique et publicités dynamiques.\n\nROI Exceptionnel\n\nNos clients constatent : +250% de CA la première année, +400% de nouveaux clients, -45% de coûts commerciaux, ROI de 300% sur 12 mois.\n\nCas de Succès : Boutique Artisanale passée de 50k à 200k DH/mois en 8 mois avec expansion Europe/Amérique. Magasin Électronique : x5 ventes en 6 mois, -70% coûts personnel.\n\nNotre solution E-commerce Essentiel à 10 000 DH vous donne tous les outils pour réussir en ligne. Rejoignez la révolution e-commerce dès aujourd'hui !"
+    }
+  },
+  "legal": {
+    "privacy_policy": {
+      "title": "Politique de Confidentialité",
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nOMA Digital, société marocaine située à Casablanca, s'engage à protéger vos données personnelles conformément à la loi 09-08 et aux standards internationaux.\n\n## 2. Données Collectées\n\n**Données directes :**\n- Nom, prénom, email, téléphone\n- Informations d'entreprise\n- Messages et demandes de devis\n\n**Données automatiques :**\n- Adresse IP et données de navigation\n- Cookies techniques et analytiques\n\n## 3. Utilisation des Données\n\nVos données sont utilisées pour :\n- Fournir nos services de développement web, mobile et marketing digital\n- Répondre à vos demandes et vous informer\n- Optimiser nos services et votre expérience\n- Respecter nos obligations comptables et fiscales\n\n## 4. Base Légale\n\n- **Consentement** : Newsletter et marketing\n- **Contrat** : Exécution de nos services\n- **Intérêt légitime** : Amélioration et sécurité\n- **Obligation légale** : Comptabilité et fiscalité\n\n## 5. Partage des Données\n\nNous partageons vos données uniquement avec :\n- Équipes internes autorisées d'OMA Digital\n- Prestataires : Hébergement (Vercel, Supabase), Analytics (Google)\n- Autorités si requis par la loi\n\n## 6. Conservation\n\n- **Clients actifs** : Durée du contrat + 5 ans\n- **Prospects** : 3 ans après dernier contact\n- **Données comptables** : 10 ans (obligation légale)\n- **Cookies** : 13 mois maximum\n\n## 7. Vos Droits\n\nVous disposez des droits d'accès, rectification, effacement, portabilité et opposition.\n\nPour exercer vos droits : omadigital23@gmail.com\n\n## 8. Sécurité\n\nNous protégeons vos données par chiffrement SSL/TLS, authentification sécurisée, sauvegardes régulières et audits de sécurité.\n\n## 9. Contact\n\n**OMA Digital**\nCasablanca, Maroc\nEmail : omadigital23@gmail.com\nTél : +212 701 193 811\nDPO : amadou@omadigital.net"
+    },
+    "terms_conditions": {
+      "title": "Conditions Générales d'Utilisation",
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Présentation\n\nOMA Digital est une société marocaine spécialisée dans les services numériques, située à Casablanca. Nous proposons du développement web, d'applications mobiles, de marketing digital et de solutions d'automatisation.\n\n## 2. Services\n\n**Développement web :**\n- Sites vitrines : 5 000 DH\n- E-commerce : 10 000 DH\n\n**Applications mobiles :**\n- MVP : à partir de 10 999 DH\n- Standard : à partir de 20 000 DH\n\n**Solutions IA :**\n- Chatbot IA RAG : 10 000 DH + 500 DH/mois\n- Bot simple : 3 000 DH + 500 DH/mois\n\n**Autres services :**\n- Marketing digital : 3 500 DH/mois\n- Création vidéo : à partir de 3 000 DH\n\n## 3. Commande et Paiement\n\nToute prestation commence par un devis gratuit. Modalités de paiement : 50% à la signature, 50% à la livraison.\n\n## 4. Obligations\n\n**OMA Digital s'engage à :**\n- Fournir les services avec professionnalisme\n- Respecter les délais convenus\n- Assurer la confidentialité des informations\n\n**Le Client s'engage à :**\n- Fournir les informations nécessaires\n- Respecter les échéances de paiement\n- Valider les livrables dans les délais\n\n## 5. Propriété Intellectuelle\n\nAprès paiement intégral, le Client obtient les droits d'usage sur les créations réalisées et le code source des développements spécifiques.\n\n## 6. Garanties\n\nNous garantissons la conformité des services et le bon fonctionnement pendant 3 mois. Notre responsabilité est limitée au montant des sommes versées.\n\n## 7. Contact\n\n**OMA Digital**\nCasablanca, Maroc\nEmail : omadigital23@gmail.com\nTéléphone : +212 701 193 811"
+    },
+    "cookie_policy": {
+      "title": "Politique de Cookies",
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nCette politique explique comment OMA Digital utilise les cookies sur www.omadigital.net.\n\n## 2. Qu'est-ce qu'un Cookie ?\n\nUn cookie est un petit fichier texte stocké sur votre appareil lors de la visite d'un site web pour mémoriser vos préférences.\n\n## 3. Types de Cookies Utilisés\n\n**Cookies essentiels :**\n- Session utilisateur\n- Sécurité CSRF\n- Préférences de langue\n- Consentement cookies\n\n**Cookies analytiques :**\n- Google Analytics (_ga, _gid)\n- Mesure d'audience et trafic\n\n**Cookies fonctionnels :**\n- Préférences d'affichage\n- Sauvegarde formulaires\n\n**Cookies marketing (avec consentement) :**\n- Google Ads\n- Facebook Pixel\n\n## 4. Finalités\n\n- Amélioration de l'expérience utilisateur\n- Analyse du trafic et comportement\n- Sécurité du site\n- Personnalisation du contenu\n\n## 5. Gestion des Cookies\n\n**Via notre site :**\n- Bandeau de consentement\n- Lien \"Gestion des cookies\" en bas de page\n\n**Via votre navigateur :**\n- Chrome : Paramètres > Confidentialité et sécurité\n- Firefox : Paramètres > Vie privée et sécurité\n- Safari : Préférences > Confidentialité\n\n## 6. Conséquences de la Désactivation\n\nLa désactivation des cookies essentiels peut entraîner des dysfonctionnements du site. Les cookies analytiques permettent d'améliorer nos services.\n\n## 7. Durée de Conservation\n\n- Cookies de session : Supprimés à la fermeture du navigateur\n- Cookies persistants : 13 mois maximum\n- Google Analytics : 26 mois\n\n## 8. Contact\n\n**OMA Digital**\nEmail : omadigital23@gmail.com\nTéléphone : +212 701 193 811\nAdresse : Casablanca, Maroc"
+    },
+    "gdpr_compliance": {
+      "title": "Conformité RGPD",
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Engagement OMA Digital\n\nOMA Digital s'engage à respecter les principes de protection des données personnelles selon la loi 09-08 et le RGPD pour nos clients européens.\n\n## 2. Principes Fondamentaux\n\n- **Transparence** : Information claire sur nos pratiques\n- **Finalité** : Collecte limitée aux besoins légitimes\n- **Proportionalité** : Traitement adéquat et non excessif\n- **Sécurité** : Protection technique et organisationnelle\n\n## 3. Bases Légales\n\n**Consentement :** Newsletter, cookies non essentiels\n**Contrat :** Fourniture de nos services\n**Intérêt légitime :** Amélioration des services, sécurité\n**Obligation légale :** Comptabilité, fiscalité\n\n## 4. Vos Droits\n\n- **Accès** : Consulter vos données\n- **Rectification** : Corriger les erreurs\n- **Effacement** : Supprimer vos données\n- **Portabilité** : Récupérer vos données\n- **Opposition** : Refuser certains traitements\n- **Limitation** : Suspendre le traitement\n\n## 5. Exercice des Droits\n\n**Contact :**\n- Email : omadigital23@gmail.com\n- DPO : amadou@omadigital.net\n\n**Délai de réponse :** 30 jours maximum\n\n## 6. Sécurité des Données\n\n**Mesures techniques :**\n- Chiffrement TLS/SSL\n- Authentification multi-facteurs\n- Sauvegardes sécurisées\n\n**Mesures organisationnelles :**\n- Formation du personnel\n- Procédures de sécurité\n- Audits réguliers\n\n## 7. Transferts Internationaux\n\nCertaines données peuvent être transférées vers les États-Unis (Google) avec des garanties appropriées (clauses contractuelles types).\n\n## 8. Violation de Données\n\nEn cas de violation, nous notifions les autorités sous 72h et les personnes concernées si risque élevé.\n\n## 9. DPO\n\n**Amadou Fall**\nDélégué à la Protection des Données\nEmail : amadou@omadigital.net\nTéléphone : +212 701 193 811\n\n## 10. Réclamations\n\n**CNDP (Maroc) :**\n- Site : www.cndp.ma\n- Email : cndp@cndp.ma\n\n**CNIL (France) :** www.cnil.fr"
+    }
+  }
+}

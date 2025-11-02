@@ -1,0 +1,363 @@
+{
+  "page_title_template": "AI Solutions & Voice Chatbot in {city} | OMA Digital",
+  "page_description_template": "#1 AI Agency in {city}. Multilingual voice chatbot, WhatsApp Business automation, ultra-fast websites. +150 SMEs supported. Free quote 24h.",
+  "hero_title_template": "AI Solutions for SMEs in {city}",
+  "hero_subtitle_template": "Transform your business in {city} with our automation and artificial intelligence solutions",
+  "services_title": "Our services in {city}",
+  "testimonials_title": "Client testimonials in {city}",
+  "pricing_title": "Pricing adapted to {city} market",
+  "contact_title": "Contact our team in {city}",
+  "cities": {
+    "dakar": {
+      "name": "Dakar",
+      "country": "Senegal",
+      "region": "Dakar",
+      "description": "Economic capital of Senegal, Dakar is the hub of digital innovation in West Africa. OMA Digital has been supporting Dakar SMEs in their digital transformation since 2016.",
+      "services": [
+        {
+          "title": "Multilingual voice chatbot (French, Wolof, English)",
+          "description": "Intelligent virtual assistant adapted to Dakar market",
+          "price": "150,000 FCFA/month",
+          "features": [
+            "French and Wolof support",
+            "Optimized voice recognition",
+            "WhatsApp Business integration",
+            "Team training",
+            "24/7 support"
+          ]
+        },
+        {
+          "title": "WhatsApp Business automation",
+          "description": "Manage your customer conversations automatically",
+          "price": "200,000 FCFA/month",
+          "features": [
+            "Official WhatsApp API",
+            "Intelligent automatic responses",
+            "Multi-agent management",
+            "Real-time analytics",
+            "ROI guaranteed in 3 months"
+          ]
+        },
+        {
+          "title": "Ultra-fast Next.js website",
+          "description": "Site optimized for Senegalese market",
+          "price": "500,000 FCFA (one-time)",
+          "features": [
+            "Modern and responsive design",
+            "Loading time < 1.5s",
+            "SEO optimized for Dakar",
+            "Vercel hosting included 1 year",
+            "Maintenance 50,000 FCFA/month"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "author": "Amadou Diop",
+          "company": "Restaurant Le Lagon, Dakar",
+          "role": "Owner",
+          "content": "Thanks to OMA Digital's WhatsApp chatbot, our reservations increased by 300%. The system handles everything automatically, even in Wolof. Excellent service!",
+          "rating": 5
+        },
+        {
+          "author": "Fatou Sall",
+          "company": "African Fashion Boutique, Plateau",
+          "role": "Manager",
+          "content": "Our new website loads in 1 second and we are now #1 on Google for 'African fashion Dakar'. Online sales have exploded!",
+          "rating": 5
+        }
+      ],
+      "stats": {
+        "clients": "80+",
+        "projects": "150+",
+        "satisfaction": "98%",
+        "average_roi": "250%"
+      },
+      "contact": {
+        "address": "Hersent Rue 15, Thiès, Senegal",
+        "phone": "+212 70 119 38 11",
+        "email": "contact@omadigital.net",
+        "whatsapp": "+212701193811",
+        "hours": "Mon-Fri 08:00-18:00, Sat 09:00-13:00"
+      }
+    },
+    "thies": {
+      "name": "Thiès",
+      "country": "Senegal",
+      "region": "Thiès",
+      "description": "Second city of Senegal, Thiès is our headquarters. We support SMEs in Thiès and the entire region in their digitalization.",
+      "services": [
+        {
+          "title": "Intelligent voice chatbot",
+          "description": "AI solution adapted to Thiès SMEs",
+          "price": "150,000 FCFA/month",
+          "features": [
+            "French and Wolof support",
+            "Installation in 5-7 days",
+            "On-site training in Thiès",
+            "Local support",
+            "Maintenance included"
+          ]
+        },
+        {
+          "title": "WhatsApp automation",
+          "description": "Automate your customer service",
+          "price": "200,000 FCFA/month",
+          "features": [
+            "Custom configuration",
+            "Integration with your tools",
+            "Team training",
+            "Local technical support",
+            "ROI in 3 months"
+          ]
+        },
+        {
+          "title": "Professional website",
+          "description": "Site optimized for Thiès and Senegal",
+          "price": "500,000 FCFA (one-time)",
+          "features": [
+            "Custom design",
+            "Optimized local SEO",
+            "Mobile-first",
+            "Hosting included",
+            "Local support in Thiès"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "author": "Moussa Ndiaye",
+          "company": "Real Estate Agency Thiès Plus",
+          "role": "Director",
+          "content": "OMA Digital transformed our agency. Our site is now ultra-fast and we receive 3x more requests. The team is based in Thiès, it's a real plus!",
+          "rating": 5
+        }
+      ],
+      "stats": {
+        "clients": "50+",
+        "projects": "100+",
+        "satisfaction": "99%",
+        "average_roi": "280%"
+      },
+      "contact": {
+        "address": "Hersent Rue 15, Thiès, Senegal",
+        "phone": "+212 70 119 38 11",
+        "email": "contact@omadigital.net",
+        "whatsapp": "+212701193811",
+        "hours": "Mon-Fri 08:00-18:00, Sat 09:00-13:00"
+      }
+    },
+    "casablanca": {
+      "name": "Casablanca",
+      "country": "Morocco",
+      "region": "Casablanca-Settat",
+      "description": "Economic capital of Morocco, Casablanca is the business center of the Kingdom. OMA Digital supports Casablanca SMEs with cutting-edge AI solutions.",
+      "services": [
+        {
+          "title": "Multilingual voice chatbot (French, Arabic)",
+          "description": "Virtual assistant in French and Moroccan Arabic",
+          "price": "2,500 MAD/month",
+          "features": [
+            "French and Arabic support",
+            "Moroccan dialect (darija)",
+            "WhatsApp Business integration",
+            "Team training",
+            "24/7 support"
+          ]
+        },
+        {
+          "title": "WhatsApp Business automation",
+          "description": "Complete solution for Moroccan SMEs",
+          "price": "3,500 MAD/month",
+          "features": [
+            "Official WhatsApp API",
+            "Responses in French and Arabic",
+            "Advanced analytics",
+            "Integrated CRM",
+            "Guaranteed ROI"
+          ]
+        },
+        {
+          "title": "Ultra-fast website",
+          "description": "Site optimized for Moroccan market",
+          "price": "8,500 MAD (one-time)",
+          "features": [
+            "Modern design",
+            "SEO optimized for Casablanca",
+            "Online payment (MAD)",
+            "Hosting included 1 year",
+            "Support in French and Arabic"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "author": "Youssef El Amrani",
+          "company": "E-commerce Fashion Casa",
+          "role": "CEO",
+          "content": "The voice chatbot in Moroccan Arabic revolutionized our customer service. +250% conversions and our customers love speaking in darija. Thank you OMA Digital!",
+          "rating": 5
+        },
+        {
+          "author": "Samira Bennani",
+          "company": "Moroccan Craft Shop",
+          "role": "Owner",
+          "content": "Our website is now ultra-fast and we are on the first page of Google. Sales tripled in 3 months. Impeccable service!",
+          "rating": 5
+        }
+      ],
+      "stats": {
+        "clients": "60+",
+        "projects": "120+",
+        "satisfaction": "97%",
+        "average_roi": "300%"
+      },
+      "contact": {
+        "address": "Moustakbal/Sidimaarouf, Casablanca, Imm 167 Lot GH20 apt 15",
+        "phone": "+212 70 119 38 11",
+        "email": "contact@omadigital.net",
+        "whatsapp": "+212701193811",
+        "hours": "Mon-Fri 08:00-18:00, Sat 09:00-13:00"
+      }
+    },
+    "rabat": {
+      "name": "Rabat",
+      "country": "Morocco",
+      "region": "Rabat-Salé-Kénitra",
+      "description": "Capital of Morocco, Rabat is the administrative and political center of the Kingdom. OMA Digital offers AI solutions adapted to Rabat businesses.",
+      "services": [
+        {
+          "title": "Intelligent voice chatbot",
+          "description": "Conversational AI in French and Arabic",
+          "price": "2,500 MAD/month",
+          "features": [
+            "Bilingual support FR/AR",
+            "Advanced voice recognition",
+            "Multi-channel integration",
+            "Training included",
+            "Technical support"
+          ]
+        },
+        {
+          "title": "WhatsApp automation",
+          "description": "Automate your customer conversations",
+          "price": "3,500 MAD/month",
+          "features": [
+            "Custom configuration",
+            "Intelligent responses",
+            "Detailed analytics",
+            "Local support",
+            "Fast ROI"
+          ]
+        },
+        {
+          "title": "Professional website",
+          "description": "Site optimized for Rabat",
+          "price": "8,500 MAD (one-time)",
+          "features": [
+            "Modern design",
+            "Local SEO Rabat",
+            "Optimal performance",
+            "Hosting included",
+            "Maintenance available"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "author": "Ahmed Tazi",
+          "company": "Consulting Firm Rabat",
+          "role": "Director",
+          "content": "WhatsApp automation saved us precious time. Our clients appreciate the fast 24/7 responses. Excellent investment!",
+          "rating": 5
+        }
+      ],
+      "stats": {
+        "clients": "40+",
+        "projects": "80+",
+        "satisfaction": "98%",
+        "average_roi": "270%"
+      },
+      "contact": {
+        "address": "Moustakbal/Sidimaarouf, Casablanca, Morocco",
+        "phone": "+212 70 119 38 11",
+        "email": "contact@omadigital.net",
+        "whatsapp": "+212701193811",
+        "hours": "Mon-Fri 08:00-18:00, Sat 09:00-13:00"
+      }
+    },
+    "marrakech": {
+      "name": "Marrakech",
+      "country": "Morocco",
+      "region": "Marrakech-Safi",
+      "description": "Major tourist city of Morocco, Marrakech attracts millions of visitors. OMA Digital helps tourism and commercial businesses to digitalize.",
+      "services": [
+        {
+          "title": "Multilingual voice chatbot",
+          "description": "French, Arabic and English support for tourism",
+          "price": "2,500 MAD/month",
+          "features": [
+            "3 languages (FR/AR/EN)",
+            "Tourism specialized",
+            "Automatic reservations",
+            "24/7 support",
+            "Training included"
+          ]
+        },
+        {
+          "title": "WhatsApp automation",
+          "description": "Manage your reservations automatically",
+          "price": "3,500 MAD/month",
+          "features": [
+            "Automatic reservations",
+            "Multilingual",
+            "Online payment",
+            "Analytics",
+            "Local support"
+          ]
+        },
+        {
+          "title": "Tourism website",
+          "description": "Site optimized for tourism sector",
+          "price": "8,500 MAD (one-time)",
+          "features": [
+            "Attractive design",
+            "Online booking",
+            "Multilingual",
+            "Tourism SEO",
+            "Optimized photos"
+          ]
+        }
+      ],
+      "testimonials": [
+        {
+          "author": "Karim Alaoui",
+          "company": "Riad Marrakech Luxury",
+          "role": "Manager",
+          "content": "The chatbot manages our reservations in 3 languages. Our clients can book 24/7 and we reduced our costs by 60%. Perfect for tourism!",
+          "rating": 5
+        }
+      ],
+      "stats": {
+        "clients": "35+",
+        "projects": "70+",
+        "satisfaction": "96%",
+        "average_roi": "320%"
+      },
+      "contact": {
+        "address": "Moustakbal/Sidimaarouf, Casablanca, Morocco",
+        "phone": "+212 70 119 38 11",
+        "email": "contact@omadigital.net",
+        "whatsapp": "+212701193811",
+        "hours": "Mon-Fri 08:00-18:00, Sat 09:00-13:00"
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to digitalize your business in {city}?",
+    "description": "Contact our local team and get a free personalized quote in 24h",
+    "button_primary": "Request a free quote",
+    "button_secondary": "Call now",
+    "button_whatsapp": "WhatsApp"
+  }
+}

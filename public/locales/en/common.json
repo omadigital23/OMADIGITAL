@@ -1,0 +1,345 @@
+{
+  "seo": {
+    "home": {
+      "title": "OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal",
+      "description": "Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.",
+      "keywords": "web agency morocco, web development casablanca, digital marketing senegal, ecommerce africa"
+    },
+    "services": {
+      "title": "Our Services - Web Development & Digital Marketing",
+      "description": "Discover our services: web development, mobile apps, e-commerce, SEO, digital marketing and IT consulting in Morocco and Senegal."
+    },
+    "about": {
+      "title": "About Us - OMA Digital Morocco & Senegal",
+      "description": "Innovative digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Our expert team supports your digital transformation."
+    },
+    "contact": {
+      "title": "Contact - OMA Digital Casablanca",
+      "description": "Contact OMA Digital for your digital projects in Morocco and Senegal. Office in Casablanca (Morocco). Free quote and personalized consultation."
+    },
+    "blog": {
+      "title": "Blog - Tech News & Digital Marketing",
+      "description": "Discover our articles on web development, digital marketing, e-commerce and latest tech trends in Morocco and Senegal."
+    }
+  },
+  "hero": {
+    "title": "Transform Your",
+    "subtitle": "Digital Presence",
+    "description": "Expert digital agency in Morocco & Senegal. Custom web, mobile and marketing solutions.",
+    "cta_primary": "Start a Project",
+    "cta_secondary": "Our Services",
+    "services_slider": [
+      {
+        "title": "Web Development",
+        "description": "Modern and high-performance websites with latest technologies. Custom solutions for your digital presence.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "Mobile Applications",
+        "description": "Native and cross-platform apps for iOS and Android. MVP development and complete applications.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "Digital Marketing",
+        "description": "SEO, SEM and social media strategies for your growth. Optimized advertising campaigns.",
+        "image_path": "/images/logo.webp"
+      },
+      {
+        "title": "AI Automation",
+        "description": "Intelligent automation solutions to optimize your processes. AI chatbots and custom workflows.",
+        "image_path": "/images/logo.webp"
+      }
+    ],
+    "video_slider": [
+      "/videos/hero1.mp4",
+      "/videos/hero2.mp4",
+      "/videos/hero3.mp4"
+    ]
+  },
+  "services_intro": {
+    "title": "Our Services",
+    "description": "At OMA Digital, we specialize in designing digital solutions tailored to the needs of African businesses. Our services are designed to deliver concrete, effective and sustainable results. Whether you are a small growing business or a large organization, we have a solution adapted to your needs."
+  },
+  "services": [
+    {
+      "id": "site-vitrine",
+      "title": "Showcase Website (Standard)",
+      "description": "Modern, fast and secure websites",
+      "price": "5,000 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+      "hero_slide_description": "Professional showcase websites for your online presence",
+      "detailed_description": "A professional showcase website to highlight your products or services. This service includes custom design, with modern and responsive design, optimized for search engines (SEO), and adapted to mobile devices.",
+      "features": [
+        "Custom design: A design that reflects your brand identity.",
+        "SEO optimization: An optimized structure to improve your online visibility.",
+        "Mobile adaptability: A site that adapts perfectly to all devices.",
+        "Easy maintenance: An intuitive user interface for managing your content."
+      ],
+      "ideal_for": [
+        "Small businesses",
+        "Individual entrepreneurs",
+        "Artists or creators wanting to showcase their work"
+      ]
+    },
+    {
+      "id": "ecommerce-essentiel",
+      "title": "Essential E-commerce",
+      "description": "Online stores optimized for sales",
+      "price": "10,000 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Stripe", "PayPal"],
+      "hero_slide_description": "E-commerce platforms that convert visitors into customers",
+      "detailed_description": "This service allows you to create a high-performance and secure online store. We build an e-commerce platform adapted to your business sector, including essential features such as product management, order tracking, and secure payments.",
+      "features": [
+        "Personalized store: Custom design of your online store.",
+        "Stock and order management: Real-time tracking of orders and inventory.",
+        "Secure payment: Integration of reliable and secure payment solutions.",
+        "Admin interface: Easy to use for managing your products, customers, and orders."
+      ],
+      "ideal_for": [
+        "Retail businesses",
+        "Companies wanting to launch into online sales",
+        "Brands looking to expand their Internet presence"
+      ]
+    },
+    {
+      "id": "app-mobile-mvp",
+      "title": "Mobile Application (MVP)",
+      "description": "MVP mobile applications to test your concept",
+      "price": "Starting from 10,999 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["React Native", "Flutter", "Firebase", "REST API"],
+      "hero_slide_description": "Mobile prototype to validate your idea quickly",
+      "detailed_description": "An MVP (Minimum Viable Product) is the initial version of your mobile application, with essential features to test your concept with users. This service is ideal for startups or companies wanting to quickly validate their idea.",
+      "features": [
+        "Rapid development: A functional application delivered in short deadlines.",
+        "Simple and intuitive interfaces: Modern and functional UX/UI design.",
+        "User testing: Gather feedback on initial features to improve the product.",
+        "Cross-platform compatibility: Development for iOS and Android."
+      ],
+      "ideal_for": [
+        "Startups",
+        "Companies wanting to test a mobile app idea",
+        "Projects requiring rapid validation with real users"
+      ]
+    },
+    {
+      "id": "app-mobile-standard",
+      "title": "Mobile Application (Standard)",
+      "description": "Complete and high-performance mobile applications",
+      "price": "Starting from 20,000 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["React Native", "Flutter", "Swift", "Kotlin"],
+      "hero_slide_description": "Professional mobile applications for iOS and Android",
+      "detailed_description": "This service allows you to create a complete and robust mobile application with advanced features. We support you throughout the development to offer an exceptional user experience.",
+      "features": [
+        "Complete development: Functional mobile application with advanced features.",
+        "Optimized performance: Fluidity and responsiveness on all platforms.",
+        "Data security: Protection of your users' sensitive information.",
+        "Regular updates: Continuous monitoring and updates for maximum performance."
+      ],
+      "ideal_for": [
+        "Companies needing a complete mobile application",
+        "Long-term projects requiring advanced features",
+        "Companies looking to offer a smooth and high-performance mobile experience"
+      ]
+    },
+    {
+      "id": "chatbot-ia-rag",
+      "title": "Personalized AI Chatbot (RAG)",
+      "description": "Intelligent chatbot with AI and knowledge base",
+      "price": "10,000 DH + 500 DH/month",
+      "image_path": "/images/logo.webp",
+      "stack": ["Gemini AI", "RAG", "Vector DB", "Next.js"],
+      "hero_slide_description": "Intelligent AI assistant for your customer service",
+      "detailed_description": "We integrate an intelligent AI-based chatbot that can answer your customers' questions instantly and personally. This service is perfect for improving interaction with your customers and offering 24/7 support.",
+      "features": [
+        "Personalized AI chatbot: Designed specifically for your business and needs.",
+        "Machine learning: The chatbot improves as it interacts with users.",
+        "Omnichannel integration: Support for platforms like WhatsApp, Facebook Messenger, and more.",
+        "Data analysis: Conversation tracking to improve user experience."
+      ],
+      "ideal_for": [
+        "Companies wanting to offer automated customer support",
+        "E-commerce sites and service platforms",
+        "Organizations looking to improve their responsiveness and efficiency"
+      ]
+    },
+    {
+      "id": "bot-simple",
+      "title": "Simple Bot (WhatsApp/Telegram)",
+      "description": "Basic chatbot for automated responses",
+      "price": "3,000 DH + 500 DH/month",
+      "image_path": "/images/logo.webp",
+      "stack": ["Dialogflow", "Webhook", "API", "Chat Widget"],
+      "hero_slide_description": "Simple automation of your customer responses",
+      "detailed_description": "This service allows you to integrate a simple bot on your preferred messaging channels (WhatsApp, Telegram). It allows you to automatically respond to frequently asked questions and improve customer engagement.",
+      "features": [
+        "Bot integrated on WhatsApp/Telegram: Smooth and fast interaction with your customers.",
+        "Automatic responses: Pre-programmed to respond to common requests.",
+        "Contact management: Tracking and management of conversations.",
+        "Data access: Recovery of conversation data for improved tracking."
+      ],
+      "ideal_for": [
+        "Companies wanting to automate request management on messaging platforms.",
+        "Small businesses with a limited number of recurring requests."
+      ]
+    },
+    {
+      "id": "automatisation-ia",
+      "title": "AI Automation (Workflow)",
+      "description": "Automation solutions with artificial intelligence",
+      "price": "Starting from 5,999 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["Python", "AI/ML", "APIs", "Workflows"],
+      "hero_slide_description": "Automate your processes with artificial intelligence",
+      "detailed_description": "Optimize your internal processes with artificial intelligence-based automation solutions. This service allows you to create automated workflows to manage your repetitive tasks and improve your efficiency.",
+      "features": [
+        "Process automation: Automation of administrative and operational tasks.",
+        "AI integration: Use of algorithms to optimize decisions and predictions.",
+        "Management interface: Dashboard to track the status of automated tasks.",
+        "24/7 support: Assistance to adjust and optimize your workflows."
+      ],
+      "ideal_for": [
+        "Companies wanting to improve the efficiency of their internal processes",
+        "Growing companies needing to save time on repetitive tasks"
+      ]
+    },
+    {
+      "id": "marketing-digital",
+      "title": "Digital Marketing (Management)",
+      "description": "SEO, SEM and social media strategies",
+      "price": "3,500 DH/month",
+      "image_path": "/images/logo.webp",
+      "stack": ["Google Ads", "Facebook Ads", "SEO", "Analytics"],
+      "hero_slide_description": "Boost your visibility and generate more qualified leads",
+      "detailed_description": "We manage your digital marketing campaigns to help you achieve your business goals. This service includes advertising campaign management, content strategy, and performance analysis.",
+      "features": [
+        "Custom advertising campaigns: Google Ads, Facebook Ads, Instagram, etc.",
+        "Content creation: Content strategies adapted to your brand.",
+        "Analysis and reports: Performance tracking with detailed reports.",
+        "Continuous optimization: Constant adjustments to maximize your results."
+      ],
+      "ideal_for": [
+        "Companies looking to increase their online visibility.",
+        "Brands wanting to improve their content strategy.",
+        "Companies looking to optimize their advertising return on investment."
+      ]
+    },
+    {
+      "id": "creation-video",
+      "title": "Video Creation",
+      "description": "Promotional videos and visual content",
+      "price": "Starting from 3,000 DH",
+      "image_path": "/images/logo.webp",
+      "stack": ["After Effects", "Premiere Pro", "Motion Graphics", "Animation"],
+      "hero_slide_description": "Engaging video content for your communication",
+      "detailed_description": "We produce captivating videos for your business. Whether for advertising, product presentation, or customer testimonials, we create videos that showcase your brand.",
+      "features": [
+        "Custom videos: Video design and production adapted to your needs.",
+        "Professional filming and editing: High quality and dynamic rendering.",
+        "Platform adaptation: Videos ready to be broadcast on social networks, websites, etc.",
+        "Engaging videos: Creation of videos that capture attention and generate interest."
+      ],
+      "ideal_for": [
+        "Companies looking to energize their communication.",
+        "Brands wanting to promote their products or services visually.",
+        "Companies from any sector wanting to add videos to their marketing strategy."
+      ]
+    }
+  ],
+  "blog": {
+    "categories": [
+      {
+        "id": "web-development",
+        "name": "Web Development",
+        "description": "News and tutorials on modern web development"
+      },
+      {
+        "id": "mobile-development",
+        "name": "Mobile Development",
+        "description": "Trends and guides for mobile applications"
+      },
+      {
+        "id": "digital-marketing",
+        "name": "Digital Marketing",
+        "description": "Digital marketing strategies and advice"
+      },
+      {
+        "id": "ecommerce",
+        "name": "E-commerce",
+        "description": "Online store optimization and growth"
+      },
+      {
+        "id": "seo",
+        "name": "SEO & Referencing",
+        "description": "Natural referencing techniques and strategies"
+      },
+      {
+        "id": "tech-trends",
+        "name": "Tech Trends",
+        "description": "Latest innovations and emerging technologies"
+      }
+    ],
+    "articles": [
+      {
+        "id": "next-js-14-features",
+        "slug": "next-js-14-features-app-router",
+        "title": "Next.js 14: New App Router Features",
+        "excerpt": "Discover the new features of Next.js 14 and how the App Router revolutionizes React development.",
+        "content": "Next.js 14: New App Router Features\n\nNext.js 14 marks an important milestone in the evolution of the most popular React framework. With the App Router now stable, developers can create more performant and maintainable applications.\n\nKey New Features\n\nStable App Router: The App Router, introduced experimentally in Next.js 13, is now stable and production-ready. This new routing approach offers folder-based routing that's more intuitive and organized, nested layouts for optimized component reuse, and Server Components by default for improved performance.\n\nTurbopack (Alpha): Turbopack, Webpack's successor written in Rust, promises compilation times up to 10x faster. This revolutionary improvement allows developers to see their changes instantly.\n\nServer Actions: Server Actions allow executing server-side code directly from client components, dramatically simplifying database and API interactions.\n\nMigration from Pages Router\n\nMigrating to the App Router requires some structural adjustments:\n\n```javascript\n// Old: pages/index.js\nexport default function Home() {\n  return <h1>Home</h1>\n}\n\n// New: app/page.js\nexport default function Page() {\n  return <h1>Home</h1>\n}\n```\n\nKey Benefits\n\nImproved performance with faster page loading, optimized SEO for better natural referencing, enhanced developer experience with more intuitive development tools, and better scalability through more robust architecture for large applications.\n\nBest Practices\n\nStart with Server Components and use client components only when needed. Leverage streaming to implement progressive loading. Optimize images using Next.js Image component. Cache strategically by implementing proper caching strategies.\n\nPerformance Improvements\n\nThe new architecture provides reduced JavaScript bundle size, better Core Web Vitals scores, improved Time to Interactive (TTI), and enhanced First Contentful Paint (FCP).\n\nNext.js 14 with stable App Router represents the future of React development. Teams migrating now will benefit from better performance, improved developer experience, and a more modern architecture for their web projects.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-15",
+        "readTime": "8 min",
+        "tags": ["Next.js", "React", "App Router", "Performance"]
+      },
+      {
+        "id": "react-server-components-guide",
+        "slug": "react-server-components-complete-guide",
+        "title": "React Server Components: Complete Guide 2024",
+        "excerpt": "Master React Server Components to create faster and more efficient applications.",
+        "content": "React Server Components: Complete Guide 2024\n\nReact Server Components (RSC) revolutionize how we build React applications by enabling server-side rendering of specific components.\n\nWhat are Server Components?\n\nServer Components are React components that run exclusively on the server. They offer major advantages: reduced JavaScript bundle (code isn't sent to the client), direct data access with direct connection to databases, and enhanced security as API keys stay server-side.\n\nServer vs Client Components\n\nServer Components:\n```javascript\n// app/posts/page.js (Server Component by default)\nimport { getPosts } from '@/lib/database'\n\nexport default async function PostsPage() {\n  const posts = await getPosts()\n  return (\n    <div>\n      {posts.map(post => (\n        <article key={post.id}>\n          <h2>{post.title}</h2>\n          <p>{post.excerpt}</p>\n        </article>\n      ))}\n    </div>\n  )\n}\n```\n\nClient Components:\n```javascript\n'use client'\nimport { useState } from 'react'\n\nexport default function Counter() {\n  const [count, setCount] = useState(0)\n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Counter: {count}\n    </button>\n  )\n}\n```\n\nBest Practices\n\nUse Server Components by default unless interactivity is needed. Minimize Client Components to reduce client-side JavaScript. Use smart composition to efficiently combine both types.\n\nPractical Use Cases\n\n```javascript\n// Server Component for data\nasync function UserProfile({ userId }) {\n  const user = await fetchUser(userId)\n  return (\n    <div>\n      <h1>{user.name}</h1>\n      <UserActions user={user} /> {/* Client Component */}\n    </div>\n  )\n}\n```\n\nPerformance Optimization\n\nServer Components enable reduced Time to Interactive (TTI), improved First Contentful Paint (FCP), decreased JavaScript bundle size, and better SEO naturally.\n\nArchitecture Benefits\n\nZero client-side JavaScript for static content, automatic code splitting at component level, streaming support for progressive loading, and better caching strategies with server-side rendering.\n\nReact Server Components represent the future of React development. By mastering this technology, you'll create faster, more secure, and more maintainable applications.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-10",
+        "readTime": "12 min",
+        "tags": ["React", "Server Components", "Performance", "Next.js"]
+      },
+      {
+        "id": "typescript-best-practices-2024",
+        "slug": "typescript-best-practices-2024",
+        "title": "TypeScript: Best Practices for 2024",
+        "excerpt": "Discover the best TypeScript practices for writing more robust and maintainable code.",
+        "content": "TypeScript: Best Practices for 2024\n\nTypeScript continues to evolve and establish itself as the standard for modern JavaScript development. Here are the essential best practices for 2024.\n\nStrict Configuration\n\nOptimal tsconfig.json:\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noUncheckedIndexedAccess\": true,\n    \"exactOptionalPropertyTypes\": true,\n    \"noImplicitReturns\": true,\n    \"noFallthroughCasesInSwitch\": true\n  }\n}\n```\n\nAdvanced Utility Types\n\nConditional Types:\n```typescript\ntype ApiResponse<T> = T extends string \n  ? { message: T } \n  : { data: T }\n\ntype StringResponse = ApiResponse<string> // { message: string }\ntype DataResponse = ApiResponse<User[]>   // { data: User[] }\n```\n\nMapped Types:\n```typescript\ntype Partial<T> = {\n  [P in keyof T]?: T[P]\n}\n```\n\nModern Patterns\n\nBranded Types:\n```typescript\ntype UserId = string & { __brand: 'UserId' }\ntype Email = string & { __brand: 'Email' }\n\nfunction createUser(id: UserId, email: Email) {\n  // Type safety guaranteed\n}\n```\n\nDiscriminated Unions:\n```typescript\ntype LoadingState = \n  | { status: 'loading' }\n  | { status: 'success'; data: any }\n  | { status: 'error'; error: string }\n\nfunction handleState(state: LoadingState) {\n  switch (state.status) {\n    case 'loading': return 'Loading...'\n    case 'success': return state.data\n    case 'error': return state.error\n  }\n}\n```\n\nValidation with Zod\n\n```typescript\nimport { z } from 'zod'\n\nconst UserSchema = z.object({\n  id: z.string().uuid(),\n  email: z.string().email(),\n  age: z.number().min(0).max(120)\n})\n\ntype User = z.infer<typeof UserSchema>\n```\n\nEfficient Type Guards\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string'\n}\n\nfunction processValue(value: unknown) {\n  if (isString(value)) {\n    return value.toUpperCase()\n  }\n}\n```\n\nDevelopment Tips\n\nUse strict mode for better type safety. Leverage utility types for code reusability. Implement proper error handling with Result types. Use const assertions for better type inference.\n\nThese TypeScript best practices will help you create more robust, maintainable, and performant applications. Investment in strict configuration translates to fewer bugs and better developer experience.",
+        "coverImage": "/images/logo.webp",
+        "category": "web-development",
+        "author": "Amadou Fall",
+        "publishedAt": "2024-01-05",
+        "readTime": "10 min",
+        "tags": ["TypeScript", "Best Practices", "Types", "Validation"]
+      }
+    ]
+  },
+  "legal": {
+    "privacy_policy": {
+      "title": "Privacy Policy",
+      "content": "Last updated: January 15, 2024\n\n## 1. Introduction\n\nOMA Digital, a Moroccan company located in Casablanca, is committed to protecting your personal data in accordance with Law 09-08 and international standards. This policy explains how we collect, use and protect your information.\n\n## 2. Data Collected\n\nWe collect the following information:\n\n### Direct data\n- Name, first name, email, phone\n- Company information\n- Messages and quote requests\n\n### Automatic data\n- IP address and navigation data\n- Technical and analytical cookies\n- Security logs\n\n## 3. Data Usage\n\nYour data is used for:\n\n- **Services**: Provide our web, mobile and digital marketing services\n- **Communication**: Respond to your requests and inform you\n- **Improvement**: Optimize our services and your experience\n- **Legal**: Comply with our accounting and tax obligations\n\n## 4. Legal Basis\n\n- **Consent**: Newsletter and marketing\n- **Contract**: Execution of our services\n- **Legitimate interest**: Improvement and security\n- **Legal obligation**: Accounting and taxation\n\n## 5. Data Sharing\n\nWe share your data only with:\n\n- **Internal teams**: Authorized OMA Digital personnel\n- **Service providers**: Hosting (Vercel, Supabase), Analytics (Google)\n- **Authorities**: If required by law\n\nAll our partners respect strict data protection obligations.\n\n## 6. Retention\n\n- **Active clients**: Contract duration + 5 years\n- **Prospects**: 3 years after last contact\n- **Accounting data**: 10 years (legal obligation)\n- **Cookies**: 13 months maximum\n\n## 7. Your Rights\n\nYou have the following rights:\n\n- **Access**: View your data\n- **Rectification**: Correct errors\n- **Erasure**: Delete your data\n- **Portability**: Retrieve your data\n- **Objection**: Refuse certain processing\n\nTo exercise your rights: omadigital23@gmail.com\n\n## 8. Security\n\nWe protect your data through:\n\n- SSL/TLS encryption\n- Secure authentication\n- Regular backups\n- Staff training\n- Security audits\n\n## 9. Cookies\n\nWe use cookies for:\n\n- **Technical**: Site operation\n- **Analytics**: Audience measurement (Google Analytics)\n- **Preferences**: Memorizing your choices\n\nYou can manage cookies via your browser.\n\n## 10. International Transfers\n\nSome data may be transferred to the United States (Google) or EU, with appropriate safeguards (standard contractual clauses).\n\n## 11. Contact\n\n**OMA Digital**\nCasablanca, Morocco\nEmail: omadigital23@gmail.com\nPhone: +212 701 193 811\nDPO: amadou@omadigital.net\n\n## 12. Complaints\n\nIn case of dispute, contact CNDP:\n- Website: www.cndp.ma\n- Email: cndp@cndp.ma\n\nThis policy may be modified. Important changes will be notified to you."
+    },
+    "terms_conditions": {
+      "title": "Terms and Conditions",
+      "content": "Last updated: January 15, 2024\n\n## 1. Company Presentation\n\nOMA Digital is a Moroccan company specializing in digital services, located in Casablanca. We offer web development, mobile applications, digital marketing and automation solutions.\n\n## 2. Services\n\n**Web Development:**\n- Showcase websites: 5,000 DH\n- E-commerce: 10,000 DH\n\n**Mobile Applications:**\n- MVP: starting from 10,999 DH\n- Standard: starting from 20,000 DH\n\n**AI Solutions:**\n- AI Chatbot RAG: 10,000 DH + 500 DH/month\n- Simple Bot: 3,000 DH + 500 DH/month\n\n**Other Services:**\n- Digital Marketing: 3,500 DH/month\n- Video Creation: starting from 3,000 DH\n\n## 3. Order and Payment\n\nEvery service begins with a free quote. Payment terms: 50% upon signature, 50% upon delivery.\n\n## 4. Obligations\n\n**OMA Digital commits to:**\n- Provide services with professionalism\n- Respect agreed deadlines\n- Ensure information confidentiality\n\n**Client commits to:**\n- Provide necessary information\n- Respect payment deadlines\n- Validate deliverables on time\n\n## 5. Intellectual Property\n\nAfter full payment, Client obtains usage rights to created works and source code of specific developments.\n\n## 6. Warranties\n\nWe guarantee service conformity and proper functioning for 3 months. Our liability is limited to paid amounts.\n\n## 7. Contact\n\n**OMA Digital**\nCasablanca, Morocco\nEmail: omadigital23@gmail.com\nPhone: +212 701 193 811"
+    },
+    "cookie_policy": {
+      "title": "Cookie Policy",
+      "content": "Last updated: January 15, 2024\n\n## 1. Introduction\n\nThis policy explains how OMA Digital uses cookies on www.omadigital.net.\n\n## 2. What is a Cookie?\n\nA cookie is a small text file stored on your device when visiting a website to remember your preferences.\n\n## 3. Types of Cookies Used\n\n**Essential cookies:**\n- User session\n- CSRF security\n- Language preferences\n- Cookie consent\n\n**Analytics cookies:**\n- Google Analytics (_ga, _gid)\n- Traffic and audience measurement\n\n**Functional cookies:**\n- Display preferences\n- Form saving\n\n**Marketing cookies (with consent):**\n- Google Ads\n- Facebook Pixel\n\n## 4. Purposes\n\n- User experience improvement\n- Traffic and behavior analysis\n- Site security\n- Content personalization\n\n## 5. Cookie Management\n\n**Via our site:**\n- Consent banner\n- \"Cookie Management\" link at bottom of page\n\n**Via your browser:**\n- Chrome: Settings > Privacy and security\n- Firefox: Settings > Privacy and security\n- Safari: Preferences > Privacy\n\n## 6. Consequences of Deactivation\n\nDisabling essential cookies may cause site malfunctions. Analytics cookies help improve our services.\n\n## 7. Retention Period\n\n- Session cookies: Deleted when browser closes\n- Persistent cookies: 13 months maximum\n- Google Analytics: 26 months\n\n## 8. Contact\n\n**OMA Digital**\nEmail: omadigital23@gmail.com\nPhone: +212 701 193 811\nAddress: Casablanca, Morocco"
+    },
+    "gdpr_compliance": {
+      "title": "GDPR Compliance",
+      "content": "Last updated: January 15, 2024\n\n## 1. OMA Digital Commitment\n\nOMA Digital is committed to respecting personal data protection principles according to Law 09-08 and GDPR for our European clients.\n\n## 2. Fundamental Principles\n\n- **Transparency**: Clear information about our practices\n- **Purpose**: Collection limited to legitimate needs\n- **Proportionality**: Adequate and non-excessive processing\n- **Security**: Technical and organizational protection\n\n## 3. Legal Bases\n\n**Consent:** Newsletter, non-essential cookies\n**Contract:** Service provision\n**Legitimate interest:** Service improvement, security\n**Legal obligation:** Accounting, taxation\n\n## 4. Your Rights\n\n- **Access**: View your data\n- **Rectification**: Correct errors\n- **Erasure**: Delete your data\n- **Portability**: Retrieve your data\n- **Objection**: Refuse certain processing\n- **Restriction**: Suspend processing\n\n## 5. Exercise of Rights\n\n**Contact:**\n- Email: omadigital23@gmail.com\n- DPO: amadou@omadigital.net\n\n**Response time:** 30 days maximum\n\n## 6. Data Security\n\n**Technical measures:**\n- TLS/SSL encryption\n- Multi-factor authentication\n- Secure backups\n\n**Organizational measures:**\n- Staff training\n- Security procedures\n- Regular audits\n\n## 7. International Transfers\n\nSome data may be transferred to the United States (Google) with appropriate safeguards (standard contractual clauses).\n\n## 8. Data Breach\n\nIn case of breach, we notify authorities within 72h and data subjects if high risk.\n\n## 9. DPO\n\n**Amadou Fall**\nData Protection Officer\nEmail: amadou@omadigital.net\nPhone: +212 701 193 811\n\n## 10. Complaints\n\n**CNDP (Morocco):**\n- Website: www.cndp.ma\n- Email: cndp@cndp.ma\n\n**CNIL (France):** www.cnil.fr"
+    }
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "page_title": "AI Blog & Digital Transformation | OMA Digital",
+  "page_description": "Discover our articles on AI, WhatsApp Business automation, and digital transformation for SMEs in Senegal and Morocco",
+  "hero_title": "AI & Digital Transformation Blog",
+  "hero_subtitle": "Tips, guides and news to digitize your SME in Senegal and Morocco",
+  "search_placeholder": "Search for an article...",
+  "filter_all": "All articles",
+  "filter_ai": "Artificial Intelligence",
+  "filter_whatsapp": "WhatsApp Business",
+  "filter_web": "Web Development",
+  "filter_case_study": "Case Studies",
+  "filter_guides": "Practical Guides",
+  "read_more": "Read article",
+  "reading_time": "min read",
+  "published_on": "Published on",
+  "updated_on": "Updated on",
+  "share_article": "Share article",
+  "related_articles": "Related articles",
+  "back_to_blog": "Back to blog",
+  "no_results": "No articles found",
+  "no_results_description": "Try modifying your search or filters",
+  "categories": "Categories",
+  "tags": "Tags",
+  "author": "Author",
+  "articles": {
+    "chatbot-whatsapp-senegal": {
+      "title": "How to automate WhatsApp Business in Senegal: Complete 2025 Guide",
+      "excerpt": "Discover how Senegalese SMEs can automate their WhatsApp customer service and increase sales by 200% with an intelligent chatbot.",
+      "category": "WhatsApp Business",
+      "tags": ["WhatsApp", "Automation", "Senegal", "Chatbot"],
+      "reading_time": 8,
+      "author": "OMA Digital Team",
+      "published_date": "2025-01-15",
+      "updated_date": "2025-01-15",
+      "content": {
+        "intro": "WhatsApp Business automation has become essential for Senegalese SMEs who want to stay competitive. In this guide, we show you how to set up a WhatsApp chatbot in less than 48 hours.",
+        "sections": [
+          {
+            "title": "Why automate WhatsApp Business in Senegal?",
+            "content": "With over 8 million WhatsApp users in Senegal, it's your customers' preferred communication channel. Automation allows you to respond 24/7, manage multiple conversations simultaneously, and reduce your customer service costs by 60%."
+          },
+          {
+            "title": "Concrete benefits for your SME",
+            "content": "• Instant 24/7 response to your customers\n• Management of 100+ simultaneous conversations\n• 60% reduction in customer service costs\n• 200% increase in conversions\n• Automatic customer data collection\n• Multilingual support (French, Wolof, English)"
+          },
+          {
+            "title": "How does it work?",
+            "content": "Our solution uses the official WhatsApp Business API and Google's Vertex AI to create an intelligent chatbot that understands your customers in French and Wolof. The chatbot can answer frequently asked questions, take orders, and transfer to a human if necessary."
+          },
+          {
+            "title": "Use case: Restaurant in Dakar",
+            "content": "A restaurant in Dakar automated its reservations via WhatsApp. Result: +300% reservations, -70% management time, and 98% customer satisfaction. The chatbot handles reservations, menu, and delivery orders automatically."
+          },
+          {
+            "title": "Profitable and accessible solution",
+            "content": "Our solution adapts to your budget with flexible payment plans. Complete installation, team training, 24/7 support, and free updates included. ROI guaranteed in 3 months - most of our clients recover their investment in the first month thanks to increased sales. Request a free personalized quote."
+          }
+        ],
+        "cta": "Request a free demo of our WhatsApp chatbot"
+      }
+    },
+    "chatbot-vocal-multilingue": {
+      "title": "Multilingual voice chatbot: The future of customer service in Senegal and Morocco",
+      "excerpt": "Discover how our intelligent voice chatbot in French, Arabic and Wolof is revolutionizing customer service for African SMEs.",
+      "category": "Artificial Intelligence",
+      "tags": ["Chatbot", "AI", "Multilingual", "Vertex AI"],
+      "reading_time": 10,
+      "author": "OMA Digital Team",
+      "published_date": "2025-01-10",
+      "updated_date": "2025-01-10",
+      "content": {
+        "intro": "The multilingual voice chatbot is the new frontier of customer service in Africa. With support for French, Arabic and Wolof, it allows SMEs to serve all their customers in their preferred language.",
+        "sections": [
+          {
+            "title": "Why a voice chatbot?",
+            "content": "In a continent where 60% of the population prefers voice communication, a voice chatbot is more accessible than a text chatbot. It allows customers to speak naturally, without having to type, which improves the user experience."
+          },
+          {
+            "title": "Multilingual support: French, Arabic, Wolof",
+            "content": "Our chatbot uses Google's Vertex AI to understand and respond in 3 languages: French (standard and African), Arabic (Moroccan dialect and classical), and Wolof (Senegal). The chatbot automatically detects the customer's language."
+          },
+          {
+            "title": "Vertex AI Technology",
+            "content": "We exclusively use Google's Vertex AI, the most advanced AI platform. Unlike low-cost solutions, Vertex AI guarantees perfect context understanding, accurate voice recognition, and natural responses."
+          },
+          {
+            "title": "Use case: E-commerce in Casablanca",
+            "content": "An online store in Casablanca deployed our voice chatbot. Result: +250% conversions, customer support in French and Moroccan Arabic, and 97% satisfaction. The chatbot handles product inquiries, order tracking, and returns."
+          },
+          {
+            "title": "Fast and risk-free deployment",
+            "content": "Installation in 5-7 days, training included, 24/7 support. Our clients see an average ROI of 250% in 3 months. We offer payment plans adapted to SMEs with the possibility to test free for 7 days. Request a personalized demo to discover how our solution can transform your customer service."
+          }
+        ],
+        "cta": "Test our voice chatbot for free"
+      }
+    },
+    "sites-web-rapides-nextjs": {
+      "title": "Ultra-fast websites with Next.js: Guide for SMEs in Senegal and Morocco",
+      "excerpt": "Learn how to create a website that loads in less than 1.5 seconds and improves your Google ranking by 300%.",
+      "category": "Web Development",
+      "tags": ["Next.js", "Performance", "SEO", "Web"],
+      "reading_time": 12,
+      "author": "OMA Digital Team",
+      "published_date": "2025-01-05",
+      "updated_date": "2025-01-05",
+      "content": {
+        "intro": "Your website speed directly impacts your sales. A site that loads in 1 second converts 3x more than a site that takes 5 seconds. Here's how we create ultra-fast sites with Next.js.",
+        "sections": [
+          {
+            "title": "Why is speed crucial?",
+            "content": "Google penalizes slow sites in its ranking. 53% of mobile users abandon a site that takes more than 3 seconds to load. In Senegal and Morocco, where internet connection can be limited, having a fast site is even more important."
+          },
+          {
+            "title": "Next.js: The framework of the future",
+            "content": "Next.js is the React framework used by Netflix, TikTok and Uber. It allows you to create ultra-fast sites thanks to Server-Side Rendering (SSR), Static Site Generation (SSG), and automatic image optimization."
+          },
+          {
+            "title": "Our optimizations",
+            "content": "• Optimized WebP images (-70% weight)\n• Intelligent lazy loading\n• Automatic code splitting\n• Global CDN (Vercel)\n• Optimized cache\n• Google PageSpeed score 95+\n• Loading time < 1.5s"
+          },
+          {
+            "title": "Use case: Real estate agency in Thiès",
+            "content": "A real estate agency in Thiès migrated to Next.js. Result: loading time from 8s to 1.2s, organic traffic +180%, conversions +120%. The site is now #1 on Google for 'real estate Thiès'."
+          },
+          {
+            "title": "Investment that pays for itself",
+            "content": "Our clients typically see their investment returned within 3-4 months through increased conversions and reduced bounce rates. We offer flexible payment plans adapted to SME budgets, with hosting included for the first year. Request a free personalized quote to discover how much you could save with an ultra-fast website."
+          }
+        ],
+        "cta": "Request a free audit of your current site"
+      }
+    },
+    "vertex-ai-vs-alternatives": {
+      "title": "Vertex AI vs other AI solutions: Why we exclusively use Vertex AI",
+      "excerpt": "Detailed comparison between Vertex AI, OpenAI, Hugging Face and Google AI Studio. Discover why Vertex AI is the best choice for African SMEs.",
+      "category": "Artificial Intelligence",
+      "tags": ["Vertex AI", "AI", "Comparison", "Google Cloud"],
+      "reading_time": 15,
+      "author": "OMA Digital Team",
+      "published_date": "2025-01-01",
+      "updated_date": "2025-01-01",
+      "content": {
+        "intro": "At OMA Digital, we exclusively use Google's Vertex AI for our AI solutions. Here's why it's the best choice for SMEs in Senegal and Morocco.",
+        "sections": [
+          {
+            "title": "What is Vertex AI?",
+            "content": "Vertex AI is Google Cloud's artificial intelligence platform. It offers world-class language models (LLM), speech recognition (STT), and text-to-speech (TTS), with unmatched security and reliability."
+          },
+          {
+            "title": "Vertex AI vs OpenAI (ChatGPT)",
+            "content": "Vertex AI: Hosting in Europe, GDPR compliance, latency <200ms, native multilingual support, transparent pricing.\n\nOpenAI: USA hosting, GDPR issues, variable latency, limited support for African languages, fluctuating prices."
+          },
+          {
+            "title": "Vertex AI vs Hugging Face",
+            "content": "Vertex AI: Optimized models, managed infrastructure, automatic scaling, 24/7 support.\n\nHugging Face: Requires technical expertise, infrastructure to manage, hidden costs, no support."
+          },
+          {
+            "title": "Vertex AI vs Google AI Studio",
+            "content": "Vertex AI: Production-ready, guaranteed SLAs, enterprise security, stable API.\n\nGoogle AI Studio: Experimental, no SLA, limited, not recommended for production."
+          },
+          {
+            "title": "Why Vertex AI for Africa?",
+            "content": "• Native support for African French and Moroccan Arabic\n• Optimized latency from Europe\n• GDPR compliance (important for your European customers)\n• Automatic scaling (handles traffic spikes)\n• Predictable pricing (no surprises)\n• Google Cloud 24/7 support"
+          },
+          {
+            "title": "Our commitment",
+            "content": "We commit to using 100% Vertex AI for all our projects. No Google AI Studio, no Hugging Face, no low-cost solutions. Only the best technology for our clients."
+          }
+        ],
+        "cta": "Talk to our technical team"
+      }
+    },
+    "roi-automatisation-pme-afrique": {
+      "title": "ROI of automation for African SMEs: 5 real case studies",
+      "excerpt": "Discover how 5 SMEs in Senegal and Morocco achieved a +200% ROI by automating their processes with OMA Digital.",
+      "category": "Case Studies",
+      "tags": ["ROI", "Automation", "SME", "Africa"],
+      "reading_time": 20,
+      "author": "OMA Digital Team",
+      "published_date": "2024-12-20",
+      "updated_date": "2025-01-15",
+      "content": {
+        "intro": "Automation is no longer reserved for large companies. Here are 5 case studies of African SMEs that transformed their business with our solutions.",
+        "sections": [
+          {
+            "title": "Case 1: Restaurant in Dakar",
+            "content": "Problem: Manual reservation management, lost customers, work overload.\n\nSolution: WhatsApp chatbot for automatic reservations.\n\nResults: +300% reservations, -70% management time, 250% ROI in 2 months. The investment was recovered in the first month thanks to automatically generated new reservations."
+          },
+          {
+            "title": "Case 2: E-commerce in Casablanca",
+            "content": "Problem: Overwhelmed customer service, high cart abandonment rate, support costs.\n\nSolution: Multilingual voice chatbot (FR/AR) + WhatsApp automation.\n\nResults: +250% conversions, -60% support costs, 300% ROI in 3 months. The solution paid for itself through cost reduction and increased sales."
+          },
+          {
+            "title": "Case 3: Real estate agency in Thiès",
+            "content": "Problem: Slow website, poor Google ranking, few leads.\n\nSolution: Next.js site redesign + optimized local SEO.\n\nResults: Loading time 8s → 1.2s, traffic +180%, leads +120%, 200% ROI in 4 months. The initial investment was quickly recovered thanks to the influx of new qualified leads."
+          },
+          {
+            "title": "Case 4: Fashion boutique in Rabat",
+            "content": "Problem: Manual Instagram management, lost orders, no customer tracking.\n\nSolution: Instagram + WhatsApp automation + Supabase CRM.\n\nResults: +400% Instagram orders, automated customer tracking, 350% ROI in 2 months. The return on investment exceeded all expectations thanks to the explosion of orders."
+          },
+          {
+            "title": "Case 5: Training center in Dakar",
+            "content": "Problem: Manual registrations, forgotten reminders, high abandonment rate.\n\nSolution: Next.js web platform + chatbot + automated emails.\n\nResults: +200% registrations, -80% manual tasks, 280% ROI in 3 months. The solution tripled registrations while freeing the team to focus on training quality."
+          },
+          {
+            "title": "Conclusion: Automation is profitable",
+            "content": "All these SMEs achieved a positive ROI in less than 4 months. Automation is not a cost, it's an investment that pays for itself quickly and continues to generate benefits."
+          }
+        ],
+        "cta": "Calculate your potential ROI with our free simulator"
+      }
+    }
+  },
+  "cta_section": {
+    "title": "Ready to transform your SME?",
+    "description": "Talk to our team and get a free personalized quote in 24h",
+    "button_primary": "Request a free quote",
+    "button_secondary": "Talk to an expert"
+  }
+}

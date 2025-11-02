@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Block admin and API sections
+Disallow: /admin/
+Disallow: /fr/admin/
+Disallow: /en/admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.omadigital.net/sitemap.xml

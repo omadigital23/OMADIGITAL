@@ -50,6 +50,7 @@ export default function Header({ locale }: HeaderProps) {
               height={40}
               className="h-10 w-auto"
               priority
+              fetchPriority="high"
               sizes="(max-width: 640px) 100px, 120px"
             />
           </Link>

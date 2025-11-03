@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 interface ServiceSlide {
@@ -9,15 +9,23 @@ interface ServiceSlide {
   image_path: string
 }
 
+type VideoSlide =
+  | string
+  | {
+      webm?: string
+      poster?: string
+    }
+
 interface HeroClientProps {
   servicesData: ServiceSlide[]
-  videosData: string[]
+  videosData: VideoSlide[]
   locale: string
 }
 
 export default function HeroClient({ servicesData, videosData, locale }: HeroClientProps) {
   const [currentServiceSlide, setCurrentServiceSlide] = useState(0)
   const [currentVideoSlide, setCurrentVideoSlide] = useState(0)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     if (servicesData.length === 0) return
@@ -34,6 +42,37 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     }, 6000)
     return () => clearInterval(interval)
   }, [videosData.length])
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.muted = true
+    v.defaultMuted = true
+    v.setAttribute('playsinline', '')
+    v.setAttribute('webkit-playsinline', '')
+    const tryPlay = async () => {
+      try {
+        await v.play()
+      } catch (_) {
+        // no-op
+      }
+    }
+    tryPlay()
+  }, [currentVideoSlide])
+
+  const currentVideo = videosData[currentVideoSlide]
+  const currentPoster = typeof currentVideo === 'string' ? undefined : currentVideo?.poster
+  const srcs: { src: string; type: string }[] = (() => {
+    if (!currentVideo) return []
+    if (typeof currentVideo === 'string') {
+      const lower = currentVideo.toLowerCase()
+      const mime = lower.endsWith('.webm') ? 'video/webm' : 'video/webm'
+      return [{ src: currentVideo, type: mime }]
+    }
+    const out: { src: string; type: string }[] = []
+    if (currentVideo.webm) out.push({ src: currentVideo.webm, type: 'video/webm' })
+    return out
+  })()
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 relative overflow-hidden">
@@ -116,14 +155,31 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
           <div className="relative order-first lg:order-last">
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               <video
-                key={videosData[currentVideoSlide]}
+                key={typeof currentVideo === 'string' ? currentVideo : `${currentVideo.webm || ''}`}
+                ref={videoRef}
                 autoPlay
                 muted
                 loop
                 playsInline
+                x-webkit-airplay="allow"
+                webkit-playsinline="true"
+                controls={false}
+                preload="auto"
+                disablePictureInPicture
+                poster={currentPoster}
                 className="w-full h-full object-cover"
+                onLoadedData={() => {
+                  const v = videoRef.current
+                  if (!v) return
+                  v.muted = true
+                  v.defaultMuted = true
+                  v.play().catch(() => {})
+                }}
               >
-                <source src={videosData[currentVideoSlide]} type="video/mp4" />
+                {srcs.map((s) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <source src={s.src} type={s.type} />
+                ))}
                 {locale === 'fr' 
                   ? 'Votre navigateur ne supporte pas la vidéo.'
                   : 'Your browser does not support video.'

@@ -60,7 +60,7 @@ export function setAdminCookie(username: string) {
     name: COOKIE_NAME,
     value: token,
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
     maxAge: COOKIE_MAX_AGE,

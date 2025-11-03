@@ -90,8 +90,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.locale}>
-      <GoogleAnalytics />
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
+        <GoogleAnalytics />
         <Header locale={params.locale} />
         {children}
         <Footer locale={params.locale} />

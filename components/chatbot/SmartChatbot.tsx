@@ -149,7 +149,8 @@ export default function SmartChatbot() {
                   <span className="text-xs opacity-70 mt-1 block">
                     {message.timestamp.toLocaleTimeString('fr-FR', {
                       hour: '2-digit',
-                      minute: '2-digit'
+                      minute: '2-digit',
+                      timeZone: 'UTC'
                     })}
                   </span>
                 </div>

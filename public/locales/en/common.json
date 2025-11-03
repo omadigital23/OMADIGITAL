@@ -51,9 +51,9 @@
       }
     ],
     "video_slider": [
-      "/videos/hero1.mp4",
-      "/videos/hero2.mp4",
-      "/videos/hero3.mp4"
+      "/videos/hero1.webm",
+      "/videos/hero2.webm",
+      "/videos/hero3.webm"
     ]
   },
   "services_intro": {

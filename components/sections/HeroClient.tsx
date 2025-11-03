@@ -26,6 +26,7 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
   const [currentServiceSlide, setCurrentServiceSlide] = useState(0)
   const [currentVideoSlide, setCurrentVideoSlide] = useState(0)
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     if (servicesData.length === 0) return
@@ -42,6 +43,10 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     }, 6000)
     return () => clearInterval(interval)
   }, [videosData.length])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const v = videoRef.current
@@ -152,8 +157,9 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
           </div>
 
           {/* Right Side - Video Slider */}
-          <div className="relative order-first lg:order-last">
+          <div className="relative order-first lg:order-last" suppressHydrationWarning>
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              {mounted ? (
               <video
                 key={typeof currentVideo === 'string' ? currentVideo : `${currentVideo.webm || ''}`}
                 ref={videoRef}
@@ -177,14 +183,16 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                 }}
               >
                 {srcs.map((s) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <source src={s.src} type={s.type} />
+                  <source key={`${s.type}-${s.src}`} src={s.src} type={s.type} />
                 ))}
                 {locale === 'fr' 
                   ? 'Votre navigateur ne supporte pas la vidéo.'
                   : 'Your browser does not support video.'
                 }
               </video>
+              ) : (
+                <div className="w-full h-full bg-black/10" />
+              )}
               
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>

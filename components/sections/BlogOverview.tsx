@@ -81,7 +81,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
               
               <div className="p-6">
                 <div className="flex items-center text-sm text-gray-500 mb-3">
-                  <span>{new Date(article.publishedAt).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US')}</span>
+                  <span>{article.publishedAt}</span>
                   <span className="mx-2">•</span>
                   <span>{article.readTime}</span>
                 </div>

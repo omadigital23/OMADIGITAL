@@ -12,9 +12,11 @@ interface ServiceSlide {
   image_path: string
 }
 
+type VideoSlide = string | { webm?: string; poster?: string }
+
 interface HeroData {
   services_slider: ServiceSlide[]
-  video_slider: string[]
+  video_slider: VideoSlide[]
 }
 
 function getHeroData(locale: string): HeroData {
@@ -23,9 +25,20 @@ function getHeroData(locale: string): HeroData {
     const fileContent = fs.readFileSync(filePath, 'utf8')
     const data = JSON.parse(fileContent)
     
+    const rawVideos: VideoSlide[] = data?.hero?.video_slider || []
+    const normalizedVideos: VideoSlide[] = rawVideos.map((v: VideoSlide) => {
+      if (typeof v === 'string') {
+        return v.toLowerCase().endsWith('.mp4') ? v.replace(/\.mp4$/i, '.webm') : v
+      }
+      if (v?.webm) {
+        return { webm: v.webm, poster: v.poster }
+      }
+      return v
+    })
+
     return {
       services_slider: data?.hero?.services_slider || [],
-      video_slider: data?.hero?.video_slider || []
+      video_slider: normalizedVideos
     }
   } catch (error) {
     console.error('Error loading hero data:', error)
@@ -37,7 +50,7 @@ function getHeroData(locale: string): HeroData {
           image_path: '/images/logo.webp'
         }
       ],
-      video_slider: ['/videos/hero1.mp4', '/videos/hero2.mp4', '/videos/hero3.mp4']
+      video_slider: ['/videos/hero1.webm', '/videos/hero2.webm', '/videos/hero3.webm']
     }
   }
 }

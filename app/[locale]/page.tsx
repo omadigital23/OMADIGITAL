@@ -1,10 +1,13 @@
 import { Metadata } from 'next'
-import HeroSection from '../../components/sections/HeroSection'
-import ServicesOverview from '../../components/sections/ServicesOverview'
-import LocalSEO from '../../components/sections/LocalSEO'
-import BlogOverview from '../../components/sections/BlogOverview'
-import SmartChatbot from '../../components/chatbot/SmartChatbot'
-import ScrollAnimations from '../../components/ScrollAnimations'
+import dynamic from 'next/dynamic'
+
+// Dynamically import client components to avoid hydration mismatches
+const HeroSection = dynamic(() => import('../../components/sections/HeroSection'), { ssr: true })
+const ServicesOverview = dynamic(() => import('../../components/sections/ServicesOverview'), { ssr: true })
+const LocalSEO = dynamic(() => import('../../components/sections/LocalSEO'), { ssr: true })
+const BlogOverview = dynamic(() => import('../../components/sections/BlogOverview'), { ssr: true })
+const SmartChatbot = dynamic(() => import('../../components/chatbot/SmartChatbot'), { ssr: false })
+const ScrollAnimations = dynamic(() => import('../../components/ScrollAnimations'), { ssr: false })
 
 interface HomePageProps {
   params: { locale: string }

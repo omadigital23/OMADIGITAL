@@ -10,6 +10,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
     {
       id: 'sites-web-rapides-nextjs',
       slug: locale === 'fr' ? 'sites-web-rapides-nextjs' : 'fast-websites-nextjs',
+      categorySlug: 'developpement-web',
       title: locale === 'fr' ? 'Sites web ultra-rapides avec Next.js : Guide pour PME au Sénégal et Maroc' : 'Ultra-fast websites with Next.js: Guide for SMEs in Senegal and Morocco',
       excerpt: locale === 'fr' 
         ? 'Apprenez comment créer un site web qui se charge en moins de 1.5 seconde et améliore votre référencement Google de 300%.'
@@ -22,6 +23,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
     {
       id: 'chatbot-vocal-multilingue',
       slug: locale === 'fr' ? 'chatbot-vocal-multilingue' : 'multilingual-voice-chatbot',
+      categorySlug: 'intelligence-artificielle',
       title: locale === 'fr' ? 'Chatbot vocal multilingue : L\'avenir du service client au Sénégal et au Maroc' : 'Multilingual voice chatbot: The future of customer service in Senegal and Morocco',
       excerpt: locale === 'fr'
         ? 'Découvrez comment notre chatbot vocal intelligent en français, arabe et wolof révolutionne le service client des PME africaines.'
@@ -34,6 +36,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
     {
       id: 'chatbot-whatsapp-senegal',
       slug: locale === 'fr' ? 'chatbot-whatsapp-senegal' : 'whatsapp-chatbot-senegal',
+      categorySlug: 'whatsapp-business',
       title: locale === 'fr' ? 'Comment automatiser WhatsApp Business au Sénégal : Guide complet 2025' : 'How to automate WhatsApp Business in Senegal: Complete Guide 2025',
       excerpt: locale === 'fr'
         ? 'Découvrez comment les PME sénégalaises peuvent automatiser leur service client WhatsApp et augmenter leurs ventes de 98% avec un chatbot intelligent.'
@@ -95,7 +98,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
                 </p>
                 
                 <Link
-                  href={`/${locale}/blog/${article.slug}`}
+                  href={`/${locale}/blog/${article.categorySlug}/${article.slug}`}
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
                 >
                   {locale === 'fr' ? 'Lire l\'article' : 'Read Article'}

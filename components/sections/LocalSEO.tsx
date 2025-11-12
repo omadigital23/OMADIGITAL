@@ -35,25 +35,25 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
             <div className="space-y-4 text-gray-600">
               <p>
                 {locale === 'fr'
-                  ? 'Notre bureau principal à Casablanca dessert tout le Maroc : Rabat, Marrakech, Fès, Tanger, Agadir.'
-                  : 'Our main office in Casablanca serves all of Morocco: Rabat, Marrakech, Fes, Tangier, Agadir.'
+                  ? 'Notre siège principal à Casablanca dessert l\'ensemble du territoire marocain : Rabat, Marrakech, Fès, Tanger, Agadir et au-delà.'
+                  : 'Our main headquarters in Casablanca serves the entire Moroccan territory: Rabat, Marrakech, Fes, Tangier, Agadir and beyond.'
                 }
               </p>
               
               <div className="space-y-2">
-                <p><strong>{locale === 'fr' ? 'Services populaires au Maroc :' : 'Popular services in Morocco:'}</strong></p>
+                <p><strong>{locale === 'fr' ? 'Services les plus demandés au Maroc :' : 'Most requested services in Morocco:'}</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>{locale === 'fr' ? 'Agence web Maroc - Création site web Casablanca' : 'Web agency Morocco - Website creation Casablanca'}</li>
-                  <li>{locale === 'fr' ? 'Site e-commerce Maroc - Développement Next.js' : 'E-commerce site Morocco - Next.js development'}</li>
-                  <li>{locale === 'fr' ? 'Chatbot IA Maroc - Automatisation marketing' : 'AI Chatbot Morocco - Marketing automation'}</li>
-                  <li>{locale === 'fr' ? 'Application mobile Maroc - Développement Casablanca' : 'Mobile app Morocco - Development Casablanca'}</li>
-                  <li>{locale === 'fr' ? 'Agence SEO Maroc - Référencement Google' : 'SEO agency Morocco - Google referencing'}</li>
+                  <li>{locale === 'fr' ? 'Création de site web à Casablanca' : 'Website creation in Casablanca'}</li>
+                  <li>{locale === 'fr' ? 'Développement de boutiques e-commerce (Next.js)' : 'E-commerce store development (Next.js)'}</li>
+                  <li>{locale === 'fr' ? 'Chatbots IA et automatisation marketing' : 'AI chatbots and marketing automation'}</li>
+                  <li>{locale === 'fr' ? 'Applications mobiles sur mesure' : 'Custom mobile applications'}</li>
+                  <li>{locale === 'fr' ? 'Référencement SEO et positionnement Google' : 'SEO referencing and Google positioning'}</li>
                 </ul>
               </div>
 
               <div className="bg-blue-50 p-4 rounded-lg">
                 <p className="font-semibold text-blue-800">
-                  📍 Moustakbal/Sidimaarouf Casablanca, Maroc
+                  📍 Moustakbal / Sidi Maarouf, Casablanca – Maroc
                 </p>
                 <p className="text-blue-600">📞 +212 701 193 811</p>
               </div>
@@ -72,8 +72,8 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
             <div className="space-y-4 text-gray-600">
               <p>
                 {locale === 'fr'
-                  ? 'OMA Digital offre ses services digitaux au marché sénégalais depuis le Maroc.'
-                  : 'OMA Digital offers its digital services to the Senegalese market from Morocco.'
+                  ? 'Depuis notre siège au Maroc, OMA Digital accompagne les entreprises sénégalaises dans leur transformation digitale.'
+                  : 'From our headquarters in Morocco, OMA Digital supports Senegalese companies in their digital transformation.'
                 }
               </p>
               
@@ -82,15 +82,15 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>{locale === 'fr' ? 'Création de sites web' : 'Website creation'}</li>
                   <li>{locale === 'fr' ? 'Développement e-commerce' : 'E-commerce development'}</li>
-                  <li>{locale === 'fr' ? 'Chatbots et automatisation IA' : 'Chatbots and AI automation'}</li>
+                  <li>{locale === 'fr' ? 'Chatbots & automatisation IA' : 'Chatbots & AI automation'}</li>
                   <li>{locale === 'fr' ? 'Applications mobiles' : 'Mobile applications'}</li>
-                  <li>{locale === 'fr' ? 'Marketing digital et SEO' : 'Digital marketing and SEO'}</li>
+                  <li>{locale === 'fr' ? 'Marketing digital & référencement SEO' : 'Digital marketing & SEO referencing'}</li>
                 </ul>
               </div>
 
               <div className="bg-green-50 p-4 rounded-lg">
                 <p className="font-semibold text-green-800">
-                  {locale === 'fr' ? '🌍 Service à distance pour le Sénégal' : '🌍 Remote service for Senegal'}
+                  {locale === 'fr' ? '🌍 Services 100 % à distance pour tout le Sénégal et au delà' : '🌍 100% remote services for all of Senegal and beyond'}
                 </p>
                 <p className="text-green-600">📞 +212 701 193 811 (WhatsApp)</p>
               </div>

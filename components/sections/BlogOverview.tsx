@@ -8,39 +8,39 @@ interface BlogOverviewProps {
 export default function BlogOverview({ locale }: BlogOverviewProps) {
   const articles = [
     {
-      id: 'sites-web-rapides-nextjs',
-      slug: locale === 'fr' ? 'sites-web-rapides-nextjs' : 'fast-websites-nextjs',
+      id: 'site-vitrine-moderne',
+      slug: 'site-vitrine-moderne',
       categorySlug: 'developpement-web',
-      title: locale === 'fr' ? 'Sites web ultra-rapides avec Next.js : Guide pour PME au Sénégal et Maroc' : 'Ultra-fast websites with Next.js: Guide for SMEs in Senegal and Morocco',
+      title: locale === 'fr' ? 'Site Vitrine Moderne : La Vitrine Digitale de Votre Entreprise' : 'Modern Showcase Website: Your Professional Digital Presence',
       excerpt: locale === 'fr' 
-        ? 'Apprenez comment créer un site web qui se charge en moins de 1.5 seconde et améliore votre référencement Google de 300%.'
-        : 'Learn how to create a website that loads in less than 1.5 seconds and improves your Google ranking by 300%.',
+        ? 'Découvrez comment un site vitrine moderne peut transformer votre présence digitale et générer plus de clients pour seulement 5 000 DH.'
+        : 'Discover how a modern showcase website can transform your digital presence and generate more clients for only 5,000 DH.',
       readTime: '12 min',
       publishedAt: '2025-01-05',
       category: locale === 'fr' ? 'Développement Web' : 'Web Development',
       icon: '🌐'
     },
     {
-      id: 'chatbot-vocal-multilingue',
-      slug: locale === 'fr' ? 'chatbot-vocal-multilingue' : 'multilingual-voice-chatbot',
+      id: 'chatbot-ia-personnalise',
+      slug: 'chatbot-ia-personnalise',
       categorySlug: 'intelligence-artificielle',
-      title: locale === 'fr' ? 'Chatbot vocal multilingue : L\'avenir du service client au Sénégal et au Maroc' : 'Multilingual voice chatbot: The future of customer service in Senegal and Morocco',
+      title: locale === 'fr' ? 'Chatbot IA Personnalisé (RAG) : Intelligence Avancée' : 'Custom AI Chatbot (RAG): Advanced Intelligence',
       excerpt: locale === 'fr'
-        ? 'Découvrez comment notre chatbot vocal intelligent en français, arabe et wolof révolutionne le service client des PME africaines.'
-        : 'Discover how our intelligent voice chatbot in French, Arabic and Wolof revolutionizes customer service for African SMEs.',
+        ? 'Chatbot intelligent avec IA et base de connaissances utilisant Gemini AI, RAG, Vector DB, Next.js pour 10 000 DH + 500 DH/mois.'
+        : 'Intelligent chatbot with AI and knowledge base using Gemini AI, RAG, Vector DB, Next.js for 10,000 DH + 500 DH/month.',
       readTime: '10 min',
       publishedAt: '2025-01-10',
       category: locale === 'fr' ? 'Intelligence Artificielle' : 'Artificial Intelligence',
       icon: '🤖'
     },
     {
-      id: 'chatbot-whatsapp-senegal',
-      slug: locale === 'fr' ? 'chatbot-whatsapp-senegal' : 'whatsapp-chatbot-senegal',
-      categorySlug: 'whatsapp-business',
-      title: locale === 'fr' ? 'Comment automatiser WhatsApp Business au Sénégal : Guide complet 2025' : 'How to automate WhatsApp Business in Senegal: Complete Guide 2025',
+      id: 'bot-simple-whatsapp',
+      slug: 'bot-simple-whatsapp',
+      categorySlug: 'intelligence-artificielle',
+      title: locale === 'fr' ? 'Bot Simple WhatsApp/Telegram : Réponses Automatisées' : 'Simple WhatsApp/Telegram Bot: Automated Responses',
       excerpt: locale === 'fr'
-        ? 'Découvrez comment les PME sénégalaises peuvent automatiser leur service client WhatsApp et augmenter leurs ventes de 98% avec un chatbot intelligent.'
-        : 'Discover how Senegalese SMEs can automate their WhatsApp customer service and increase sales by 98% with an intelligent chatbot.',
+        ? 'Bot WhatsApp/Telegram simple avec réponses automatisées et menu interactif pour 2 000 DH + 200 DH/mois.'
+        : 'Simple WhatsApp/Telegram bot with automated responses and interactive menu for 2,000 DH + 200 DH/month.',
       readTime: '8 min',
       publishedAt: '2025-01-15',
       category: locale === 'fr' ? 'WhatsApp Business' : 'WhatsApp Business',

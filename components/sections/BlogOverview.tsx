@@ -8,40 +8,40 @@ interface BlogOverviewProps {
 export default function BlogOverview({ locale }: BlogOverviewProps) {
   const articles = [
     {
-      id: 'next-js-14-nouveautes',
-      slug: locale === 'fr' ? 'next-js-14-nouveautes-app-router' : 'next-js-14-features-app-router',
-      title: locale === 'fr' ? 'Next.js 14 : Les Nouveautés de l\'App Router' : 'Next.js 14: New App Router Features',
+      id: 'sites-web-rapides-nextjs',
+      slug: locale === 'fr' ? 'sites-web-rapides-nextjs' : 'fast-websites-nextjs',
+      title: locale === 'fr' ? 'Sites web ultra-rapides avec Next.js : Guide pour PME au Sénégal et Maroc' : 'Ultra-fast websites with Next.js: Guide for SMEs in Senegal and Morocco',
       excerpt: locale === 'fr' 
-        ? 'Découvrez les nouvelles fonctionnalités de Next.js 14 et comment l\'App Router révolutionne le développement React.'
-        : 'Discover the new features of Next.js 14 and how the App Router revolutionizes React development.',
-      readTime: '8 min',
-      publishedAt: '2024-01-15',
+        ? 'Apprenez comment créer un site web qui se charge en moins de 1.5 seconde et améliore votre référencement Google de 300%.'
+        : 'Learn how to create a website that loads in less than 1.5 seconds and improves your Google ranking by 300%.',
+      readTime: '12 min',
+      publishedAt: '2025-01-05',
       category: locale === 'fr' ? 'Développement Web' : 'Web Development',
       icon: '🌐'
     },
     {
-      id: 'flutter-vs-react-native',
-      slug: locale === 'fr' ? 'flutter-vs-react-native-2024' : 'flutter-vs-react-native-2024',
-      title: locale === 'fr' ? 'Flutter vs React Native : Quel Framework Choisir en 2024 ?' : 'Flutter vs React Native: Which Framework to Choose in 2024?',
+      id: 'chatbot-vocal-multilingue',
+      slug: locale === 'fr' ? 'chatbot-vocal-multilingue' : 'multilingual-voice-chatbot',
+      title: locale === 'fr' ? 'Chatbot vocal multilingue : L\'avenir du service client au Sénégal et au Maroc' : 'Multilingual voice chatbot: The future of customer service in Senegal and Morocco',
       excerpt: locale === 'fr'
-        ? 'Comparaison complète entre Flutter et React Native pour développer vos applications mobiles cross-platform.'
-        : 'Complete comparison between Flutter and React Native for developing your cross-platform mobile applications.',
-      readTime: '12 min',
-      publishedAt: '2024-01-10',
-      category: locale === 'fr' ? 'Développement Mobile' : 'Mobile Development',
-      icon: '📱'
+        ? 'Découvrez comment notre chatbot vocal intelligent en français, arabe et wolof révolutionne le service client des PME africaines.'
+        : 'Discover how our intelligent voice chatbot in French, Arabic and Wolof revolutionizes customer service for African SMEs.',
+      readTime: '10 min',
+      publishedAt: '2025-01-10',
+      category: locale === 'fr' ? 'Intelligence Artificielle' : 'Artificial Intelligence',
+      icon: '🤖'
     },
     {
-      id: 'seo-local-maroc-senegal',
-      slug: locale === 'fr' ? 'seo-local-maroc-senegal-guide' : 'local-seo-morocco-senegal-guide',
-      title: locale === 'fr' ? 'SEO Local au Maroc et Sénégal : Guide Complet 2024' : 'Local SEO in Morocco and Senegal: Complete Guide 2024',
+      id: 'chatbot-whatsapp-senegal',
+      slug: locale === 'fr' ? 'chatbot-whatsapp-senegal' : 'whatsapp-chatbot-senegal',
+      title: locale === 'fr' ? 'Comment automatiser WhatsApp Business au Sénégal : Guide complet 2025' : 'How to automate WhatsApp Business in Senegal: Complete Guide 2025',
       excerpt: locale === 'fr'
-        ? 'Optimisez votre référencement local pour dominer les recherches Google au Maroc et au Sénégal.'
-        : 'Optimize your local SEO to dominate Google searches in Morocco and Senegal.',
-      readTime: '10 min',
-      publishedAt: '2024-01-05',
-      category: locale === 'fr' ? 'Marketing Digital' : 'Digital Marketing',
-      icon: '📈'
+        ? 'Découvrez comment les PME sénégalaises peuvent automatiser leur service client WhatsApp et augmenter leurs ventes de 98% avec un chatbot intelligent.'
+        : 'Discover how Senegalese SMEs can automate their WhatsApp customer service and increase sales by 98% with an intelligent chatbot.',
+      readTime: '8 min',
+      publishedAt: '2025-01-15',
+      category: locale === 'fr' ? 'WhatsApp Business' : 'WhatsApp Business',
+      icon: '💬'
     }
   ]
 

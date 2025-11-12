@@ -63,190 +63,66 @@
   "services": [
     {
       "id": "site-vitrine",
-      "title": "Showcase Website (Standard)",
-      "description": "Modern, fast and secure websites",
+      "title": "🌐 Showcase Website (Standard)",
+      "description": "Modern, fast and secure websites — perfect for businesses, restaurants or personal brands.",
       "price": "5,000 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-      "hero_slide_description": "Professional showcase websites for your online presence",
-      "detailed_description": "A professional showcase website to highlight your products or services. This service includes custom design, with modern and responsive design, optimized for search engines (SEO), and adapted to mobile devices.",
-      "features": [
-        "Custom design: A design that reflects your brand identity.",
-        "SEO optimization: An optimized structure to improve your online visibility.",
-        "Mobile adaptability: A site that adapts perfectly to all devices.",
-        "Easy maintenance: An intuitive user interface for managing your content."
-      ],
-      "ideal_for": [
-        "Small businesses",
-        "Individual entrepreneurs",
-        "Artists or creators wanting to showcase their work"
-      ]
+      "stack": ["Next.js", "Supabase", "Vercel", "Tailwind CSS"]
     },
     {
       "id": "ecommerce-essentiel",
-      "title": "Essential E-commerce",
-      "description": "Online stores optimized for sales",
+      "title": "🛒 Essential E-commerce",
+      "description": "Online stores optimized for sales with product management, payments and notifications.",
       "price": "10,000 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Stripe", "PayPal"],
-      "hero_slide_description": "E-commerce platforms that convert visitors into customers",
-      "detailed_description": "This service allows you to create a high-performance and secure online store. We build an e-commerce platform adapted to your business sector, including essential features such as product management, order tracking, and secure payments.",
-      "features": [
-        "Personalized store: Custom design of your online store.",
-        "Stock and order management: Real-time tracking of orders and inventory.",
-        "Secure payment: Integration of reliable and secure payment solutions.",
-        "Admin interface: Easy to use for managing your products, customers, and orders."
-      ],
-      "ideal_for": [
-        "Retail businesses",
-        "Companies wanting to launch into online sales",
-        "Brands looking to expand their Internet presence"
-      ]
+      "stack": ["Next.js", "Flutterwave", "Supabase", "SendGrid"]
     },
     {
       "id": "app-mobile-mvp",
-      "title": "Mobile Application (MVP)",
-      "description": "MVP mobile applications to test your concept",
+      "title": "📱 Mobile Application (MVP)",
+      "description": "Minimum viable mobile application to test a concept or startup idea.",
       "price": "Starting from 10,999 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["React Native", "Flutter", "Firebase", "REST API"],
-      "hero_slide_description": "Mobile prototype to validate your idea quickly",
-      "detailed_description": "An MVP (Minimum Viable Product) is the initial version of your mobile application, with essential features to test your concept with users. This service is ideal for startups or companies wanting to quickly validate their idea.",
-      "features": [
-        "Rapid development: A functional application delivered in short deadlines.",
-        "Simple and intuitive interfaces: Modern and functional UX/UI design.",
-        "User testing: Gather feedback on initial features to improve the product.",
-        "Cross-platform compatibility: Development for iOS and Android."
-      ],
-      "ideal_for": [
-        "Startups",
-        "Companies wanting to test a mobile app idea",
-        "Projects requiring rapid validation with real users"
-      ]
+      "stack": ["Flutter", "Supabase", "Firebase"]
     },
     {
       "id": "app-mobile-standard",
-      "title": "Mobile Application (Standard)",
-      "description": "Complete and high-performance mobile applications",
+      "title": "🚀 Mobile Application (Standard)",
+      "description": "Complete and performant application with authentication, API and advanced integrations.",
       "price": "Starting from 20,000 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["React Native", "Flutter", "Swift", "Kotlin"],
-      "hero_slide_description": "Professional mobile applications for iOS and Android",
-      "detailed_description": "This service allows you to create a complete and robust mobile application with advanced features. We support you throughout the development to offer an exceptional user experience.",
-      "features": [
-        "Complete development: Functional mobile application with advanced features.",
-        "Optimized performance: Fluidity and responsiveness on all platforms.",
-        "Data security: Protection of your users' sensitive information.",
-        "Regular updates: Continuous monitoring and updates for maximum performance."
-      ],
-      "ideal_for": [
-        "Companies needing a complete mobile application",
-        "Long-term projects requiring advanced features",
-        "Companies looking to offer a smooth and high-performance mobile experience"
-      ]
+      "stack": ["Flutter", "Supabase", "Twilio", "Flutterwave"]
     },
     {
       "id": "chatbot-ia-rag",
-      "title": "Personalized AI Chatbot (RAG)",
-      "description": "Intelligent chatbot with AI and knowledge base",
+      "title": "🤖 Custom AI Chatbot (RAG)",
+      "description": "Intelligent chatbot connected to internal knowledge base and integrated on website or WhatsApp.",
       "price": "10,000 DH + 500 DH/month",
-      "image_path": "/images/logo.webp",
-      "stack": ["Gemini AI", "RAG", "Vector DB", "Next.js"],
-      "hero_slide_description": "Intelligent AI assistant for your customer service",
-      "detailed_description": "We integrate an intelligent AI-based chatbot that can answer your customers' questions instantly and personally. This service is perfect for improving interaction with your customers and offering 24/7 support.",
-      "features": [
-        "Personalized AI chatbot: Designed specifically for your business and needs.",
-        "Machine learning: The chatbot improves as it interacts with users.",
-        "Omnichannel integration: Support for platforms like WhatsApp, Facebook Messenger, and more.",
-        "Data analysis: Conversation tracking to improve user experience."
-      ],
-      "ideal_for": [
-        "Companies wanting to offer automated customer support",
-        "E-commerce sites and service platforms",
-        "Organizations looking to improve their responsiveness and efficiency"
-      ]
+      "stack": ["OpenAI", "LangChain", "Supabase Vector", "Twilio"]
     },
     {
       "id": "bot-simple",
-      "title": "Simple Bot (WhatsApp/Telegram)",
-      "description": "Basic chatbot for automated responses",
+      "title": "💬 Simple Bot (WhatsApp / Telegram)",
+      "description": "Basic chatbot to automate customer responses and order taking.",
       "price": "3,000 DH + 500 DH/month",
-      "image_path": "/images/logo.webp",
-      "stack": ["Dialogflow", "Webhook", "API", "Chat Widget"],
-      "hero_slide_description": "Simple automation of your customer responses",
-      "detailed_description": "This service allows you to integrate a simple bot on your preferred messaging channels (WhatsApp, Telegram). It allows you to automatically respond to frequently asked questions and improve customer engagement.",
-      "features": [
-        "Bot integrated on WhatsApp/Telegram: Smooth and fast interaction with your customers.",
-        "Automatic responses: Pre-programmed to respond to common requests.",
-        "Contact management: Tracking and management of conversations.",
-        "Data access: Recovery of conversation data for improved tracking."
-      ],
-      "ideal_for": [
-        "Companies wanting to automate request management on messaging platforms.",
-        "Small businesses with a limited number of recurring requests."
-      ]
+      "stack": ["Twilio", "Telegram API"]
     },
     {
       "id": "automatisation-ia",
-      "title": "AI Automation (Workflow)",
-      "description": "Automation solutions with artificial intelligence",
+      "title": "⚙️ AI Automation (Workflow)",
+      "description": "Business process automation (emails, CRM, reminders, WhatsApp...).",
       "price": "Starting from 5,999 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["Python", "AI/ML", "APIs", "Workflows"],
-      "hero_slide_description": "Automate your processes with artificial intelligence",
-      "detailed_description": "Optimize your internal processes with artificial intelligence-based automation solutions. This service allows you to create automated workflows to manage your repetitive tasks and improve your efficiency.",
-      "features": [
-        "Process automation: Automation of administrative and operational tasks.",
-        "AI integration: Use of algorithms to optimize decisions and predictions.",
-        "Management interface: Dashboard to track the status of automated tasks.",
-        "24/7 support: Assistance to adjust and optimize your workflows."
-      ],
-      "ideal_for": [
-        "Companies wanting to improve the efficiency of their internal processes",
-        "Growing companies needing to save time on repetitive tasks"
-      ]
+      "stack": ["n8n", "Supabase", "OpenAI", "Zapier"]
     },
     {
       "id": "marketing-digital",
-      "title": "Digital Marketing (Management)",
-      "description": "SEO, SEM and social media strategies",
-      "price": "3,500 DH/month",
-      "image_path": "/images/logo.webp",
-      "stack": ["Google Ads", "Facebook Ads", "SEO", "Analytics"],
-      "hero_slide_description": "Boost your visibility and generate more qualified leads",
-      "detailed_description": "We manage your digital marketing campaigns to help you achieve your business goals. This service includes advertising campaign management, content strategy, and performance analysis.",
-      "features": [
-        "Custom advertising campaigns: Google Ads, Facebook Ads, Instagram, etc.",
-        "Content creation: Content strategies adapted to your brand.",
-        "Analysis and reports: Performance tracking with detailed reports.",
-        "Continuous optimization: Constant adjustments to maximize your results."
-      ],
-      "ideal_for": [
-        "Companies looking to increase their online visibility.",
-        "Brands wanting to improve their content strategy.",
-        "Companies looking to optimize their advertising return on investment."
-      ]
+      "title": "📈 Digital Marketing (Management)",
+      "description": "SEO, SEM, social media management and monthly reporting.",
+      "price": "3,500 DH / month",
+      "stack": ["Meta Ads", "Google Ads", "Analytics", "Notion"]
     },
     {
       "id": "creation-video",
-      "title": "Video Creation",
-      "description": "Promotional videos and visual content",
+      "title": "🎬 Video Creation",
+      "description": "Promotional videos, product storytelling, advertising and visual content.",
       "price": "Starting from 3,000 DH",
-      "image_path": "/images/logo.webp",
-      "stack": ["After Effects", "Premiere Pro", "Motion Graphics", "Animation"],
-      "hero_slide_description": "Engaging video content for your communication",
-      "detailed_description": "We produce captivating videos for your business. Whether for advertising, product presentation, or customer testimonials, we create videos that showcase your brand.",
-      "features": [
-        "Custom videos: Video design and production adapted to your needs.",
-        "Professional filming and editing: High quality and dynamic rendering.",
-        "Platform adaptation: Videos ready to be broadcast on social networks, websites, etc.",
-        "Engaging videos: Creation of videos that capture attention and generate interest."
-      ],
-      "ideal_for": [
-        "Companies looking to energize their communication.",
-        "Brands wanting to promote their products or services visually.",
-        "Companies from any sector wanting to add videos to their marketing strategy."
-      ]
+      "stack": ["Premiere Pro", "After Effects", "CapCut Pro"]
     }
   ],
   "blog": {

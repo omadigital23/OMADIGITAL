@@ -59,57 +59,66 @@
   "services": [
     {
       "id": "site-vitrine",
-      "title": "Site Vitrine (Standard)",
-      "description": "Sites web modernes, rapides et sécurisés",
-      "price": "5 000 DH"
+      "title": "🌐 Site Vitrine (Standard)",
+      "description": "Sites web modernes, rapides et sécurisés — parfaits pour entreprises, restaurants ou marques personnelles.",
+      "price": "5 000 DH",
+      "stack": ["Next.js", "Supabase", "Vercel", "Tailwind CSS"]
     },
     {
       "id": "ecommerce-essentiel",
-      "title": "E-commerce Essentiel",
-      "description": "Boutiques en ligne optimisées pour les ventes",
-      "price": "10 000 DH"
+      "title": "🛒 E-commerce Essentiel",
+      "description": "Boutiques en ligne optimisées pour les ventes avec gestion produits, paiements et notifications.",
+      "price": "10 000 DH",
+      "stack": ["Next.js", "Flutterwave", "Supabase", "SendGrid"]
     },
     {
       "id": "app-mobile-mvp",
-      "title": "Application Mobile (MVP)",
-      "description": "Applications mobiles MVP pour tester votre concept",
-      "price": "À partir de 10 999 DH"
+      "title": "📱 Application Mobile (MVP)",
+      "description": "Application mobile minimale viable pour tester un concept ou une idée de startup.",
+      "price": "À partir de 10 999 DH",
+      "stack": ["Flutter", "Supabase", "Firebase"]
     },
     {
       "id": "app-mobile-standard",
-      "title": "Application Mobile (Standard)",
-      "description": "Applications mobiles complètes et performantes",
-      "price": "À partir de 20 000 DH"
+      "title": "🚀 Application Mobile (Standard)",
+      "description": "Application complète et performante avec authentification, API et intégrations avancées.",
+      "price": "À partir de 20 000 DH",
+      "stack": ["Flutter", "Supabase", "Twilio", "Flutterwave"]
     },
     {
       "id": "chatbot-ia-rag",
-      "title": "Chatbot IA Personnalisé (RAG)",
-      "description": "Chatbot intelligent avec IA et base de connaissances",
-      "price": "10 000 DH + 500 DH/mois"
+      "title": "🤖 Chatbot IA Personnalisé (RAG)",
+      "description": "Chatbot intelligent connecté à une base de connaissances interne et intégré sur site ou WhatsApp.",
+      "price": "10 000 DH + 500 DH/mois",
+      "stack": ["OpenAI", "LangChain", "Supabase Vector", "Twilio"]
     },
     {
       "id": "bot-simple",
-      "title": "Bot Simple (WhatsApp/Telegram)",
-      "description": "Chatbot basique pour réponses automatisées",
-      "price": "3 000 DH + 500 DH/mois"
+      "title": "💬 Bot Simple (WhatsApp / Telegram)",
+      "description": "Chatbot basique pour automatiser les réponses clients et la prise de commande.",
+      "price": "3 000 DH + 500 DH/mois",
+      "stack": ["Twilio", "Telegram API"]
     },
     {
       "id": "automatisation-ia",
-      "title": "Automatisation IA (Workflow)",
-      "description": "Solutions d'automatisation avec intelligence artificielle",
-      "price": "À partir de 5 999 DH"
+      "title": "⚙️ Automatisation IA (Workflow)",
+      "description": "Automatisation des processus métiers (emails, CRM, rappels, WhatsApp…).",
+      "price": "À partir de 5 999 DH",
+      "stack": ["n8n", "Supabase", "OpenAI", "Zapier"]
     },
     {
       "id": "marketing-digital",
-      "title": "Marketing Digital (Gestion)",
-      "description": "Stratégies SEO, SEM et réseaux sociaux",
-      "price": "3 500 DH/mois"
+      "title": "📈 Marketing Digital (Gestion)",
+      "description": "Gestion SEO, SEM, réseaux sociaux et reporting mensuel.",
+      "price": "3 500 DH / mois",
+      "stack": ["Meta Ads", "Google Ads", "Analytics", "Notion"]
     },
     {
       "id": "creation-video",
-      "title": "Création Vidéo",
-      "description": "Vidéos promotionnelles et contenu visuel",
-      "price": "À partir de 3 000 DH"
+      "title": "🎬 Création Vidéo",
+      "description": "Vidéos promotionnelles, storytelling produit, publicités et contenu visuel.",
+      "price": "À partir de 3 000 DH",
+      "stack": ["Premiere Pro", "After Effects", "CapCut Pro"]
     }
   ],
   "blog": {

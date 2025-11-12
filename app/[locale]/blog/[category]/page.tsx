@@ -8,7 +8,7 @@ interface CategoryPageProps {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { locale, category } = params
-  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://omadigital.net'
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/blog/${category}`
   const alternates = {
     canonical: url,

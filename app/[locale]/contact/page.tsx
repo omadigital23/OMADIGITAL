@@ -7,7 +7,7 @@ interface ContactPageProps {
 
 export async function generateMetadata({ params }: ContactPageProps): Promise<Metadata> {
   const locale = params.locale
-  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://omadigital.net'
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/contact`
   
   return {

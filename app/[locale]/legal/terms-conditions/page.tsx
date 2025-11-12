@@ -7,12 +7,22 @@ interface TermsConditionsPageProps {
 
 export async function generateMetadata({ params }: TermsConditionsPageProps): Promise<Metadata> {
   const locale = params.locale
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  const url = `${domain}/${locale}/legal/terms-conditions`
   
   return {
     title: locale === 'fr' ? 'Conditions d\'Utilisation' : 'Terms & Conditions',
     description: locale === 'fr'
       ? 'Conditions d\'utilisation d\'OMA Digital. Règles et conditions pour l\'utilisation de nos services.'
-      : 'OMA Digital terms and conditions. Rules and conditions for using our services.'
+      : 'OMA Digital terms and conditions. Rules and conditions for using our services.',
+    alternates: {
+      canonical: url,
+      languages: {
+        fr: `${domain}/fr/legal/terms-conditions`,
+        en: `${domain}/en/legal/terms-conditions`,
+        'x-default': `${domain}/fr/legal/terms-conditions`,
+      },
+    },
   }
 }
 

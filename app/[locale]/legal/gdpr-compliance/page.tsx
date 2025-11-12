@@ -7,12 +7,22 @@ interface GDPRCompliancePageProps {
 
 export async function generateMetadata({ params }: GDPRCompliancePageProps): Promise<Metadata> {
   const locale = params.locale
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  const url = `${domain}/${locale}/legal/gdpr-compliance`
   
   return {
     title: locale === 'fr' ? 'Conformité RGPD' : 'GDPR Compliance',
     description: locale === 'fr'
       ? 'Conformité RGPD d\'OMA Digital. Notre engagement pour la protection des données personnelles.'
-      : 'OMA Digital GDPR compliance. Our commitment to personal data protection.'
+      : 'OMA Digital GDPR compliance. Our commitment to personal data protection.',
+    alternates: {
+      canonical: url,
+      languages: {
+        fr: `${domain}/fr/legal/gdpr-compliance`,
+        en: `${domain}/en/legal/gdpr-compliance`,
+        'x-default': `${domain}/fr/legal/gdpr-compliance`,
+      },
+    },
   }
 }
 

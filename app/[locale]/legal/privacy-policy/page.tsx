@@ -6,12 +6,22 @@ interface PrivacyPolicyPageProps {
 
 export async function generateMetadata({ params }: PrivacyPolicyPageProps): Promise<Metadata> {
   const locale = params.locale
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  const url = `${domain}/${locale}/legal/privacy-policy`
   
   return {
     title: locale === 'fr' ? 'Politique de Confidentialité' : 'Privacy Policy',
     description: locale === 'fr'
       ? 'Politique de confidentialité d\'OMA Digital. Comment nous collectons, utilisons et protégeons vos données personnelles.'
-      : 'OMA Digital privacy policy. How we collect, use and protect your personal data.'
+      : 'OMA Digital privacy policy. How we collect, use and protect your personal data.',
+    alternates: {
+      canonical: url,
+      languages: {
+        fr: `${domain}/fr/legal/privacy-policy`,
+        en: `${domain}/en/legal/privacy-policy`,
+        'x-default': `${domain}/fr/legal/privacy-policy`,
+      },
+    },
   }
 }
 

@@ -7,12 +7,22 @@ interface CookiePolicyPageProps {
 
 export async function generateMetadata({ params }: CookiePolicyPageProps): Promise<Metadata> {
   const locale = params.locale
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  const url = `${domain}/${locale}/legal/cookie-policy`
   
   return {
     title: locale === 'fr' ? 'Politique Cookies' : 'Cookie Policy',
     description: locale === 'fr'
       ? 'Politique cookies d\'OMA Digital. Comment nous utilisons les cookies sur notre site web.'
-      : 'OMA Digital cookie policy. How we use cookies on our website.'
+      : 'OMA Digital cookie policy. How we use cookies on our website.',
+    alternates: {
+      canonical: url,
+      languages: {
+        fr: `${domain}/fr/legal/cookie-policy`,
+        en: `${domain}/en/legal/cookie-policy`,
+        'x-default': `${domain}/fr/legal/cookie-policy`,
+      },
+    },
   }
 }
 

@@ -6,12 +6,22 @@ interface AboutPageProps {
 
 export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
   const locale = params.locale
+  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  const url = `${domain}/${locale}/about`
   
   return {
     title: locale === 'fr' ? 'À Propos' : 'About Us',
     description: locale === 'fr'
       ? 'Agence digitale innovante basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Notre équipe d\'experts vous accompagne dans votre transformation digitale.'
-      : 'Innovative digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Our expert team supports your digital transformation.'
+      : 'Innovative digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Our expert team supports your digital transformation.',
+    alternates: {
+      canonical: url,
+      languages: {
+        fr: `${domain}/fr/about`,
+        en: `${domain}/en/about`,
+        'x-default': `${domain}/fr/about`,
+      },
+    },
   }
 }
 

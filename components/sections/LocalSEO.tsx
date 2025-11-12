@@ -72,25 +72,25 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
             <div className="space-y-4 text-gray-600">
               <p>
                 {locale === 'fr'
-                  ? 'Depuis notre siège au Maroc, OMA Digital accompagne les entreprises sénégalaises dans leur transformation digitale.'
-                  : 'From our headquarters in Morocco, OMA Digital supports Senegalese companies in their digital transformation.'
+                  ? 'Depuis notre siège à Casablanca (Maroc), OMA Digital accompagne les entreprises sénégalaises dans leur transformation digitale.'
+                  : 'From our headquarters in Casablanca (Morocco), OMA Digital supports Senegalese companies in their digital transformation.'
                 }
               </p>
               
               <div className="space-y-2">
                 <p><strong>{locale === 'fr' ? 'Services disponibles au Sénégal :' : 'Services available in Senegal:'}</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
-                  <li>{locale === 'fr' ? 'Création de sites web' : 'Website creation'}</li>
-                  <li>{locale === 'fr' ? 'Développement e-commerce' : 'E-commerce development'}</li>
-                  <li>{locale === 'fr' ? 'Chatbots & automatisation IA' : 'Chatbots & AI automation'}</li>
-                  <li>{locale === 'fr' ? 'Applications mobiles' : 'Mobile applications'}</li>
+                  <li>{locale === 'fr' ? 'Création de sites web modernes' : 'Modern website creation'}</li>
+                  <li>{locale === 'fr' ? 'Développement e-commerce performant' : 'High-performance e-commerce development'}</li>
+                  <li>{locale === 'fr' ? 'Chatbots & automatisation intelligente' : 'Chatbots & intelligent automation'}</li>
+                  <li>{locale === 'fr' ? 'Applications mobiles sur mesure' : 'Custom mobile applications'}</li>
                   <li>{locale === 'fr' ? 'Marketing digital & référencement SEO' : 'Digital marketing & SEO referencing'}</li>
                 </ul>
               </div>
 
               <div className="bg-green-50 p-4 rounded-lg">
                 <p className="font-semibold text-green-800">
-                  {locale === 'fr' ? '🌍 Services 100 % à distance pour tout le Sénégal et au delà' : '🌍 100% remote services for all of Senegal and beyond'}
+                  {locale === 'fr' ? '🌍 Services 100 % à distance pour tout le Sénégal, l\'Afrique et le reste du monde.' : '🌍 100% remote services for all of Senegal, Africa and the rest of the world.'}
                 </p>
                 <p className="text-green-600">📞 +212 701 193 811 (WhatsApp)</p>
               </div>

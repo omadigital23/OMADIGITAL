@@ -195,6 +195,28 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
               )}
               
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              
+              {/* Left Arrow */}
+              <button
+                onClick={() => setCurrentVideoSlide((prev) => (prev - 1 + videosData.length) % videosData.length)}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-3 rounded-full transition-all duration-200 z-10 backdrop-blur-sm"
+                aria-label={locale === 'fr' ? 'Vidéo précédente' : 'Previous video'}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              {/* Right Arrow */}
+              <button
+                onClick={() => setCurrentVideoSlide((prev) => (prev + 1) % videosData.length)}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-3 rounded-full transition-all duration-200 z-10 backdrop-blur-sm"
+                aria-label={locale === 'fr' ? 'Vidéo suivante' : 'Next video'}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
             
             {/* Video Slide Indicators */}

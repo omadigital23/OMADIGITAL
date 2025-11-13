@@ -64,65 +64,116 @@
     {
       "id": "site-vitrine",
       "title": "🌐 Showcase Website (Standard)",
-      "description": "Modern, fast and secure websites — perfect for businesses, restaurants or personal brands.",
+      "description": "Modern, fast and secure websites — perfect for businesses, restaurants or personal brands. Integrated with a contact form linked to WhatsApp, a simple database to manage messages or orders, ideal for small businesses wanting to receive orders without complexity.",
       "price": "5,000 DH",
-      "stack": ["Next.js", "Supabase", "Vercel", "Tailwind CSS"]
+      "stack": ["Next.js", "Supabase", "Vercel", "Tailwind CSS"],
+      "includes": [
+        "2 months of free updates",
+        "Maintenance and technical support",
+        "Initial hosting",
+        "Training and onboarding"
+      ]
     },
     {
       "id": "ecommerce-essentiel",
       "title": "🛒 Essential E-commerce",
-      "description": "Online stores optimized for sales with product management, payments and notifications.",
+      "description": "Online stores optimized for sales: product management, shopping cart, secure payment (Flutterwave, card, mobile money), and WhatsApp integration for direct orders. Ideal for small shops or creators.",
       "price": "10,000 DH",
-      "stack": ["Next.js", "Flutterwave", "Supabase", "SendGrid"]
+      "stack": ["Next.js", "Flutterwave", "Supabase", "SendGrid"],
+      "includes": [
+        "2 months of free updates",
+        "Payment security",
+        "Maintenance",
+        "Technical launch support"
+      ]
     },
     {
       "id": "app-mobile-mvp",
       "title": "📱 Mobile Application (MVP)",
-      "description": "Minimum viable mobile application to test a concept or startup idea.",
+      "description": "Minimum viable mobile application to quickly test a concept or startup idea. Lightweight but functional version to validate your project before full deployment.",
       "price": "Starting from 10,999 DH",
-      "stack": ["Flutter", "Supabase", "Firebase"]
+      "stack": ["Flutter", "Supabase", "Firebase"],
+      "includes": [
+        "2 months of free updates",
+        "Maintenance and bug fixes",
+        "Database hosting",
+        "Play Store assistance"
+      ]
     },
     {
       "id": "app-mobile-standard",
       "title": "🚀 Mobile Application (Standard)",
-      "description": "Complete and performant application with authentication, API and advanced integrations.",
+      "description": "Complete and performant application with authentication, API, payments, push notifications and advanced integrations. Perfect for businesses and startups wanting a solid and durable app.",
       "price": "Starting from 20,000 DH",
-      "stack": ["Flutter", "Supabase", "Twilio", "Flutterwave"]
+      "stack": ["Flutter", "Supabase", "Twilio", "Flutterwave"],
+      "includes": [
+        "2 months of maintenance and updates",
+        "Technical support & monitoring",
+        "Secure hosting",
+        "App Store & Play Store assistance"
+      ]
     },
     {
       "id": "chatbot-ia-rag",
       "title": "🤖 Custom AI Chatbot (RAG)",
-      "description": "Intelligent chatbot connected to internal knowledge base and integrated on website or WhatsApp.",
-      "price": "10,000 DH + 500 DH/month",
-      "stack": ["OpenAI", "LangChain", "Supabase Vector", "Twilio"]
+      "description": "Intelligent chatbot connected to internal knowledge base (RAG), integrated on your website or WhatsApp. Ideal for automated customer support, FAQ, or business management.",
+      "price": "10,000 DH",
+      "stack": ["Vertex AI", "LangChain", "Supabase Vector", "Twilio"],
+      "includes": [
+        "2 months of free updates",
+        "AI maintenance & monitoring",
+        "Usage training",
+        "Multi-channel adaptation"
+      ]
     },
     {
       "id": "bot-simple",
       "title": "💬 Simple Bot (WhatsApp / Telegram)",
-      "description": "Basic chatbot to automate customer responses and order taking.",
-      "price": "3,000 DH + 500 DH/month",
-      "stack": ["Twilio", "Telegram API"]
+      "description": "Basic chatbot to automate customer responses, order taking, or reservation tracking. Quick, lightweight and effective solution for SMEs.",
+      "price": "3,000 DH",
+      "stack": ["Twilio", "Telegram API"],
+      "includes": [
+        "2 months of free updates",
+        "Maintenance",
+        "Conversation tracking",
+        "Usage training"
+      ]
     },
     {
       "id": "automatisation-ia",
       "title": "⚙️ AI Automation (Workflow)",
-      "description": "Business process automation (emails, CRM, reminders, WhatsApp...).",
+      "description": "Complete automation of your business processes: email sending, customer reminders, CRM integration, and WhatsApp notifications. Ideal for companies looking to save time.",
       "price": "Starting from 5,999 DH",
-      "stack": ["n8n", "Supabase", "OpenAI", "Zapier"]
+      "stack": ["n8n", "Supabase", "Vertex AI", "Zapier"],
+      "includes": [
+        "2 months of maintenance",
+        "Workflow testing and adjustments",
+        "Documentation & training"
+      ]
     },
     {
       "id": "marketing-digital",
       "title": "📈 Digital Marketing (Management)",
-      "description": "SEO, SEM, social media management and monthly reporting.",
+      "description": "Complete management of your online visibility: SEO, SEM, social media, monthly reporting and continuous optimization. Ideal for boosting your brand and sales.",
       "price": "3,500 DH / month",
-      "stack": ["Meta Ads", "Google Ads", "Analytics", "Notion"]
+      "stack": ["Meta Ads", "Google Ads", "Analytics", "Notion"],
+      "includes": [
+        "2 months of performance tracking",
+        "Analytics dashboard",
+        "Personalized digital coaching"
+      ]
     },
     {
       "id": "creation-video",
       "title": "🎬 Video Creation",
-      "description": "Promotional videos, product storytelling, advertising and visual content.",
+      "description": "Promotional videos, product storytelling, advertising and visual content for your networks or marketing campaigns.",
       "price": "Starting from 3,000 DH",
-      "stack": ["Premiere Pro", "After Effects", "CapCut Pro"]
+      "stack": ["Premiere Pro", "After Effects", "CapCut Pro"],
+      "includes": [
+        "2 revisions included",
+        "HD delivery",
+        "Social media optimization"
+      ]
     }
   ],
   "blog": {

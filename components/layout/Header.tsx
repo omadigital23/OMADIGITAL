@@ -4,7 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import LanguageSwitcher from './LanguageSwitcher'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useCart } from '@/lib/contexts/CartContext'
+import { useAuth } from '@/lib/contexts/AuthContext'
+import LoginModal from '../LoginModal'
 
 interface HeaderProps {
   locale: string
@@ -13,6 +16,24 @@ interface HeaderProps {
 export default function Header({ locale }: HeaderProps) {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { items } = useCart()
+  const { user, profile, signOut } = useAuth()
+  const [translations, setTranslations] = useState<any>({})
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const response = await fetch(`/locales/${locale}/common.json`)
+        const data = await response.json()
+        setTranslations(data)
+      } catch (err) {
+        console.error('Erreur lors du chargement des traductions:', err)
+      }
+    }
+    loadTranslations()
+  }, [locale])
   
   const navItems = [
     { 
@@ -72,9 +93,85 @@ export default function Header({ locale }: HeaderProps) {
             ))}
           </div>
           
-          {/* Language Switcher & Mobile Menu Button */}
+          {/* Language Switcher, Cart, User Menu & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             <LanguageSwitcher currentLocale={locale} />
+            
+            {/* Cart Icon */}
+            <Link
+              href={`/${locale}/panier`}
+              className="relative p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+              aria-label={translations.cart?.title || 'Panier'}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {items.length > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                  {items.length}
+                </span>
+              )}
+            </Link>
+
+            {/* User Menu */}
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors flex items-center space-x-2"
+                  aria-label="User menu"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <span className="hidden md:inline text-sm font-medium">
+                    {profile?.firstName || user.email?.split('@')[0] || 'User'}
+                  </span>
+                </button>
+
+                {/* User Dropdown Menu */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 border border-gray-200">
+                    <div className="p-4 border-b">
+                      <p className="text-sm font-semibold text-gray-900">
+                        {profile?.firstName} {profile?.lastName}
+                      </p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
+                    <Link
+                      href={`/${locale}/orders`}
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      {locale === 'fr' ? 'Mes Commandes' : 'My Orders'}
+                    </Link>
+                    <button
+                      onClick={async () => {
+                        try {
+                          await signOut()
+                          setIsUserMenuOpen(false)
+                        } catch (error) {
+                          console.error('Erreur lors de la déconnexion:', error)
+                        }
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 border-t"
+                    >
+                      {locale === 'fr' ? 'Déconnexion' : 'Sign Out'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
+                className="p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+                aria-label="Sign in"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </button>
+            )}
             
             {/* Mobile Menu Button */}
             <button
@@ -114,6 +211,9 @@ export default function Header({ locale }: HeaderProps) {
             </div>
           </div>
         )}
+
+        {/* Login Modal */}
+        <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
       </nav>
     </header>
   )

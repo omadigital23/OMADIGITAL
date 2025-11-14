@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic'
 // Dynamically import client components to avoid hydration mismatches
 const HeroSection = dynamic(() => import('../../components/sections/HeroSection'), { ssr: true })
 const ServicesOverview = dynamic(() => import('../../components/sections/ServicesOverview'), { ssr: true })
-const LocalSEO = dynamic(() => import('../../components/sections/LocalSEO'), { ssr: true })
 const BlogOverview = dynamic(() => import('../../components/sections/BlogOverview'), { ssr: true })
+const AgencyInfo = dynamic(() => import('../../components/sections/AgencyInfo'), { ssr: true })
 const SmartChatbot = dynamic(() => import('../../components/chatbot/SmartChatbot'), { ssr: false })
 const ScrollAnimations = dynamic(() => import('../../components/ScrollAnimations'), { ssr: false })
 
@@ -44,11 +44,11 @@ export default function HomePage({ params }: HomePageProps) {
       <div className="services-section">
         <ServicesOverview locale={params.locale} />
       </div>
-      <div className="local-seo-section">
-        <LocalSEO locale={params.locale} />
-      </div>
       <div className="blog-section">
         <BlogOverview locale={params.locale} />
+      </div>
+      <div className="agency-info-section">
+        <AgencyInfo locale={params.locale} />
       </div>
       <SmartChatbot />
     </main>

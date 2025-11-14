@@ -36,21 +36,36 @@ interface Contact {
   created_at: string
 }
 
+interface Order {
+  id: string
+  user_id: string
+  total_amount: number
+  status: string
+  created_at: string
+}
+
 interface AdminDashboardProps {
   newsletters: Newsletter[]
   conversations: ChatbotConversation[]
   contacts: Contact[]
+  orders: Order[]
 }
 
-export default function AdminDashboard({ newsletters, conversations, contacts }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'newsletters' | 'conversations' | 'contacts'>('newsletters')
+export default function AdminDashboard({ newsletters, conversations, contacts, orders }: AdminDashboardProps) {
+  const [activeTab, setActiveTab] = useState<'newsletters' | 'conversations' | 'contacts' | 'orders'>('newsletters')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [selectedItem, setSelectedItem] = useState<any>(null)
   const [showModal, setShowModal] = useState(false)
+  const [ordersState, setOrdersState] = useState<Order[]>(orders)
+  const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null)
 
   useEffect(() => {
     setIsAuthenticated(localStorage.getItem('admin_auth') === 'true')
   }, [])
+
+  useEffect(() => {
+    setOrdersState(orders)
+  }, [orders])
 
   if (!isAuthenticated) {
     return <AdminAuth onAuth={() => setIsAuthenticated(true)} />
@@ -85,6 +100,32 @@ export default function AdminDashboard({ newsletters, conversations, contacts }:
     return colors[sentiment as keyof typeof colors] || 'bg-gray-100 text-gray-800'
   }
 
+  const handleUpdateOrderStatus = async (orderId: string, status: 'confirmed' | 'cancelled') => {
+    try {
+      setUpdatingOrderId(orderId)
+      const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
+
+      if (!res.ok) {
+        console.error('Failed to update order status')
+        return
+      }
+
+      setOrdersState((prev) =>
+        prev.map((order) =>
+          order.id === orderId ? { ...order, status } : order
+        )
+      )
+    } catch (error) {
+      console.error('Error updating order status:', error)
+    } finally {
+      setUpdatingOrderId(null)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
@@ -107,7 +148,8 @@ export default function AdminDashboard({ newsletters, conversations, contacts }:
             {[
               { key: 'newsletters', label: 'Newsletters', count: newsletters.length },
               { key: 'conversations', label: 'Conversations', count: conversations.length },
-              { key: 'contacts', label: 'Contacts', count: contacts.length }
+              { key: 'contacts', label: 'Contacts', count: contacts.length },
+              { key: 'orders', label: 'Commandes', count: ordersState.length },
             ].map(({ key, label, count }) => (
               <button
                 key={key}
@@ -160,6 +202,60 @@ export default function AdminDashboard({ newsletters, conversations, contacts }:
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {activeTab === 'orders' && (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {ordersState.map((order) => (
+                    <tr key={order.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">
+                        {order.id.slice(0, 8)}...
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {order.user_id}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {order.total_amount} DH
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {order.status}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {formatDate(order.created_at)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 space-x-2">
+                        <button
+                          onClick={() => handleUpdateOrderStatus(order.id, 'confirmed')}
+                          disabled={updatingOrderId === order.id}
+                          className="px-3 py-1 rounded-md text-xs font-semibold bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                        >
+                          Valider
+                        </button>
+                        <button
+                          onClick={() => handleUpdateOrderStatus(order.id, 'cancelled')}
+                          disabled={updatingOrderId === order.id}
+                          className="px-3 py-1 rounded-md text-xs font-semibold bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                        >
+                          Annuler
                         </button>
                       </td>
                     </tr>

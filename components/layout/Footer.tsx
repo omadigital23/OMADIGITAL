@@ -17,13 +17,13 @@ export default function Footer({ locale }: FooterProps) {
             <h3 className="text-2xl font-bold mb-4">OMA Digital</h3>
             <p className="text-gray-300 mb-4">
               {locale === 'fr' 
-                ? 'Agence digitale experte basée à Casablanca (Maroc), au service du Maroc, du Sénégal et de clients partout en Afrique et dans le monde. Nous concevons des solutions web, mobiles et marketing digital sur mesure, adaptées aux réalités locales et aux ambitions globales.'
-                : 'Expert digital agency based in Casablanca (Morocco), serving Morocco, Senegal and clients across Africa and worldwide. We design custom web, mobile and digital marketing solutions adapted to local realities and global ambitions.'
+                ? 'Agence digitale internationale basée à Casablanca (Maroc). Nous accompagnons les entreprises dans le monde entier - Afrique, Europe, Moyen-Orient, Amérique du Nord et au-delà - avec des solutions web, mobiles et marketing digital sur mesure, combinant expertise locale et vision globale.'
+                : 'International digital agency headquartered in Casablanca (Morocco). We support companies worldwide - Africa, Europe, Middle East, North America and beyond - with custom web, mobile and digital marketing solutions, combining local expertise with global vision.'
               }
             </p>
             <div className="space-y-2 text-gray-300">
               <p>📍 Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc</p>
-              <p>📞 +212 701 193 811</p>
+              <p>📞 +212 701 193 811 (International)</p>
               <p>✉️ omadigital23@gmail.com</p>
               <p>✉️ amadou@omadigital.net</p>
             </div>

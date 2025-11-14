@@ -1,9 +1,6 @@
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
-import Header from '../../components/layout/Header'
-import Footer from '../../components/layout/Footer'
-import GoogleAnalytics from '../../components/GoogleAnalytics'
-import CookieConsent from '../../components/CookieConsent'
+import LayoutClient from './layout-client'
 import './globals.css'
 
 const inter = Inter({ 
@@ -91,11 +88,9 @@ export default function RootLayout({
   return (
     <html lang={params.locale}>
       <body className={inter.className} suppressHydrationWarning>
-        <GoogleAnalytics />
-        <Header locale={params.locale} />
-        {children}
-        <Footer locale={params.locale} />
-        <CookieConsent />
+        <LayoutClient locale={params.locale}>
+          {children}
+        </LayoutClient>
       </body>
     </html>
   )

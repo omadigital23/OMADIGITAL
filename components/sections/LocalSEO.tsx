@@ -10,14 +10,14 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             {locale === 'fr' 
-              ? 'Agence Digitale au Maroc & Sénégal' 
-              : 'Digital Agency in Morocco & Senegal'
+              ? 'Présence Locale & Services Régionaux' 
+              : 'Local Presence & Regional Services'
             }
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
             {locale === 'fr'
-              ? 'Basée à Casablanca, OMA Digital accompagne les entreprises du Maroc et du Sénégal dans leur transformation digitale avec des solutions sur mesure.'
-              : 'Based in Casablanca, OMA Digital supports businesses in Morocco and Senegal in their digital transformation with custom solutions.'
+              ? 'Découvrez notre couverture géographique et nos services adaptés aux marchés locaux du Maroc et du Sénégal.'
+              : 'Discover our geographic coverage and services adapted to local markets in Morocco and Senegal.'
             }
           </p>
         </div>

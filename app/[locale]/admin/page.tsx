@@ -36,6 +36,14 @@ interface Contact {
   created_at: string
 }
 
+interface Order {
+  id: string
+  user_id: string
+  total_amount: number
+  status: string
+  created_at: string
+}
+
 async function getNewsletters(): Promise<Newsletter[]> {
   const { data, error } = await supabaseAdmin
     .from('blog_subscribers')
@@ -67,6 +75,20 @@ async function getChatbotConversations(): Promise<ChatbotConversation[]> {
   return data || []
 }
 
+async function getOrders(): Promise<Order[]> {
+  const { data, error } = await supabaseAdmin
+    .from('orders')
+    .select('id, user_id, total_amount, status, created_at')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching orders:', error)
+    return []
+  }
+
+  return data || []
+}
+
 async function getContacts(): Promise<Contact[]> {
   const { data, error } = await supabaseAdmin
     .from('quotes')
@@ -90,10 +112,11 @@ export default async function AdminPage() {
     return <AdminAuth />
   }
 
-  const [newsletters, conversations, contacts] = await Promise.all([
+  const [newsletters, conversations, contacts, orders] = await Promise.all([
     getNewsletters(),
     getChatbotConversations(),
-    getContacts()
+    getContacts(),
+    getOrders(),
   ])
 
   return (
@@ -101,6 +124,7 @@ export default async function AdminPage() {
       newsletters={newsletters}
       conversations={conversations}
       contacts={contacts}
+      orders={orders}
     />
   )
 }

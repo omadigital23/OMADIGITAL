@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import ServicesGrid from '@/components/ServicesGrid'
 
 interface ServicesPageProps {
   params: { locale: string }
@@ -92,57 +93,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service: any) => (
-              <div key={service.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
-                <div className="p-8 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold mb-3 text-gray-800">{service.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed text-sm flex-1">{service.description}</p>
-                  
-                  <div className="mb-6">
-                    <span className="text-3xl font-bold text-blue-600">{service.price}</span>
-                  </div>
-                  
-                  {/* Détails inclus */}
-                  {service.includes && service.includes.length > 0 && (
-                    <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                        {params.locale === 'fr' ? '✓ Détails inclus :' : '✓ What\'s Included:'}
-                      </h4>
-                      <ul className="space-y-2">
-                        {service.includes.map((item: string, index: number) => (
-                          <li key={index} className="text-sm text-gray-700 flex items-start">
-                            <span className="text-blue-600 mr-2 font-bold">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  <div className="mb-6">
-                    <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                      {params.locale === 'fr' ? '🔧 Technologies clés :' : '🔧 Key Technologies:'}
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.stack?.map((tech: string, index: number) => (
-                        <span key={index} className="bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium border border-blue-200">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={() => alert(`${service.title} ajouté au panier`)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold text-center block w-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 mt-auto"
-                  >
-                    {params.locale === 'fr' ? 'Ajouter au panier' : 'Add to Cart'}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ServicesGrid services={services} />
         </div>
       </section>
 

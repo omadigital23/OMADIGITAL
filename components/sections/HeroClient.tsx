@@ -55,14 +55,44 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     v.defaultMuted = true
     v.setAttribute('playsinline', '')
     v.setAttribute('webkit-playsinline', '')
+    v.setAttribute('muted', '')
+    v.setAttribute('autoplay', '')
+    
+    // Mobile-specific autoplay handling
+    const handleUserInteraction = () => {
+      const video = videoRef.current
+      if (video && video.paused) {
+        video.play().catch(() => {})
+      }
+    }
+    
+    // Try to play immediately
     const tryPlay = async () => {
       try {
         await v.play()
       } catch (_) {
-        // no-op
+        // If autoplay fails, wait for user interaction
+        document.addEventListener('touchstart', handleUserInteraction, { once: true })
+        document.addEventListener('click', handleUserInteraction, { once: true })
       }
     }
+    
+    // Add visibility change handling for mobile
+    const handleVisibilityChange = () => {
+      if (!document.hidden && v.paused) {
+        v.play().catch(() => {})
+      }
+    }
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    
     tryPlay()
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      document.removeEventListener('touchstart', handleUserInteraction)
+      document.removeEventListener('click', handleUserInteraction)
+    }
   }, [currentVideoSlide])
 
   const currentVideo = videosData[currentVideoSlide]
@@ -170,7 +200,7 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                 x-webkit-airplay="allow"
                 webkit-playsinline="true"
                 controls={false}
-                preload="auto"
+                preload="metadata"
                 disablePictureInPicture
                 poster={currentPoster}
                 className="w-full h-full object-cover"
@@ -180,6 +210,20 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                   v.muted = true
                   v.defaultMuted = true
                   v.play().catch(() => {})
+                }}
+                onCanPlay={() => {
+                  const v = videoRef.current
+                  if (!v) return
+                  v.play().catch(() => {})
+                }}
+                onError={() => {
+                  // Retry autoplay on error
+                  setTimeout(() => {
+                    const v = videoRef.current
+                    if (v && v.paused) {
+                      v.play().catch(() => {})
+                    }
+                  }, 1000)
                 }}
               >
                 {srcs.map((s) => (

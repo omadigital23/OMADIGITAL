@@ -9,6 +9,14 @@ const nextConfig = {
       },
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: '/fr/googlef63348e45be4ab3f.html',
+        destination: '/googlef63348e45be4ab3f.html',
+      },
+    ]
+  },
   async headers() {
     return [
       {

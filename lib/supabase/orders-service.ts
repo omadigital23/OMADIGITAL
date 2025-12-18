@@ -5,6 +5,13 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// Générer un numéro de commande unique
+function generateOrderNumber(): string {
+  const timestamp = Date.now().toString(36).toUpperCase()
+  const random = Math.random().toString(36).substring(2, 8).toUpperCase()
+  return `OMA-${timestamp}-${random}`
+}
+
 export async function createOrder(
   userId: string,
   items: any[],
@@ -14,47 +21,43 @@ export async function createOrder(
 ) {
   try {
     console.log('Création commande:', { userId, items, total, shippingInfo })
-    
+
     // Utiliser le client fourni ou le client par défaut
     const client = supabaseClient || supabase
-    
-    // Calculer les montants (50% avance, 50% à la livraison)
-    const advanceAmount = total * 0.5
-    const remainingAmount = total * 0.5
 
-    // Déterminer le délai de livraison
-    // 2 semaines pour "Site Vitrine (Standard)", 30 jours pour les autres
+    // Déterminer le délai de livraison basé sur le type de service
+    // 14 jours pour "Site Vitrine (Standard)", 30 jours pour les autres
     const deliveryDays = items.some(item => item.title?.includes('Site Vitrine')) ? 14 : 30
-    const deliveryDate = new Date()
-    deliveryDate.setDate(deliveryDate.getDate() + deliveryDays)
+    const estimatedDeliveryDate = new Date()
+    estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + deliveryDays)
 
-    // Créer la commande
+    // Générer le numéro de commande unique
+    const orderNumber = generateOrderNumber()
+
+    // Créer la commande (aligné avec le schéma DB)
     const { data: orderData, error: orderError } = await client
       .from('orders')
       .insert([
         {
           user_id: userId,
-          total_amount: total,
-          shipping_info: shippingInfo,
-          payment_info: {
-            advance_paid: false,
-            advance_amount: advanceAmount,
-            remaining_amount: remainingAmount,
-            payment_status: 'pending',
-            delivery_date: deliveryDate.toISOString(),
-            delivery_days: deliveryDays,
-          },
+          order_number: orderNumber,
+          total: total,  // Colonne correcte selon le schéma
           status: 'pending',
+          payment_status: 'pending',
+          shipping_address: shippingInfo,  // Colonne correcte selon le schéma (jsonb)
+          delivery_duration_days: deliveryDays,
+          estimated_delivery_date: estimatedDeliveryDate.toISOString(),
         },
       ])
       .select()
       .single()
 
-    console.log('Commande créée:', orderData)
     if (orderError) {
       console.error('Erreur commande:', orderError)
       throw orderError
     }
+
+    console.log('Commande créée:', orderData)
 
     // Créer les articles de la commande dans order_items
     if (items && items.length > 0) {
@@ -184,9 +187,14 @@ export async function cancelOrder(orderId: string, userId: string) {
       return { success: false, error: 'Forbidden' }
     }
 
-    // Vérifier que le countdown n'a pas expiré
-    if (order.payment_info?.delivery_date) {
-      const deliveryDate = new Date(order.payment_info.delivery_date)
+    // Vérifier que la commande peut être annulée (statut pending ou processing)
+    if (!['pending', 'processing'].includes(order.status)) {
+      return { success: false, error: 'Cannot cancel: order already shipped or delivered' }
+    }
+
+    // Vérifier que la date de livraison estimée n'est pas passée
+    if (order.estimated_delivery_date) {
+      const deliveryDate = new Date(order.estimated_delivery_date)
       if (new Date() > deliveryDate) {
         return { success: false, error: 'Cannot cancel: delivery date passed' }
       }
@@ -197,7 +205,7 @@ export async function cancelOrder(orderId: string, userId: string) {
       .from('orders')
       .update({
         status: 'cancelled',
-        updated_at: new Date(),
+        updated_at: new Date().toISOString(),
       })
       .eq('id', orderId)
       .select()

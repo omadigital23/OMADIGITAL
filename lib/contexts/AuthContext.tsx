@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         // Récupérer la session stockée
         const { data: { session } } = await supabase.auth.getSession()
-        
+
         if (mounted) {
           if (session?.user) {
             setUser(session.user)
@@ -121,31 +121,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string, firstName: string, lastName: string) => {
     try {
-      // Utiliser directement le client Supabase pour la connexion
-      const { data, error } = await supabase.auth.signUp({
+      // Utiliser l'API route qui gère la création du profil côté serveur
+      // Cela évite la double création de profil (API + AuthContext)
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, firstName, lastName }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Erreur lors de l\'inscription')
+      }
+
+      // L'utilisateur est créé côté serveur, maintenant on se connecte automatiquement
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
-        options: {
-          data: {
-            firstName,
-            lastName,
-          },
-        },
       })
 
       if (error) throw error
 
-      // Créer le profil utilisateur
       if (data.user) {
-        await (supabase.from('users').insert([
-          {
-            id: data.user.id,
-            email,
-            firstname: firstName,
-            lastname: lastName,
-          },
-        ]) as any)
-
         setUser(data.user)
         await loadUserProfile(data.user.id)
       }

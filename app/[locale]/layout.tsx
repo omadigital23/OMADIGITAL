@@ -3,18 +3,18 @@ import { Metadata } from 'next'
 import LayoutClient from './layout-client'
 import './globals.css'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
 })
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const locale = params.locale
-  
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+
   return {
     title: {
       template: '%s | OMA Digital',
-      default: locale === 'fr' 
+      default: locale === 'fr'
         ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
         : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal'
     },
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       locale: locale === 'fr' ? 'fr_MA' : 'en_US',
       url: `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}`,
       siteName: 'OMA Digital',
-      title: locale === 'fr' 
+      title: locale === 'fr'
         ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
         : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal',
       description: locale === 'fr'
@@ -78,17 +78,19 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params
 }: {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params
+
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <body className={inter.className} suppressHydrationWarning>
-        <LayoutClient locale={params.locale}>
+        <LayoutClient locale={locale}>
           {children}
         </LayoutClient>
       </body>

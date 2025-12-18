@@ -1,23 +1,22 @@
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
+import HomePageClient from './HomePageClient'
 
 // Dynamically import client components to avoid hydration mismatches
 const HeroSection = dynamic(() => import('../../components/sections/HeroSection'), { ssr: true })
 const ServicesOverview = dynamic(() => import('../../components/sections/ServicesOverview'), { ssr: true })
 const BlogOverview = dynamic(() => import('../../components/sections/BlogOverview'), { ssr: true })
 const AgencyInfo = dynamic(() => import('../../components/sections/AgencyInfo'), { ssr: true })
-const SmartChatbot = dynamic(() => import('../../components/chatbot/SmartChatbot'), { ssr: false })
-const ScrollAnimations = dynamic(() => import('../../components/ScrollAnimations'), { ssr: false })
 
 interface HomePageProps {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
-  const locale = params.locale
-  
+  const { locale } = await params
+
   return {
-    title: locale === 'fr' 
+    title: locale === 'fr'
       ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
       : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal',
     description: locale === 'fr'
@@ -34,23 +33,24 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   }
 }
 
-export default function HomePage({ params }: HomePageProps) {
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params
+
   return (
     <main>
-      <ScrollAnimations />
+      <HomePageClient />
       <div className="hero-content">
-        <HeroSection locale={params.locale} />
+        <HeroSection locale={locale} />
       </div>
       <div className="services-section">
-        <ServicesOverview locale={params.locale} />
+        <ServicesOverview locale={locale} />
       </div>
       <div className="blog-section">
-        <BlogOverview locale={params.locale} />
+        <BlogOverview locale={locale} />
       </div>
       <div className="agency-info-section">
-        <AgencyInfo locale={params.locale} />
+        <AgencyInfo locale={locale} />
       </div>
-      <SmartChatbot />
     </main>
   )
 }

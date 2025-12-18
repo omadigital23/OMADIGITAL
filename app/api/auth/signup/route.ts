@@ -4,7 +4,7 @@ import { signUpEnhanced } from '@/lib/supabase/enhanced-auth-service'
 
 function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : request.ip || '0.0.0.0'
+  const ip = forwarded ? forwarded.split(',')[0] : request.headers.get('x-real-ip') || '0.0.0.0'
   return ip.trim()
 }
 
@@ -37,10 +37,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
-        message: 'Inscription réussie. Vérifiez votre email pour confirmer votre compte.', 
+      {
+        message: 'Inscription réussie. Vérifiez votre email pour confirmer votre compte.',
         user: result.user,
-        requiresEmailVerification: true 
+        requiresEmailVerification: true
       },
       { status: 201 }
     )

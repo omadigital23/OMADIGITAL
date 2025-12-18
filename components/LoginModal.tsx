@@ -53,7 +53,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     try {
       if (isSignUp) {
         if (!formData.firstName || !formData.lastName) {
-          setError(locale === 'fr' ? 'Tous les champs sont obligatoires' : 'All fields are required')
+          setError(translations.auth?.all_fields_required || 'Tous les champs sont obligatoires')
           setLoading(false)
           return
         }
@@ -63,7 +63,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       }
       onClose()
     } catch (err: any) {
-      setError(err.message || (locale === 'fr' ? 'Erreur lors de la connexion' : 'Login error'))
+      setError(err.message || translations.auth?.login_error || 'Erreur lors de la connexion')
     } finally {
       setLoading(false)
     }
@@ -78,12 +78,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-2xl font-bold text-gray-900">
             {isSignUp
-              ? locale === 'fr'
-                ? 'Créer un compte'
-                : 'Create Account'
-              : locale === 'fr'
-              ? 'Se connecter'
-              : 'Sign In'}
+              ? translations.auth?.create_account || 'Créer un compte'
+              : translations.auth?.sign_in || 'Se connecter'}
           </h2>
           <button
             onClick={onClose}
@@ -107,7 +103,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               <input
                 type="text"
                 name="firstName"
-                placeholder={locale === 'fr' ? 'Prénom' : 'First Name'}
+                placeholder={translations.auth?.first_name || 'Prénom'}
                 value={formData.firstName}
                 onChange={handleInputChange}
                 required
@@ -116,7 +112,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               <input
                 type="text"
                 name="lastName"
-                placeholder={locale === 'fr' ? 'Nom' : 'Last Name'}
+                placeholder={translations.auth?.last_name || 'Nom'}
                 value={formData.lastName}
                 onChange={handleInputChange}
                 required
@@ -128,7 +124,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={translations.auth?.email || 'Email'}
             value={formData.email}
             onChange={handleInputChange}
             required
@@ -138,7 +134,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           <input
             type="password"
             name="password"
-            placeholder={locale === 'fr' ? 'Mot de passe' : 'Password'}
+            placeholder={translations.auth?.password || 'Mot de passe'}
             value={formData.password}
             onChange={handleInputChange}
             required
@@ -151,16 +147,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 font-semibold"
           >
             {loading
-              ? locale === 'fr'
-                ? 'Traitement...'
-                : 'Processing...'
+              ? translations.auth?.processing || 'Traitement...'
               : isSignUp
-              ? locale === 'fr'
-                ? 'Créer un compte'
-                : 'Create Account'
-              : locale === 'fr'
-              ? 'Se connecter'
-              : 'Sign In'}
+                ? translations.auth?.create_account || 'Créer un compte'
+                : translations.auth?.sign_in || 'Se connecter'}
           </button>
         </form>
 
@@ -175,12 +165,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="text-blue-600 hover:text-blue-700 font-semibold"
           >
             {isSignUp
-              ? locale === 'fr'
-                ? 'Déjà inscrit ? Se connecter'
-                : 'Already have an account? Sign In'
-              : locale === 'fr'
-              ? 'Pas encore inscrit ? Créer un compte'
-              : 'Don\'t have an account? Create one'}
+              ? translations.auth?.already_registered || 'Déjà inscrit ? Se connecter'
+              : translations.auth?.not_registered || 'Pas encore inscrit ? Créer un compte'}
           </button>
         </div>
       </div>

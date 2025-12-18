@@ -62,7 +62,12 @@
       "title": "🌐 Site Vitrine (Standard)",
       "description": "Sites web modernes, rapides et sécurisés — parfaits pour entreprises, restaurants ou marques personnelles. Intégré avec un formulaire de contact relié à WhatsApp, une base de données simple pour gérer messages ou commandes, idéal pour les petits business souhaitant recevoir des commandes sans complexité.",
       "price": "5 000 DH",
-      "stack": ["Next.js", "Supabase", "Vercel", "Tailwind CSS"],
+      "stack": [
+        "Next.js",
+        "Supabase",
+        "Vercel",
+        "Tailwind CSS"
+      ],
       "includes": [
         "2 mois de mise à jour gratuits",
         "Maintenance et entretien technique",
@@ -75,7 +80,12 @@
       "title": "🛒 E-commerce Essentiel",
       "description": "Boutiques en ligne optimisées pour les ventes : gestion produits, panier, paiement sécurisé (Flutterwave, carte, mobile money), et intégration WhatsApp pour commandes directes. Idéal pour les petites boutiques ou créateurs.",
       "price": "10 000 DH",
-      "stack": ["Next.js", "Flutterwave", "Supabase", "SendGrid"],
+      "stack": [
+        "Next.js",
+        "Flutterwave",
+        "Supabase",
+        "SendGrid"
+      ],
       "includes": [
         "2 mois de mise à jour gratuits",
         "Sécurité des paiements",
@@ -88,7 +98,11 @@
       "title": "📱 Application Mobile (MVP)",
       "description": "Application mobile minimale viable pour tester un concept ou une idée de startup rapidement. Version légère mais fonctionnelle pour valider votre projet avant un déploiement complet.",
       "price": "À partir de 10 999 DH",
-      "stack": ["Flutter", "Supabase", "Firebase"],
+      "stack": [
+        "Flutter",
+        "Supabase",
+        "Firebase"
+      ],
       "includes": [
         "2 mois de mise à jour gratuits",
         "Maintenance et correctifs",
@@ -101,7 +115,12 @@
       "title": "🚀 Application Mobile (Standard)",
       "description": "Application complète et performante avec authentification, API, paiements, notifications push et intégrations avancées. Parfaite pour entreprises et startups voulant une app solide et durable.",
       "price": "À partir de 20 000 DH",
-      "stack": ["Flutter", "Supabase", "Twilio", "Flutterwave"],
+      "stack": [
+        "Flutter",
+        "Supabase",
+        "Twilio",
+        "Flutterwave"
+      ],
       "includes": [
         "2 mois de maintenance et mises à jour",
         "Support technique & monitoring",
@@ -114,7 +133,12 @@
       "title": "🤖 Chatbot IA Personnalisé (RAG)",
       "description": "Chatbot intelligent connecté à une base de connaissances interne (RAG), intégré sur votre site ou WhatsApp. Idéal pour support client automatisé, FAQ, ou gestion commerciale.",
       "price": "10 000 DH",
-      "stack": ["Vertex AI", "LangChain", "Supabase Vector", "Twilio"],
+      "stack": [
+        "Vertex AI",
+        "LangChain",
+        "Supabase Vector",
+        "Twilio"
+      ],
       "includes": [
         "2 mois de mise à jour gratuits",
         "Maintenance & monitoring IA",
@@ -127,7 +151,10 @@
       "title": "💬 Bot Simple (WhatsApp / Telegram)",
       "description": "Chatbot basique pour automatiser les réponses clients, prise de commande, ou suivi des réservations. Solution rapide, légère et efficace pour TPE/PME.",
       "price": "3 000 DH",
-      "stack": ["Twilio", "Telegram API"],
+      "stack": [
+        "Twilio",
+        "Telegram API"
+      ],
       "includes": [
         "2 mois de mise à jour gratuits",
         "Maintenance",
@@ -140,7 +167,12 @@
       "title": "⚙️ Automatisation IA (Workflow)",
       "description": "Automatisation complète de vos processus métiers : envoi d'emails, rappels clients, intégration CRM, et notifications WhatsApp. Idéal pour les entreprises cherchant à gagner du temps.",
       "price": "À partir de 5 999 DH",
-      "stack": ["n8n", "Supabase", "Vertex AI", "Zapier"],
+      "stack": [
+        "n8n",
+        "Supabase",
+        "Vertex AI",
+        "Zapier"
+      ],
       "includes": [
         "2 mois de maintenance",
         "Tests et ajustements workflows",
@@ -152,7 +184,12 @@
       "title": "📈 Marketing Digital (Gestion)",
       "description": "Gestion complète de votre visibilité en ligne : SEO, SEM, réseaux sociaux, reporting mensuel et optimisation continue. Idéal pour booster votre marque et vos ventes.",
       "price": "3 500 DH / mois",
-      "stack": ["Meta Ads", "Google Ads", "Analytics", "Notion"],
+      "stack": [
+        "Meta Ads",
+        "Google Ads",
+        "Analytics",
+        "Notion"
+      ],
       "includes": [
         "2 mois de suivi de performance",
         "Tableau de bord analytique",
@@ -164,7 +201,11 @@
       "title": "🎬 Création Vidéo",
       "description": "Vidéos promotionnelles, storytelling produit, publicités et contenu visuel pour vos réseaux ou campagnes marketing.",
       "price": "À partir de 3 000 DH",
-      "stack": ["Premiere Pro", "After Effects", "CapCut Pro"],
+      "stack": [
+        "Premiere Pro",
+        "After Effects",
+        "CapCut Pro"
+      ],
       "includes": [
         "2 révisions incluses",
         "Livraison HD",
@@ -202,7 +243,12 @@
         "author": "Amadou Fall",
         "publishedAt": "2024-01-15",
         "readTime": "8 min",
-        "tags": ["Next.js", "React", "App Router", "Performance"]
+        "tags": [
+          "Next.js",
+          "React",
+          "App Router",
+          "Performance"
+        ]
       },
       {
         "id": "react-server-components",
@@ -215,7 +261,12 @@
         "author": "Amadou Fall",
         "publishedAt": "2024-01-10",
         "readTime": "12 min",
-        "tags": ["React", "Server Components", "Performance", "Next.js"]
+        "tags": [
+          "React",
+          "Server Components",
+          "Performance",
+          "Next.js"
+        ]
       },
       {
         "id": "typescript-bonnes-pratiques",
@@ -228,7 +279,12 @@
         "author": "Amadou Fall",
         "publishedAt": "2024-01-05",
         "readTime": "10 min",
-        "tags": ["TypeScript", "Bonnes Pratiques", "Types", "Validation"]
+        "tags": [
+          "TypeScript",
+          "Bonnes Pratiques",
+          "Types",
+          "Validation"
+        ]
       }
     ]
   },
@@ -283,7 +339,82 @@
     "delivery_info": "Délai de livraison",
     "delivery_senegal": "• Sénégal: 2-3 jours ouvrables",
     "delivery_morocco": "• Maroc: 3-5 jours ouvrables",
-    "delivery_other": "• Autres pays: 7-14 jours ouvrables"
+    "delivery_other": "• Autres pays: 7-14 jours ouvrables",
+    "phone_placeholder": "+212 6XX XXX XXX",
+    "phone_format_hint": "Format: +[code pays] [numéro] ou [numéro local]",
+    "processing": "Traitement...",
+    "verify_fields": "Vérifiez que tous les champs sont remplis correctement.",
+    "countries": {
+      "morocco": "Maroc",
+      "senegal": "Sénégal",
+      "ivory_coast": "Côte d'Ivoire",
+      "cameroon": "Cameroun",
+      "mali": "Mali",
+      "burkina_faso": "Burkina Faso",
+      "other": "Autre"
+    }
+  },
+  "auth": {
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "create_account": "Créer un compte",
+    "sign_in": "Se connecter",
+    "processing": "Traitement...",
+    "already_registered": "Déjà inscrit ? Se connecter",
+    "not_registered": "Pas encore inscrit ? Créer un compte",
+    "all_fields_required": "Tous les champs sont obligatoires",
+    "login_error": "Erreur lors de la connexion"
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "full_name_placeholder": "Nom complet",
+    "email_placeholder": "Votre email",
+    "service_interest": "Service d'intérêt",
+    "subscribe": "S'inscrire",
+    "subscribing": "Inscription...",
+    "success": "Inscription réussie !",
+    "already_subscribed": "Email déjà inscrit !",
+    "error": "Erreur lors de l'inscription.",
+    "connection_error": "Erreur de connexion."
+  },
+  "chatbot": {
+    "message_placeholder": "Tapez votre message..."
+  },
+  "services_ui": {
+    "included": "✓ Détails inclus :",
+    "technologies": "🔧 Technologies clés :",
+    "learn_more": "En savoir plus",
+    "view_all": "Voir tous nos services",
+    "featured_title": "Nos Services Phares",
+    "featured_description": "Des solutions digitales adaptées à vos besoins, du site vitrine à l'application mobile complète."
+  },
+  "local_seo": {
+    "morocco_title": "Maroc - Casablanca",
+    "morocco_description": "Notre bureau principal à Casablanca accompagne les entreprises marocaines dans leur transformation digitale.",
+    "senegal_title": "Sénégal - Dakar",
+    "senegal_description": "Nous servons également le marché sénégalais avec des solutions adaptées à l'Afrique de l'Ouest.",
+    "services_morocco_title": "Services les plus demandés au Maroc :",
+    "services_senegal_title": "Services disponibles au Sénégal :",
+    "remote_services": "🌍 Services 100 % à distance pour tout le Sénégal, l'Afrique et le reste du monde.",
+    "why_choose_us": "Pourquoi Nous Choisir ?",
+    "local_expertise": "Expertise Locale",
+    "local_expertise_desc": "Une compréhension approfondie des marchés africains.",
+    "competitive_prices": "Prix Compétitifs",
+    "competitive_prices_desc": "Des tarifs adaptés aux réalités locales.",
+    "continuous_support": "Support Continu",
+    "continuous_support_desc": "Accompagnement personnalisé tout au long de votre projet.",
+    "website_creation": "Création de site web",
+    "website_creation_casablanca": "Création de site web à Casablanca",
+    "ecommerce_dev": "Développement de boutiques e-commerce (Next.js)",
+    "ai_chatbots": "Chatbots IA et automatisation marketing",
+    "mobile_apps": "Applications mobiles sur mesure",
+    "seo": "Référencement SEO et positionnement Google",
+    "modern_websites": "Création de sites web modernes",
+    "ecommerce_performance": "Développement e-commerce performant",
+    "intelligent_automation": "Chatbots & automatisation intelligente",
+    "digital_marketing_seo": "Marketing digital & référencement SEO"
   },
   "orders": {
     "title": "Mes Commandes",

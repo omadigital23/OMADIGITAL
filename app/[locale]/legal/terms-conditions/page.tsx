@@ -2,14 +2,14 @@ import { Metadata } from 'next'
 import { getLocalizedContent } from '../../../../lib/utils/content'
 
 interface TermsConditionsPageProps {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export async function generateMetadata({ params }: TermsConditionsPageProps): Promise<Metadata> {
-  const locale = params.locale
+  const { locale } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/legal/terms-conditions`
-  
+
   return {
     title: locale === 'fr' ? 'Conditions d\'Utilisation' : 'Terms & Conditions',
     description: locale === 'fr'
@@ -27,9 +27,10 @@ export async function generateMetadata({ params }: TermsConditionsPageProps): Pr
 }
 
 export default async function TermsConditionsPage({ params }: TermsConditionsPageProps) {
+  const { locale } = await params
   let content
   try {
-    const data = await import(`../../../../public/locales/${params.locale}/common.json`)
+    const data = await import(`../../../../public/locales/${locale}/common.json`)
     content = data.default?.legal?.terms_conditions
   } catch (error) {
     content = null
@@ -40,7 +41,7 @@ export default async function TermsConditionsPage({ params }: TermsConditionsPag
       <main className="min-h-screen py-8 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <h1 className="text-xl font-medium text-gray-900">
-            {params.locale === 'fr' ? 'Contenu non disponible' : 'Content not available'}
+            {locale === 'fr' ? 'Contenu non disponible' : 'Content not available'}
           </h1>
         </div>
       </main>
@@ -52,7 +53,7 @@ export default async function TermsConditionsPage({ params }: TermsConditionsPag
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-3xl font-bold mb-6 text-gray-900">{content.title}</h1>
         <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-          <div dangerouslySetInnerHTML={{ 
+          <div dangerouslySetInnerHTML={{
             __html: content.content
               .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-900">$1</h1>')
               .replace(/^## (.+)$/gm, '<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">$1</h2>')

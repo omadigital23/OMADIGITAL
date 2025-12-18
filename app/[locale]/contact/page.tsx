@@ -2,14 +2,14 @@ import { Metadata } from 'next'
 import ContactForm from '../../../components/forms/ContactForm'
 
 interface ContactPageProps {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export async function generateMetadata({ params }: ContactPageProps): Promise<Metadata> {
-  const locale = params.locale
+  const { locale } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/contact`
-  
+
   return {
     title: locale === 'fr' ? 'Contact' : 'Contact',
     description: locale === 'fr'
@@ -26,17 +26,18 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
   }
 }
 
-export default function ContactPage({ params }: ContactPageProps) {
+export default async function ContactPage({ params }: ContactPageProps) {
+  const { locale } = await params
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            {params.locale === 'fr' ? 'Contactez-nous' : 'Contact Us'}
+            {locale === 'fr' ? 'Contactez-nous' : 'Contact Us'}
           </h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            {params.locale === 'fr' 
+            {locale === 'fr'
               ? 'Prêt à transformer votre entreprise ? Parlons de votre projet'
               : 'Ready to transform your business? Let\'s talk about your project'
             }
@@ -51,21 +52,21 @@ export default function ContactPage({ params }: ContactPageProps) {
             {/* Contact Form */}
             <div>
               <h2 className="text-3xl font-bold mb-8">
-                {params.locale === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
+                {locale === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
               </h2>
-              <ContactForm locale={params.locale} />
+              <ContactForm locale={locale} />
             </div>
 
             {/* Contact Info */}
             <div>
               <h2 className="text-3xl font-bold mb-8">
-                {params.locale === 'fr' ? 'Informations de contact' : 'Contact Information'}
+                {locale === 'fr' ? 'Informations de contact' : 'Contact Information'}
               </h2>
-              
+
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {params.locale === 'fr' ? 'Adresse' : 'Address'}
+                    {locale === 'fr' ? 'Adresse' : 'Address'}
                   </h3>
                   <p className="text-gray-600">
                     Moustakbal/Sidimaarouf Casablanca<br />
@@ -76,7 +77,7 @@ export default function ContactPage({ params }: ContactPageProps) {
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {params.locale === 'fr' ? 'Téléphone' : 'Phone'}
+                    {locale === 'fr' ? 'Téléphone' : 'Phone'}
                   </h3>
                   <p className="text-gray-600">+212 701 193 811</p>
                 </div>
@@ -89,13 +90,13 @@ export default function ContactPage({ params }: ContactPageProps) {
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {params.locale === 'fr' ? 'Horaires d\'ouverture' : 'Opening Hours'}
+                    {locale === 'fr' ? 'Horaires d\'ouverture' : 'Opening Hours'}
                   </h3>
                   <p className="text-gray-600">
-                    {params.locale === 'fr' ? 'Lundi - Vendredi: 9h00 - 18h00' : 'Monday - Friday: 9:00 AM - 6:00 PM'}
+                    {locale === 'fr' ? 'Lundi - Vendredi: 9h00 - 18h00' : 'Monday - Friday: 9:00 AM - 6:00 PM'}
                   </p>
                   <p className="text-gray-600">
-                    {params.locale === 'fr' ? 'Samedi: 9h00 - 13h00' : 'Saturday: 9:00 AM - 1:00 PM'}
+                    {locale === 'fr' ? 'Samedi: 9h00 - 13h00' : 'Saturday: 9:00 AM - 1:00 PM'}
                   </p>
                 </div>
               </div>
@@ -108,7 +109,7 @@ export default function ContactPage({ params }: ContactPageProps) {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
-            {params.locale === 'fr' ? 'Notre localisation' : 'Our Location'}
+            {locale === 'fr' ? 'Notre localisation' : 'Our Location'}
           </h2>
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <iframe

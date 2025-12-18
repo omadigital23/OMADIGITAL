@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getAllArticles } from '../../../lib/articles'
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const { locale } = params
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/blog`
   return {
@@ -23,18 +23,19 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-export default function BlogPage({ params }: { params: { locale: string } }) {
-  const articles = getAllArticles().filter(article => article.locale === params.locale)
+export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const articles = getAllArticles().filter(article => article.locale === locale)
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {params.locale === 'fr' ? 'Blog OMA Digital' : 'OMA Digital Blog'}
+            {locale === 'fr' ? 'Blog OMA Digital' : 'OMA Digital Blog'}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {params.locale === 'fr' 
+            {locale === 'fr'
               ? 'Découvrez nos 12 services : développement web, applications mobiles, IA, marketing digital et création.'
               : 'Discover our 12 services: web development, mobile apps, AI, digital marketing and creation.'
             }
@@ -51,7 +52,7 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
                 'marketing-digital': { fr: 'Marketing Digital', en: 'Digital Marketing' },
                 'creation-design': { fr: 'Création & Design', en: 'Creation & Design' }
               }
-              return categoryLabels[category]?.[params.locale as 'fr' | 'en'] || category
+              return categoryLabels[category]?.[locale as 'fr' | 'en'] || category
             }
 
             const getCategoryColor = (category: string) => {
@@ -79,11 +80,11 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
                   <p className="text-gray-600 mb-4 line-clamp-3">
                     {article.excerpt}
                   </p>
-                  <Link 
-                    href={`/${params.locale}/blog/${article.category}/${article.slug}`}
+                  <Link
+                    href={`/${locale}/blog/${article.category}/${article.slug}`}
                     className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
                   >
-                    {params.locale === 'fr' ? 'Lire la suite' : 'Read more'}
+                    {locale === 'fr' ? 'Lire la suite' : 'Read more'}
                     <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -97,7 +98,7 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
         {articles.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">
-              {params.locale === 'fr' 
+              {locale === 'fr'
                 ? 'Aucun article disponible pour le moment.'
                 : 'No articles available at the moment.'
               }

@@ -53,10 +53,11 @@ export function verifySession(token: string | undefined | null) {
   }
 }
 
-export function setAdminCookie(username: string) {
+export async function setAdminCookie(username: string) {
   const exp = Math.floor(Date.now() / 1000) + COOKIE_MAX_AGE
   const token = signSession({ sub: username, role: 'admin', exp })
-  cookies().set({
+  const cookieStore = await cookies()
+  cookieStore.set({
     name: COOKIE_NAME,
     value: token,
     httpOnly: true,
@@ -67,11 +68,13 @@ export function setAdminCookie(username: string) {
   })
 }
 
-export function clearAdminCookie() {
-  cookies().set({ name: COOKIE_NAME, value: '', maxAge: 0, path: '/' })
+export async function clearAdminCookie() {
+  const cookieStore = await cookies()
+  cookieStore.set({ name: COOKIE_NAME, value: '', maxAge: 0, path: '/' })
 }
 
-export function getAdminSession() {
-  const token = cookies().get(COOKIE_NAME)?.value
+export async function getAdminSession() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get(COOKIE_NAME)?.value
   return verifySession(token)
 }

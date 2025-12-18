@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { getAllArticles } from '../../../../lib/articles'
 
 interface CategoryPageProps {
-  params: { locale: string; category: string }
+  params: Promise<{ locale: string; category: string }>
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const { locale, category } = params
+  const { locale, category } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/blog/${category}`
   const alternates = {
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const { locale, category } = params
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { locale, category } = await params
   const articles = getAllArticles().filter(
     (a) => a.locale === locale && a.category === category
   )

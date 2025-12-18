@@ -87,7 +87,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
             {service.includes && service.includes.length > 0 && (
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                  {locale === 'fr' ? '✓ Détails inclus :' : '✓ What\'s Included:'}
+                  {translations.services_ui?.included || '✓ Détails inclus :'}
                 </h4>
                 <ul className="space-y-2">
                   {service.includes.map((item: string, index: number) => (
@@ -103,7 +103,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
             {/* Technologies */}
             <div className="mb-6">
               <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                {locale === 'fr' ? '🔧 Technologies clés :' : '🔧 Key Technologies:'}
+                {translations.services_ui?.technologies || '🔧 Technologies clés :'}
               </h4>
               <div className="flex flex-wrap gap-2">
                 {service.stack?.map((tech: string, index: number) => (
@@ -120,11 +120,10 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
             {/* Bouton Ajouter au panier */}
             <button
               onClick={() => handleAddToCart(service)}
-              className={`px-6 py-3 rounded-lg font-semibold text-center block w-full transition-all duration-300 transform hover:scale-105 mt-auto ${
-                addedService === service.id
+              className={`px-6 py-3 rounded-lg font-semibold text-center block w-full transition-all duration-300 transform hover:scale-105 mt-auto ${addedService === service.id
                   ? 'bg-green-600 text-white'
                   : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
-              }`}
+                }`}
             >
               {addedService === service.id
                 ? translations.cart?.added || 'Article ajouté'
@@ -133,7 +132,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
           </div>
         </div>
       ))}
-      
+
       {/* Login Modal */}
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>

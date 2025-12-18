@@ -153,7 +153,7 @@ export default function CheckoutPage() {
 
       // Nettoyer les items pour l'envoi
       console.log('Items avant nettoyage:', items)
-      
+
       const cleanedItems = items.map((item) => {
         console.log('Item à nettoyer:', item)
         return {
@@ -174,7 +174,7 @@ export default function CheckoutPage() {
       const { data: { session }, error: sessionError } = await supabase.auth.getSession()
       console.log('Session:', session)
       console.log('Session error:', sessionError)
-      
+
       let token = session?.access_token
 
       // Si pas de token dans la session, essayer de se reconnecter automatiquement
@@ -183,9 +183,9 @@ export default function CheckoutPage() {
         const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession()
         console.log('Refreshed session:', refreshedSession)
         console.log('Refresh error:', refreshError)
-        
+
         token = refreshedSession?.access_token
-        
+
         if (!token) {
           console.error('❌ Token still not found after refresh')
           setError('Session expirée, veuillez vous reconnecter')
@@ -193,7 +193,7 @@ export default function CheckoutPage() {
           return
         }
       }
-      
+
       console.log('✅ Token trouvé:', token.substring(0, 20) + '...')
 
       const orderData = {
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
                   <p className="font-semibold mb-2">❌ {error}</p>
-                  <p className="text-sm">Vérifiez que tous les champs sont remplis correctement.</p>
+                  <p className="text-sm">{translations.checkout?.verify_fields || 'Vérifiez que tous les champs sont remplis correctement.'}</p>
                 </div>
               )}
 
@@ -358,13 +358,13 @@ export default function CheckoutPage() {
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="+212 701 193 811 ou 0701193811"
+                      placeholder={translations.checkout?.phone_placeholder || '+212 6XX XXX XXX'}
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
-                    <p className="text-xs text-gray-500 mt-1">Format: +[code pays] [numéro] ou [numéro local]</p>
+                    <p className="text-xs text-gray-500 mt-1">{translations.checkout?.phone_format_hint || 'Format: +[code pays] [numéro] ou [numéro local]'}</p>
                   </div>
 
                   {/* Adresse */}
@@ -431,13 +431,13 @@ export default function CheckoutPage() {
                       required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
                     >
-                      <option value="Maroc">Maroc</option>
-                      <option value="Sénégal">Sénégal</option>
-                      <option value="Côte d'Ivoire">Côte d'Ivoire</option>
-                      <option value="Cameroun">Cameroun</option>
-                      <option value="Mali">Mali</option>
-                      <option value="Burkina Faso">Burkina Faso</option>
-                      <option value="Autre">Autre</option>
+                      <option value="Morocco">{translations.checkout?.countries?.morocco || 'Maroc'}</option>
+                      <option value="Senegal">{translations.checkout?.countries?.senegal || 'Sénégal'}</option>
+                      <option value="Ivory Coast">{translations.checkout?.countries?.ivory_coast || "Côte d'Ivoire"}</option>
+                      <option value="Cameroon">{translations.checkout?.countries?.cameroon || 'Cameroun'}</option>
+                      <option value="Mali">{translations.checkout?.countries?.mali || 'Mali'}</option>
+                      <option value="Burkina Faso">{translations.checkout?.countries?.burkina_faso || 'Burkina Faso'}</option>
+                      <option value="Other">{translations.checkout?.countries?.other || 'Autre'}</option>
                     </select>
                   </div>
                 </div>
@@ -461,7 +461,7 @@ export default function CheckoutPage() {
                 disabled={loading}
                 className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
               >
-                {loading ? 'Traitement...' : translations.checkout?.confirm_order || 'Confirmer la Commande'}
+                {loading ? (translations.checkout?.processing || 'Traitement...') : translations.checkout?.confirm_order || 'Confirmer la Commande'}
               </button>
             </form>
           </div>

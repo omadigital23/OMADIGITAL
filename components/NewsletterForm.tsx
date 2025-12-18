@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const SERVICES = [
   { id: 'site-vitrine', title: 'Site Vitrine (Standard)' },
@@ -19,6 +19,7 @@ interface NewsletterFormProps {
 }
 
 export default function NewsletterForm({ locale }: NewsletterFormProps) {
+  const [translations, setTranslations] = useState<any>({})
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -26,6 +27,19 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const response = await fetch(`/locales/${locale}/common.json`)
+        const data = await response.json()
+        setTranslations(data)
+      } catch (err) {
+        console.error('Erreur lors du chargement des traductions:', err)
+      }
+    }
+    loadTranslations()
+  }, [locale])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,18 +54,17 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
       })
 
       if (response.ok) {
-        setMessage(locale === 'fr' ? 'Inscription réussie !' : 'Successfully subscribed!')
+        setMessage(translations.newsletter?.success || 'Inscription réussie !')
         setFormData({ fullName: '', email: '', service: '' })
       } else {
-        const errorData = await response.json()
         if (response.status === 409) {
-          setMessage(locale === 'fr' ? 'Email déjà inscrit !' : 'Email already subscribed!')
+          setMessage(translations.newsletter?.already_subscribed || 'Email déjà inscrit !')
         } else {
-          setMessage(locale === 'fr' ? 'Erreur lors de l\'inscription.' : 'Subscription failed.')
+          setMessage(translations.newsletter?.error || 'Erreur lors de l\'inscription.')
         }
       }
     } catch (error) {
-      setMessage(locale === 'fr' ? 'Erreur de connexion.' : 'Connection error.')
+      setMessage(translations.newsletter?.connection_error || 'Erreur de connexion.')
     } finally {
       setIsSubmitting(false)
     }
@@ -60,9 +73,9 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
   return (
     <div className="bg-gray-800 p-4 rounded-lg">
       <h4 className="text-lg font-semibold mb-4 text-white">
-        {locale === 'fr' ? 'Newsletter' : 'Newsletter'}
+        {translations.newsletter?.title || 'Newsletter'}
       </h4>
-      
+
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
@@ -70,7 +83,7 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
           value={formData.fullName}
           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
           className="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 text-sm"
-          placeholder={locale === 'fr' ? 'Nom complet' : 'Full Name'}
+          placeholder={translations.newsletter?.full_name_placeholder || 'Nom complet'}
         />
 
         <input
@@ -80,7 +93,7 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           className="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 focus:border-blue-500 text-sm"
-          placeholder="Email"
+          placeholder={translations.newsletter?.email_placeholder || 'Votre email'}
         />
 
         <select
@@ -89,7 +102,7 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
           className="w-full px-3 py-2 bg-white text-black rounded border border-gray-600 focus:border-blue-500 text-sm"
         >
           <option value="">
-            {locale === 'fr' ? "Service d'intérêt" : 'Service of Interest'}
+            {translations.newsletter?.service_interest || "Service d'intérêt"}
           </option>
           {SERVICES.map((service) => (
             <option key={service.id} value={service.id}>
@@ -103,15 +116,15 @@ export default function NewsletterForm({ locale }: NewsletterFormProps) {
           disabled={isSubmitting}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 text-sm"
         >
-          {isSubmitting 
-            ? (locale === 'fr' ? 'Inscription...' : 'Subscribing...') 
-            : (locale === 'fr' ? 'S\'inscrire' : 'Subscribe')
+          {isSubmitting
+            ? (translations.newsletter?.subscribing || 'Inscription...')
+            : (translations.newsletter?.subscribe || 'S\'inscrire')
           }
         </button>
       </form>
 
       {message && (
-        <p className={`mt-2 text-xs ${message.includes('réussie') || message.includes('Successfully') ? 'text-green-400' : 'text-red-400'}`}>
+        <p className={`mt-2 text-xs ${message.includes('réussie') || message.includes('Success') ? 'text-green-400' : 'text-red-400'}`}>
           {message}
         </p>
       )}

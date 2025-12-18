@@ -1,14 +1,14 @@
 import { Metadata } from 'next'
 
 interface PrivacyPolicyPageProps {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }
 
 export async function generateMetadata({ params }: PrivacyPolicyPageProps): Promise<Metadata> {
-  const locale = params.locale
+  const { locale } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/legal/privacy-policy`
-  
+
   return {
     title: locale === 'fr' ? 'Politique de Confidentialité' : 'Privacy Policy',
     description: locale === 'fr'
@@ -26,9 +26,10 @@ export async function generateMetadata({ params }: PrivacyPolicyPageProps): Prom
 }
 
 export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPageProps) {
+  const { locale } = await params
   let content
   try {
-    const data = await import(`../../../../public/locales/${params.locale}/common.json`)
+    const data = await import(`../../../../public/locales/${locale}/common.json`)
     content = data.default?.legal?.privacy_policy
   } catch (error) {
     content = null
@@ -39,7 +40,7 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
       <main className="min-h-screen py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center">
-            {params.locale === 'fr' ? 'Contenu non disponible' : 'Content not available'}
+            {locale === 'fr' ? 'Contenu non disponible' : 'Content not available'}
           </h1>
         </div>
       </main>
@@ -51,7 +52,7 @@ export default async function PrivacyPolicyPage({ params }: PrivacyPolicyPagePro
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-3xl font-bold mb-6 text-gray-900">{content.title}</h1>
         <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-          <div dangerouslySetInnerHTML={{ 
+          <div dangerouslySetInnerHTML={{
             __html: content.content
               .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-900">$1</h1>')
               .replace(/^## (.+)$/gm, '<h2 class="text-2xl font-semibold mt-6 mb-3 text-gray-900">$1</h2>')

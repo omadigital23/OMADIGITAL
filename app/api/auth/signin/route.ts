@@ -4,7 +4,7 @@ import { signInEnhanced } from '@/lib/supabase/enhanced-auth-service'
 
 function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : request.ip || '0.0.0.0'
+  const ip = forwarded ? forwarded.split(',')[0] : request.headers.get('x-real-ip') || '0.0.0.0'
   return ip.trim()
 }
 
@@ -35,10 +35,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
-        message: 'Connexion réussie', 
+      {
+        message: 'Connexion réussie',
         user: result.user,
-        session: result.session 
+        session: result.session
       },
       { status: 200 }
     )

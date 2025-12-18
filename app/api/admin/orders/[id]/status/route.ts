@@ -3,9 +3,10 @@ import { supabaseAdmin } from '@/lib/supabase/admin'
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const { status } = await req.json()
 
     if (!['confirmed', 'cancelled'].includes(status)) {
@@ -15,7 +16,7 @@ export async function POST(
     const { error } = await supabaseAdmin
       .from('orders')
       .update({ status })
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) {
       console.error('Error updating order status:', error)

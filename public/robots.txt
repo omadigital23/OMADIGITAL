@@ -8,4 +8,4 @@ Disallow: /en/admin/
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://www.omadigital.net/sitemap.xml
+Sitemap: https://omadigital.net/sitemap.xml

@@ -2,12 +2,12 @@ import { MetadataRoute } from 'next'
 import { getAllArticles } from '../lib/articles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
-  
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN || 'https://omadigital.net'
+
   const routes = [
     '',
     '/services',
-    '/about', 
+    '/about',
     '/blog',
     '/contact',
     '/legal/privacy-policy',
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Get real blog articles from articles.ts
   const allArticles = getAllArticles()
-  
+
   // Extract unique categories
   const blogCategories = [...new Set(allArticles.map(article => article.category))]
 

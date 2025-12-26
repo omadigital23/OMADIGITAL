@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useCart } from '../../../lib/contexts/CartContext'
-import { useAuth } from '../../../lib/contexts/AuthContext'
+import { useCart } from '@/lib/contexts/CartContext'
+import { useAuth } from '@/lib/contexts/AuthContext'
 import Link from 'next/link'
-import { supabase } from '../../../lib/supabase/client'
+import { supabase } from '@/lib/supabase/client'
 
 export default function CheckoutPage() {
   const router = useRouter()

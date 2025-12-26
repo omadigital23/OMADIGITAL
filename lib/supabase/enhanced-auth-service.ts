@@ -378,7 +378,7 @@ export async function signUpEnhanced(
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password,
-      email_confirm: true, // Auto-confirm email to allow immediate sign in
+      email_confirm: false, // Require email verification before sign in
       user_metadata: {
         firstName,
         lastName,
@@ -580,6 +580,273 @@ export async function updateUserProfile(userId: string, updates: any) {
 
     if (error) throw error
     return { success: true, profile: data }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+// ============================================================================
+// NATIVE SUPABASE AUTH FUNCTIONS (Auto-send emails via SMTP)
+// ============================================================================
+
+/**
+ * Send password reset email using Supabase native function
+ * This automatically sends the email via the configured SMTP
+ */
+export async function resetPasswordForEmailNative(
+  email: string,
+  redirectTo: string,
+  ipAddress?: string,
+  userAgent?: string
+) {
+  try {
+    // Check rate limit
+    const rateLimit = await checkRateLimit(ipAddress || '0.0.0.0', 'password_reset', 3, 60)
+    if (!rateLimit.allowed) {
+      await logAuthAction({
+        action: 'password_reset_request',
+        status: 'blocked',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: 'Rate limit exceeded',
+      })
+      return { success: false, error: 'Trop de tentatives. Réessayez plus tard.' }
+    }
+
+    // Use Supabase native reset password function
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo,
+    })
+
+    if (error) {
+      await logAuthAction({
+        action: 'password_reset_request',
+        status: 'failed',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: error.message,
+      })
+      // Don't reveal if email exists for security
+      return { success: true, message: 'Si cet email existe, un lien de réinitialisation a été envoyé.' }
+    }
+
+    await logAuthAction({
+      action: 'password_reset_request',
+      status: 'success',
+      ip_address: ipAddress,
+      user_agent: userAgent,
+      metadata: { email },
+    })
+
+    return { success: true, message: 'Si cet email existe, un lien de réinitialisation a été envoyé.' }
+  } catch (error: any) {
+    console.error('Password reset error:', error)
+    return { success: true, message: 'Si cet email existe, un lien de réinitialisation a été envoyé.' }
+  }
+}
+
+/**
+ * Update password after reset (called when user clicks the reset link)
+ */
+export async function updatePasswordAfterReset(newPassword: string) {
+  try {
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    })
+
+    if (error) {
+      return { success: false, error: error.message }
+    }
+
+    return { success: true, message: 'Mot de passe mis à jour avec succès.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+/**
+ * Send magic link for passwordless authentication
+ */
+export async function signInWithMagicLink(
+  email: string,
+  redirectTo: string,
+  ipAddress?: string,
+  userAgent?: string
+) {
+  try {
+    // Check rate limit
+    const rateLimit = await checkRateLimit(ipAddress || '0.0.0.0', 'magic_link', 5, 15)
+    if (!rateLimit.allowed) {
+      await logAuthAction({
+        action: 'magic_link_request',
+        status: 'blocked',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: 'Rate limit exceeded',
+      })
+      return { success: false, error: 'Trop de tentatives. Réessayez plus tard.' }
+    }
+
+    // Use Supabase native OTP function for magic link
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: redirectTo,
+      },
+    })
+
+    if (error) {
+      await logAuthAction({
+        action: 'magic_link_request',
+        status: 'failed',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: error.message,
+      })
+      return { success: false, error: error.message }
+    }
+
+    await logAuthAction({
+      action: 'magic_link_request',
+      status: 'success',
+      ip_address: ipAddress,
+      user_agent: userAgent,
+      metadata: { email },
+    })
+
+    return { success: true, message: 'Un lien de connexion a été envoyé à votre email.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+/**
+ * Update user email address (requires verification)
+ */
+export async function updateUserEmail(
+  newEmail: string,
+  redirectTo: string,
+  ipAddress?: string,
+  userAgent?: string
+) {
+  try {
+    // Check rate limit
+    const rateLimit = await checkRateLimit(ipAddress || '0.0.0.0', 'email_change', 3, 60)
+    if (!rateLimit.allowed) {
+      await logAuthAction({
+        action: 'email_change_request',
+        status: 'blocked',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: 'Rate limit exceeded',
+      })
+      return { success: false, error: 'Trop de tentatives. Réessayez plus tard.' }
+    }
+
+    // Update user email (Supabase will send verification email)
+    const { error } = await supabase.auth.updateUser(
+      { email: newEmail },
+      { emailRedirectTo: redirectTo }
+    )
+
+    if (error) {
+      await logAuthAction({
+        action: 'email_change_request',
+        status: 'failed',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        error_message: error.message,
+      })
+      return { success: false, error: error.message }
+    }
+
+    await logAuthAction({
+      action: 'email_change_request',
+      status: 'success',
+      ip_address: ipAddress,
+      user_agent: userAgent,
+      metadata: { newEmail },
+    })
+
+    return { success: true, message: 'Un email de confirmation a été envoyé à votre nouvelle adresse.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+/**
+ * Invite a user by email (admin only)
+ */
+export async function inviteUserByEmail(
+  email: string,
+  redirectTo: string,
+  metadata?: Record<string, any>
+) {
+  try {
+    const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
+      redirectTo,
+      data: metadata,
+    })
+
+    if (error) {
+      return { success: false, error: error.message }
+    }
+
+    return { success: true, user: data.user, message: 'Invitation envoyée avec succès.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+/**
+ * Reauthenticate user before sensitive actions
+ */
+export async function reauthenticateUser(password: string) {
+  try {
+    // Get current user
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+    if (userError || !user?.email) {
+      return { success: false, error: 'Utilisateur non connecté.' }
+    }
+
+    // Try to sign in with current credentials to verify password
+    const { error } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password,
+    })
+
+    if (error) {
+      return { success: false, error: 'Mot de passe incorrect.' }
+    }
+
+    return { success: true, message: 'Authentification confirmée.' }
+  } catch (error: any) {
+    return { success: false, error: error.message }
+  }
+}
+
+/**
+ * Resend email verification
+ */
+export async function resendVerificationEmail(
+  email: string,
+  redirectTo: string
+) {
+  try {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: {
+        emailRedirectTo: redirectTo,
+      },
+    })
+
+    if (error) {
+      return { success: false, error: error.message }
+    }
+
+    return { success: true, message: 'Email de vérification renvoyé.' }
   } catch (error: any) {
     return { success: false, error: error.message }
   }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase/client'
+import { supabase } from '../../../../lib/supabase/client'
 
 export default function VerifyPage() {
     const params = useParams()

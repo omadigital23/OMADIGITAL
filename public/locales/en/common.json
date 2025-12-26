@@ -436,7 +436,17 @@
     "connection_error": "Connection error."
   },
   "chatbot": {
-    "message_placeholder": "Type your message..."
+    "message_placeholder": "Type your message...",
+    "title": "OMA Digital Assistant",
+    "online": "Online",
+    "welcome": "Hello! How can I help you today?",
+    "error_message": "Sorry, an error occurred. Please try again.",
+    "quick_suggestions": "Quick suggestions:",
+    "suggestion_services": "What are your services?",
+    "suggestion_pricing": "How much does a website cost?",
+    "suggestion_contact": "How to contact you?",
+    "clear_history": "Clear history",
+    "history_cleared": "History cleared"
   },
   "services_ui": {
     "included": "✓ What's Included:",

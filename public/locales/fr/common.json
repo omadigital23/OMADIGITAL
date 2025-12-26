@@ -423,7 +423,17 @@
     "connection_error": "Erreur de connexion."
   },
   "chatbot": {
-    "message_placeholder": "Tapez votre message..."
+    "message_placeholder": "Tapez votre message...",
+    "title": "Assistant OMA Digital",
+    "online": "En ligne",
+    "welcome": "Bonjour ! Comment puis-je vous aider aujourd'hui ?",
+    "error_message": "Désolé, une erreur s'est produite. Veuillez réessayer.",
+    "quick_suggestions": "Suggestions rapides :",
+    "suggestion_services": "Quels sont vos services ?",
+    "suggestion_pricing": "Combien coûte un site web ?",
+    "suggestion_contact": "Comment vous contacter ?",
+    "clear_history": "Effacer l'historique",
+    "history_cleared": "Historique effacé"
   },
   "services_ui": {
     "included": "✓ Détails inclus :",

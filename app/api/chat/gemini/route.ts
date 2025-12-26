@@ -21,7 +21,7 @@ async function searchKnowledgeBase(query: string, limit = 3) {
     const { data, error } = await supabase
       .from('knowledge_base')
       .select('title, content, category')
-      .or(`title.ilike.%${query}%,content.ilike.%${query}%,keywords.cs.{"${query.toLowerCase()}"}`) 
+      .or(`title.ilike.%${query}%,content.ilike.%${query}%,keywords.cs.{"${query.toLowerCase()}"}`)
       .eq('is_active', true)
       .eq('language', 'fr')
       .order('priority', { ascending: false })
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     // Search knowledge base first (RAG)
     const knowledgeResults = await searchKnowledgeBase(message)
-    
+
     let context = ''
     if (knowledgeResults.length > 0) {
       context = knowledgeResults
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     // Detect language
     const isEnglish = /\b(what|how|do|does|can|will|hello|hi)\b/i.test(message)
     const isFrench = /\b(que|comment|faire|peut|combien|bonjour|salut)\b/i.test(message)
-    
+
     // Create precise system prompt
     const systemPrompt = `Assistant OMA Digital. Réponses PRÉCISES uniquement.
 
@@ -99,7 +99,7 @@ RÈGLES STRICTES:
 Question: ${message}`
 
     // Generate response with Gemini
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
     const result = await model.generateContent(systemPrompt)
     const response = result.response.text()
 
@@ -129,7 +129,7 @@ Question: ${message}`
         referrer: request.headers.get('referer')
       })
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       response,
       suggestions,
       hasKnowledgeBase: knowledgeResults.length > 0,

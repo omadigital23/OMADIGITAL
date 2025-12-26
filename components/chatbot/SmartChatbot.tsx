@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { useParams } from 'next/navigation'
+import { useChatLogic } from './hooks/useChatLogic'
+
 // Simple SVG icons
 const MessageCircle = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
@@ -22,23 +25,67 @@ const Send = ({ size = 24 }: { size?: number }) => (
   </svg>
 )
 
+const Trash = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+)
 
-import { useChatLogic } from './hooks/useChatLogic'
+interface Translations {
+  message_placeholder: string
+  title: string
+  online: string
+  welcome: string
+  error_message: string
+  quick_suggestions: string
+  suggestion_services: string
+  suggestion_pricing: string
+  suggestion_contact: string
+  clear_history: string
+  history_cleared: string
+}
 
-interface Message {
-  id: string
-  content: string
-  isBot: boolean
-  timestamp: Date
+const defaultTranslations: Translations = {
+  message_placeholder: 'Tapez votre message...',
+  title: 'Assistant OMA Digital',
+  online: 'En ligne',
+  welcome: 'Bonjour ! Comment puis-je vous aider aujourd\'hui ?',
+  error_message: 'Désolé, une erreur s\'est produite. Veuillez réessayer.',
+  quick_suggestions: 'Suggestions rapides :',
+  suggestion_services: 'Quels sont vos services ?',
+  suggestion_pricing: 'Combien coûte un site web ?',
+  suggestion_contact: 'Comment vous contacter ?',
+  clear_history: 'Effacer l\'historique',
+  history_cleared: 'Historique effacé'
 }
 
 export default function SmartChatbot() {
+  const params = useParams()
+  const locale = (params?.locale as string) || 'fr'
   const [isOpen, setIsOpen] = useState(false)
   const [inputText, setInputText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [t, setT] = useState<Translations>(defaultTranslations)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const { messages, suggestions, sendMessage, isLoading } = useChatLogic()
+  const { messages, suggestions, sendMessage, isLoading, clearMessages } = useChatLogic()
+
+  // Load translations
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const response = await fetch(`/locales/${locale}/common.json`)
+        const data = await response.json()
+        if (data.chatbot) {
+          setT({ ...defaultTranslations, ...data.chatbot })
+        }
+      } catch (err) {
+        console.error('Error loading chatbot translations:', err)
+      }
+    }
+    loadTranslations()
+  }, [locale])
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -73,7 +120,13 @@ export default function SmartChatbot() {
     }
   }
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputText(suggestion)
+  }
 
+  const handleClearHistory = () => {
+    clearMessages()
+  }
 
   return (
     <>
@@ -96,18 +149,29 @@ export default function SmartChatbot() {
           {/* Header */}
           <div className="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
             <div>
-              <h3 className="font-semibold">Assistant OMA Digital</h3>
+              <h3 className="font-semibold">{t.title}</h3>
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <p className="text-sm opacity-90">En ligne</p>
+                <p className="text-sm opacity-90">{t.online}</p>
               </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="hover:bg-blue-700 rounded-full p-1 transition-colors"
-            >
-              <X size={20} />
-            </button>
+            <div className="flex items-center space-x-2">
+              {messages.length > 0 && (
+                <button
+                  onClick={handleClearHistory}
+                  className="hover:bg-blue-700 rounded-full p-1 transition-colors"
+                  title={t.clear_history}
+                >
+                  <Trash size={16} />
+                </button>
+              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="hover:bg-blue-700 rounded-full p-1 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           {/* Messages */}
@@ -115,19 +179,25 @@ export default function SmartChatbot() {
             {messages.length === 0 && (
               <div className="text-center text-gray-500 py-8">
                 <MessageCircle size={48} className="mx-auto mb-4 opacity-50" />
-                <p>Bonjour ! Comment puis-je vous aider aujourd'hui ?</p>
+                <p>{t.welcome}</p>
                 <div className="mt-4 space-y-2">
                   <button
-                    onClick={() => setInputText("Quels sont vos services ?")}
+                    onClick={() => handleSuggestionClick(t.suggestion_services)}
                     className="block w-full text-left p-2 text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors"
                   >
-                    Quels sont vos services ?
+                    {t.suggestion_services}
                   </button>
                   <button
-                    onClick={() => setInputText("Combien coûte un site web ?")}
+                    onClick={() => handleSuggestionClick(t.suggestion_pricing)}
                     className="block w-full text-left p-2 text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors"
                   >
-                    Combien coûte un site web ?
+                    {t.suggestion_pricing}
+                  </button>
+                  <button
+                    onClick={() => handleSuggestionClick(t.suggestion_contact)}
+                    className="block w-full text-left p-2 text-sm bg-gray-50 hover:bg-gray-100 rounded transition-colors"
+                  >
+                    {t.suggestion_contact}
                   </button>
                 </div>
               </div>
@@ -140,16 +210,15 @@ export default function SmartChatbot() {
               >
                 <div
                   className={`max-w-[80%] p-3 rounded-lg ${message.isBot
-                      ? 'bg-gray-100 text-gray-800'
-                      : 'bg-blue-600 text-white'
+                    ? 'bg-gray-100 text-gray-800'
+                    : 'bg-blue-600 text-white'
                     }`}
                 >
                   <div className="text-sm whitespace-pre-wrap">{message.content}</div>
                   <span className="text-xs opacity-70 mt-1 block">
-                    {message.timestamp.toLocaleTimeString('fr-FR', {
+                    {message.timestamp.toLocaleTimeString(locale === 'en' ? 'en-US' : 'fr-FR', {
                       hour: '2-digit',
-                      minute: '2-digit',
-                      timeZone: 'UTC'
+                      minute: '2-digit'
                     })}
                   </span>
                 </div>
@@ -171,12 +240,12 @@ export default function SmartChatbot() {
             {/* Quick Suggestions */}
             {suggestions.length > 0 && !isLoading && (
               <div className="space-y-2">
-                <p className="text-xs text-gray-500 font-medium">Suggestions rapides :</p>
+                <p className="text-xs text-gray-500 font-medium">{t.quick_suggestions}</p>
                 <div className="flex flex-wrap gap-2">
                   {suggestions.map((suggestion, index) => (
                     <button
                       key={index}
-                      onClick={() => setInputText(suggestion)}
+                      onClick={() => handleSuggestionClick(suggestion)}
                       className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1 rounded-full border border-blue-200 transition-colors"
                     >
                       {suggestion}
@@ -197,7 +266,7 @@ export default function SmartChatbot() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
+                  placeholder={t.message_placeholder}
                   className="w-full p-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={1}
                   disabled={isLoading}

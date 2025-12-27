@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { useAuth } from '@/lib/contexts/AuthContext'
-import { supabase } from '@/lib/supabase/client'
+import { useAuth } from '../../../lib/contexts/AuthContext'
+import { supabase } from '../../../lib/supabase/client'
 import Link from 'next/link'
 
 export default function OrdersPage() {
@@ -32,7 +32,7 @@ export default function OrdersPage() {
     const loadOrders = async () => {
       try {
         console.log('Chargement des commandes pour user:', user?.id)
-        
+
         if (!user) {
           setError(translations.checkout?.required_field || 'Vous devez être connecté')
           setLoading(false)
@@ -49,12 +49,12 @@ export default function OrdersPage() {
           .order('created_at', { ascending: false })
 
         console.log('Commandes chargées:', data)
-        
+
         if (fetchError) {
           console.error('Erreur fetch:', fetchError)
           throw fetchError
         }
-        
+
         setOrders(data || [])
       } catch (err: any) {
         console.error('Erreur loadOrders:', err)
@@ -77,8 +77,8 @@ export default function OrdersPage() {
             {locale === 'fr' ? 'Accès Requis' : 'Access Required'}
           </h1>
           <p className="text-gray-600 mb-8">
-            {locale === 'fr' 
-              ? 'Vous devez être connecté pour voir vos commandes' 
+            {locale === 'fr'
+              ? 'Vous devez être connecté pour voir vos commandes'
               : 'You must be logged in to view your orders'}
           </p>
           <Link

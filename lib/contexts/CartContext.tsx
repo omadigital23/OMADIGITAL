@@ -1,9 +1,9 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { CartItem } from '@/lib/types/cart'
+import { CartItem } from '../types/cart'
 import { useAuth } from './AuthContext'
-import { supabase } from '@/lib/supabase/client'
+import { supabase } from '../supabase/client'
 
 // Utiliser le même client Supabase partagé pour la synchronisation
 
@@ -29,7 +29,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Charger le panier depuis Supabase (si authentifié) ou localStorage
   useEffect(() => {
     let mounted = true
-    
+
     const loadCart = async () => {
       try {
         if (user && mounted) {

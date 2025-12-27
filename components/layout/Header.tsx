@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useState, useEffect } from 'react'
-import { useCart } from '@/lib/contexts/CartContext'
-import { useAuth } from '@/lib/contexts/AuthContext'
+import { useCart } from '../../lib/contexts/CartContext'
+import { useAuth } from '../../lib/contexts/AuthContext'
 import LoginModal from '../LoginModal'
 
 interface HeaderProps {
@@ -21,7 +21,7 @@ export default function Header({ locale }: HeaderProps) {
   const [translations, setTranslations] = useState<any>({})
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  
+
   useEffect(() => {
     const loadTranslations = async () => {
       try {
@@ -34,27 +34,27 @@ export default function Header({ locale }: HeaderProps) {
     }
     loadTranslations()
   }, [locale])
-  
+
   const navItems = [
-    { 
-      href: `/${locale}`, 
-      label: locale === 'fr' ? 'Accueil' : 'Home' 
+    {
+      href: `/${locale}`,
+      label: locale === 'fr' ? 'Accueil' : 'Home'
     },
-    { 
-      href: `/${locale}/services`, 
-      label: locale === 'fr' ? 'Services' : 'Services' 
+    {
+      href: `/${locale}/services`,
+      label: locale === 'fr' ? 'Services' : 'Services'
     },
-    { 
-      href: `/${locale}/about`, 
-      label: locale === 'fr' ? 'À Propos' : 'About' 
+    {
+      href: `/${locale}/about`,
+      label: locale === 'fr' ? 'À Propos' : 'About'
     },
-    { 
-      href: `/${locale}/blog`, 
-      label: locale === 'fr' ? 'Blog' : 'Blog' 
+    {
+      href: `/${locale}/blog`,
+      label: locale === 'fr' ? 'Blog' : 'Blog'
     },
-    { 
-      href: `/${locale}/contact`, 
-      label: locale === 'fr' ? 'Contact' : 'Contact' 
+    {
+      href: `/${locale}/contact`,
+      label: locale === 'fr' ? 'Contact' : 'Contact'
     }
   ]
 
@@ -75,28 +75,27 @@ export default function Header({ locale }: HeaderProps) {
               sizes="(max-width: 640px) 100px, 120px"
             />
           </Link>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                  pathname === item.href 
-                    ? 'text-blue-600' 
+                className={`text-sm font-medium transition-colors hover:text-blue-600 ${pathname === item.href
+                    ? 'text-blue-600'
                     : 'text-gray-700'
-                }`}
+                  }`}
               >
                 {item.label}
               </Link>
             ))}
           </div>
-          
+
           {/* Language Switcher, Cart, User Menu & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             <LanguageSwitcher currentLocale={locale} />
-            
+
             {/* Cart Icon */}
             <Link
               href={`/${locale}/panier`}
@@ -172,7 +171,7 @@ export default function Header({ locale }: HeaderProps) {
                 </svg>
               </button>
             )}
-            
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -199,11 +198,10 @@ export default function Header({ locale }: HeaderProps) {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    pathname === item.href 
-                      ? 'text-blue-600 bg-blue-50' 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${pathname === item.href
+                      ? 'text-blue-600 bg-blue-50'
                       : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </Link>

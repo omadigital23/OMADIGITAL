@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase/client'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { supabase } from '../../../../lib/supabase/client'
+import { supabaseAdmin } from '../../../../lib/supabase/admin'
 
 // GET - List user auth logs
 export async function GET(request: NextRequest) {
@@ -36,11 +36,11 @@ export async function GET(request: NextRequest) {
     if (error) throw error
 
     return NextResponse.json(
-      { 
-        logs, 
+      {
+        logs,
         total: count,
         limit,
-        offset 
+        offset
       },
       { status: 200 }
     )

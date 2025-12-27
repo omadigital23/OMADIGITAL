@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useCart } from '@/lib/contexts/CartContext'
-import { useAuth } from '@/lib/contexts/AuthContext'
+import { useCart } from '../lib/contexts/CartContext'
+import { useAuth } from '../lib/contexts/AuthContext'
 import { useParams } from 'next/navigation'
 import LoginModal from './LoginModal'
 
@@ -121,8 +121,8 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
             <button
               onClick={() => handleAddToCart(service)}
               className={`px-6 py-3 rounded-lg font-semibold text-center block w-full transition-all duration-300 transform hover:scale-105 mt-auto ${addedService === service.id
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
+                ? 'bg-green-600 text-white'
+                : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
                 }`}
             >
               {addedService === service.id

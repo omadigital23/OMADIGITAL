@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase/client'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+import { supabase } from '../../../../lib/supabase/client'
+import { supabaseAdmin } from '../../../../lib/supabase/admin'
 
 // GET - List user sessions
 export async function GET(request: NextRequest) {

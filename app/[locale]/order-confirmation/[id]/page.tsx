@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { useAuth } from '@/lib/contexts/AuthContext'
-import { supabase } from '@/lib/supabase/client'
+import { useAuth } from '../../../../lib/contexts/AuthContext'
+import { supabase } from '../../../../lib/supabase/client'
 import Link from 'next/link'
 
 export default function OrderConfirmationPage() {

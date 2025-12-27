@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useAuth } from '@/lib/contexts/AuthContext'
-import LoginModal from '@/components/LoginModal'
+import { useAuth } from '../../../lib/contexts/AuthContext'
+import LoginModal from '../../../components/LoginModal'
 
 export default function LoginPage() {
   const params = useParams()

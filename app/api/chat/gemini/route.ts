@@ -2,11 +2,20 @@ import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createClient } from '@supabase/supabase-js'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Check if API key exists
+const apiKey = process.env.GEMINI_API_KEY
+if (!apiKey) {
+  console.warn('GEMINI_API_KEY is not set')
+}
+
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null
+
+// Supabase is optional for basic chat functionality
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null
 
 interface Message {
   id: string
@@ -15,32 +24,39 @@ interface Message {
   timestamp: Date
 }
 
-// Simple keyword search in knowledge base
+// Simple keyword search in knowledge base (optional)
 async function searchKnowledgeBase(query: string, limit = 3) {
+  if (!supabase) return []
+
   try {
     const { data, error } = await supabase
       .from('knowledge_base')
       .select('title, content, category')
-      .or(`title.ilike.%${query}%,content.ilike.%${query}%,keywords.cs.{"${query.toLowerCase()}"}`)
+      .or(`title.ilike.%${query}%,content.ilike.%${query}%`)
       .eq('is_active', true)
-      .eq('language', 'fr')
-      .order('priority', { ascending: false })
       .limit(limit)
 
     if (error) {
-      console.error('Knowledge base search error:', error)
+      console.warn('Knowledge base search error (table may not exist):', error.message)
       return []
     }
 
     return data || []
   } catch (error) {
-    console.error('RAG search error:', error)
+    console.warn('RAG search error:', error)
     return []
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Gemini is configured
+    if (!genAI) {
+      return NextResponse.json({
+        error: 'Gemini API not configured. Please set GEMINI_API_KEY environment variable.'
+      }, { status: 500 })
+    }
+
     const { message, conversationHistory, sessionId } = await request.json()
 
     if (!message) {
@@ -49,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     const session = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-    // Search knowledge base first (RAG)
+    // Search knowledge base first (RAG) - optional
     const knowledgeResults = await searchKnowledgeBase(message)
 
     let context = ''
@@ -59,15 +75,8 @@ export async function POST(request: NextRequest) {
         .join('\n\n')
     }
 
-    // Prepare conversation context
-    const conversationContext = conversationHistory
-      ?.slice(-6) // Last 6 messages
-      ?.map((msg: Message) => `${msg.isBot ? 'Assistant' : 'User'}: ${msg.content}`)
-      ?.join('\n') || ''
-
     // Detect language
     const isEnglish = /\b(what|how|do|does|can|will|hello|hi)\b/i.test(message)
-    const isFrench = /\b(que|comment|faire|peut|combien|bonjour|salut)\b/i.test(message)
 
     // Create precise system prompt
     const systemPrompt = `Assistant OMA Digital. Réponses PRÉCISES uniquement.
@@ -99,7 +108,7 @@ RÈGLES STRICTES:
 Question: ${message}`
 
     // Generate response with Gemini
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
     const result = await model.generateContent(systemPrompt)
     const response = result.response.text()
 
@@ -114,20 +123,23 @@ Question: ${message}`
       "Contact ?"
     ]
 
-    // Save conversation to database
-    await supabase
-      .from('chatbot_conversations')
-      .insert({
-        session_id: session,
-        user_message: message,
-        bot_response: response,
-        language: isEnglish ? 'en-US' : 'fr-FR',
-        input_type: 'text',
-        has_audio: false,
-        user_agent: request.headers.get('user-agent'),
-        ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
-        referrer: request.headers.get('referer')
-      })
+    // Save conversation to database (optional, don't fail if it doesn't work)
+    if (supabase) {
+      try {
+        await supabase
+          .from('chatbot_conversations')
+          .insert({
+            session_id: session,
+            user_message: message,
+            bot_response: response,
+            language: isEnglish ? 'en-US' : 'fr-FR',
+            input_type: 'text',
+            has_audio: false
+          })
+      } catch (dbError) {
+        console.warn('Failed to save conversation (table may not exist):', dbError)
+      }
+    }
 
     return NextResponse.json({
       response,
@@ -136,8 +148,10 @@ Question: ${message}`
       sessionId: session
     })
 
-  } catch (error) {
-    console.error('Gemini API error:', error)
-    return NextResponse.json({ error: 'API Error' }, { status: 500 })
+  } catch (error: any) {
+    console.error('Gemini API error:', error?.message || error)
+    return NextResponse.json({
+      error: `API Error: ${error?.message || 'Unknown error'}`
+    }, { status: 500 })
   }
 }

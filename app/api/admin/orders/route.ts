@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { confirmOrder, getAllOrders } from '@/lib/supabase/orders-service'
+import { confirmOrder, getAllOrders } from '../../../../lib/supabase/orders-service'
 import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!

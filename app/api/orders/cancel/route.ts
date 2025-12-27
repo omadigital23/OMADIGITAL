@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { cancelOrder } from '@/lib/supabase/orders-service'
-import { getCancelRestrictions } from '@/lib/supabase/countdown-service'
+import { cancelOrder } from '../../../../lib/supabase/orders-service'
+import { getCancelRestrictions } from '../../../../lib/supabase/countdown-service'
 import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!

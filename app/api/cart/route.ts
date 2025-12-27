@@ -6,7 +6,7 @@ import {
   updateCartQuantity,
   getCart,
   clearCart,
-} from '@/lib/supabase/cart-service'
+} from '../../../lib/supabase/cart-service'
 import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!

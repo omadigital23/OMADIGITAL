@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { reauthenticateUser } from '@/lib/supabase/enhanced-auth-service'
+import { reauthenticateUser } from '../../../../lib/supabase/enhanced-auth-service'
 
 export async function POST(request: NextRequest) {
     try {

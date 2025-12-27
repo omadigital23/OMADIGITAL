@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { inviteUserByEmail } from '@/lib/supabase/enhanced-auth-service'
+import { inviteUserByEmail } from '../../../../lib/supabase/enhanced-auth-service'
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!

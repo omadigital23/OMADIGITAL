@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyEmail } from '@/lib/supabase/enhanced-auth-service'
+import { verifyEmail } from '../../../../lib/supabase/enhanced-auth-service'
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,9 +22,9 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
+      {
         message: 'Email vérifié avec succès',
-        userId: result.userId 
+        userId: result.userId
       },
       { status: 200 }
     )

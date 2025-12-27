@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { resetPassword } from '@/lib/supabase/enhanced-auth-service'
+import { resetPassword } from '../../../../lib/supabase/enhanced-auth-service'
 
 const ResetPasswordSchema = z.object({
   token: z.string().min(1, 'Token requis'),

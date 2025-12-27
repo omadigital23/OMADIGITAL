@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createOrder, getUserOrders } from '@/lib/supabase/orders-service'
-import { CreateOrderSchema } from '@/lib/schemas/checkout'
+import { createOrder, getUserOrders } from '../../../lib/supabase/orders-service'
+import { CreateOrderSchema } from '../../../lib/schemas/checkout'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 

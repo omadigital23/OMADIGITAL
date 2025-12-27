@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import ServicesGrid from '@/components/ServicesGrid'
+import ServicesGrid from '../../../components/ServicesGrid'
 
 interface ServicesPageProps {
   params: Promise<{ locale: string }>

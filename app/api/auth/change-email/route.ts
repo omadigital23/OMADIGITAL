@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { updateUserEmail } from '@/lib/supabase/enhanced-auth-service'
+import { updateUserEmail } from '../../../../lib/supabase/enhanced-auth-service'
 
 function getClientIp(request: NextRequest): string {
     const forwarded = request.headers.get('x-forwarded-for')

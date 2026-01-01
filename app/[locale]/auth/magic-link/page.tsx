@@ -92,7 +92,7 @@ export default function MagicLinkPage() {
                             </p>
                             <Link
                                 href={`/${locale}`}
-                                className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
+                                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -118,7 +118,7 @@ export default function MagicLinkPage() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="votre@email.com"
                                 />
                             </div>
@@ -126,7 +126,7 @@ export default function MagicLinkPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-orange-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
+                                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
                             >
                                 {loading ? (t.sending || 'Envoi...') : (t.magic_link_btn || 'Envoyer le lien magique')}
                             </button>
@@ -145,7 +145,7 @@ export default function MagicLinkPage() {
                             <div className="text-center">
                                 <Link
                                     href={`/${locale}`}
-                                    className="text-orange-600 hover:text-orange-700 font-medium"
+                                    className="text-blue-600 hover:text-blue-700 font-medium"
                                 >
                                     {t.sign_in || 'Se connecter avec mot de passe'}
                                 </Link>

@@ -74,7 +74,7 @@ export default function VerifyPage() {
                     <>
                         <div className="mb-6">
                             <div className="mx-auto w-16 h-16 flex items-center justify-center">
-                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-600"></div>
+                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
                             </div>
                         </div>
                         <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -106,7 +106,7 @@ export default function VerifyPage() {
                         </p>
                         <Link
                             href={`/${locale}`}
-                            className="inline-flex items-center justify-center w-full bg-orange-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-700 transition-all"
+                            className="inline-flex items-center justify-center w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all"
                         >
                             {t.back_to_login || "Aller à l'accueil"}
                         </Link>

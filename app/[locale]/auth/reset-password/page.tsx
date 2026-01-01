@@ -99,7 +99,7 @@ export default function ResetPasswordPage() {
     if (isValidSession === null) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
             </div>
         )
     }
@@ -124,7 +124,7 @@ export default function ResetPasswordPage() {
                     </p>
                     <Link
                         href={`/${locale}/auth/forgot-password`}
-                        className="inline-flex items-center justify-center w-full bg-orange-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-700 transition-all"
+                        className="inline-flex items-center justify-center w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all"
                     >
                         {t.forgot_password || 'Mot de passe oublié ?'}
                     </Link>
@@ -167,7 +167,7 @@ export default function ResetPasswordPage() {
                             </p>
                             <Link
                                 href={`/${locale}`}
-                                className="inline-flex items-center justify-center w-full bg-orange-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-700 transition-all"
+                                className="inline-flex items-center justify-center w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all"
                             >
                                 {t.sign_in || 'Se connecter'}
                             </Link>
@@ -191,7 +191,7 @@ export default function ResetPasswordPage() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                     minLength={8}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     placeholder="••••••••"
                                 />
                                 <p className="mt-1 text-xs text-gray-500">
@@ -218,7 +218,7 @@ export default function ResetPasswordPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-orange-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-700 focus:ring-4 focus:ring-orange-200 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
+                                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all"
                             >
                                 {loading ? (t.processing || 'Traitement...') : (t.reset_password || 'Réinitialiser le mot de passe')}
                             </button>

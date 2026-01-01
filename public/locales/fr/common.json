@@ -408,7 +408,9 @@
     "token_expired": "Ce lien a expiré. Veuillez en demander un nouveau.",
     "account_created": "Compte créé avec succès !",
     "welcome_back": "Bienvenue !",
-    "session_expired": "Votre session a expiré. Veuillez vous reconnecter."
+    "session_expired": "Votre session a expiré. Veuillez vous reconnecter.",
+    "sign_in_with_google": "Continuer avec Google",
+    "or_continue_with": "Ou continuer avec"
   },
   "newsletter": {
     "title": "Newsletter",

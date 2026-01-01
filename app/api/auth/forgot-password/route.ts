@@ -41,7 +41,8 @@ export async function POST(request: NextRequest) {
     )
   } catch (error: any) {
     console.error('Password reset error:', error)
-    // Still return success for security
+    // Still return success for security, but log the error
+    console.error('Password reset silent error:', error);
     return NextResponse.json(
       { message: 'Si cet email existe, un lien de réinitialisation a été envoyé.', success: true },
       { status: 200 }

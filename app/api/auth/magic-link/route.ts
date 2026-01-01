@@ -44,8 +44,9 @@ export async function POST(request: NextRequest) {
         )
 
         if (!result.success) {
+            console.error('Magic Link Failed - Detail:', result.error);
             return NextResponse.json(
-                { error: result.error, success: false },
+                { error: result.error, success: false, debug: result.error },
                 { status: 400 }
             )
         }
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
             { status: 200 }
         )
     } catch (error: any) {
-        console.error('Magic link error:', error)
+        console.error('Magic link unhandled error:', error)
         return NextResponse.json(
             { error: error.message || 'Erreur lors de l\'envoi du lien magique', success: false },
             { status: 500 }

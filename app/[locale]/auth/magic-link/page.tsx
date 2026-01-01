@@ -44,7 +44,9 @@ export default function MagicLinkPage() {
             if (data.success) {
                 setSuccess(true)
             } else {
-                setError(data.error || translations.auth?.login_error)
+                const errorMessage = data.error || translations.auth?.login_error || 'Une erreur inconnue est survenue';
+                console.error("Magic Link API Error:", data); // Log full error data
+                setError(errorMessage)
             }
         } catch (err) {
             setError(translations.auth?.login_error || 'Une erreur est survenue')

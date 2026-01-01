@@ -44,8 +44,9 @@ export async function POST(request: NextRequest) {
         )
 
         if (!result.success) {
+            console.error('Change Email Failed - Detail:', result.error);
             return NextResponse.json(
-                { error: result.error, success: false },
+                { error: result.error, success: false, debug: result.error },
                 { status: 400 }
             )
         }

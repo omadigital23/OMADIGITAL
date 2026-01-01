@@ -74,7 +74,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION
-    }
+    },
+    icons: {
+      icon: [
+        { url: '/images/logo.webp', sizes: '32x32', type: 'image/webp' },
+        { url: '/images/logo.webp', sizes: '16x16', type: 'image/webp' },
+      ],
+      apple: [
+        { url: '/images/logo.webp', sizes: '180x180', type: 'image/webp' },
+      ],
+      shortcut: '/images/logo.webp',
+    },
+    manifest: '/manifest.json',
   }
 }
 

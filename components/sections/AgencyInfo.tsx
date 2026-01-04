@@ -16,7 +16,7 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
             {locale === 'fr' ? 'Agence Digitale Internationale' : 'International Digital Agency'}
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            {locale === 'fr' 
+            {locale === 'fr'
               ? 'Basée à Casablanca, OMA Digital accompagne les entreprises dans le monde entier dans leur transformation digitale avec des solutions sur mesure.'
               : 'Based in Casablanca, OMA Digital supports companies worldwide in their digital transformation with customized solutions.'
             }
@@ -32,9 +32,9 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
                 {locale === 'fr' ? 'Maroc - Siège Principal' : 'Morocco - Headquarters'}
               </h3>
             </div>
-            
+
             <p className="text-gray-600 mb-6">
-              {locale === 'fr' 
+              {locale === 'fr'
                 ? 'Notre siège principal à Casablanca dessert l\'ensemble du territoire marocain : Rabat, Marrakech, Fès, Tanger, Agadir et au-delà.'
                 : 'Our main headquarters in Casablanca serves the entire Moroccan territory: Rabat, Marrakech, Fès, Tangier, Agadir and beyond.'
               }
@@ -90,9 +90,9 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
                 {locale === 'fr' ? 'Présence Internationale' : 'International Presence'}
               </h3>
             </div>
-            
+
             <p className="text-gray-600 mb-6">
-              {locale === 'fr' 
+              {locale === 'fr'
                 ? 'Depuis notre siège à Casablanca, OMA Digital dessert une clientèle internationale : Afrique, Europe, Moyen-Orient, Amérique du Nord et au-delà.'
                 : 'From our headquarters in Casablanca, OMA Digital serves an international clientele: Africa, Europe, Middle East, North America and beyond.'
               }
@@ -130,7 +130,7 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
               <div className="flex items-center mb-2">
                 <span className="text-green-600 mr-2">🌐</span>
                 <span className="text-gray-700 font-medium">
-                  {locale === 'fr' 
+                  {locale === 'fr'
                     ? 'Services 100 % à distance pour tous les pays, tous les fuseaux horaires.'
                     : '100% remote services for all countries, all time zones.'
                   }
@@ -147,8 +147,8 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
         {/* Pourquoi choisir OMA Digital */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
-            {locale === 'fr' 
-              ? 'Pourquoi choisir OMA Digital pour vos projets internationaux ?' 
+            {locale === 'fr'
+              ? 'Pourquoi choisir OMA Digital pour vos projets internationaux ?'
               : 'Why choose OMA Digital for your international projects?'
             }
           </h3>
@@ -160,7 +160,7 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
                 {locale === 'fr' ? 'Expertise Internationale' : 'International Expertise'}
               </h4>
               <p className="text-gray-600">
-                {locale === 'fr' 
+                {locale === 'fr'
                   ? 'Connaissance approfondie des marchés mondiaux et des meilleures pratiques digitales'
                   : 'Deep knowledge of global markets and digital best practices'
                 }
@@ -173,7 +173,7 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
                 {locale === 'fr' ? 'Tarifs Compétitifs Mondiaux' : 'Competitive Global Rates'}
               </h4>
               <p className="text-gray-600">
-                {locale === 'fr' 
+                {locale === 'fr'
                   ? 'Tarifs adaptés aux budgets internationaux sans compromettre la qualité'
                   : 'Rates adapted to international budgets without compromising quality'
                 }
@@ -186,7 +186,7 @@ export default function AgencyInfo({ locale }: AgencyInfoProps) {
                 {locale === 'fr' ? 'Support 24/7 Multilingue' : '24/7 Multilingual Support'}
               </h4>
               <p className="text-gray-600">
-                {locale === 'fr' 
+                {locale === 'fr'
                   ? 'Accompagnement personnalisé en français, anglais et arabe, adapté à vos fuseaux horaires'
                   : 'Personalized support in French, English and Arabic, adapted to your time zones'
                 }

@@ -1,4 +1,4 @@
-{
+﻿{
   "mentions_legales": "Legal Notice",
   "last_updated": "Last updated: {{date}}",
   "editorial_identity": "Editorial Identity",
@@ -63,6 +63,6 @@
   "external_links": "Our site may contain links to external websites. OMA DIGITAL is not responsible for the content, privacy practices or policies of these third-party sites. We encourage you to read the terms of use and privacy policies of any site you visit.",
   "technical_issues": "While we strive to keep our site accessible at all times, OMA DIGITAL cannot be held responsible for temporary interruptions due to technical problems, maintenance or circumstances beyond our control.",
   "applicable_law": "Applicable Law",
-  "senegalese_law": "These legal notices are governed by Senegalese law. Any dispute relating to the use of this site shall be subject to the exclusive jurisdiction of the courts of Dakar, Senegal.",
+  "senegalese_law": "These legal notices are governed by Senegalese law. Any dispute relating to the use of this site shall be subject to the exclusive jurisdiction of the courts of Casablanca, Morocco.",
   "dispute_resolution": "In case of dispute, we encourage an amicable resolution before any legal action. For any questions or complaints, please contact us at legal@omadigital.net."
 }

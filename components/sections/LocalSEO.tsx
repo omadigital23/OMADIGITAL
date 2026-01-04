@@ -9,8 +9,8 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {locale === 'fr' 
-              ? 'Présence Locale & Services Régionaux' 
+            {locale === 'fr'
+              ? 'Présence Locale & Services Régionaux'
               : 'Local Presence & Regional Services'
             }
           </h2>
@@ -31,7 +31,7 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                 {locale === 'fr' ? 'Maroc - Casablanca' : 'Morocco - Casablanca'}
               </h3>
             </div>
-            
+
             <div className="space-y-4 text-gray-600">
               <p>
                 {locale === 'fr'
@@ -39,7 +39,7 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                   : 'Our main headquarters in Casablanca serves the entire Moroccan territory: Rabat, Marrakech, Fes, Tangier, Agadir and beyond.'
                 }
               </p>
-              
+
               <div className="space-y-2">
                 <p><strong>{locale === 'fr' ? 'Services les plus demandés au Maroc :' : 'Most requested services in Morocco:'}</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
@@ -68,7 +68,7 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                 {locale === 'fr' ? 'Sénégal - Dakar' : 'Senegal - Dakar'}
               </h3>
             </div>
-            
+
             <div className="space-y-4 text-gray-600">
               <p>
                 {locale === 'fr'
@@ -76,7 +76,7 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                   : 'From our headquarters in Casablanca (Morocco), OMA Digital supports Senegalese companies in their digital transformation.'
                 }
               </p>
-              
+
               <div className="space-y-2">
                 <p><strong>{locale === 'fr' ? 'Services disponibles au Sénégal :' : 'Services available in Senegal:'}</strong></p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
@@ -101,8 +101,8 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
         <div className="text-center mt-12">
           <div className="bg-white rounded-xl p-8 shadow-lg max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              {locale === 'fr' 
-                ? 'Pourquoi choisir OMA Digital au Maroc et Sénégal ?' 
+              {locale === 'fr'
+                ? 'Pourquoi choisir OMA Digital au Maroc et Sénégal ?'
                 : 'Why choose OMA Digital in Morocco and Senegal?'
               }
             </h3>

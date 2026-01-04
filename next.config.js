@@ -47,6 +47,31 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=31536000; includeSubDomains; preload',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              // Scripts: self + Google Analytics + Sentry + inline (for Next.js)
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://browser.sentry-cdn.com",
+              // Styles: self + inline (for Tailwind CSS)
+              "style-src 'self' 'unsafe-inline'",
+              // Images: self + data URIs + HTTPS
+              "img-src 'self' data: https: blob:",
+              // Fonts: self + data URIs
+              "font-src 'self' data:",
+              // Connections: self + Supabase + Google Analytics + Sentry
+              "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://sentry.io https://*.sentry.io",
+              // Frames: none (clickjacking protection)
+              "frame-ancestors 'none'",
+              // Objects: none (protection against Flash, etc.)
+              "object-src 'none'",
+              // Base URI: self only
+              "base-uri 'self'",
+              // Form actions: self only
+              "form-action 'self'",
+              // Upgrade insecure requests
+              "upgrade-insecure-requests"
+            ].join('; ')
+          }
         ],
       },
     ]

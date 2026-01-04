@@ -16,10 +16,9 @@ export default function Footer({ locale }: FooterProps) {
           <div>
             <h3 className="text-2xl font-bold mb-4">OMA Digital</h3>
             <p className="text-gray-300 mb-4">
-              {locale === 'fr' 
+              {locale === 'fr'
                 ? 'Agence digitale internationale basée à Casablanca (Maroc). Nous accompagnons les entreprises dans le monde entier - Afrique, Europe, Moyen-Orient, Amérique du Nord et au-delà - avec des solutions web, mobiles et marketing digital sur mesure, combinant expertise locale et vision globale.'
-                : 'International digital agency headquartered in Casablanca (Morocco). We support companies worldwide - Africa, Europe, Middle East, North America and beyond - with custom web, mobile and digital marketing solutions, combining local expertise with global vision.'
-              }
+                : 'International digital agency based in Casablanca (Morocco). We support companies worldwide - Africa, Europe, Middle East, North America and beyond - with tailor-made web, mobile and digital marketing solutions, combining local expertise and global vision.'}
             </p>
             <div className="space-y-2 text-gray-300">
               <p>📍 Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc</p>

@@ -12,7 +12,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
       slug: 'site-vitrine-moderne',
       categorySlug: 'developpement-web',
       title: locale === 'fr' ? 'Site Vitrine Moderne : La Vitrine Digitale de Votre Entreprise' : 'Modern Showcase Website: Your Professional Digital Presence',
-      excerpt: locale === 'fr' 
+      excerpt: locale === 'fr'
         ? 'Découvrez comment un site vitrine moderne peut transformer votre présence digitale et générer plus de clients pour seulement 5 000 DH.'
         : 'Discover how a modern showcase website can transform your digital presence and generate more clients for only 5,000 DH.',
       readTime: '12 min',
@@ -57,14 +57,14 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
             {locale === 'fr' ? 'Actualités & Conseils' : 'News & Tips'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {locale === 'fr' 
+            {locale === 'fr'
               ? 'Découvrez nos derniers articles sur les technologies et tendances digitales'
               : 'Discover our latest articles on digital technologies and trends'
             }
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
           {articles.map((article) => (
             <article key={article.id} className="blog-card bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
               <div className="relative h-48 bg-gradient-to-br from-blue-600 to-purple-700">
@@ -81,22 +81,22 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center text-sm text-gray-500 mb-3">
                   <span>{article.publishedAt}</span>
                   <span className="mx-2">•</span>
                   <span>{article.readTime}</span>
                 </div>
-                
+
                 <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
                   {article.title}
                 </h3>
-                
+
                 <p className="text-gray-600 mb-4 line-clamp-3">
                   {article.excerpt}
                 </p>
-                
+
                 <Link
                   href={`/${locale}/blog/${article.categorySlug}/${article.slug}`}
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"

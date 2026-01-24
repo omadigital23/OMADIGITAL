@@ -12,9 +12,9 @@ interface ServiceSlide {
 type VideoSlide =
   | string
   | {
-      webm?: string
-      poster?: string
-    }
+    webm?: string
+    poster?: string
+  }
 
 interface HeroClientProps {
   servicesData: ServiceSlide[]
@@ -57,15 +57,15 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     v.setAttribute('webkit-playsinline', '')
     v.setAttribute('muted', '')
     v.setAttribute('autoplay', '')
-    
+
     // Mobile-specific autoplay handling
     const handleUserInteraction = () => {
       const video = videoRef.current
       if (video && video.paused) {
-        video.play().catch(() => {})
+        video.play().catch(() => { })
       }
     }
-    
+
     // Try to play immediately
     const tryPlay = async () => {
       try {
@@ -76,18 +76,18 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
         document.addEventListener('click', handleUserInteraction, { once: true })
       }
     }
-    
+
     // Add visibility change handling for mobile
     const handleVisibilityChange = () => {
       if (!document.hidden && v.paused) {
-        v.play().catch(() => {})
+        v.play().catch(() => { })
       }
     }
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange)
-    
+
     tryPlay()
-    
+
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       document.removeEventListener('touchstart', handleUserInteraction)
@@ -110,10 +110,10 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
   })()
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 relative overflow-hidden">
-      <div className="container mx-auto px-4 h-screen flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
-          
+    <section className="bg-gradient-to-br from-blue-600 to-purple-700 relative overflow-hidden">
+      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20 min-h-screen flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center w-full">
+
           {/* Left Side - Services Slider */}
           <div className="text-white space-y-8">
             <div className="space-y-4">
@@ -123,9 +123,9 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                   {locale === 'fr' ? 'Présence Digitale' : 'Digital Presence'}
                 </span>
               </h1>
-              
+
               <p className="text-base sm:text-lg lg:text-xl text-blue-100 max-w-lg">
-                {locale === 'fr' 
+                {locale === 'fr'
                   ? 'Agence digitale experte au Maroc & Sénégal. Solutions web, mobile et marketing sur mesure.'
                   : 'Expert digital agency in Morocco & Senegal. Custom web, mobile and marketing solutions.'
                 }
@@ -152,18 +152,17 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                   </p>
                 </div>
               </div>
-              
+
               {/* Service Slide Indicators */}
               <div className="flex space-x-2 mt-4">
                 {servicesData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentServiceSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentServiceSlide 
-                        ? 'bg-yellow-400 w-8' 
+                    className={`w-2 h-2 rounded-full transition-all ${index === currentServiceSlide
+                        ? 'bg-yellow-400 w-8'
                         : 'bg-white/30 hover:bg-white/50'
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -190,56 +189,56 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
           <div className="relative order-first lg:order-last" suppressHydrationWarning>
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               {mounted ? (
-              <video
-                key={typeof currentVideo === 'string' ? currentVideo : `${currentVideo.webm || ''}`}
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                x-webkit-airplay="allow"
-                webkit-playsinline="true"
-                controls={false}
-                preload="metadata"
-                disablePictureInPicture
-                poster={currentPoster}
-                className="w-full h-full object-cover"
-                onLoadedData={() => {
-                  const v = videoRef.current
-                  if (!v) return
-                  v.muted = true
-                  v.defaultMuted = true
-                  v.play().catch(() => {})
-                }}
-                onCanPlay={() => {
-                  const v = videoRef.current
-                  if (!v) return
-                  v.play().catch(() => {})
-                }}
-                onError={() => {
-                  // Retry autoplay on error
-                  setTimeout(() => {
+                <video
+                  key={typeof currentVideo === 'string' ? currentVideo : `${currentVideo.webm || ''}`}
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  x-webkit-airplay="allow"
+                  webkit-playsinline="true"
+                  controls={false}
+                  preload="metadata"
+                  disablePictureInPicture
+                  poster={currentPoster}
+                  className="w-full h-full object-cover"
+                  onLoadedData={() => {
                     const v = videoRef.current
-                    if (v && v.paused) {
-                      v.play().catch(() => {})
-                    }
-                  }, 1000)
-                }}
-              >
-                {srcs.map((s) => (
-                  <source key={`${s.type}-${s.src}`} src={s.src} type={s.type} />
-                ))}
-                {locale === 'fr' 
-                  ? 'Votre navigateur ne supporte pas la vidéo.'
-                  : 'Your browser does not support video.'
-                }
-              </video>
+                    if (!v) return
+                    v.muted = true
+                    v.defaultMuted = true
+                    v.play().catch(() => { })
+                  }}
+                  onCanPlay={() => {
+                    const v = videoRef.current
+                    if (!v) return
+                    v.play().catch(() => { })
+                  }}
+                  onError={() => {
+                    // Retry autoplay on error
+                    setTimeout(() => {
+                      const v = videoRef.current
+                      if (v && v.paused) {
+                        v.play().catch(() => { })
+                      }
+                    }, 1000)
+                  }}
+                >
+                  {srcs.map((s) => (
+                    <source key={`${s.type}-${s.src}`} src={s.src} type={s.type} />
+                  ))}
+                  {locale === 'fr'
+                    ? 'Votre navigateur ne supporte pas la vidéo.'
+                    : 'Your browser does not support video.'
+                  }
+                </video>
               ) : (
                 <div className="w-full h-full bg-black/10" />
               )}
-              
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              
+
               {/* Left Arrow */}
               <button
                 onClick={() => setCurrentVideoSlide((prev) => (prev - 1 + videosData.length) % videosData.length)}
@@ -250,7 +249,7 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              
+
               {/* Right Arrow */}
               <button
                 onClick={() => setCurrentVideoSlide((prev) => (prev + 1) % videosData.length)}
@@ -262,18 +261,17 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                 </svg>
               </button>
             </div>
-            
+
             {/* Video Slide Indicators */}
             <div className="flex justify-center space-x-3 mt-6">
               {videosData.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentVideoSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    index === currentVideoSlide 
-                      ? 'bg-yellow-400 scale-125' 
+                  className={`w-3 h-3 rounded-full transition-all ${index === currentVideoSlide
+                      ? 'bg-yellow-400 scale-125'
                       : 'bg-white/50 hover:bg-white/70'
-                  }`}
+                    }`}
                 />
               ))}
             </div>

@@ -62,7 +62,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
               {locale === 'fr' ? 'Pourquoi Choisir OMA Digital ?' : 'Why Choose OMA Digital?'}
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {[
               { icon: '⚡', title: locale === 'fr' ? 'Rapide & Efficace' : 'Fast & Efficient', desc: locale === 'fr' ? 'Délais respectés, qualité garantie' : 'Respected deadlines, guaranteed quality' },
               { icon: '💰', title: locale === 'fr' ? 'Tarifs Compétitifs' : 'Competitive Pricing', desc: locale === 'fr' ? 'Meilleur rapport qualité-prix' : 'Best value for money' },

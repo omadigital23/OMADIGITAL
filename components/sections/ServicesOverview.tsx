@@ -38,14 +38,14 @@ export default function ServicesOverview({ locale }: ServicesOverviewProps) {
             {locale === 'fr' ? 'Nos Services Phares' : 'Our Featured Services'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {locale === 'fr' 
+            {locale === 'fr'
               ? 'Solutions digitales sur mesure pour transformer votre présence en ligne'
               : 'Custom digital solutions to transform your online presence'
             }
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
           {featuredServices.map((service) => (
             <div key={service.id} className="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
               <div className="text-4xl mb-4">{service.icon}</div>

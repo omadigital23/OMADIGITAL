@@ -106,7 +106,7 @@ export default function LocalSEO({ locale }: LocalSEOProps) {
                 : 'Why choose OMA Digital in Morocco and Senegal?'
               }
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left">
               <div>
                 <div className="text-2xl mb-2">🏆</div>
                 <h4 className="font-semibold mb-2">

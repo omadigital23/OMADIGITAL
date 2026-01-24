@@ -77,14 +77,14 @@ export default function Header({ locale }: HeaderProps) {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium transition-colors hover:text-blue-600 ${pathname === item.href
-                    ? 'text-blue-600'
-                    : 'text-gray-700'
+                  ? 'text-blue-600'
+                  : 'text-gray-700'
                   }`}
               >
                 {item.label}
@@ -123,7 +123,7 @@ export default function Header({ locale }: HeaderProps) {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span className="hidden md:inline text-sm font-medium">
+                  <span className="hidden lg:inline text-sm font-medium">
                     {profile?.firstName || user.email?.split('@')[0] || 'User'}
                   </span>
                 </button>
@@ -199,8 +199,8 @@ export default function Header({ locale }: HeaderProps) {
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${pathname === item.href
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                    ? 'text-blue-600 bg-blue-50'
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                     }`}
                 >
                   {item.label}

@@ -100,7 +100,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xl max-w-md md:max-w-lg w-full overflow-hidden">
         {/* En-tête */}
         <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700">
           <h2 className="text-2xl font-bold text-white">

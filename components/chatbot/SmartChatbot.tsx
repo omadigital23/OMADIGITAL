@@ -145,7 +145,7 @@ export default function SmartChatbot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col">
+        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-full max-w-sm md:w-96 h-[85vh] max-h-[500px] md:h-[500px] bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col mx-4 md:mx-0">
           {/* Header */}
           <div className="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
             <div>

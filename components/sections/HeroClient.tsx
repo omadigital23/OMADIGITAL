@@ -51,47 +51,92 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
+
+    // Force muted for autoplay (required on mobile)
     v.muted = true
     v.defaultMuted = true
-    v.setAttribute('playsinline', '')
-    v.setAttribute('webkit-playsinline', '')
-    v.setAttribute('muted', '')
-    v.setAttribute('autoplay', '')
+    v.volume = 0
+    v.setAttribute('playsinline', 'true')
+    v.setAttribute('webkit-playsinline', 'true')
+    v.setAttribute('muted', 'true')
+    v.setAttribute('autoplay', 'true')
 
-    // Mobile-specific autoplay handling
-    const handleUserInteraction = () => {
-      const video = videoRef.current
-      if (video && video.paused) {
-        video.play().catch(() => { })
-      }
-    }
+    let playAttempts = 0
+    const maxAttempts = 5
+    let retryTimer: NodeJS.Timeout
 
-    // Try to play immediately
+    // Aggressive play retry for mobile
     const tryPlay = async () => {
+      if (!v || playAttempts >= maxAttempts) return
+
+      playAttempts++
       try {
-        await v.play()
-      } catch (_) {
-        // If autoplay fails, wait for user interaction
-        document.addEventListener('touchstart', handleUserInteraction, { once: true })
-        document.addEventListener('click', handleUserInteraction, { once: true })
+        // Ensure video is ready
+        if (v.readyState >= 2) {
+          await v.play()
+        } else {
+          // Wait for video to be ready
+          v.addEventListener('loadeddata', () => {
+            v.play().catch(() => { })
+          }, { once: true })
+        }
+      } catch (err) {
+        // Retry after a short delay
+        if (playAttempts < maxAttempts) {
+          retryTimer = setTimeout(tryPlay, 500)
+        }
       }
     }
 
-    // Add visibility change handling for mobile
-    const handleVisibilityChange = () => {
-      if (!document.hidden && v.paused) {
+    // Handle user interaction to start video
+    const handleUserInteraction = () => {
+      if (v && v.paused) {
+        playAttempts = 0 // Reset attempts on user interaction
         v.play().catch(() => { })
       }
     }
 
-    document.addEventListener('visibilitychange', handleVisibilityChange)
+    // Handle visibility change for mobile browsers
+    const handleVisibilityChange = () => {
+      if (!document.hidden && v && v.paused) {
+        playAttempts = 0
+        tryPlay()
+      }
+    }
 
-    tryPlay()
+    // Handle when video comes into viewport (Intersection Observer)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && v && v.paused) {
+            playAttempts = 0
+            tryPlay()
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
+
+    observer.observe(v)
+
+    // Add event listeners
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    document.addEventListener('touchstart', handleUserInteraction, { once: true, passive: true })
+    document.addEventListener('click', handleUserInteraction, { once: true })
+    v.addEventListener('loadedmetadata', tryPlay, { once: true })
+
+    // Initial play attempt
+    if (v.readyState >= 2) {
+      tryPlay()
+    }
 
     return () => {
+      clearTimeout(retryTimer)
+      observer.disconnect()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       document.removeEventListener('touchstart', handleUserInteraction)
       document.removeEventListener('click', handleUserInteraction)
+      v.removeEventListener('loadedmetadata', tryPlay)
     }
   }, [currentVideoSlide])
 
@@ -160,8 +205,8 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                     key={index}
                     onClick={() => setCurrentServiceSlide(index)}
                     className={`w-2 h-2 rounded-full transition-all ${index === currentServiceSlide
-                        ? 'bg-yellow-400 w-8'
-                        : 'bg-white/30 hover:bg-white/50'
+                      ? 'bg-yellow-400 w-8'
+                      : 'bg-white/30 hover:bg-white/50'
                       }`}
                   />
                 ))}
@@ -269,8 +314,8 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
                   key={index}
                   onClick={() => setCurrentVideoSlide(index)}
                   className={`w-3 h-3 rounded-full transition-all ${index === currentVideoSlide
-                      ? 'bg-yellow-400 scale-125'
-                      : 'bg-white/50 hover:bg-white/70'
+                    ? 'bg-yellow-400 scale-125'
+                    : 'bg-white/50 hover:bg-white/70'
                     }`}
                 />
               ))}

@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.'
       : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.',
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}`,
+      canonical: `https://www.omadigital.net/${locale}`,
       languages: {
-        'fr-MA': `${process.env.NEXT_PUBLIC_DOMAIN}/fr`,
-        'en': `${process.env.NEXT_PUBLIC_DOMAIN}/en`,
-        'x-default': `${process.env.NEXT_PUBLIC_DOMAIN}/fr`
+        'fr-MA': 'https://www.omadigital.net/fr',
+        'en': 'https://www.omadigital.net/en',
+        'x-default': 'https://www.omadigital.net/fr'
       }
     }
   }

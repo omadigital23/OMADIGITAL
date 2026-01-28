@@ -2,7 +2,8 @@ import { MetadataRoute } from 'next'
 import { getAllArticles } from '../lib/articles'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
+  // Always use www.omadigital.net as canonical base URL
+  const baseUrl = 'https://www.omadigital.net'
 
   const routes = [
     '',

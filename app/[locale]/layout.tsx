@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
         : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal'
     },
-    metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'),
+    metadataBase: new URL('https://www.omadigital.net'),
     description: locale === 'fr'
       ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.'
       : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.',
@@ -29,17 +29,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     creator: 'OMA Digital',
     publisher: 'OMA Digital',
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}`,
+      canonical: `https://www.omadigital.net/${locale}`,
       languages: {
-        'fr-MA': `${process.env.NEXT_PUBLIC_DOMAIN}/fr`,
-        'en': `${process.env.NEXT_PUBLIC_DOMAIN}/en`,
-        'x-default': `${process.env.NEXT_PUBLIC_DOMAIN}/fr`
+        'fr-MA': 'https://www.omadigital.net/fr',
+        'en': 'https://www.omadigital.net/en',
+        'x-default': 'https://www.omadigital.net/fr'
       }
     },
     openGraph: {
       type: 'website',
       locale: locale === 'fr' ? 'fr_MA' : 'en_US',
-      url: `${process.env.NEXT_PUBLIC_DOMAIN}/${locale}`,
+      url: `https://www.omadigital.net/${locale}`,
       siteName: 'OMA Digital',
       title: locale === 'fr'
         ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal.',
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/logo.webp`,
+          url: 'https://www.omadigital.net/images/logo.webp',
           width: 1200,
           height: 630,
           alt: 'OMA Digital'

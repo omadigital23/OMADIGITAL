@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getArticle } from '../../../../../lib/articles'
+import { getArticle, getAllArticles } from '../../../../../lib/articles'
 
 interface BlogPostProps {
   params: Promise<{
@@ -10,23 +10,33 @@ interface BlogPostProps {
   }>
 }
 
+// Pre-generate all blog article pages at build time for better SEO indexation
+export async function generateStaticParams() {
+  const articles = getAllArticles()
+  return articles.map((article) => ({
+    locale: article.locale,
+    category: article.category,
+    slug: article.slug,
+  }))
+}
+
 export async function generateMetadata({ params }: BlogPostProps): Promise<Metadata> {
   const { locale, category, slug } = await params
   const article = getArticle(category, slug, locale)
 
   if (!article) return { title: 'Article not found' }
 
-  const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
-  const url = `${domain}/${locale}/blog/${category}/${slug}`
+  const baseUrl = 'https://www.omadigital.net'
+  const url = `${baseUrl}/${locale}/blog/${category}/${slug}`
   return {
     title: article.title,
     description: article.excerpt,
     alternates: {
       canonical: url,
       languages: {
-        fr: `${domain}/fr/blog/${category}/${slug}`,
-        en: `${domain}/en/blog/${category}/${slug}`,
-        'x-default': `${domain}/fr/blog/${category}/${slug}`,
+        fr: `${baseUrl}/fr/blog/${category}/${slug}`,
+        en: `${baseUrl}/en/blog/${category}/${slug}`,
+        'x-default': `${baseUrl}/fr/blog/${category}/${slug}`,
       },
     },
   }

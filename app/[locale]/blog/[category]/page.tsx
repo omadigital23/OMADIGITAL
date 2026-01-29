@@ -6,6 +6,20 @@ interface CategoryPageProps {
   params: Promise<{ locale: string; category: string }>
 }
 
+// Pre-generate all category pages at build time for better SEO indexation
+export async function generateStaticParams() {
+  const articles = getAllArticles()
+  const locales = ['fr', 'en']
+  const categories = [...new Set(articles.map((a) => a.category))]
+
+  return locales.flatMap((locale) =>
+    categories.map((category) => ({
+      locale,
+      category,
+    }))
+  )
+}
+
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { locale, category } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'

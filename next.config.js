@@ -5,6 +5,9 @@ const nextConfig = {
   // Désactiver les avertissements React 19 pendant la transition
   reactStrictMode: true,
 
+  // Normalize URLs without trailing slashes for SEO consistency
+  trailingSlash: false,
+
   // Redirects removed - middleware.ts handles locale detection without HTTP redirects
   // This prevents double redirections that block Google indexation
   async rewrites() {

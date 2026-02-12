@@ -31,7 +31,7 @@ export default function OrdersPage() {
   useEffect(() => {
     const loadOrders = async () => {
       try {
-        console.log('Chargement des commandes pour user:', user?.id)
+
 
         if (!user) {
           setError(translations.checkout?.required_field || 'Vous devez être connecté')
@@ -48,7 +48,7 @@ export default function OrdersPage() {
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
 
-        console.log('Commandes chargées:', data)
+
 
         if (fetchError) {
           console.error('Erreur fetch:', fetchError)

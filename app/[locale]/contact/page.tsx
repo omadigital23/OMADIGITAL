@@ -69,9 +69,9 @@ export default async function ContactPage({ params }: ContactPageProps) {
                     {locale === 'fr' ? 'Adresse' : 'Address'}
                   </h3>
                   <p className="text-gray-600">
-                    Moustakbal/Sidimaarouf Casablanca<br />
-                    imm167 Lot GH20 apt 15<br />
-                    Maroc
+                    Liberté 6<br />
+                    Dakar<br />
+                    Sénégal
                   </p>
                 </div>
 
@@ -79,13 +79,12 @@ export default async function ContactPage({ params }: ContactPageProps) {
                   <h3 className="text-xl font-bold mb-4">
                     {locale === 'fr' ? 'Téléphone' : 'Phone'}
                   </h3>
-                  <p className="text-gray-600">+212 701 193 811</p>
+                  <p className="text-gray-600">+212 701 193 811 | +221 77 143 01 37</p>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">Email</h3>
-                  <p className="text-gray-600">omadigital23@gmail.com</p>
-                  <p className="text-gray-600">amadou@omadigital.net</p>
+                  <p className="text-gray-600">omasenegal25@gmail.com</p>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-lg p-6">

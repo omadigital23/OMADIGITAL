@@ -66,8 +66,6 @@ ${body.shippingAddress.country}
     if (!response.ok) {
       console.error('Erreur CallMeBot:', await response.text())
       // Ne pas bloquer si WhatsApp échoue
-    } else {
-      console.log('Notification WhatsApp envoyée avec succès')
     }
 
     // Envoyer email de confirmation via Supabase
@@ -111,8 +109,6 @@ OMA Digital
       if (emailError) {
         console.error('Erreur envoi email:', emailError)
         // Ne pas bloquer si l'email échoue
-      } else {
-        console.log('Email de confirmation envoyé')
       }
     } catch (emailError) {
       console.error('Erreur lors de l\'envoi de l\'email:', emailError)

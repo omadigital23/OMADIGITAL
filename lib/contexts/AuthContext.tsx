@@ -174,10 +174,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithGoogle = async () => {
     try {
+      // Detect current locale from URL path (e.g., /fr/... or /en/...)
+      const pathLocale = window.location.pathname.split('/')[1]
+      const locale = ['fr', 'en'].includes(pathLocale) ? pathLocale : 'fr'
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/fr/auth/callback`,
+          redirectTo: `${window.location.origin}/${locale}/auth/callback`,
         },
       })
       if (error) throw error

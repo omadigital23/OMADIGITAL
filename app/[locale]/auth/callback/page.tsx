@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '../../../../lib/supabase/client'
 
 export default function AuthCallbackPage() {
     const router = useRouter()
+    const params = useParams()
+    const locale = (params.locale as string) || 'fr'
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
 
@@ -23,7 +25,6 @@ export default function AuthCallbackPage() {
                 }
 
                 if (session?.user) {
-                    console.log('OAuth callback: User authenticated', session.user.id)
 
                     // Vérifier si le profil utilisateur existe, sinon le créer
                     const { data: existingProfile } = await supabase
@@ -44,16 +45,15 @@ export default function AuthCallbackPage() {
                             firstname: nameParts[0] || '',
                             lastname: nameParts.slice(1).join(' ') || '',
                         })
-                        console.log('OAuth callback: User profile created')
                     }
 
                     // Rediriger vers la page d'accueil
-                    router.push('/fr')
+                    router.push(`/${locale}`)
                 } else {
                     // Pas de session, attendre que Supabase traite le hash
                     // Le listener onAuthStateChange dans AuthContext va gérer ça
                     setTimeout(() => {
-                        router.push('/fr')
+                        router.push(`/${locale}`)
                     }, 1000)
                 }
             } catch (err: any) {
@@ -76,7 +76,7 @@ export default function AuthCallbackPage() {
                     </h1>
                     <p className="text-gray-600 mb-6">{error}</p>
                     <button
-                        onClick={() => router.push('/fr')}
+                        onClick={() => router.push(`/${locale}`)}
                         className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold"
                     >
                         Retour à l'accueil

@@ -22,7 +22,6 @@ export default function CheckoutPage() {
 
   // Synchroniser les items du panier
   useEffect(() => {
-    console.log('CartItems from context:', cartItems)
     setItems(cartItems)
   }, [cartItems])
 
@@ -89,22 +88,15 @@ export default function CheckoutPage() {
     setError('')
 
     try {
-      console.log('=== DÉBUT VALIDATION FORMULAIRE ===')
-      console.log('FormData:', formData)
-      console.log('User:', user)
-      console.log('Items:', items)
-      console.log('Items length:', items.length)
-      console.log('User exists:', !!user)
+
 
       if (!user) {
-        console.error('❌ User not found')
         setError(translations.checkout?.required_field || 'Vous devez être connecté')
         setLoading(false)
         return
       }
 
       if (items.length === 0) {
-        console.error('❌ Cart is empty')
         setError(translations.cart?.empty || 'Votre panier est vide')
         setLoading(false)
         return
@@ -122,18 +114,16 @@ export default function CheckoutPage() {
         { value: formData.country.trim(), name: 'country' },
       ]
 
-      console.log('Validation des champs:', requiredFields)
-      console.log('Champs avec valeurs:', requiredFields.map(f => ({ name: f.name, value: f.value, isEmpty: !f.value || f.value.length === 0 })))
+
 
       const emptyField = requiredFields.find((field) => !field.value || field.value.length === 0)
       if (emptyField) {
-        console.error('❌ Champ vide trouvé:', emptyField)
         setError(`${emptyField.name} est obligatoire`)
         setLoading(false)
         return
       }
 
-      console.log('✅ Tous les champs sont valides')
+
 
       // Valider l'email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -152,49 +142,36 @@ export default function CheckoutPage() {
       }
 
       // Nettoyer les items pour l'envoi
-      console.log('Items avant nettoyage:', items)
 
-      const cleanedItems = items.map((item) => {
-        console.log('Item à nettoyer:', item)
-        return {
-          serviceId: item.serviceId || item.service_id,
-          title: item.title,
-          price: parseFloat(item.price),
-          quantity: parseInt(item.quantity),
-          id: item.id,
-        }
-      })
+      const cleanedItems = items.map((item) => ({
+        serviceId: item.serviceId || item.service_id,
+        title: item.title,
+        price: parseFloat(item.price),
+        quantity: parseInt(item.quantity),
+        id: item.id,
+      }))
 
-      console.log('Items nettoyés:', cleanedItems)
-      console.log('FormData:', formData)
-      console.log('Total:', total)
+
 
       // Récupérer le token de session
-      console.log('Récupération du token de session...')
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-      console.log('Session:', session)
-      console.log('Session error:', sessionError)
+      const { data: { session } } = await supabase.auth.getSession()
 
       let token = session?.access_token
 
       // Si pas de token dans la session, essayer de se reconnecter automatiquement
       if (!token) {
-        console.log('⚠️ Token not found in session, trying to refresh...')
-        const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession()
-        console.log('Refreshed session:', refreshedSession)
-        console.log('Refresh error:', refreshError)
+        const { data: { session: refreshedSession } } = await supabase.auth.refreshSession()
 
         token = refreshedSession?.access_token
 
         if (!token) {
-          console.error('❌ Token still not found after refresh')
           setError('Session expirée, veuillez vous reconnecter')
           setLoading(false)
           return
         }
       }
 
-      console.log('✅ Token trouvé:', token.substring(0, 20) + '...')
+
 
       const orderData = {
         items: cleanedItems,
@@ -211,7 +188,7 @@ export default function CheckoutPage() {
         },
       }
 
-      console.log('Données envoyées:', orderData)
+
 
       // Créer la commande
       const response = await fetch('/api/orders', {
@@ -231,7 +208,7 @@ export default function CheckoutPage() {
         if (data.details) {
           errorMessage += ': ' + JSON.stringify(data.details)
         }
-        console.error('Erreur commande:', errorMessage, data)
+
         setError(errorMessage)
         return
       }

@@ -20,7 +20,7 @@ export async function createOrder(
   supabaseClient?: SupabaseClient
 ) {
   try {
-    console.log('Création commande:', { userId, items, total, shippingInfo })
+
 
     // Utiliser le client fourni ou le client par défaut
     const client = supabaseClient || supabase
@@ -57,7 +57,7 @@ export async function createOrder(
       throw orderError
     }
 
-    console.log('Commande créée:', orderData)
+
 
     // Créer les articles de la commande dans order_items
     if (items && items.length > 0) {

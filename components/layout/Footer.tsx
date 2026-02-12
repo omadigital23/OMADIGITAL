@@ -21,10 +21,9 @@ export default function Footer({ locale }: FooterProps) {
                 : 'International digital agency based in Casablanca (Morocco). We support companies worldwide - Africa, Europe, Middle East, North America and beyond - with tailor-made web, mobile and digital marketing solutions, combining local expertise and global vision.'}
             </p>
             <div className="space-y-2 text-gray-300">
-              <p>📍 Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc</p>
-              <p>📞 +212 701 193 811 (International)</p>
-              <p>✉️ omadigital23@gmail.com</p>
-              <p>✉️ amadou@omadigital.net</p>
+              <p>📍 Liberté 6, Dakar, Sénégal</p>
+              <p>📞 +212 701 193 811 (International) | +221 77 143 01 37 (Sénégal)</p>
+              <p>✉️ omasenegal25@gmail.com</p>
             </div>
           </div>
 

@@ -99,7 +99,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const saveCart = async () => {
       try {
         if (user && cartLoaded) {
-          console.log('Sauvegarde du panier dans Supabase pour user:', user.id)
+
           // Sauvegarder dans Supabase
           // D'abord, supprimer les anciens articles
           await supabase.from('cart_items').delete().eq('user_id', user.id)
@@ -115,13 +115,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }))
 
             await (supabase.from('cart_items').insert(cartItems) as any)
-            console.log('Panier sauvegardé dans Supabase:', items.length, 'items')
+
           }
           return
         }
 
         // Fallback à localStorage
-        console.log('Sauvegarde du panier dans localStorage:', items.length, 'items')
+
         localStorage.setItem('cart', JSON.stringify(items))
       } catch (error) {
         console.error('Erreur lors de la sauvegarde du panier:', error)

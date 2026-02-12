@@ -32,7 +32,6 @@ const supabaseAdmin = getSupabaseAdmin()
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    console.log('Body reçu:', body)
 
     // Valider les données avec Zod
     let items, total, shippingInfo
@@ -41,8 +40,7 @@ export async function POST(request: NextRequest) {
       items = validatedData.items
       total = validatedData.total
       shippingInfo = validatedData.shippingInfo
-      console.log('Données validées:', { items, total, shippingInfo })
-      console.log('Items détail:', items.map(i => ({ serviceId: i.serviceId, title: i.title })))
+
     } catch (zodError: any) {
       console.error('Erreur Zod:', zodError.errors)
       return NextResponse.json(

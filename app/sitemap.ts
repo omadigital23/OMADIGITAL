@@ -67,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
           url: `${baseUrl}/${locale}/blog/${article.category}/${article.slug}`,
           lastModified: new Date(),
           changeFrequency: 'monthly',
-          priority: 0.6,
+          priority: 0.8,
           alternates: {
             languages: {
               fr: `${baseUrl}/fr/blog/${article.category}/${article.slug}`,

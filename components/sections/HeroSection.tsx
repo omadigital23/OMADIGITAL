@@ -12,7 +12,7 @@ interface ServiceSlide {
   image_path: string
 }
 
-type VideoSlide = string | { webm?: string; poster?: string }
+type VideoSlide = string | { webm?: string; mp4?: string; poster?: string }
 
 interface HeroData {
   services_slider: ServiceSlide[]
@@ -24,21 +24,11 @@ function getHeroData(locale: string): HeroData {
     const filePath = path.join(process.cwd(), 'public', 'locales', locale, 'common.json')
     const fileContent = fs.readFileSync(filePath, 'utf8')
     const data = JSON.parse(fileContent)
-    
-    const rawVideos: VideoSlide[] = data?.hero?.video_slider || []
-    const normalizedVideos: VideoSlide[] = rawVideos.map((v: VideoSlide) => {
-      if (typeof v === 'string') {
-        return v.toLowerCase().endsWith('.mp4') ? v.replace(/\.mp4$/i, '.webm') : v
-      }
-      if (v?.webm) {
-        return { webm: v.webm, poster: v.poster }
-      }
-      return v
-    })
 
+    const rawVideos: VideoSlide[] = data?.hero?.video_slider || []
     return {
       services_slider: data?.hero?.services_slider || [],
-      video_slider: normalizedVideos
+      video_slider: rawVideos
     }
   } catch (error) {
     console.error('Error loading hero data:', error)

@@ -13,6 +13,7 @@ type VideoSlide =
   | string
   | {
     webm?: string
+    mp4?: string
     poster?: string
   }
 
@@ -60,6 +61,7 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     v.setAttribute('webkit-playsinline', 'true')
     v.setAttribute('muted', 'true')
     v.setAttribute('autoplay', 'true')
+    v.preload = 'auto'
 
     let playAttempts = 0
     const maxAttempts = 5
@@ -75,10 +77,9 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
         if (v.readyState >= 2) {
           await v.play()
         } else {
-          // Wait for video to be ready
-          v.addEventListener('loadeddata', () => {
-            v.play().catch(() => { })
-          }, { once: true })
+          v.play().catch(() => {
+            // Ignore initial play errors, retry in listeners
+          })
         }
       } catch (err) {
         // Retry after a short delay
@@ -87,6 +88,11 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
         }
       }
     }
+
+    // RELOAD VIDEO SOURCE
+    // When the slide changes, we must call load() because we are reusing the same video element.
+    // React updates the <source> tags, but the video element needs to be told to reload.
+    v.load()
 
     // Handle user interaction to start video
     const handleUserInteraction = () => {
@@ -123,12 +129,14 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     document.addEventListener('visibilitychange', handleVisibilityChange)
     document.addEventListener('touchstart', handleUserInteraction, { once: true, passive: true })
     document.addEventListener('click', handleUserInteraction, { once: true })
-    v.addEventListener('loadedmetadata', tryPlay, { once: true })
+
+    // Use loadeddata instead of loadedmetadata for better reliability across devices
+    v.addEventListener('loadeddata', tryPlay, { once: true })
+    // Also backup with canplay
+    v.addEventListener('canplay', tryPlay, { once: true })
 
     // Initial play attempt
-    if (v.readyState >= 2) {
-      tryPlay()
-    }
+    tryPlay()
 
     return () => {
       clearTimeout(retryTimer)
@@ -136,7 +144,8 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       document.removeEventListener('touchstart', handleUserInteraction)
       document.removeEventListener('click', handleUserInteraction)
-      v.removeEventListener('loadedmetadata', tryPlay)
+      v.removeEventListener('loadeddata', tryPlay)
+      v.removeEventListener('canplay', tryPlay)
     }
   }, [currentVideoSlide])
 
@@ -146,11 +155,13 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
     if (!currentVideo) return []
     if (typeof currentVideo === 'string') {
       const lower = currentVideo.toLowerCase()
-      const mime = lower.endsWith('.webm') ? 'video/webm' : 'video/webm'
-      return [{ src: currentVideo, type: mime }]
+      if (lower.endsWith('.mp4')) return [{ src: currentVideo, type: 'video/mp4' }]
+      if (lower.endsWith('.webm')) return [{ src: currentVideo, type: 'video/webm' }]
+      return [{ src: currentVideo, type: 'video/mp4' }] // default fallback
     }
     const out: { src: string; type: string }[] = []
     if (currentVideo.webm) out.push({ src: currentVideo.webm, type: 'video/webm' })
+    if (currentVideo.mp4) out.push({ src: currentVideo.mp4, type: 'video/mp4' })
     return out
   })()
 
@@ -235,16 +246,17 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               {mounted ? (
                 <video
-                  key={typeof currentVideo === 'string' ? currentVideo : `${currentVideo.webm || ''}`}
                   ref={videoRef}
                   autoPlay
                   muted
                   loop
                   playsInline
+                  // @ts-ignore
                   x-webkit-airplay="allow"
+                  // @ts-ignore
                   webkit-playsinline="true"
                   controls={false}
-                  preload="metadata"
+                  preload="auto"
                   disablePictureInPicture
                   poster={currentPoster}
                   className="w-full h-full object-cover"

@@ -69,9 +69,9 @@ export default async function ContactPage({ params }: ContactPageProps) {
                     {locale === 'fr' ? 'Adresse' : 'Address'}
                   </h3>
                   <p className="text-gray-600">
-                    Liberté 6<br />
-                    Dakar<br />
-                    Sénégal
+                    Moustakbal / Sidi Maarouf<br />
+                    Casablanca<br />
+                    Maroc
                   </p>
                 </div>
 

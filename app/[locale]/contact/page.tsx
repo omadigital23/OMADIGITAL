@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import ContactForm from '../../../components/forms/ContactForm'
+import { getCommonTranslations } from '../../../lib/translations'
+import type { Locale } from '../../../lib/translations'
 
 interface ContactPageProps {
   params: Promise<{ locale: string }>
@@ -9,12 +11,13 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
   const { locale } = await params
   const domain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.omadigital.net'
   const url = `${domain}/${locale}/contact`
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const t = getCommonTranslations(locale as Locale) as any
+  const seo = t?.seo?.contact || {}
 
   return {
-    title: locale === 'fr' ? 'Contact' : 'Contact',
-    description: locale === 'fr'
-      ? 'Contactez OMA Digital pour vos projets digitaux au Maroc et Sénégal. Bureau à Casablanca (Maroc). Devis gratuit et consultation personnalisée.'
-      : 'Contact OMA Digital for your digital projects in Morocco and Senegal. Office in Casablanca (Morocco). Free quote and personalized consultation.',
+    title: seo.title || 'Contact',
+    description: seo.description || 'Contact OMA Digital for your digital projects.',
     alternates: {
       canonical: url,
       languages: {
@@ -28,19 +31,20 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
 
 export default async function ContactPage({ params }: ContactPageProps) {
   const { locale } = await params
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const t = getCommonTranslations(locale as Locale) as any
+  const cp = t?.contact_page || {}
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            {locale === 'fr' ? 'Contactez-nous' : 'Contact Us'}
+            {cp.title || 'Contact Us'}
           </h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-            {locale === 'fr'
-              ? 'Prêt à transformer votre entreprise ? Parlons de votre projet'
-              : 'Ready to transform your business? Let\'s talk about your project'
-            }
+            {cp.subtitle || 'Ready to transform your business? Let\'s talk about your project'}
           </p>
         </div>
       </section>
@@ -52,7 +56,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
             {/* Contact Form */}
             <div>
               <h2 className="text-3xl font-bold mb-8">
-                {locale === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
+                {cp.send_message || 'Send us a message'}
               </h2>
               <ContactForm locale={locale} />
             </div>
@@ -60,13 +64,13 @@ export default async function ContactPage({ params }: ContactPageProps) {
             {/* Contact Info */}
             <div>
               <h2 className="text-3xl font-bold mb-8">
-                {locale === 'fr' ? 'Informations de contact' : 'Contact Information'}
+                {cp.contact_info || 'Contact Information'}
               </h2>
 
               <div className="space-y-6">
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {locale === 'fr' ? 'Adresse' : 'Address'}
+                    {cp.address_title || 'Address'}
                   </h3>
                   <p className="text-gray-600">
                     Moustakbal / Sidi Maarouf<br />
@@ -77,25 +81,25 @@ export default async function ContactPage({ params }: ContactPageProps) {
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {locale === 'fr' ? 'Téléphone' : 'Phone'}
+                    {cp.phone_title || 'Phone'}
                   </h3>
-                  <p className="text-gray-600">+212 701 193 811 | +221 77 143 01 37</p>
+                  <p className="text-gray-600">{cp.phone_value || '+212 701 193 811 | +221 77 143 01 37'}</p>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="text-xl font-bold mb-4">Email</h3>
-                  <p className="text-gray-600">omasenegal25@gmail.com</p>
+                  <h3 className="text-xl font-bold mb-4">{cp.email_title || 'Email'}</h3>
+                  <p className="text-gray-600">{cp.email_value || 'omadigital23@gmail.com'}</p>
                 </div>
 
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold mb-4">
-                    {locale === 'fr' ? 'Horaires d\'ouverture' : 'Opening Hours'}
+                    {cp.hours_title || 'Business Hours'}
                   </h3>
                   <p className="text-gray-600">
-                    {locale === 'fr' ? 'Lundi - Vendredi: 9h00 - 18h00' : 'Monday - Friday: 9:00 AM - 6:00 PM'}
+                    {cp.hours_weekday || 'Monday - Friday: 9:00 AM - 6:00 PM'}
                   </p>
                   <p className="text-gray-600">
-                    {locale === 'fr' ? 'Samedi: 9h00 - 13h00' : 'Saturday: 9:00 AM - 1:00 PM'}
+                    {cp.hours_weekend || 'Saturday: 9:00 AM - 1:00 PM'}
                   </p>
                 </div>
               </div>
@@ -108,7 +112,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
-            {locale === 'fr' ? 'Notre localisation' : 'Our Location'}
+            {cp.map_title || 'Our Location'}
           </h2>
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <iframe

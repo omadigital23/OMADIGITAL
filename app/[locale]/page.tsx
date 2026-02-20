@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import HomePageClient from './HomePageClient'
 import { getAgencyData } from '../../lib/content'
+import { getCommonTranslations } from '../../lib/translations'
+import type { Locale } from '../../lib/translations'
 
 // Dynamically import client components to avoid hydration mismatches
 const HeroSection = dynamic(() => import('../../components/sections/HeroSection'), { ssr: true })
@@ -15,14 +17,13 @@ interface HomePageProps {
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params
+  const t = getCommonTranslations(locale as Locale)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const seoHome = (t as any)?.seo?.home || {}
 
   return {
-    title: locale === 'fr'
-      ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
-      : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal',
-    description: locale === 'fr'
-      ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.'
-      : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.',
+    title: seoHome.title || 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal',
+    description: seoHome.description || 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal.',
     alternates: {
       canonical: `https://www.omadigital.net/${locale}`,
       languages: {
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params
   const agencyData = getAgencyData(locale)
+  const translations = getCommonTranslations(locale as Locale)
 
   return (
     <main>
@@ -48,10 +50,10 @@ export default async function HomePage({ params }: HomePageProps) {
         <ServicesOverview locale={locale} />
       </div>
       <div className="blog-section">
-        <BlogOverview locale={locale} />
+        <BlogOverview locale={locale} translations={translations} />
       </div>
       <div className="agency-info-section">
-        <AgencyInfo locale={locale} data={agencyData} />
+        <AgencyInfo locale={locale} data={agencyData} translations={translations} />
       </div>
     </main>
   )

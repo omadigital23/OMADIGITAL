@@ -6,6 +6,9 @@ import { useCart } from '../../../lib/contexts/CartContext'
 import { useAuth } from '../../../lib/contexts/AuthContext'
 import Link from 'next/link'
 import { supabase } from '../../../lib/supabase/client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CheckoutSchema, type CheckoutInput } from '../../../lib/schemas/auth'
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -14,17 +17,31 @@ export default function CheckoutPage() {
   const { items: cartItems, total, clearCart } = useCart()
   const { user, profile } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [globalError, setGlobalError] = useState('')
   const [items, setItems] = useState<any[]>([])
 
-  // Charger les traductions
   const [translations, setTranslations] = useState<any>({})
 
-  // Synchroniser les items du panier
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CheckoutInput>({
+    resolver: zodResolver(CheckoutSchema),
+    mode: 'onTouched',
+    defaultValues: {
+      country: 'Maroc'
+    }
+  })
+
+  // Synchronize cart items
   useEffect(() => {
     setItems(cartItems)
   }, [cartItems])
 
+  // Load translations
   useEffect(() => {
     const loadTranslations = async () => {
       try {
@@ -38,21 +55,10 @@ export default function CheckoutPage() {
     loadTranslations()
   }, [locale])
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: 'Maroc',
-  })
-
-  // Mettre à jour le formulaire quand le profil change
+  // Pre-fill form when profile/user changes
   useEffect(() => {
     if (profile) {
-      setFormData({
+      reset({
         firstName: profile.firstName || user?.user_metadata?.firstName || '',
         lastName: profile.lastName || user?.user_metadata?.lastName || '',
         email: profile.email || user?.email || '',
@@ -63,86 +69,34 @@ export default function CheckoutPage() {
         country: profile.country || 'Maroc',
       })
     } else if (user) {
-      // Fallback si pas de profil mais utilisateur authentifié
-      setFormData((prev) => ({
-        ...prev,
+      // Fallback if authenticated but no profile yet
+      reset({
         firstName: user.user_metadata?.firstName || '',
         lastName: user.user_metadata?.lastName || '',
         email: user.email || '',
         country: 'Maroc',
-      }))
+      })
     }
-  }, [profile, user])
+  }, [profile, user, reset])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: CheckoutInput) => {
     setLoading(true)
-    setError('')
+    setGlobalError('')
 
     try {
-
-
       if (!user) {
-        setError(translations.checkout?.required_field || 'Vous devez être connecté')
+        setGlobalError(translations.checkout?.required_field || 'Vous devez être connecté')
         setLoading(false)
         return
       }
 
       if (items.length === 0) {
-        setError(translations.cart?.empty || 'Votre panier est vide')
+        setGlobalError(translations.cart?.empty || 'Votre panier est vide')
         setLoading(false)
         return
       }
 
-      // Valider les champs requis (avec trim pour les espaces)
-      const requiredFields = [
-        { value: formData.firstName.trim(), name: 'firstName' },
-        { value: formData.lastName.trim(), name: 'lastName' },
-        { value: formData.email.trim(), name: 'email' },
-        { value: formData.phone.trim(), name: 'phone' },
-        { value: formData.address.trim(), name: 'address' },
-        { value: formData.city.trim(), name: 'city' },
-        { value: formData.postalCode.trim(), name: 'postalCode' },
-        { value: formData.country.trim(), name: 'country' },
-      ]
-
-
-
-      const emptyField = requiredFields.find((field) => !field.value || field.value.length === 0)
-      if (emptyField) {
-        setError(`${emptyField.name} est obligatoire`)
-        setLoading(false)
-        return
-      }
-
-
-
-      // Valider l'email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(formData.email)) {
-        setError(translations.checkout?.invalid_email || 'Email invalide')
-        setLoading(false)
-        return
-      }
-
-      // Valider le téléphone (accepte les formats internationaux)
-      const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/
-      if (!phoneRegex.test(formData.phone.replace(/\s/g, ''))) {
-        setError(translations.checkout?.invalid_phone || 'Téléphone invalide')
-        setLoading(false)
-        return
-      }
-
-      // Nettoyer les items pour l'envoi
-
+      // Clean items payload for API
       const cleanedItems = items.map((item) => ({
         serviceId: item.serviceId || item.service_id,
         title: item.title,
@@ -151,46 +105,28 @@ export default function CheckoutPage() {
         id: item.id,
       }))
 
-
-
-      // Récupérer le token de session
+      // Get session
       const { data: { session } } = await supabase.auth.getSession()
-
       let token = session?.access_token
 
-      // Si pas de token dans la session, essayer de se reconnecter automatiquement
+      // Refresh if required
       if (!token) {
         const { data: { session: refreshedSession } } = await supabase.auth.refreshSession()
-
         token = refreshedSession?.access_token
-
         if (!token) {
-          setError('Session expirée, veuillez vous reconnecter')
+          setGlobalError('Session expirée, veuillez vous reconnecter')
           setLoading(false)
           return
         }
       }
 
-
-
       const orderData = {
         items: cleanedItems,
         total: parseFloat(total.toFixed(2)),
-        shippingInfo: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          postalCode: formData.postalCode,
-          country: formData.country,
-        },
+        shippingInfo: data, // Form is validated via RHF + Zod
       }
 
-
-
-      // Créer la commande
+      // Create Order
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
@@ -200,24 +136,22 @@ export default function CheckoutPage() {
         body: JSON.stringify(orderData),
       })
 
-      const data = await response.json()
+      const responseData = await response.json()
 
       if (!response.ok) {
-        // Afficher les détails de l'erreur de validation
-        let errorMessage = data.error || 'Erreur lors de la création de la commande'
-        if (data.details) {
-          errorMessage += ': ' + JSON.stringify(data.details)
+        let errorMessage = responseData.error || 'Erreur lors de la création de la commande'
+        if (responseData.details) {
+          errorMessage += ': ' + JSON.stringify(responseData.details)
         }
-
-        setError(errorMessage)
+        setGlobalError(errorMessage)
         return
       }
 
-      // Vider le panier et rediriger
+      // Clear cart & redirect
       clearCart()
-      router.push(`/${locale}/order-confirmation/${data.order.id}`)
+      router.push(`/${locale}/order-confirmation/${responseData.order.id}`)
     } catch (err: any) {
-      setError(err.message || 'Erreur lors du traitement de la commande')
+      setGlobalError(err.message || 'Erreur lors du traitement de la commande')
     } finally {
       setLoading(false)
     }
@@ -252,17 +186,17 @@ export default function CheckoutPage() {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Formulaire */}
+          {/* Form */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {error && (
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {globalError && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                  <p className="font-semibold mb-2">❌ {error}</p>
+                  <p className="font-semibold mb-2">❌ {globalError}</p>
                   <p className="text-sm">{translations.checkout?.verify_fields || 'Vérifiez que tous les champs sont remplis correctement.'}</p>
                 </div>
               )}
 
-              {/* Informations de Livraison */}
+              {/* Shipping Information */}
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
                 <div className="flex items-center gap-2 mb-6">
                   <h2 className="text-xl font-semibold text-gray-900">
@@ -275,7 +209,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Prénom */}
+                  {/* First Name */}
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.first_name || 'Prénom'}
@@ -283,16 +217,17 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
-                      name="firstName"
                       placeholder={translations.checkout?.first_name || 'Prénom'}
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('firstName')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.firstName ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.firstName && (
+                      <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>
+                    )}
                   </div>
 
-                  {/* Nom */}
+                  {/* Last Name */}
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.last_name || 'Nom'}
@@ -300,13 +235,14 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
-                      name="lastName"
                       placeholder={translations.checkout?.last_name || 'Nom'}
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('lastName')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.lastName ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.lastName && (
+                      <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>
+                    )}
                   </div>
 
                   {/* Email */}
@@ -317,16 +253,17 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="email"
-                      name="email"
                       placeholder={translations.checkout?.email || 'Email'}
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('email')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.email ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.email && (
+                      <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+                    )}
                   </div>
 
-                  {/* Téléphone */}
+                  {/* Phone */}
                   <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.phone || 'Téléphone'}
@@ -334,17 +271,18 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="tel"
-                      name="phone"
                       placeholder={translations.checkout?.phone_placeholder || '+212 6XX XXX XXX'}
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('phone')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.phone ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.phone && (
+                      <p className="mt-1 text-xs text-red-500">{errors.phone.message}</p>
+                    )}
                     <p className="text-xs text-gray-500 mt-1">{translations.checkout?.phone_format_hint || 'Format: +[code pays] [numéro] ou [numéro local]'}</p>
                   </div>
 
-                  {/* Adresse */}
+                  {/* Address */}
                   <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.address || 'Adresse'}
@@ -352,16 +290,17 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
-                      name="address"
                       placeholder={translations.checkout?.address || 'Adresse'}
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('address')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.address ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.address && (
+                      <p className="mt-1 text-xs text-red-500">{errors.address.message}</p>
+                    )}
                   </div>
 
-                  {/* Ville */}
+                  {/* City */}
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.city || 'Ville'}
@@ -369,16 +308,17 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
-                      name="city"
                       placeholder={translations.checkout?.city || 'Ville'}
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('city')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.city ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.city && (
+                      <p className="mt-1 text-xs text-red-500">{errors.city.message}</p>
+                    )}
                   </div>
 
-                  {/* Code Postal */}
+                  {/* Postal Code */}
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.postal_code || 'Code Postal'}
@@ -386,27 +326,26 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
-                      name="postalCode"
                       placeholder={translations.checkout?.postal_code || 'Code Postal'}
-                      value={formData.postalCode}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      {...register('postalCode')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${errors.postalCode ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     />
+                    {errors.postalCode && (
+                      <p className="mt-1 text-xs text-red-500">{errors.postalCode.message}</p>
+                    )}
                   </div>
 
-                  {/* Pays */}
+                  {/* Country */}
                   <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {translations.checkout?.country || 'Pays'}
                       <span className="text-red-500 ml-1">*</span>
                     </label>
                     <select
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                      {...register('country')}
+                      className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white ${errors.country ? 'border-red-500' : 'border-gray-300'
+                        }`}
                     >
                       <option value="Morocco">{translations.checkout?.countries?.morocco || 'Maroc'}</option>
                       <option value="Senegal">{translations.checkout?.countries?.senegal || 'Sénégal'}</option>
@@ -416,10 +355,13 @@ export default function CheckoutPage() {
                       <option value="Burkina Faso">{translations.checkout?.countries?.burkina_faso || 'Burkina Faso'}</option>
                       <option value="Other">{translations.checkout?.countries?.other || 'Autre'}</option>
                     </select>
+                    {errors.country && (
+                      <p className="mt-1 text-xs text-red-500">{errors.country.message}</p>
+                    )}
                   </div>
                 </div>
 
-                {/* Note sur les délais de livraison */}
+                {/* Delivery Notes */}
                 <div className="mt-6 p-4 bg-blue-100 border border-blue-300 rounded-lg">
                   <p className="text-sm text-blue-900">
                     <span className="font-semibold">📦 {translations.checkout?.delivery_info || 'Délai de livraison'}:</span>
@@ -436,14 +378,14 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 font-semibold transition"
               >
                 {loading ? (translations.checkout?.processing || 'Traitement...') : translations.checkout?.confirm_order || 'Confirmer la Commande'}
               </button>
             </form>
           </div>
 
-          {/* Résumé de la Commande */}
+          {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-gray-50 rounded-lg p-6 sticky top-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">

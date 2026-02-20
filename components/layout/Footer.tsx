@@ -1,12 +1,16 @@
 import Link from 'next/link'
 import NewsletterForm from '../NewsletterForm'
+import type { CommonTranslations } from '../../lib/translations'
 
 interface FooterProps {
   locale: string
+  translations?: CommonTranslations
 }
 
-export default function Footer({ locale }: FooterProps) {
+export default function Footer({ locale, translations = {} }: FooterProps) {
   const currentYear = new Date().getFullYear()
+  const nav = translations.nav || {}
+  const ft = (translations as Record<string, Record<string, string>>).footer || {}
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -14,48 +18,46 @@ export default function Footer({ locale }: FooterProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-4">OMA Digital</h3>
+            <h3 className="text-2xl font-bold mb-4">{ft.company_name || 'OMA Digital'}</h3>
             <p className="text-gray-300 mb-4">
-              {locale === 'fr'
-                ? 'Agence digitale internationale basée à Casablanca (Maroc). Nous accompagnons les entreprises dans le monde entier - Afrique, Europe, Moyen-Orient, Amérique du Nord et au-delà - avec des solutions web, mobiles et marketing digital sur mesure, combinant expertise locale et vision globale.'
-                : 'International digital agency based in Casablanca (Morocco). We support companies worldwide - Africa, Europe, Middle East, North America and beyond - with tailor-made web, mobile and digital marketing solutions, combining local expertise and global vision.'}
+              {ft.company_desc || 'International digital agency based in Casablanca (Morocco).'}
             </p>
             <div className="space-y-2 text-gray-300">
-              <p>📍 Moustakbal / Sidi Maarouf, Casablanca – Maroc</p>
-              <p>📞 +212 701 193 811 (International) | +221 77 143 01 37 (Sénégal)</p>
-              <p>✉️ omasenegal25@gmail.com</p>
+              <p>{ft.address || '📍 Moustakbal / Sidi Maarouf, Casablanca – Maroc'}</p>
+              <p>{ft.phone || '📞 +212 701 193 811 (International) | +221 77 143 01 37 (Sénégal)'}</p>
+              <p>{ft.email || '✉️ omadigital23@gmail.com'}</p>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">
-              {locale === 'fr' ? 'Liens Rapides' : 'Quick Links'}
+              {ft.quick_links || 'Quick Links'}
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link href={`/${locale}`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Accueil' : 'Home'}
+                  {nav.home || 'Home'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/services`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Services' : 'Services'}
+                  {nav.services || 'Services'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/about`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'À Propos' : 'About'}
+                  {nav.about || 'About'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/blog`} className="text-gray-300 hover:text-white transition-colors">
-                  Blog
+                  {nav.blog || 'Blog'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/contact`} className="text-gray-300 hover:text-white transition-colors">
-                  Contact
+                  {nav.contact || 'Contact'}
                 </Link>
               </li>
             </ul>
@@ -64,27 +66,27 @@ export default function Footer({ locale }: FooterProps) {
           {/* Legal Links */}
           <div>
             <h4 className="text-lg font-semibold mb-4">
-              {locale === 'fr' ? 'Légal' : 'Legal'}
+              {ft.legal || 'Legal'}
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link href={`/${locale}/legal/privacy-policy`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Politique de Confidentialité' : 'Privacy Policy'}
+                  {ft.privacy_policy || 'Privacy Policy'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/legal/terms-conditions`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Conditions d\'Utilisation' : 'Terms & Conditions'}
+                  {ft.terms_conditions || 'Terms & Conditions'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/legal/cookie-policy`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Politique Cookies' : 'Cookie Policy'}
+                  {ft.cookie_policy || 'Cookie Policy'}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/legal/gdpr-compliance`} className="text-gray-300 hover:text-white transition-colors">
-                  {locale === 'fr' ? 'Conformité RGPD' : 'GDPR Compliance'}
+                  {ft.gdpr_compliance || 'GDPR Compliance'}
                 </Link>
               </li>
             </ul>
@@ -99,7 +101,7 @@ export default function Footer({ locale }: FooterProps) {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-300">
           <p>
-            © {currentYear} OMA Digital. {locale === 'fr' ? 'Tous droits réservés.' : 'All rights reserved.'}
+            © {currentYear} OMA Digital. {ft.copyright || 'All rights reserved.'}
           </p>
         </div>
       </div>

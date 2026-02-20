@@ -1,13 +1,16 @@
 'use client'
 
 import type { AgencyData } from '../../lib/content'
+import type { CommonTranslations } from '../../lib/translations'
 
 interface AgencyInfoProps {
   locale: string
   data: AgencyData
+  translations?: CommonTranslations
 }
 
-export default function AgencyInfo({ locale, data: agencyData }: AgencyInfoProps) {
+export default function AgencyInfo({ locale, data: agencyData, translations = {} }: AgencyInfoProps) {
+  const ag = (translations as Record<string, Record<string, string>>).agency || {}
   return (
     <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
       <div className="parallax-bg absolute inset-0 bg-gradient-to-br from-white/30 to-blue-100/30"></div>
@@ -37,7 +40,7 @@ export default function AgencyInfo({ locale, data: agencyData }: AgencyInfoProps
 
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3">
-                {locale === 'fr' ? 'Services phares au Maroc :' : 'Flagship services in Morocco:'}
+                {ag.morocco_services_label || 'Flagship services in Morocco:'}
               </h4>
               <ul className="space-y-2 text-gray-600">
                 {agencyData.morocco.services.map((service, i) => (
@@ -78,7 +81,7 @@ export default function AgencyInfo({ locale, data: agencyData }: AgencyInfoProps
 
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3">
-                {locale === 'fr' ? 'Services disponibles internationalement :' : 'Available services internationally:'}
+                {ag.international_services_label || 'Available services internationally:'}
               </h4>
               <ul className="space-y-2 text-gray-600">
                 {agencyData.international.services.map((service, i) => (

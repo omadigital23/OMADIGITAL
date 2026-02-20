@@ -22,6 +22,114 @@
       "description": "Découvrez nos articles sur le développement web, le marketing digital, l'e-commerce et les dernières tendances technologiques au Maroc et Sénégal."
     }
   },
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "about": "À Propos",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "footer": {
+    "company_name": "OMA Digital",
+    "company_desc": "Agence digitale internationale basée à Casablanca (Maroc). Nous accompagnons les entreprises dans le monde entier - Afrique, Europe, Moyen-Orient, Amérique du Nord et au-delà - avec des solutions web, mobiles et marketing digital sur mesure, combinant expertise locale et vision globale.",
+    "quick_links": "Liens Rapides",
+    "legal": "Légal",
+    "privacy_policy": "Politique de Confidentialité",
+    "terms_conditions": "Conditions d'Utilisation",
+    "cookie_policy": "Politique Cookies",
+    "gdpr_compliance": "Conformité RGPD",
+    "address": "📍 Moustakbal / Sidi Maarouf, Casablanca – Maroc",
+    "phone": "📞 +212 701 193 811 (International) | +221 77 143 01 37 (Sénégal)",
+    "email": "✉️ omadigital23@gmail.com",
+    "copyright": "Tous droits réservés."
+  },
+  "services_page": {
+    "title": "Nos Services",
+    "subtitle": "Agence digitale basée à Casablanca, Maroc. Sites web, apps mobiles et marketing digital sur mesure.",
+    "why_title": "Pourquoi Choisir OMA Digital ?",
+    "why_fast_title": "Rapide & Efficace",
+    "why_fast_desc": "Délais respectés, qualité garantie",
+    "why_price_title": "Tarifs Compétitifs",
+    "why_price_desc": "Meilleur rapport qualité-prix",
+    "why_support_title": "Support Dédié",
+    "why_support_desc": "Équipe disponible pour vous",
+    "why_tech_title": "Technologie Moderne",
+    "why_tech_desc": "Stack technologique à jour",
+    "pricing_title": "💎 Grille Tarifaire OMA Digital 2025",
+    "pricing_subtitle": "Solutions digitales complètes adaptées à vos besoins et à votre budget",
+    "faq_title": "Questions Fréquentes",
+    "faq_subtitle": "Trouvez les réponses à vos questions sur nos services",
+    "faq_more_title": "Vous avez d'autres questions ?",
+    "faq_more_desc": "Notre équipe est prête à discuter de votre projet et trouver la meilleure solution pour vous.",
+    "faq_cta": "Nous Contacter",
+    "faq": [
+      {
+        "q": "Quel est le délai de livraison ?",
+        "a": "Les délais varient selon le service : Site vitrine (2-3 semaines), E-commerce (3-4 semaines), App mobile (4-8 semaines). Nous respectons toujours les délais convenus."
+      },
+      {
+        "q": "Proposez-vous une maintenance après le lancement ?",
+        "a": "Oui ! Tous nos services incluent 2 mois de maintenance gratuits. Après cela, nous proposons des forfaits de maintenance à partir de 500 DH/mois."
+      },
+      {
+        "q": "Quelles sont les modalités de paiement ?",
+        "a": "Nous proposons un paiement en 2 étapes : 50% à la signature du contrat, 50% à la livraison. Des arrangements peuvent être faits pour les gros projets."
+      },
+      {
+        "q": "Puis-je modifier mon projet après le démarrage ?",
+        "a": "Absolument ! Les modifications mineures sont incluses. Pour les modifications majeures, nous ajustons le devis et le délai en conséquence."
+      },
+      {
+        "q": "Offrez-vous une formation pour utiliser le site/app ?",
+        "a": "Oui, une formation complète est incluse dans tous nos services. Nous vous montrons comment gérer votre site, ajouter des produits, gérer les commandes, etc."
+      },
+      {
+        "q": "Quel support technique est disponible ?",
+        "a": "Nous offrons un support par email et WhatsApp. Pour les clients premium, un support téléphonique est disponible. Les temps de réponse sont généralement < 24h."
+      }
+    ]
+  },
+  "about_page": {
+    "title": "À Propos d'OMA Digital",
+    "subtitle": "Votre partenaire de confiance pour la transformation digitale au Maroc et Sénégal",
+    "story_title": "Notre Histoire",
+    "story_text": "OMA Digital est née de la vision d'accompagner les entreprises africaines dans leur transformation digitale. Basée à Casablanca, notre agence étend ses services au Maroc et au Sénégal, offrant des solutions technologiques innovantes adaptées aux besoins locaux.",
+    "founder_title": "Notre Fondateur",
+    "founder_name": "Amadou Fall",
+    "founder_role": "Fondateur & CEO",
+    "founder_bio": "Amadou Fall, expert en technologies digitales avec plus de 10 ans d'expérience, a fondé OMA Digital avec la mission de démocratiser l'accès aux technologies modernes pour les entreprises africaines. Passionné par l'innovation et l'entrepreneuriat, il guide notre équipe vers l'excellence technique et l'innovation continue.",
+    "contact_title": "Nous Contacter",
+    "address_title": "Adresse",
+    "address_value": "Moustakbal/Sidimaarouf Casablanca imm167 Lot GH20 apt 15, Maroc",
+    "contact_label": "Contact",
+    "phone_value": "+212 701 193 811",
+    "email_value": "omadigital23@gmail.com"
+  },
+  "contact_page": {
+    "title": "Contactez-nous",
+    "subtitle": "Prêt à transformer votre entreprise ? Parlons de votre projet",
+    "send_message": "Envoyez-nous un message",
+    "contact_info": "Informations de contact",
+    "address_title": "Adresse",
+    "phone_title": "Téléphone",
+    "phone_value": "+212 701 193 811 | +221 77 143 01 37",
+    "email_title": "Email",
+    "email_value": "omadigital23@gmail.com",
+    "hours_title": "Horaires d'ouverture",
+    "hours_weekday": "Lundi - Vendredi: 9h00 - 18h00",
+    "hours_weekend": "Samedi: 9h00 - 13h00",
+    "map_title": "Notre localisation"
+  },
+  "blog_overview": {
+    "title": "Actualités & Conseils",
+    "subtitle": "Découvrez nos derniers articles sur les technologies et tendances digitales",
+    "read_article": "Lire l'article",
+    "view_all": "Voir tous les articles"
+  },
+  "agency": {
+    "morocco_services_label": "Services phares au Maroc :",
+    "international_services_label": "Services disponibles internationalement :"
+  },
   "hero": {
     "title": "Transformez Votre",
     "subtitle": "Présence Digitale",
@@ -492,19 +600,19 @@
   "legal": {
     "privacy_policy": {
       "title": "Politique de Confidentialité",
-      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nOMA Digital, société située à Sidi Maarouf, Casablanca – Maroc, s'engage à protéger vos données personnelles conformément à la loi 09-08 et aux standards internationaux.\n\n## 2. Données Collectées\n\n**Données directes :**\n- Nom, prénom, email, téléphone\n- Informations d'entreprise\n- Messages et demandes de devis\n\n**Données automatiques :**\n- Adresse IP et données de navigation\n- Cookies techniques et analytiques\n\n## 3. Utilisation des Données\n\nVos données sont utilisées pour :\n- Fournir nos services de développement web, mobile et marketing digital\n- Répondre à vos demandes et vous informer\n- Optimiser nos services et votre expérience\n- Respecter nos obligations comptables et fiscales\n\n## 4. Base Légale\n\n- **Consentement** : Newsletter et marketing\n- **Contrat** : Exécution de nos services\n- **Intérêt légitime** : Amélioration et sécurité\n- **Obligation légale** : Comptabilité et fiscalité\n\n## 5. Partage des Données\n\nNous partageons vos données uniquement avec :\n- Équipes internes autorisées d'OMA Digital\n- Prestataires : Hébergement (Vercel, Supabase), Analytics (Google)\n- Autorités si requis par la loi\n\n## 6. Conservation\n\n- **Clients actifs** : Durée du contrat + 5 ans\n- **Prospects** : 3 ans après dernier contact\n- **Données comptables** : 10 ans (obligation légale)\n- **Cookies** : 13 mois maximum\n\n## 7. Vos Droits\n\nVous disposez des droits d'accès, rectification, effacement, portabilité et opposition.\n\nPour exercer vos droits : omasenegal25@gmail.com\n\n## 8. Sécurité\n\nNous protégeons vos données par chiffrement SSL/TLS, authentification sécurisée, sauvegardes régulières et audits de sécurité.\n\n## 9. Contact\n\n**OMA Digital**\nMoustakbal / Sidi Maarouf, Casablanca – Maroc\nEmail : omasenegal25@gmail.com\nTél : +221 77 143 01 37"
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nOMA Digital, société située à Sidi Maarouf, Casablanca – Maroc, s'engage à protéger vos données personnelles conformément à la loi 09-08 et aux standards internationaux.\n\n## 2. Données Collectées\n\n**Données directes :**\n- Nom, prénom, email, téléphone\n- Informations d'entreprise\n- Messages et demandes de devis\n\n**Données automatiques :**\n- Adresse IP et données de navigation\n- Cookies techniques et analytiques\n\n## 3. Utilisation des Données\n\nVos données sont utilisées pour :\n- Fournir nos services de développement web, mobile et marketing digital\n- Répondre à vos demandes et vous informer\n- Optimiser nos services et votre expérience\n- Respecter nos obligations comptables et fiscales\n\n## 4. Base Légale\n\n- **Consentement** : Newsletter et marketing\n- **Contrat** : Exécution de nos services\n- **Intérêt légitime** : Amélioration et sécurité\n- **Obligation légale** : Comptabilité et fiscalité\n\n## 5. Partage des Données\n\nNous partageons vos données uniquement avec :\n- Équipes internes autorisées d'OMA Digital\n- Prestataires : Hébergement (Vercel, Supabase), Analytics (Google)\n- Autorités si requis par la loi\n\n## 6. Conservation\n\n- **Clients actifs** : Durée du contrat + 5 ans\n- **Prospects** : 3 ans après dernier contact\n- **Données comptables** : 10 ans (obligation légale)\n- **Cookies** : 13 mois maximum\n\n## 7. Vos Droits\n\nVous disposez des droits d'accès, rectification, effacement, portabilité et opposition.\n\nPour exercer vos droits : omadigital23@gmail.com\n\n## 8. Sécurité\n\nNous protégeons vos données par chiffrement SSL/TLS, authentification sécurisée, sauvegardes régulières et audits de sécurité.\n\n## 9. Contact\n\n**OMA Digital**\nMoustakbal / Sidi Maarouf, Casablanca – Maroc\nEmail : omadigital23@gmail.com\nTél : +212 701 193 811"
     },
     "terms_conditions": {
       "title": "Conditions Générales d'Utilisation",
-      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Présentation\n\nOMA Digital est une société spécialisée dans les services numériques, située à Sidi Maarouf, Casablanca – Maroc. Nous proposons du développement web, d'applications mobiles, de marketing digital et de solutions d'automatisation.\n\n## 2. Services\n\n**Développement web :**\n- Sites vitrines : 5 000 DH\n- E-commerce : 10 000 DH\n\n**Applications mobiles :**\n- MVP : à partir de 10 999 DH\n- Standard : à partir de 20 000 DH\n\n**Solutions IA :**\n- Chatbot IA RAG : 10 000 DH + 500 DH/mois\n- Bot simple : 3 000 DH + 500 DH/mois\n\n**Autres services :**\n- Marketing digital : 3 500 DH/mois\n- Création vidéo : à partir de 3 000 DH\n\n## 3. Commande et Paiement\n\nToute prestation commence par un devis gratuit. Modalités de paiement : 50% à la signature, 50% à la livraison.\n\n## 4. Obligations\n\n**OMA Digital s'engage à :**\n- Fournir les services avec professionnalisme\n- Respecter les délais convenus\n- Assurer la confidentialité des informations\n\n**Le Client s'engage à :**\n- Fournir les informations nécessaires\n- Respecter les échéances de paiement\n- Valider les livrables dans les délais\n\n## 5. Propriété Intellectuelle\n\nAprès paiement intégral, le Client obtient les droits d'usage sur les créations réalisées et le code source des développements spécifiques.\n\n## 6. Garanties\n\nNous garantissons la conformité des services et le bon fonctionnement pendant 3 mois. Notre responsabilité est limitée au montant des sommes versées.\n\n## 7. Contact\n\n**OMA Digital**\nMoustakbal / Sidi Maarouf, Casablanca – Maroc\nEmail : omasenegal25@gmail.com\nTéléphone : +221 77 143 01 37"
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Présentation\n\nOMA Digital est une société spécialisée dans les services numériques, située à Sidi Maarouf, Casablanca – Maroc. Nous proposons du développement web, d'applications mobiles, de marketing digital et de solutions d'automatisation.\n\n## 2. Services\n\n**Développement web :**\n- Sites vitrines : 5 000 DH\n- E-commerce : 10 000 DH\n\n**Applications mobiles :**\n- MVP : à partir de 10 999 DH\n- Standard : à partir de 20 000 DH\n\n**Solutions IA :**\n- Chatbot IA RAG : 10 000 DH + 500 DH/mois\n- Bot simple : 3 000 DH + 500 DH/mois\n\n**Autres services :**\n- Marketing digital : 3 500 DH/mois\n- Création vidéo : à partir de 3 000 DH\n\n## 3. Commande et Paiement\n\nToute prestation commence par un devis gratuit. Modalités de paiement : 50% à la signature, 50% à la livraison.\n\n## 4. Obligations\n\n**OMA Digital s'engage à :**\n- Fournir les services avec professionnalisme\n- Respecter les délais convenus\n- Assurer la confidentialité des informations\n\n**Le Client s'engage à :**\n- Fournir les informations nécessaires\n- Respecter les échéances de paiement\n- Valider les livrables dans les délais\n\n## 5. Propriété Intellectuelle\n\nAprès paiement intégral, le Client obtient les droits d'usage sur les créations réalisées et le code source des développements spécifiques.\n\n## 6. Garanties\n\nNous garantissons la conformité des services et le bon fonctionnement pendant 3 mois. Notre responsabilité est limitée au montant des sommes versées.\n\n## 7. Contact\n\n**OMA Digital**\nMoustakbal / Sidi Maarouf, Casablanca – Maroc\nEmail : omadigital23@gmail.com\nTéléphone : +212 701 193 811"
     },
     "cookie_policy": {
       "title": "Politique de Cookies",
-      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nCette politique explique comment OMA Digital utilise les cookies sur www.omadigital.net.\n\n## 2. Qu'est-ce qu'un Cookie ?\n\nUn cookie est un petit fichier texte stocké sur votre appareil lors de la visite d'un site web pour mémoriser vos préférences.\n\n## 3. Types de Cookies Utilisés\n\n**Cookies essentiels :**\n- Session utilisateur\n- Sécurité CSRF\n- Préférences de langue\n- Consentement cookies\n\n**Cookies analytiques :**\n- Google Analytics (_ga, _gid)\n- Mesure d'audience et trafic\n\n**Cookies fonctionnels :**\n- Préférences d'affichage\n- Sauvegarde formulaires\n\n**Cookies marketing (avec consentement) :**\n- Google Ads\n- Facebook Pixel\n\n## 4. Finalités\n\n- Amélioration de l'expérience utilisateur\n- Analyse du trafic et comportement\n- Sécurité du site\n- Personnalisation du contenu\n\n## 5. Gestion des Cookies\n\n**Via notre site :**\n- Bandeau de consentement\n- Lien \"Gestion des cookies\" en bas de page\n\n**Via votre navigateur :**\n- Chrome : Paramètres > Confidentialité et sécurité\n- Firefox : Paramètres > Vie privée et sécurité\n- Safari : Préférences > Confidentialité\n\n## 6. Conséquences de la Désactivation\n\nLa désactivation des cookies essentiels peut entraîner des dysfonctionnements du site. Les cookies analytiques permettent d'améliorer nos services.\n\n## 7. Durée de Conservation\n\n- Session cookies : Supprimés à la fermeture du navigateur\n- Persistants : 13 mois maximum\n- Google Analytics : 26 mois\n\n## 8. Contact\n\n**OMA Digital**\nEmail : omasenegal25@gmail.com\nTéléphone : +221 77 143 01 37\nAdresse : Moustakbal / Sidi Maarouf, Casablanca – Maroc"
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Introduction\n\nCette politique explique comment OMA Digital utilise les cookies sur www.omadigital.net.\n\n## 2. Qu'est-ce qu'un Cookie ?\n\nUn cookie est un petit fichier texte stocké sur votre appareil lors de la visite d'un site web pour mémoriser vos préférences.\n\n## 3. Types de Cookies Utilisés\n\n**Cookies essentiels :**\n- Session utilisateur\n- Sécurité CSRF\n- Préférences de langue\n- Consentement cookies\n\n**Cookies analytiques :**\n- Google Analytics (_ga, _gid)\n- Mesure d'audience et trafic\n\n**Cookies fonctionnels :**\n- Préférences d'affichage\n- Sauvegarde formulaires\n\n**Cookies marketing (avec consentement) :**\n- Google Ads\n- Facebook Pixel\n\n## 4. Finalités\n\n- Amélioration de l'expérience utilisateur\n- Analyse du trafic et comportement\n- Sécurité du site\n- Personnalisation du contenu\n\n## 5. Gestion des Cookies\n\n**Via notre site :**\n- Bandeau de consentement\n- Lien \"Gestion des cookies\" en bas de page\n\n**Via votre navigateur :**\n- Chrome : Paramètres > Confidentialité et sécurité\n- Firefox : Paramètres > Vie privée et sécurité\n- Safari : Préférences > Confidentialité\n\n## 6. Conséquences de la Désactivation\n\nLa désactivation des cookies essentiels peut entraîner des dysfonctionnements du site. Les cookies analytiques permettent d'améliorer nos services.\n\n## 7. Durée de Conservation\n\n- Session cookies : Supprimés à la fermeture du navigateur\n- Persistants : 13 mois maximum\n- Google Analytics : 26 mois\n\n## 8. Contact\n\n**OMA Digital**\nEmail : omadigital23@gmail.com\nTéléphone : +212 701 193 811\nAdresse : Moustakbal / Sidi Maarouf, Casablanca – Maroc"
     },
     "gdpr_compliance": {
       "title": "Conformité RGPD",
-      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Engagement OMA Digital\n\nOMA Digital s'engage à respecter les principes de protection des données personnelles selon la loi 09-08 et le RGPD pour nos clients européens.\n\n## 2. Principes Fondamentaux\n\n- **Transparence** : Information claire sur nos pratiques\n- **Finalité** : Collecte limitée aux besoins légitimes\n- **Proportionalité** : Traitement adéquat et non excessif\n- **Sécurité** : Protection technique et organisationnelle\n\n## 3. Bases Légales\n\n**Consentement :** Newsletter, cookies non essentiels\n**Contrat :** Fourniture de nos services\n**Intérêt légitime :** Amélioration des services, sécurité\n**Obligation légale :** Comptabilité, fiscalité\n\n## 4. Vos Droits\n\n- **Accès** : Consulter vos données\n- **Rectification** : Corriger les erreurs\n- **Effacement** : Supprimer vos données\n- **Portabilité** : Récupérer vos données\n- **Opposition** : Refuser certains traitements\n- **Limitation** : Suspendre le traitement\n\n## 5. Exercice des Droits\n\n**Contact :**\n- Email : omasenegal25@gmail.com\n\n**Délai de réponse :** 30 jours maximum\n\n## 6. Sécurité des Données\n\n**Mesures techniques :**\n- Chiffrement TLS/SSL\n- Authentification multi-facteurs\n- Sauvegardes sécurisées\n\n**Mesures organisationnelles :**\n- Formation du personnel\n- Procédures de sécurité\n- Audits réguliers\n\n## 7. Transferts Internationaux\n\nCertaines données peuvent être transférées vers les États-Unis (Google) avec des garanties appropriées (clauses contractuelles types).\n\n## 8. Violation de Données\n\nEn cas de violation, nous notifions les autorités sous 72h et les personnes concernées si risque élevé.\n\n## 9. DPO\n\n**Amadou Fall**\nDélégué à la Protection des Données\nEmail : omasenegal25@gmail.com\nTéléphone : +221 77 143 01 37\n\n## 10. Réclamations\n\n**CNDP (Maroc) :**\n- Site : www.cndp.ma\n- Email : cndp@cndp.ma\n\n**CNIL (France) :** www.cnil.fr"
+      "content": "Dernière mise à jour : 15 janvier 2024\n\n## 1. Engagement OMA Digital\n\nOMA Digital s'engage à respecter les principes de protection des données personnelles selon la loi 09-08 et le RGPD pour nos clients européens.\n\n## 2. Principes Fondamentaux\n\n- **Transparence** : Information claire sur nos pratiques\n- **Finalité** : Collecte limitée aux besoins légitimes\n- **Proportionalité** : Traitement adéquat et non excessif\n- **Sécurité** : Protection technique et organisationnelle\n\n## 3. Bases Légales\n\n**Consentement :** Newsletter, cookies non essentiels\n**Contrat :** Fourniture de nos services\n**Intérêt légitime :** Amélioration des services, sécurité\n**Obligation légale :** Comptabilité, fiscalité\n\n## 4. Vos Droits\n\n- **Accès** : Consulter vos données\n- **Rectification** : Corriger les erreurs\n- **Effacement** : Supprimer vos données\n- **Portabilité** : Récupérer vos données\n- **Opposition** : Refuser certains traitements\n- **Limitation** : Suspendre le traitement\n\n## 5. Exercice des Droits\n\n**Contact :**\n- Email : omadigital23@gmail.com\n\n**Délai de réponse :** 30 jours maximum\n\n## 6. Sécurité des Données\n\n**Mesures techniques :**\n- Chiffrement TLS/SSL\n- Authentification multi-facteurs\n- Sauvegardes sécurisées\n\n**Mesures organisationnelles :**\n- Formation du personnel\n- Procédures de sécurité\n- Audits réguliers\n\n## 7. Transferts Internationaux\n\nCertaines données peuvent être transférées vers les États-Unis (Google) avec des garanties appropriées (clauses contractuelles types).\n\n## 8. Violation de Données\n\nEn cas de violation, nous notifions les autorités sous 72h et les personnes concernées si risque élevé.\n\n## 9. DPO\n\n**Amadou Fall**\nDélégué à la Protection des Données\nEmail : omadigital23@gmail.com\nTéléphone : +212 701 193 811\n\n## 10. Réclamations\n\n**CNDP (Maroc) :**\n- Site : www.cndp.ma\n- Email : cndp@cndp.ma\n\n**CNIL (France) :** www.cnil.fr"
     }
   }
 }

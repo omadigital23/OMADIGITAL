@@ -1,13 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getBlogData } from '../../lib/content'
+import type { CommonTranslations } from '../../lib/translations'
 
 interface BlogOverviewProps {
   locale: string
+  translations?: CommonTranslations
 }
 
-export default function BlogOverview({ locale }: BlogOverviewProps) {
+export default function BlogOverview({ locale, translations = {} }: BlogOverviewProps) {
   const articles = getBlogData(locale)
+  const blog = (translations as Record<string, Record<string, string>>).blog_overview || {}
 
   return (
     <section className="py-20 bg-white relative overflow-hidden">
@@ -15,13 +18,10 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {locale === 'fr' ? 'Actualités & Conseils' : 'News & Tips'}
+            {blog.title || 'News & Tips'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {locale === 'fr'
-              ? 'Découvrez nos derniers articles sur les technologies et tendances digitales'
-              : 'Discover our latest articles on digital technologies and trends'
-            }
+            {blog.subtitle || 'Discover our latest articles on digital technologies and trends'}
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
                   href={`/${locale}/blog/${article.categorySlug}/${article.slug}`}
                   className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
                 >
-                  {locale === 'fr' ? 'Lire l\'article' : 'Read Article'}
+                  {blog.read_article || 'Read Article'}
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -77,7 +77,7 @@ export default function BlogOverview({ locale }: BlogOverviewProps) {
             href={`/${locale}/blog`}
             className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
-            {locale === 'fr' ? 'Voir tous les articles' : 'View All Articles'}
+            {blog.view_all || 'View All Articles'}
           </Link>
         </div>
       </div>

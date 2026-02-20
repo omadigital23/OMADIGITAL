@@ -18,7 +18,7 @@ export default function LayoutClient({ children, locale, translations }: LayoutC
       <GoogleAnalytics />
       <Header locale={locale} translations={translations} />
       {children}
-      <Footer locale={locale} />
+      <Footer locale={locale} translations={translations} />
       <CookieConsent />
     </>
   )

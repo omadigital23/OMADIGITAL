@@ -1,6 +1,21 @@
 import { CartProvider } from '../lib/contexts/CartContext'
 import { AuthProvider } from '../lib/contexts/AuthContext'
 import { Metadata } from 'next'
+import { Poppins, Inter } from 'next/font/google'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'OMA Digital',
@@ -24,8 +39,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html>
-      <body>
+    <html lang="fr" className={`${poppins.variable} ${inter.variable}`}>
+      <body className={poppins.className} suppressHydrationWarning>
         <AuthProvider>
           <CartProvider>
             {children}

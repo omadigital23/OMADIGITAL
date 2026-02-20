@@ -2,14 +2,16 @@
 
 import { useState } from 'react'
 import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  email: z.string().email('Adresse e-mail invalide'),
   phone: z.string().optional(),
   company: z.string().optional(),
-  service: z.string().min(1, 'Please select a service'),
-  message: z.string().min(10, 'Message must be at least 10 characters')
+  service: z.string().min(1, 'Veuillez sélectionner un service'),
+  message: z.string().min(10, 'Le message doit contenir au moins 10 caractères')
 })
 
 type ContactFormData = z.infer<typeof contactSchema>
@@ -19,16 +21,18 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ locale }: ContactFormProps) {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    service: '',
-    message: ''
-  })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: 'onTouched'
+  })
 
   const services = [
     { value: 'site-vitrine', label: locale === 'fr' ? 'Site Vitrine' : 'Showcase Website' },
@@ -39,29 +43,20 @@ export default function ContactForm({ locale }: ContactFormProps) {
     { value: 'autre', label: locale === 'fr' ? 'Autre' : 'Other' }
   ]
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
+    setSubmitStatus('idle')
 
     try {
-      const validatedData = contactSchema.parse(formData)
-      
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validatedData)
+        body: JSON.stringify(data)
       })
 
       if (response.ok) {
         setSubmitStatus('success')
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          service: '',
-          message: ''
-        })
+        reset()
       } else {
         setSubmitStatus('error')
       }
@@ -72,29 +67,24 @@ export default function ContactForm({ locale }: ContactFormProps) {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
             {locale === 'fr' ? 'Nom complet *' : 'Full Name *'}
           </label>
           <input
+            {...register('name')}
             type="text"
             id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder={locale === 'fr' ? 'Votre nom...' : 'Your name...'}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.name ? 'border-red-500' : 'border-gray-300'
+              }`}
           />
+          {errors.name && (
+            <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+          )}
         </div>
 
         <div>
@@ -102,14 +92,16 @@ export default function ContactForm({ locale }: ContactFormProps) {
             Email *
           </label>
           <input
+            {...register('email')}
             type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="vous@exemple.com"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300'
+              }`}
           />
+          {errors.email && (
+            <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
+          )}
         </div>
       </div>
 
@@ -119,11 +111,9 @@ export default function ContactForm({ locale }: ContactFormProps) {
             {locale === 'fr' ? 'Téléphone' : 'Phone'}
           </label>
           <input
+            {...register('phone')}
             type="tel"
             id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -133,11 +123,9 @@ export default function ContactForm({ locale }: ContactFormProps) {
             {locale === 'fr' ? 'Entreprise' : 'Company'}
           </label>
           <input
+            {...register('company')}
             type="text"
             id="company"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
@@ -148,12 +136,10 @@ export default function ContactForm({ locale }: ContactFormProps) {
           {locale === 'fr' ? 'Service souhaité *' : 'Desired Service *'}
         </label>
         <select
+          {...register('service')}
           id="service"
-          name="service"
-          value={formData.service}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.service ? 'border-red-500' : 'border-gray-300'
+            }`}
         >
           <option value="">
             {locale === 'fr' ? 'Sélectionnez un service' : 'Select a service'}
@@ -164,6 +150,9 @@ export default function ContactForm({ locale }: ContactFormProps) {
             </option>
           ))}
         </select>
+        {errors.service && (
+          <p className="mt-1 text-xs text-red-500">{errors.service.message}</p>
+        )}
       </div>
 
       <div>
@@ -171,20 +160,21 @@ export default function ContactForm({ locale }: ContactFormProps) {
           {locale === 'fr' ? 'Message *' : 'Message *'}
         </label>
         <textarea
+          {...register('message')}
           id="message"
-          name="message"
           rows={5}
-          value={formData.message}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.message ? 'border-red-500' : 'border-gray-300'
+            }`}
           placeholder={locale === 'fr' ? 'Décrivez votre projet...' : 'Describe your project...'}
         />
+        {errors.message && (
+          <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>
+        )}
       </div>
 
       {submitStatus === 'success' && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          {locale === 'fr' 
+          {locale === 'fr'
             ? 'Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.'
             : 'Your message has been sent successfully. We will respond to you as soon as possible.'
           }
@@ -193,7 +183,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
 
       {submitStatus === 'error' && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {locale === 'fr' 
+          {locale === 'fr'
             ? 'Une erreur est survenue. Veuillez réessayer.'
             : 'An error occurred. Please try again.'
           }
@@ -205,7 +195,7 @@ export default function ContactForm({ locale }: ContactFormProps) {
         disabled={isSubmitting}
         className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting 
+        {isSubmitting
           ? (locale === 'fr' ? 'Envoi en cours...' : 'Sending...')
           : (locale === 'fr' ? 'Envoyer le message' : 'Send Message')
         }

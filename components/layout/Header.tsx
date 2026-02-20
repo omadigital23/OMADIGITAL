@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import LanguageSwitcher from './LanguageSwitcher'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useCart } from '../../lib/contexts/CartContext'
 import { useAuth } from '../../lib/contexts/AuthContext'
 import LoginModal from '../LoginModal'
@@ -22,28 +22,29 @@ export default function Header({ locale, translations = {} }: HeaderProps) {
   const { user, profile, signOut } = useAuth()
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement>(null)
+
+  // Close user dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false)
+      }
+    }
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isUserMenuOpen])
+
+  const nav = translations.nav || {}
 
   const navItems = [
-    {
-      href: `/${locale}`,
-      label: locale === 'fr' ? 'Accueil' : 'Home'
-    },
-    {
-      href: `/${locale}/services`,
-      label: locale === 'fr' ? 'Services' : 'Services'
-    },
-    {
-      href: `/${locale}/about`,
-      label: locale === 'fr' ? 'À Propos' : 'About'
-    },
-    {
-      href: `/${locale}/blog`,
-      label: locale === 'fr' ? 'Blog' : 'Blog'
-    },
-    {
-      href: `/${locale}/contact`,
-      label: locale === 'fr' ? 'Contact' : 'Contact'
-    }
+    { href: `/${locale}`, label: nav.home || 'Accueil' },
+    { href: `/${locale}/services`, label: nav.services || 'Services' },
+    { href: `/${locale}/about`, label: nav.about || 'À Propos' },
+    { href: `/${locale}/blog`, label: nav.blog || 'Blog' },
+    { href: `/${locale}/contact`, label: nav.contact || 'Contact' }
   ]
 
   return (
@@ -102,7 +103,7 @@ export default function Header({ locale, translations = {} }: HeaderProps) {
 
             {/* User Menu */}
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors flex items-center space-x-2"
@@ -130,20 +131,19 @@ export default function Header({ locale, translations = {} }: HeaderProps) {
                       onClick={() => setIsUserMenuOpen(false)}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      {locale === 'fr' ? 'Mes Commandes' : 'My Orders'}
+                      {translations.auth?.my_orders || (locale === 'fr' ? 'Mes Commandes' : 'My Orders')}
                     </Link>
                     <button
                       onClick={async () => {
                         try {
                           await signOut()
                           setIsUserMenuOpen(false)
-                        } catch (error) {
-                          console.error('Erreur lors de la déconnexion:', error)
+                        } catch {
                         }
                       }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 border-t"
                     >
-                      {locale === 'fr' ? 'Déconnexion' : 'Sign Out'}
+                      {translations.auth?.signout || (locale === 'fr' ? 'Déconnexion' : 'Sign Out')}
                     </button>
                   </div>
                 )}

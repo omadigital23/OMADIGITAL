@@ -1,23 +1,9 @@
-import { Poppins, Inter } from 'next/font/google'
+
 import { Metadata } from 'next'
 import LayoutClient from './layout-client'
 import './globals.css'
 import { getCommonTranslations } from '../../lib/translations'
 import type { Locale } from '../../lib/translations'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-poppins',
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-inter',
-  display: 'swap',
-})
 
 const SITE_URL = 'https://www.omadigital.net'
 
@@ -131,7 +117,7 @@ const localBusinessSchema = {
   logo: `${SITE_URL}/images/logo.webp`,
   image: `${SITE_URL}/images/logo.webp`,
   telephone: '+212701193811',
-  email: 'omasenegal25@gmail.com',
+  email: 'omadigital23@gmail.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Moustakbal / Sidi Maarouf',
@@ -192,7 +178,7 @@ export default async function RootLayout({
   const translations = getCommonTranslations(locale as Locale)
 
   return (
-    <html lang={locale} className={`${poppins.variable} ${inter.variable}`}>
+    <>
       <head>
         <script
           type="application/ld+json"
@@ -203,12 +189,10 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className={poppins.className} suppressHydrationWarning>
-        <LayoutClient locale={locale} translations={translations}>
-          {children}
-        </LayoutClient>
-      </body>
-    </html>
+      <LayoutClient locale={locale} translations={translations}>
+        {children}
+      </LayoutClient>
+    </>
   )
 }
 

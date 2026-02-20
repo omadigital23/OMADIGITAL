@@ -94,7 +94,7 @@ describe('getServicesData', () => {
         const { services } = getServicesData('fr')
         for (const service of services) {
             // Titles should NOT start with an emoji
-            expect(service.title).not.toMatch(/^[📊🚀💎🏢]\s/)
+            expect(service.title).not.toMatch(/^[🌐🛍️📱📲🤖💬⚙️📈🎬]\s/)
         }
     })
 })

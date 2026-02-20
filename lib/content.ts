@@ -181,10 +181,15 @@ export function getServicesData(locale: string): { services: FeaturedService[]; 
     const servicesUI = (data.services_ui || {}) as Record<string, unknown>
 
     const iconMap: Record<string, string> = {
-        'pack-essentiel': '📊',
-        'pack-croissance': '🚀',
-        'pack-prestige': '💎',
-        'creation-entreprise': '🏢',
+        'site-vitrine': '🌐',
+        'ecommerce-essentiel': '🛍️',
+        'app-mobile-mvp': '📱',
+        'app-mobile-standard': '📲',
+        'chatbot-ia': '🤖',
+        'bot-simple': '💬',
+        'automatisation-ia': '⚙️',
+        'marketing-digital': '📈',
+        'creation-video': '🎬',
     }
 
     const featuredServices: FeaturedService[] = services.map((s) => {

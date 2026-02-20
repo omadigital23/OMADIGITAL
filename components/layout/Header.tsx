@@ -4,36 +4,24 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import LanguageSwitcher from './LanguageSwitcher'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useCart } from '../../lib/contexts/CartContext'
 import { useAuth } from '../../lib/contexts/AuthContext'
 import LoginModal from '../LoginModal'
+import type { CommonTranslations } from '../../lib/translations'
 
 interface HeaderProps {
   locale: string
+  translations?: CommonTranslations
 }
 
-export default function Header({ locale }: HeaderProps) {
+export default function Header({ locale, translations = {} }: HeaderProps) {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { items } = useCart()
   const { user, profile, signOut } = useAuth()
-  const [translations, setTranslations] = useState<any>({})
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-
-  useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        const response = await fetch(`/locales/${locale}/common.json`)
-        const data = await response.json()
-        setTranslations(data)
-      } catch (err) {
-        console.error('Erreur lors du chargement des traductions:', err)
-      }
-    }
-    loadTranslations()
-  }, [locale])
 
   const navItems = [
     {

@@ -42,6 +42,8 @@ export interface FeaturedService {
     description: string
     price: string
     icon: string
+    includes: string[]
+    stack: string[]
 }
 
 export interface BlogArticlePreview {
@@ -215,6 +217,8 @@ export function getServicesData(locale: string): { services: FeaturedService[]; 
             description: s.description as string,
             price: s.price as string,
             icon: iconMap[(s.id as string)] || '📦',
+            includes: (s.includes as string[]) || [],
+            stack: (s.stack as string[]) || [],
         }
     })
 

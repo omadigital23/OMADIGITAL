@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,30 +7,95 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
   }
-  
+
   body {
-    @apply text-gray-900 bg-white;
+    @apply text-oma-dark bg-white antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
   }
 }
 
 @layer components {
+  /* ── Boutons OMA ── */
+  .btn-oma {
+    @apply inline-flex items-center justify-center gap-2
+           bg-oma-orange text-white
+           px-6 py-3 rounded-oma font-semibold text-sm
+           hover:bg-oma-orange-dark active:scale-95
+           transition-all duration-200 shadow-oma-sm hover:shadow-oma-md
+           focus:outline-none focus:ring-2 focus:ring-oma-orange focus:ring-offset-2;
+  }
+
+  .btn-oma-outline {
+    @apply inline-flex items-center justify-center gap-2
+           border-2 border-oma-orange text-oma-orange bg-transparent
+           px-6 py-3 rounded-oma font-semibold text-sm
+           hover:bg-oma-orange hover:text-white active:scale-95
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-oma-orange focus:ring-offset-2;
+  }
+
+  .btn-oma-dark {
+    @apply inline-flex items-center justify-center gap-2
+           bg-oma-dark text-white
+           px-6 py-3 rounded-oma font-semibold text-sm
+           hover:bg-oma-dark-soft active:scale-95
+           transition-all duration-200 shadow-oma-card;
+  }
+
+  /* Legacy aliases */
   .btn-primary {
-    @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors;
+    @apply btn-oma;
   }
-  
   .btn-secondary {
-    @apply bg-gray-200 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors;
+    @apply btn-oma-outline;
   }
-  
+
+  /* ── Cartes OMA ── */
+  .card-oma {
+    @apply bg-white rounded-oma-lg shadow-oma-card p-6
+           border border-oma-gray-border
+           hover:shadow-oma-md hover:-translate-y-1
+           transition-all duration-300;
+  }
+
   .card {
-    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+    @apply card-oma;
   }
-  
+
+  /* ── Sections ── */
   .section-padding {
     @apply py-16 lg:py-24;
   }
-  
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-heading font-bold text-oma-dark mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-oma-gray max-w-3xl mx-auto leading-relaxed;
+  }
+
+  /* ── Gradients ── */
+  .gradient-oma {
+    background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  }
+
+  .gradient-oma-dark {
+    background: linear-gradient(135deg, #111827 0%, #1F2937 100%);
+  }
+
+  /* ── Badge ── */
+  .badge-oma {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+           bg-orange-100 text-oma-orange-dark border border-orange-200;
+  }
+
+  /* ── Container ── */
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }

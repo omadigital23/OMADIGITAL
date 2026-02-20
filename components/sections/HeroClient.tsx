@@ -182,8 +182,8 @@ export default function HeroClient({ servicesData, videosData, locale }: HeroCli
 
               <p className="text-base sm:text-lg lg:text-xl text-blue-100 max-w-lg">
                 {locale === 'fr'
-                  ? 'Agence digitale experte au Maroc & Sénégal. Solutions web, mobile et marketing sur mesure.'
-                  : 'Expert digital agency in Morocco & Senegal. Custom web, mobile and marketing solutions.'
+                  ? 'Agence digitale basée à Casablanca, Maroc. Sites web, applications mobiles et marketing digital sur mesure.'
+                  : 'Digital agency based in Casablanca, Morocco. Custom web, mobile and digital marketing solutions.'
                 }
               </p>
             </div>

@@ -1,65 +1,92 @@
-import { Inter } from 'next/font/google'
+import { Poppins, Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import LayoutClient from './layout-client'
 import './globals.css'
+import { getCommonTranslations } from '../../lib/translations'
+import type { Locale } from '../../lib/translations'
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
   display: 'swap',
 })
 
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const SITE_URL = 'https://www.omadigital.net'
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
+  const isFr = locale === 'fr'
 
   return {
     title: {
       template: '%s | OMA Digital',
-      default: locale === 'fr'
-        ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
-        : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal'
+      default: isFr
+        ? 'OMA Digital — Agence Web & Marketing Digital à Casablanca, Maroc'
+        : 'OMA Digital — Web Agency & Digital Marketing in Casablanca, Morocco'
     },
-    metadataBase: new URL('https://www.omadigital.net'),
-    description: locale === 'fr'
-      ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal. Solutions web, mobile et marketing digital sur mesure pour votre croissance.'
-      : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal. Custom web, mobile and digital marketing solutions for your growth.',
-    keywords: locale === 'fr'
-      ? 'agence web maroc, création site web casablanca, développeur freelance maroc, application mobile maroc, chatbot ia maroc, agence digitale casablanca, site e-commerce maroc, marketing digital maroc, agence seo maroc, agence web sénégal, création site web dakar, développeur next.js sénégal, bot whatsapp maroc sénégal, automatisation marketing, community management, transformation digitale afrique, solutions digitales afrique, agence panafricaine digitale'
-      : 'web agency morocco, website creation casablanca, freelance developer morocco, mobile application morocco, ai chatbot morocco, digital agency casablanca, ecommerce site morocco, digital marketing morocco, seo agency morocco, web agency senegal, website creation dakar, nextjs developer senegal, whatsapp bot morocco senegal, marketing automation, community management, digital transformation africa, digital solutions africa, panafrican digital agency',
-    authors: [{ name: 'OMA Digital' }],
+    metadataBase: new URL(SITE_URL),
+    description: isFr
+      ? 'Agence digitale OMA basée à Moustakbal, Casablanca. Création de sites web, applications mobiles, chatbot IA, marketing digital et automatisation WhatsApp pour les entreprises au Maroc.'
+      : 'OMA Digital agency based in Moustakbal, Casablanca. Web design, mobile apps, AI chatbot, digital marketing and WhatsApp automation for businesses in Morocco.',
+    keywords: isFr
+      ? [
+        'agence web Casablanca', 'création site web Casablanca', 'agence digitale Casablanca',
+        'agence web Maroc', 'développeur Next.js Maroc', 'développeur freelance Casablanca',
+        'agence web Moustakbal', 'agence digitale Moustakbal', 'Sidi Maarouf agence web',
+        'application mobile Maroc', 'chatbot IA Maroc', 'automatisation WhatsApp Maroc',
+        'marketing digital Maroc', 'agence SEO Casablanca', 'site e-commerce Maroc',
+        'transformation digitale Maroc', 'OMA Digital', 'OMA agence Casablanca',
+      ].join(', ')
+      : [
+        'web agency Casablanca', 'website creation Casablanca', 'digital agency Casablanca',
+        'web agency Morocco', 'Next.js developer Morocco', 'freelance developer Casablanca',
+        'mobile app Morocco', 'AI chatbot Morocco', 'WhatsApp automation Morocco',
+        'digital marketing Morocco', 'SEO agency Casablanca', 'ecommerce Morocco',
+        'digital transformation Morocco', 'OMA Digital', 'OMA agency Casablanca',
+      ].join(', '),
+    authors: [{ name: 'OMA Digital', url: SITE_URL }],
     creator: 'OMA Digital',
     publisher: 'OMA Digital',
     alternates: {
-      canonical: `https://www.omadigital.net/${locale}`,
+      canonical: `${SITE_URL}/${locale}`,
       languages: {
-        'fr-MA': 'https://www.omadigital.net/fr',
-        'en': 'https://www.omadigital.net/en',
-        'x-default': 'https://www.omadigital.net/fr'
+        'fr-MA': `${SITE_URL}/fr`,
+        'en': `${SITE_URL}/en`,
+        'x-default': `${SITE_URL}/fr`,
       }
     },
     openGraph: {
       type: 'website',
-      locale: locale === 'fr' ? 'fr_MA' : 'en_US',
-      url: `https://www.omadigital.net/${locale}`,
+      locale: isFr ? 'fr_MA' : 'en_US',
+      url: `${SITE_URL}/${locale}`,
       siteName: 'OMA Digital',
-      title: locale === 'fr'
-        ? 'OMA Digital - Agence Web & Marketing Digital au Maroc & Sénégal'
-        : 'OMA Digital - Web Agency & Digital Marketing in Morocco & Senegal',
-      description: locale === 'fr'
-        ? 'Agence digitale experte basée à Casablanca (Maroc) servant le Maroc et le Sénégal.'
-        : 'Expert digital agency based in Casablanca (Morocco) serving Morocco and Senegal.',
+      title: isFr
+        ? 'OMA Digital — Agence Web & Marketing Digital à Casablanca, Maroc'
+        : 'OMA Digital — Web Agency & Digital Marketing in Casablanca, Morocco',
+      description: isFr
+        ? 'Agence digitale basée à Moustakbal, Casablanca. Sites web, apps mobiles, chatbot IA, marketing digital et automatisation WhatsApp.'
+        : 'Digital agency based in Moustakbal, Casablanca. Web, mobile, AI chatbot, digital marketing and WhatsApp automation.',
       images: [
         {
-          url: 'https://www.omadigital.net/images/logo.webp',
+          url: `${SITE_URL}/images/logo.webp`,
           width: 1200,
           height: 630,
-          alt: 'OMA Digital'
+          alt: 'OMA Digital — Agence Web Casablanca',
         }
       ]
     },
     twitter: {
       card: 'summary_large_image',
-      site: '@omadigital',
-      creator: '@omadigital'
+      site: '@omasenegal',
+      creator: '@omasenegal',
     },
     robots: {
       index: true,
@@ -69,24 +96,89 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         follow: true,
         'max-video-preview': -1,
         'max-image-preview': 'large',
-        'max-snippet': -1
+        'max-snippet': -1,
       }
     },
     verification: {
-      google: process.env.GOOGLE_SITE_VERIFICATION
+      google: process.env.GOOGLE_SITE_VERIFICATION,
     },
     icons: {
       icon: [
         { url: '/images/logo.webp', sizes: '32x32', type: 'image/webp' },
         { url: '/images/logo.webp', sizes: '16x16', type: 'image/webp' },
       ],
-      apple: [
-        { url: '/images/logo.webp', sizes: '180x180', type: 'image/webp' },
-      ],
+      apple: [{ url: '/images/logo.webp', sizes: '180x180', type: 'image/webp' }],
       shortcut: '/images/logo.webp',
     },
     manifest: '/manifest.json',
+    // Geo meta tags (via other)
+    other: {
+      'geo.region': 'MA-05',
+      'geo.placename': 'Casablanca, Maroc',
+      'geo.position': '33.5731;-7.5898',
+      'ICBM': '33.5731, -7.5898',
+    },
   }
+}
+
+// JSON-LD schemas
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'OMA Digital',
+  description: 'Agence digitale spécialisée en création de sites web, applications mobiles, chatbot IA et marketing digital à Casablanca, Maroc.',
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/logo.webp`,
+  image: `${SITE_URL}/images/logo.webp`,
+  telephone: '+212701193811',
+  email: 'omasenegal25@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Moustakbal / Sidi Maarouf',
+    addressLocality: 'Casablanca',
+    addressRegion: 'Grand Casablanca',
+    addressCountry: 'MA',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 33.5731,
+    longitude: -7.5898,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    }
+  ],
+  sameAs: [
+    'https://web.facebook.com/profile.php?id=61579740432372',
+    'https://www.instagram.com/oma.senegal/',
+  ],
+  priceRange: '$$',
+  areaServed: [
+    { '@type': 'City', name: 'Casablanca' },
+    { '@type': 'Country', name: 'Maroc' },
+  ],
+  hasMap: 'https://maps.google.com/?q=Moustakbal,Casablanca,Maroc',
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'OMA Digital',
+  url: SITE_URL,
+  description: 'Agence digitale à Casablanca — Sites web, apps mobiles, chatbot IA, marketing digital.',
+  inLanguage: ['fr', 'en'],
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_URL}/fr/blog?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 }
 
 export default async function RootLayout({
@@ -97,14 +189,26 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const translations = getCommonTranslations(locale as Locale)
 
   return (
-    <html lang={locale}>
-      <body className={inter.className} suppressHydrationWarning>
-        <LayoutClient locale={locale}>
+    <html lang={locale} className={`${poppins.variable} ${inter.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
+      <body className={poppins.className} suppressHydrationWarning>
+        <LayoutClient locale={locale} translations={translations}>
           {children}
         </LayoutClient>
       </body>
     </html>
   )
 }
+

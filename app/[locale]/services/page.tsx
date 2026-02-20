@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import ServicesGrid from '../../../components/ServicesGrid'
+import { getCommonTranslations } from '../../../lib/translations'
+import type { Locale } from '../../../lib/translations'
 
 interface ServicesPageProps {
   params: Promise<{ locale: string }>
@@ -11,10 +13,10 @@ export async function generateMetadata({ params }: ServicesPageProps): Promise<M
   const url = `${domain}/${locale}/services`
 
   return {
-    title: locale === 'fr' ? 'Nos Services' : 'Our Services',
+    title: locale === 'fr' ? 'Nos Services | OMA Digital Casablanca' : 'Our Services | OMA Digital Casablanca',
     description: locale === 'fr'
-      ? 'Découvrez nos services : développement web, applications mobiles, e-commerce, SEO, marketing digital et consulting IT au Maroc et Sénégal.'
-      : 'Discover our services: web development, mobile apps, e-commerce, SEO, digital marketing and IT consulting in Morocco and Senegal.',
+      ? 'Découvrez nos services digitaux : développement web, applications mobiles, e-commerce, SEO, marketing digital et chatbot IA à Casablanca, Maroc.'
+      : 'Discover our digital services: web development, mobile apps, e-commerce, SEO, digital marketing and AI chatbot in Casablanca, Morocco.',
     alternates: {
       canonical: url,
       languages: {
@@ -26,16 +28,12 @@ export async function generateMetadata({ params }: ServicesPageProps): Promise<M
   }
 }
 
-import { getLocalizedContent } from '../../../lib/utils/content'
-
-async function getServices(locale: string) {
-  const data = await getLocalizedContent(locale)
-  return data?.services || []
-}
+import { getServicesData } from '../../../lib/content'
 
 export default async function ServicesPage({ params }: ServicesPageProps) {
   const { locale } = await params
-  const services = await getServices(locale)
+  const { services } = getServicesData(locale)
+  const translations = getCommonTranslations(locale as Locale)
 
   return (
     <main className="min-h-screen">
@@ -47,8 +45,8 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
           </h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto">
             {locale === 'fr'
-              ? 'Solutions digitales complètes pour transformer votre entreprise au Maroc et Sénégal'
-              : 'Complete digital solutions to transform your business in Morocco and Senegal'
+              ? 'Agence digitale basée à Casablanca, Maroc. Sites web, apps mobiles et marketing digital sur mesure.'
+              : 'Digital agency based in Casablanca, Morocco. Custom web, mobile and digital marketing solutions.'
             }
           </p>
         </div>
@@ -94,7 +92,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
             </p>
           </div>
 
-          <ServicesGrid services={services} />
+          <ServicesGrid services={services} uiTranslations={translations.services_ui} />
         </div>
       </section>
 

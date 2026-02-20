@@ -9,6 +9,13 @@
 import fs from 'fs'
 import path from 'path'
 
+const HOMEPAGE_SERVICE_IDS = [
+    'site-vitrine',
+    'app-mobile-standard',
+    'automatisation-ia',
+    'creation-video',
+]
+
 // ─── Types ───────────────────────────────────────────────────────────────
 
 export interface ServiceSlide {
@@ -81,6 +88,8 @@ export interface ServicesUIData {
     featured_description: string
     learn_more: string
     view_all: string
+    view_details: string
+    order: string
 }
 
 // ─── Cache ───────────────────────────────────────────────────────────────
@@ -175,7 +184,7 @@ export function getHeroData(locale: string): HeroData {
  * Returns featured services data for the homepage.
  * Maps from the full services array in common.json to a simplified preview format.
  */
-export function getServicesData(locale: string): { services: FeaturedService[]; ui: ServicesUIData } {
+export function getServicesData(locale: string): { services: FeaturedService[]; featuredServices: FeaturedService[]; ui: ServicesUIData } {
     const data = loadLocaleFile(locale)
     const services = (data.services || []) as Array<Record<string, unknown>>
     const servicesUI = (data.services_ui || {}) as Record<string, unknown>
@@ -192,7 +201,7 @@ export function getServicesData(locale: string): { services: FeaturedService[]; 
         'creation-video': '🎬',
     }
 
-    const featuredServices: FeaturedService[] = services.map((s) => {
+    const allServices: FeaturedService[] = services.map((s) => {
         let title = (s.title as string) || ''
         // Remove emoji prefix (e.g., "📊 Pack Essentiel" → "Pack Essentiel")
         // Emojis are multi-byte, so we use a Unicode-aware approach
@@ -209,13 +218,19 @@ export function getServicesData(locale: string): { services: FeaturedService[]; 
         }
     })
 
+    // Filter for homepage
+    const featuredServices = allServices.filter(s => HOMEPAGE_SERVICE_IDS.includes(s.id))
+
     return {
-        services: featuredServices,
+        services: allServices,
+        featuredServices,
         ui: {
             featured_title: (servicesUI.featured_title as string) || (locale === 'fr' ? 'Nos Services Phares' : 'Our Featured Services'),
             featured_description: (servicesUI.featured_description as string) || '',
             learn_more: (servicesUI.learn_more as string) || (locale === 'fr' ? 'En savoir plus' : 'Learn More'),
             view_all: (servicesUI.view_all as string) || (locale === 'fr' ? 'Voir tous nos services' : 'View All Services'),
+            view_details: (servicesUI.view_details as string) || (locale === 'fr' ? 'Voir les détails' : 'View Details'),
+            order: (servicesUI.order as string) || (locale === 'fr' ? 'Commander' : 'Order Now'),
         },
     }
 }

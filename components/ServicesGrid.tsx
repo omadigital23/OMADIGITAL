@@ -27,6 +27,11 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
   const [translations, setTranslations] = useState<any>({})
   const [addedService, setAddedService] = useState<string | null>(null)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [expandedServiceId, setExpandedServiceId] = useState<string | null>(null)
+
+  const toggleDetails = (id: string) => {
+    setExpandedServiceId(prev => prev === id ? null : id)
+  }
 
   useEffect(() => {
     const loadTranslations = async () => {
@@ -83,39 +88,55 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
               <span className="text-3xl font-bold text-blue-600">{service.price}</span>
             </div>
 
-            {/* Détails inclus */}
-            {service.includes && service.includes.length > 0 && (
-              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                  {translations.services_ui?.included || '✓ Détails inclus :'}
-                </h4>
-                <ul className="space-y-2">
-                  {service.includes.map((item: string, index: number) => (
-                    <li key={index} className="text-sm text-gray-700 flex items-start">
-                      <span className="text-blue-600 mr-2 font-bold">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+            {/* Toggle Button */}
+            <div className="mb-4">
+              <button
+                onClick={() => toggleDetails(service.id)}
+                className="text-blue-600 font-semibold hover:text-blue-800 text-sm focus:outline-none flex items-center transition-colors"
+              >
+                {expandedServiceId === service.id ? (translations.services_ui?.hide_details || 'Masquer les détails') : (translations.services_ui?.view_details || 'Voir les détails')}
+                <span className={`ml-2 transform transition-transform ${expandedServiceId === service.id ? 'rotate-180' : ''}`}>▼</span>
+              </button>
+            </div>
+
+            {/* Collapsible Content */}
+            {expandedServiceId === service.id && (
+              <div className="transition-all duration-300 ease-in-out">
+                {/* Détails inclus */}
+                {service.includes && service.includes.length > 0 && (
+                  <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 className="font-semibold mb-3 text-gray-700 text-sm">
+                      {translations.services_ui?.included || '✓ Détails inclus :'}
+                    </h4>
+                    <ul className="space-y-2">
+                      {service.includes.map((item: string, index: number) => (
+                        <li key={index} className="text-sm text-gray-700 flex items-start">
+                          <span className="text-blue-600 mr-2 font-bold">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Technologies */}
+                <div className="mb-6">
+                  <h4 className="font-semibold mb-3 text-gray-700 text-sm">
+                    {translations.services_ui?.technologies || '🔧 Technologies clés :'}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {service.stack?.map((tech: string, index: number) => (
+                      <span
+                        key={index}
+                        className="bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium border border-blue-200"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
-
-            {/* Technologies */}
-            <div className="mb-6">
-              <h4 className="font-semibold mb-3 text-gray-700 text-sm">
-                {translations.services_ui?.technologies || '🔧 Technologies clés :'}
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {service.stack?.map((tech: string, index: number) => (
-                  <span
-                    key={index}
-                    className="bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium border border-blue-200"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
 
             {/* Bouton Ajouter au panier */}
             <button
@@ -127,7 +148,7 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
             >
               {addedService === service.id
                 ? translations.cart?.added || 'Article ajouté'
-                : translations.cart?.checkout || 'Ajouter au panier'}
+                : translations.services_ui?.order || 'Commander'}
             </button>
           </div>
         </div>

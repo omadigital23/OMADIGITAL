@@ -6,7 +6,7 @@ interface ServicesOverviewProps {
 }
 
 export default function ServicesOverview({ locale }: ServicesOverviewProps) {
-  const { services: featuredServices, ui } = getServicesData(locale)
+  const { featuredServices, ui } = getServicesData(locale)
 
   return (
     <section className="py-20 bg-gray-50 relative overflow-hidden">

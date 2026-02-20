@@ -1,52 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { getBlogData } from '../../lib/content'
 
 interface BlogOverviewProps {
   locale: string
 }
 
 export default function BlogOverview({ locale }: BlogOverviewProps) {
-  const articles = [
-    {
-      id: 'site-vitrine-moderne',
-      slug: 'site-vitrine-moderne',
-      categorySlug: 'developpement-web',
-      title: locale === 'fr' ? 'Site Vitrine Moderne : La Vitrine Digitale de Votre Entreprise' : 'Modern Showcase Website: Your Professional Digital Presence',
-      excerpt: locale === 'fr'
-        ? 'Découvrez comment un site vitrine moderne peut transformer votre présence digitale et générer plus de clients pour seulement 5 000 DH.'
-        : 'Discover how a modern showcase website can transform your digital presence and generate more clients for only 5,000 DH.',
-      readTime: '12 min',
-      publishedAt: '2025-01-05',
-      category: locale === 'fr' ? 'Développement Web' : 'Web Development',
-      icon: '🌐'
-    },
-    {
-      id: 'chatbot-ia-personnalise',
-      slug: 'chatbot-ia-personnalise',
-      categorySlug: 'intelligence-artificielle',
-      title: locale === 'fr' ? 'Chatbot IA Personnalisé (RAG) : Intelligence Avancée' : 'Custom AI Chatbot (RAG): Advanced Intelligence',
-      excerpt: locale === 'fr'
-        ? 'Chatbot intelligent avec IA et base de connaissances utilisant Gemini AI, RAG, Vector DB, Next.js pour 10 000 DH + 500 DH/mois.'
-        : 'Intelligent chatbot with AI and knowledge base using Gemini AI, RAG, Vector DB, Next.js for 10,000 DH + 500 DH/month.',
-      readTime: '10 min',
-      publishedAt: '2025-01-10',
-      category: locale === 'fr' ? 'Intelligence Artificielle' : 'Artificial Intelligence',
-      icon: '🤖'
-    },
-    {
-      id: 'bot-simple-whatsapp',
-      slug: 'bot-simple-whatsapp',
-      categorySlug: 'intelligence-artificielle',
-      title: locale === 'fr' ? 'Bot Simple WhatsApp/Telegram : Réponses Automatisées' : 'Simple WhatsApp/Telegram Bot: Automated Responses',
-      excerpt: locale === 'fr'
-        ? 'Bot WhatsApp/Telegram simple avec réponses automatisées et menu interactif pour 2 000 DH + 200 DH/mois.'
-        : 'Simple WhatsApp/Telegram bot with automated responses and interactive menu for 2,000 DH + 200 DH/month.',
-      readTime: '8 min',
-      publishedAt: '2025-01-15',
-      category: locale === 'fr' ? 'WhatsApp Business' : 'WhatsApp Business',
-      icon: '💬'
-    }
-  ]
+  const articles = getBlogData(locale)
 
   return (
     <section className="py-20 bg-white relative overflow-hidden">

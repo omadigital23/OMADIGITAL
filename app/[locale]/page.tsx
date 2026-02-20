@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import HomePageClient from './HomePageClient'
+import { getAgencyData } from '../../lib/content'
 
 // Dynamically import client components to avoid hydration mismatches
 const HeroSection = dynamic(() => import('../../components/sections/HeroSection'), { ssr: true })
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params
+  const agencyData = getAgencyData(locale)
 
   return (
     <main>
@@ -49,7 +51,7 @@ export default async function HomePage({ params }: HomePageProps) {
         <BlogOverview locale={locale} />
       </div>
       <div className="agency-info-section">
-        <AgencyInfo locale={locale} />
+        <AgencyInfo locale={locale} data={agencyData} />
       </div>
     </main>
   )

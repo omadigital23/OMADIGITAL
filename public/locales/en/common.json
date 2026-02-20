@@ -62,158 +62,78 @@
   },
   "services": [
     {
-      "id": "site-vitrine",
-      "title": "🌐 Showcase Website (Standard)",
-      "description": "Modern, fast and secure websites — perfect for businesses, restaurants or personal brands. Integrated with a contact form linked to WhatsApp, a simple database to manage messages or orders, ideal for small businesses wanting to receive orders without complexity.",
-      "price": "5,000 DH",
+      "id": "pack-essentiel",
+      "title": "📊 Essential Pack",
+      "description": "Target: Startups, Small Businesses. Objective: Ensure basic compliance without increasing your burdens.",
+      "price": "2 500 000 FCFA excl. tax / Year",
       "stack": [
-        "Next.js",
-        "Supabase",
-        "Vercel",
-        "Tailwind CSS"
+        "Accounting",
+        "Legal",
+        "Taxation",
+        "Human Resources"
       ],
       "includes": [
-        "2 months of free updates",
-        "Maintenance and technical support",
-        "Initial hosting",
-        "Training and onboarding"
+        "Accounting: Full bookkeeping, VAT, Balance sheet (Turnover < 50M)",
+        "Legal: 1 statutory modification or annual minutes",
+        "Tax: Email advice and regulatory monitoring",
+        "HR: Standard contracts (5 employees), IPRES/CSS advice",
+        "+ Priority phone support (3 calls/month)"
       ]
     },
     {
-      "id": "ecommerce-essentiel",
-      "title": "🛒 Essential E-commerce",
-      "description": "Online stores optimized for sales: product management, shopping cart, secure payment (Flutterwave, card, mobile money), and WhatsApp integration for direct orders. Ideal for small shops or creators.",
-      "price": "10,000 DH",
+      "id": "pack-croissance",
+      "title": "🚀 Growth Pack",
+      "description": "Target: Growing SMEs. Objective: Secure your expansion with proactive expertise.",
+      "price": "4 000 000 FCFA excl. tax / Year",
       "stack": [
-        "Next.js",
-        "Flutterwave",
-        "Supabase",
-        "SendGrid"
+        "Advanced Accounting",
+        "Commercial Law",
+        "Tax Audit",
+        "Payroll Mgmt"
       ],
       "includes": [
-        "2 months of free updates",
-        "Payment security",
-        "Maintenance",
-        "Technical launch support"
+        "Accounting: Full bookkeeping, BRS, Declarations (Turnover < 150M)",
+        "Legal: 2 mods, 2 commercial contracts/year",
+        "Tax: Preventive annual tax audit",
+        "HR: Payroll (15 employees), Disciplinary management",
+        "+ Quarterly strategy meeting"
       ]
     },
     {
-      "id": "app-mobile-mvp",
-      "title": "📱 Mobile Application (MVP)",
-      "description": "Minimum viable mobile application to quickly test a concept or startup idea. Lightweight but functional version to validate your project before full deployment.",
-      "price": "Starting from 10,999 DH",
+      "id": "pack-prestige",
+      "title": "💎 Prestige Pack",
+      "description": "Target: Large Enterprises. Objective: High-level outsourced legal, tax, and HR management.",
+      "price": "7 000 000 FCFA excl. tax / Year",
       "stack": [
-        "Flutter",
-        "Supabase",
-        "Firebase"
+        "Financial Direction",
+        "OAPI Protection",
+        "Tax Defense",
+        "Exec Recruitment"
       ],
       "includes": [
-        "2 months of free updates",
-        "Maintenance and bug fixes",
-        "Database hosting",
-        "Play Store assistance"
+        "Accounting: Total management no turnover limit, Reporting",
+        "Legal: Full secretariat, Complex contracts, OAPI",
+        "Tax: Optimization, Tax audit assistance",
+        "HR: Unlimited payroll, 2 Exec recruitments, Social audit",
+        "+ Dedicated consultant available 24/7"
       ]
     },
     {
-      "id": "app-mobile-standard",
-      "title": "🚀 Mobile Application (Standard)",
-      "description": "Complete and performant application with authentication, API, payments, push notifications and advanced integrations. Perfect for businesses and startups wanting a solid and durable app.",
-      "price": "Starting from 20,000 DH",
+      "id": "creation-entreprise",
+      "title": "🏢 Creation & Support",
+      "description": "Launch your business with peace of mind. We handle administrative creation and provide strategic support for 3 months.",
+      "price": "500 000 FCFA",
       "stack": [
-        "Flutter",
-        "Supabase",
-        "Twilio",
-        "Flutterwave"
+        "Legal",
+        "Administrative",
+        "Consulting",
+        "Coaching"
       ],
       "includes": [
-        "2 months of maintenance and updates",
-        "Technical support & monitoring",
-        "Secure hosting",
-        "App Store & Play Store assistance"
-      ]
-    },
-    {
-      "id": "chatbot-ia-rag",
-      "title": "🤖 Custom AI Chatbot (RAG)",
-      "description": "Intelligent chatbot connected to internal knowledge base (RAG), integrated on your website or WhatsApp. Ideal for automated customer support, FAQ, or business management.",
-      "price": "10,000 DH",
-      "stack": [
-        "Vertex AI",
-        "LangChain",
-        "Supabase Vector",
-        "Twilio"
-      ],
-      "includes": [
-        "2 months of free updates",
-        "AI maintenance & monitoring",
-        "Usage training",
-        "Multi-channel adaptation"
-      ]
-    },
-    {
-      "id": "bot-simple",
-      "title": "💬 Simple Bot (WhatsApp / Telegram)",
-      "description": "Basic chatbot to automate customer responses, order taking, or reservation tracking. Quick, lightweight and effective solution for SMEs.",
-      "price": "3,000 DH",
-      "stack": [
-        "Twilio",
-        "Telegram API"
-      ],
-      "includes": [
-        "2 months of free updates",
-        "Maintenance",
-        "Conversation tracking",
-        "Usage training"
-      ]
-    },
-    {
-      "id": "automatisation-ia",
-      "title": "⚙️ AI Automation (Workflow)",
-      "description": "Complete automation of your business processes: email sending, customer reminders, CRM integration, and WhatsApp notifications. Ideal for companies looking to save time.",
-      "price": "Starting from 5,999 DH",
-      "stack": [
-        "n8n",
-        "Supabase",
-        "Vertex AI",
-        "Zapier"
-      ],
-      "includes": [
-        "2 months of maintenance",
-        "Workflow testing and adjustments",
-        "Documentation & training"
-      ]
-    },
-    {
-      "id": "marketing-digital",
-      "title": "📈 Digital Marketing (Management)",
-      "description": "Complete management of your online visibility: SEO, SEM, social media, monthly reporting and continuous optimization. Ideal for boosting your brand and sales.",
-      "price": "3,500 DH / month",
-      "stack": [
-        "Meta Ads",
-        "Google Ads",
-        "Analytics",
-        "Notion"
-      ],
-      "includes": [
-        "2 months of performance tracking",
-        "Analytics dashboard",
-        "Personalized digital coaching"
-      ]
-    },
-    {
-      "id": "creation-video",
-      "title": "🎬 Video Creation",
-      "description": "Promotional videos, product storytelling, advertising and visual content for your networks or marketing campaigns.",
-      "price": "Starting from 3,000 DH",
-      "stack": [
-        "Premiere Pro",
-        "After Effects",
-        "CapCut Pro"
-      ],
-      "includes": [
-        "2 revisions included",
-        "HD delivery",
-        "Social media optimization"
+        "Statutes Creation & Registration",
+        "Domiciliation (if needed)",
+        "3 Months Strategic Support",
+        "Commercial Action Plan"
       ]
     }
   ],

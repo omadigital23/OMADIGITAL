@@ -1,32 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { cancelOrder } from '../../../../lib/supabase/orders-service'
 import { getCancelRestrictions } from '../../../../lib/supabase/countdown-service'
+import { getAuthUser, handleApiError } from '../../../../lib/api-utils'
 import { z } from 'zod'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 const CancelOrderSchema = z.object({
   order_id: z.string().uuid(),
 })
-
-async function getAuthUser(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization')
-  if (!authHeader) {
-    return null
-  }
-
-  const token = authHeader.replace('Bearer ', '')
-  const { data: { user }, error } = await supabase.auth.getUser(token)
-
-  if (error || !user) {
-    return null
-  }
-
-  return user
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,18 +53,7 @@ export async function POST(request: NextRequest) {
       { message: 'Order cancelled successfully', order: result.order },
       { status: 200 }
     )
-  } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: error.errors },
-        { status: 400 }
-      )
-    }
-
-    console.error('Erreur POST /api/orders/cancel:', error)
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Failed to cancel order')
   }
 }

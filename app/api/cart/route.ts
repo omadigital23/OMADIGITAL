@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import {
   addToCart,
   removeFromCart,
@@ -7,11 +6,8 @@ import {
   getCart,
   clearCart,
 } from '../../../lib/supabase/cart-service'
+import { getAuthUser, handleApiError } from '../../../lib/api-utils'
 import { z } from 'zod'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 // Schémas de validation
 const AddToCartSchema = z.object({
@@ -29,23 +25,6 @@ const UpdateQuantitySchema = z.object({
 const RemoveItemSchema = z.object({
   cart_item_id: z.string().uuid(),
 })
-
-// Fonction pour récupérer l'utilisateur depuis le token
-async function getAuthUser(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization')
-  if (!authHeader) {
-    return null
-  }
-
-  const token = authHeader.replace('Bearer ', '')
-  const { data: { user }, error } = await supabase.auth.getUser(token)
-
-  if (error || !user) {
-    return null
-  }
-
-  return user
-}
 
 export async function GET(request: NextRequest) {
   try {
@@ -66,12 +45,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(result, { status: 200 })
-  } catch (error: any) {
-    console.error('Erreur GET /api/cart:', error)
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Failed to retrieve cart')
   }
 }
 
@@ -163,18 +138,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-  } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Invalid input', details: error.errors },
-        { status: 400 }
-      )
-    }
-
-    console.error('Erreur POST /api/cart:', error)
-    return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Failed to process cart action')
   }
 }

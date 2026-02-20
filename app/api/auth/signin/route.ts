@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { LoginSchema } from '../../../../lib/schemas/auth'
 import { signInEnhanced } from '../../../../lib/supabase/enhanced-auth-service'
-
-function getClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : request.headers.get('x-real-ip') || '0.0.0.0'
-  return ip.trim()
-}
+import { getClientIp, handleApiError } from '../../../../lib/api-utils'
 
 export async function POST(request: NextRequest) {
   try {
@@ -42,11 +37,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     )
-  } catch (error: any) {
-    console.error('Sign in error:', error)
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de la connexion' },
-      { status: 400 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Erreur lors de la connexion')
   }
 }

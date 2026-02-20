@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { supabaseServer } from '../../../lib/supabase/server'
+import { handleApiError } from '../../../lib/api-utils'
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -37,10 +38,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Contact API error:', error)
-    return NextResponse.json(
-      { error: 'Invalid request data' },
-      { status: 400 }
-    )
+    return handleApiError(error, 'Failed to process contact request')
   }
 }

@@ -2,22 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createOrder, getUserOrders } from '../../../lib/supabase/orders-service'
 import { CreateOrderSchema } from '../../../lib/schemas/checkout'
 import { createClient } from '@supabase/supabase-js'
+import { getAuthUser, handleApiError } from '../../../lib/api-utils'
 import { z } from 'zod'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
-// Créer les clients une seule fois (singleton pattern)
-let supabaseInstance: ReturnType<typeof createClient> | null = null
+// Admin client singleton for bypassing RLS
 let supabaseAdminInstance: ReturnType<typeof createClient> | null = null
-
-function getSupabaseClient() {
-  if (!supabaseInstance) {
-    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey)
-  }
-  return supabaseInstance
-}
 
 function getSupabaseAdmin() {
   if (!supabaseAdminInstance) {
@@ -26,7 +18,6 @@ function getSupabaseAdmin() {
   return supabaseAdminInstance
 }
 
-const supabase = getSupabaseClient()
 const supabaseAdmin = getSupabaseAdmin()
 
 export async function POST(request: NextRequest) {
@@ -41,29 +32,19 @@ export async function POST(request: NextRequest) {
       total = validatedData.total
       shippingInfo = validatedData.shippingInfo
 
-    } catch (zodError: any) {
-      console.error('Erreur Zod:', zodError.errors)
-      return NextResponse.json(
-        { error: 'Données invalides', details: zodError.errors },
-        { status: 400 }
-      )
+    } catch (zodError: unknown) {
+      if (zodError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: 'Données invalides', details: zodError.errors },
+          { status: 400 }
+        )
+      }
+      throw zodError
     }
 
     // Récupérer l'utilisateur actuel depuis le header Authorization
-    const authHeader = request.headers.get('Authorization')
-    if (!authHeader) {
-      return NextResponse.json(
-        { error: 'Non authentifié' },
-        { status: 401 }
-      )
-    }
-
-    // Récupérer l'utilisateur avec le token
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    )
-
-    if (userError || !user) {
+    const user = await getAuthUser(request)
+    if (!user) {
       return NextResponse.json(
         { error: 'Non authentifié' },
         { status: 401 }
@@ -110,37 +91,16 @@ export async function POST(request: NextRequest) {
       { message: 'Commande créée avec succès', order: result.order },
       { status: 201 }
     )
-  } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: 'Données invalides', details: error.errors },
-        { status: 400 }
-      )
-    }
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de la création de la commande' },
-      { status: 400 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Erreur lors de la création de la commande')
   }
 }
 
 export async function GET(request: NextRequest) {
   try {
     // Récupérer l'utilisateur actuel depuis le header Authorization
-    const authHeader = request.headers.get('Authorization')
-    if (!authHeader) {
-      return NextResponse.json(
-        { error: 'Non authentifié' },
-        { status: 401 }
-      )
-    }
-
-    // Récupérer l'utilisateur avec le token
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    )
-
-    if (userError || !user) {
+    const user = await getAuthUser(request)
+    if (!user) {
       return NextResponse.json(
         { error: 'Non authentifié' },
         { status: 401 }
@@ -161,10 +121,7 @@ export async function GET(request: NextRequest) {
       { orders: result.orders },
       { status: 200 }
     )
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de la récupération des commandes' },
-      { status: 400 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Erreur lors de la récupération des commandes')
   }
 }

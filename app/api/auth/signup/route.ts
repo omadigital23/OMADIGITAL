@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { SignupSchema } from '../../../../lib/schemas/auth'
 import { signUpEnhanced } from '../../../../lib/supabase/enhanced-auth-service'
-
-function getClientIp(request: NextRequest): string {
-  const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : request.headers.get('x-real-ip') || '0.0.0.0'
-  return ip.trim()
-}
+import { getClientIp, handleApiError } from '../../../../lib/api-utils'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,9 +25,8 @@ export async function POST(request: NextRequest) {
     )
 
     if (!result.success) {
-      console.error('Signup Failed - Detail:', result.error);
       return NextResponse.json(
-        { error: result.error, debug: result.error },
+        { error: result.error },
         { status: 400 }
       )
     }
@@ -45,11 +39,7 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     )
-  } catch (error: any) {
-    console.error('Sign up error:', error)
-    return NextResponse.json(
-      { error: error.message || 'Erreur lors de l\'inscription' },
-      { status: 400 }
-    )
+  } catch (error) {
+    return handleApiError(error, 'Erreur lors de l\'inscription')
   }
 }

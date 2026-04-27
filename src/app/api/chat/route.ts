@@ -1,52 +1,141 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGroqClient, CHAT_MODEL, SYSTEM_PROMPT } from '@/lib/groq';
+import { CHAT_MODEL, getGroqClient } from '@/lib/groq';
+import {
+  appendDeterministicContactCta,
+  buildChatFallback,
+  buildChatSuggestions,
+  buildSystemPrompt,
+  detectChatIntent,
+  extractLeadInsights,
+  getDefaultChatSuggestions,
+  resolveChatLocale,
+  sanitizeAssistantReply,
+  type ChatMessage,
+} from '@/lib/chatbot';
+import { persistQualifiedChatLead } from '@/lib/chat-leads';
+import { consumeRateLimit } from '@/lib/rate-limit';
+import { getClientIp, isAllowedOrigin, normalizeText } from '@/lib/security';
 
-// Simple in-memory rate limiter
-const rateLimit = new Map<string, { count: number; reset: number }>();
+const CHAT_RATE_LIMIT = {
+  limit: 20,
+  windowMs: 60 * 1000,
+};
+
+function isChatMessage(value: unknown): value is ChatMessage {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    ((value as { role?: unknown }).role === 'user' ||
+      (value as { role?: unknown }).role === 'assistant') &&
+    typeof (value as { content?: unknown }).content === 'string'
+  );
+}
+
+function buildSafeMessages(messages: unknown[]): ChatMessage[] {
+  return messages
+    .filter(isChatMessage)
+    .map((message) => ({
+      role: message.role,
+      content: normalizeText(message.content).slice(0, 2000),
+    }))
+    .filter((message) => message.content.length > 0)
+    .slice(-12);
+}
 
 export async function POST(req: NextRequest) {
+  let locale: 'fr' | 'en' = 'fr';
+
   try {
-    // Rate limiting
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const now = Date.now();
-    const limit = rateLimit.get(ip);
-    if (limit && limit.reset > now && limit.count >= 20) {
-      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
-    }
-    if (!limit || limit.reset <= now) {
-      rateLimit.set(ip, { count: 1, reset: now + 60000 });
-    } else {
-      limit.count++;
+    if (!isAllowedOrigin(req.headers)) {
+      return NextResponse.json({ error: 'Forbidden origin' }, { status: 403 });
     }
 
-    const { messages } = await req.json();
+    const ip = getClientIp(req.headers);
+    const rateLimit = consumeRateLimit(
+      'chat',
+      ip,
+      CHAT_RATE_LIMIT.limit,
+      CHAT_RATE_LIMIT.windowMs
+    );
 
-    const groq = getGroqClient();
-    if (!groq) {
+    if (!rateLimit.ok) {
       return NextResponse.json(
-        { message: "Je suis temporairement indisponible. Contactez-nous sur WhatsApp au +212701193811." },
-        { status: 200 }
+        { error: 'Rate limit exceeded' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(rateLimit.retryAfterSeconds),
+          },
+        }
       );
     }
 
-    const completion = await groq.chat.completions.create({
-      model: CHAT_MODEL,
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        ...messages.slice(-10),
-      ],
-      max_tokens: 1024,
-      temperature: 0.7,
+    const body = await req.json();
+    locale = resolveChatLocale(body?.locale);
+    const messages = Array.isArray(body?.messages) ? body.messages : [];
+    const safeMessages = buildSafeMessages(messages);
+
+    if (safeMessages.length === 0) {
+      return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
+    }
+
+    const leadInsights = extractLeadInsights(safeMessages);
+    const userIntent = detectChatIntent(leadInsights.latestUserMessage || '');
+    const suggestions = buildChatSuggestions(locale, leadInsights);
+
+    let reply = buildChatFallback(locale);
+    let degraded = true;
+
+    const groq = getGroqClient();
+    if (groq) {
+      try {
+        const completion = await groq.chat.completions.create({
+          model: CHAT_MODEL,
+          messages: [
+            { role: 'system', content: buildSystemPrompt(locale, leadInsights) },
+            ...safeMessages,
+          ],
+          reasoning_format: 'hidden',
+          max_tokens: 800,
+          temperature: 0.6,
+        });
+
+        const content = completion.choices[0]?.message?.content;
+
+        if (typeof content === 'string' && content.trim().length > 0) {
+          reply = content;
+          degraded = false;
+        }
+      } catch (error) {
+        console.error('Groq chat completion error:', error);
+      }
+    }
+
+    const normalizedReply = appendDeterministicContactCta(
+      sanitizeAssistantReply(reply),
+      locale,
+      userIntent,
+      leadInsights.stage
+    );
+
+    const leadCaptured = await persistQualifiedChatLead(leadInsights, locale);
+
+    return NextResponse.json({
+      message: normalizedReply,
+      suggestions,
+      leadCaptured,
+      leadStage: leadInsights.stage,
+      degraded,
     });
-
-    const reply = completion.choices[0]?.message?.content || "Désolé, je n'ai pas pu répondre. Veuillez réessayer.";
-
-    return NextResponse.json({ message: reply });
   } catch (error) {
     console.error('Chat API error:', error);
-    return NextResponse.json(
-      { message: "Erreur serveur. Contactez-nous sur WhatsApp au +212701193811." },
-      { status: 500 }
-    );
+
+    return NextResponse.json({
+      message: buildChatFallback(locale),
+      suggestions: getDefaultChatSuggestions(locale),
+      leadCaptured: false,
+      leadStage: 'discovery',
+      degraded: true,
+    });
   }
 }

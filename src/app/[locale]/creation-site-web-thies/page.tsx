@@ -1,29 +1,38 @@
-import { setRequestLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
+import { setRequestLocale } from 'next-intl/server';
 import SEOPageClient from '@/components/SEOPageClient';
+import { getServicePageContent } from '@/data/service-pages';
 
-export const metadata: Metadata = {
-  title: 'Création de Site Web à Thiès | OMA Digital',
-  description: 'Agence digitale locale à Thiès. Création de sites web professionnels pour les entreprises thiéssoises.',
-  keywords: 'création site web Thiès, agence digitale Thiès, site internet Thiès',
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const content = getServicePageContent('website-thies', locale);
+
+  return {
+    title: content.title,
+    description: content.metadata.description,
+    keywords: content.metadata.keywords,
+  };
+}
+
+export default async function Page({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const content = getServicePageContent('website-thies', locale);
+
   return (
     <SEOPageClient
-      serviceEmoji="🏛️"
-      title="Création de Site Web à Thiès"
-      subtitle="Votre agence digitale locale à Thiès."
-      description="OMA Digital, basée à Thiès, crée des sites web professionnels pour les entreprises thiéssoises. Proximité, expertise et résultats garantis."
-      localContext="Thiès, deuxième ville du Sénégal, mérite des entreprises avec une présence digitale forte. En tant qu'agence locale, OMA Digital comprend les besoins spécifiques des entreprises thiéssoises et propose des solutions adaptées avec un accompagnement de proximité."
-      pricingInfo={{ from: '150 000', to: '750 000' }}
-      faqs={[
-        { q: 'Êtes-vous basés à Thiès ?', a: 'Oui ! OMA Digital est basée à Thiès. Nous offrons un accompagnement de proximité avec des rendez-vous en personne.' },
-        { q: 'Travaillez-vous avec des entreprises de toutes tailles ?', a: 'Absolument. Du petit commerce au restaurant en passant par les PME, nous avons des solutions adaptées à chaque budget.' },
-      ]}
+      serviceEmoji={content.serviceEmoji}
+      title={content.title}
+      subtitle={content.subtitle}
+      description={content.description}
+      localContext={content.localContext}
+      pricingInfo={content.pricingInfo}
+      faqs={content.faqs}
     />
   );
 }

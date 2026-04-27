@@ -1,15 +1,20 @@
-export default function StructuredData() {
+import { BUSINESS } from '@/lib/constants';
+
+export default function StructuredData({ locale }: { locale: string }) {
+  const isEnglish = locale === 'en';
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: 'OMA Digital',
-    description: "Agence d'automatisation IA au Sénégal. Création de sites web, applications mobiles et solutions d'automatisation.",
-    url: 'https://www.omadigital.net',
-    telephone: '+212701193811',
-    email: 'support@omadigital.net',
+    name: BUSINESS.name,
+    description: isEnglish
+      ? 'AI automation agency in Senegal. Websites, mobile apps and practical automation systems.'
+      : "Agence d'automatisation IA au Senegal. Creation de sites web, applications mobiles et solutions d'automatisation.",
+    url: BUSINESS.siteUrl,
+    telephone: BUSINESS.phone,
+    email: BUSINESS.email,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Thiès',
+      addressLocality: BUSINESS.location.city,
       addressCountry: 'SN',
     },
     geo: {
@@ -31,30 +36,36 @@ export default function StructuredData() {
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Services digitaux',
+      name: isEnglish ? 'Digital services' : 'Services digitaux',
       itemListElement: [
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Création de Sites Web',
-            description: 'Sites vitrines, e-commerce et applications web au Sénégal',
+            name: isEnglish ? 'Website Creation' : 'Creation de Sites Web',
+            description: isEnglish
+              ? 'Business websites, e-commerce and web applications in Senegal'
+              : 'Sites vitrines, e-commerce et applications web au Senegal',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Applications Mobiles',
-            description: 'Applications iOS et Android sur mesure',
+            name: isEnglish ? 'Mobile Applications' : 'Applications Mobiles',
+            description: isEnglish
+              ? 'Custom iOS and Android applications'
+              : 'Applications iOS et Android sur mesure',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Automatisation IA',
-            description: "Chatbots intelligents et automatisation des workflows",
+            name: isEnglish ? 'AI Automation' : 'Automatisation IA',
+            description: isEnglish
+              ? 'Intelligent chatbots and workflow automation'
+              : 'Chatbots intelligents et automatisation des workflows',
           },
         },
       ],

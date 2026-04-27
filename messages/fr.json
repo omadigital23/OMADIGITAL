@@ -194,8 +194,14 @@
     "success": "Message envoyé ! Nous vous répondrons sous 24h.",
     "error": "Erreur lors de l'envoi. Réessayez ou contactez-nous par WhatsApp.",
     "infoTitle": "Nos coordonnées",
+    "addressLabel": "Adresse",
+    "emailLabel": "Email",
+    "phoneLabel": "Telephone",
+    "responseTimeLabel": "Temps de reponse",
     "address": "Thiès, Sénégal",
-    "responseTime": "Temps de réponse moyen : 2h"
+    "responseTime": "Temps de réponse moyen : 2h",
+    "whatsappTitle": "Parler sur WhatsApp",
+    "whatsappSubtitle": "Reponse rapide pour votre projet"
   },
   "footer": {
     "description": "Agence digitale spécialisée en création de sites web, applications mobiles et automatisation IA au Sénégal.",
@@ -208,6 +214,7 @@
     "newsletterPlaceholder": "Votre email",
     "newsletterButton": "S'abonner",
     "newsletterSuccess": "Merci pour votre inscription !",
+    "newsletterError": "Impossible de vous inscrire pour le moment.",
     "copyright": "© 2025 OMA Digital. Tous droits réservés.",
     "privacy": "Confidentialité",
     "terms": "CGU"
@@ -221,7 +228,21 @@
     "quickServices": "📋 Nos services",
     "quickPricing": "💰 Nos tarifs",
     "quickAudit": "🎯 Audit gratuit",
-    "quickContact": "📞 Nous contacter"
+    "quickContact": "📞 Nous contacter",
+    "connectionError": "Erreur de connexion. Reessayez.",
+    "voiceReady": "Micro pret",
+    "voiceHint": "Vous pouvez aussi utiliser le micro pour parler au chatbot.",
+    "voiceStart": "Demarrer l'enregistrement vocal",
+    "voiceStop": "Arreter l'enregistrement vocal",
+    "voiceTapToSpeak": "Touchez le micro",
+    "voiceRecording": "Enregistrement en cours...",
+    "voiceRecordingStatus": "Enregistrement... {duration}",
+    "voiceTranscribing": "Transcription du message vocal...",
+    "voiceTranscribingStatus": "Transcription en cours...",
+    "voicePleaseWait": "Veuillez patienter",
+    "voicePermissionError": "Impossible d'acceder au microphone.",
+    "voiceEmptyError": "Aucune voix detectee. Reessayez.",
+    "voiceTranscriptionError": "Impossible de transcrire votre message vocal."
   },
   "whatsapp": { "tooltip": "Discuter sur WhatsApp" },
   "notFound": {
@@ -232,7 +253,12 @@
   "seoPages": {
     "ctaText": "Obtenez votre audit gratuit",
     "ctaSubtext": "Découvrez comment nous pouvons transformer votre entreprise",
-    "faqTitle": "Questions fréquentes"
+    "faqTitle": "Questions fréquentes",
+    "pricingTitle": "Nos tarifs",
+    "pricingFrom": "A partir de",
+    "pricingRange": "Jusqu'a {price} FCFA pour les solutions premium",
+    "pricingCta": "Demander un devis personnalise",
+    "whatsappCta": "WhatsApp"
   },
   "booking": {
     "title": "Réservez un créneau",

@@ -10,23 +10,35 @@ import { BUSINESS, WHATSAPP_URL } from '@/lib/constants';
 
 export default function ContactPageClient() {
   const t = useTranslations('contact');
+  const servicesT = useTranslations('services');
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          companyWebsite: '',
+        }),
       });
-      if (res.ok) {
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
         setStatus('success');
         setForm({ name: '', email: '', phone: '', service: '', message: '' });
-      } else setStatus('error');
-    } catch { setStatus('error'); }
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -63,6 +75,15 @@ export default function ContactPageClient() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
+                    <input
+                      type="text"
+                      value=""
+                      onChange={() => undefined}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      className="hidden"
+                    />
                     {(['name', 'email', 'phone'] as const).map((field) => (
                       <input
                         key={field}
@@ -80,9 +101,9 @@ export default function ContactPageClient() {
                       className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border-subtle text-text-primary text-sm focus:outline-none focus:border-accent-violet transition-colors"
                     >
                       <option value="">{t('service')}</option>
-                      <option value="website">Website</option>
-                      <option value="mobile">Mobile App</option>
-                      <option value="ai">AI Automation</option>
+                      <option value="website">{servicesT('website')}</option>
+                      <option value="mobile">{servicesT('mobile')}</option>
+                      <option value="ai">{servicesT('ai')}</option>
                     </select>
                     <textarea
                       value={form.message}
@@ -116,34 +137,34 @@ export default function ContactPageClient() {
               <div className="p-8 rounded-2xl bg-bg-card border border-border-subtle">
                 <h2 className="font-heading font-semibold text-xl mb-6">{t('infoTitle')}</h2>
                 <div className="space-y-5">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent-violet/10 flex items-center justify-center shrink-0">📍</div>
-                    <div>
-                      <h3 className="font-medium text-text-primary">Adresse</h3>
-                      <p className="text-sm text-text-muted">{t('address')}</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-accent-violet/10 flex items-center justify-center shrink-0">📍</div>
+                      <div>
+                        <h3 className="font-medium text-text-primary">{t('addressLabel')}</h3>
+                        <p className="text-sm text-text-muted">{t('address')}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent-blue/10 flex items-center justify-center shrink-0">📧</div>
-                    <div>
-                      <h3 className="font-medium text-text-primary">Email</h3>
-                      <p className="text-sm text-text-muted">{BUSINESS.email}</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-accent-blue/10 flex items-center justify-center shrink-0">📧</div>
+                      <div>
+                        <h3 className="font-medium text-text-primary">{t('emailLabel')}</h3>
+                        <p className="text-sm text-text-muted">{BUSINESS.email}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent-cyan/10 flex items-center justify-center shrink-0">📱</div>
-                    <div>
-                      <h3 className="font-medium text-text-primary">Téléphone</h3>
-                      <p className="text-sm text-text-muted">{BUSINESS.phone}</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-accent-cyan/10 flex items-center justify-center shrink-0">📱</div>
+                      <div>
+                        <h3 className="font-medium text-text-primary">{t('phoneLabel')}</h3>
+                        <p className="text-sm text-text-muted">{BUSINESS.phone}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-accent-gold/10 flex items-center justify-center shrink-0">⏱️</div>
-                    <div>
-                      <h3 className="font-medium text-text-primary">Réactivité</h3>
-                      <p className="text-sm text-text-muted">{t('responseTime')}</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-accent-gold/10 flex items-center justify-center shrink-0">⏱️</div>
+                      <div>
+                        <h3 className="font-medium text-text-primary">{t('responseTimeLabel')}</h3>
+                        <p className="text-sm text-text-muted">{t('responseTime')}</p>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -159,8 +180,8 @@ export default function ContactPageClient() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-heading font-semibold text-green-400 group-hover:text-green-300 transition-colors">WhatsApp</h3>
-                  <p className="text-sm text-text-muted">Réponse instantanée</p>
+                  <h3 className="font-heading font-semibold text-green-400 group-hover:text-green-300 transition-colors">{t('whatsappTitle')}</h3>
+                  <p className="text-sm text-text-muted">{t('whatsappSubtitle')}</p>
                 </div>
               </a>
             </motion.div>

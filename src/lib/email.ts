@@ -8,9 +8,21 @@ interface EmailOptions {
   html: string;
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function formatMultilineHtml(value: string): string {
+  return escapeHtml(value).replace(/\n/g, '<br />');
+}
+
 export async function sendEmail({ to, subject, html }: EmailOptions): Promise<boolean> {
   const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASSWORD;
   const fromEmail = process.env.SMTP_FROM_EMAIL;
@@ -57,6 +69,15 @@ export function buildLeadNotificationEmail(lead: {
   message?: string;
   service?: string;
 }): { subject: string; html: string } {
+  const safeName = escapeHtml(lead.name);
+  const safeEmail = escapeHtml(lead.email);
+  const safePhone = escapeHtml(lead.phone);
+  const safeBusiness = lead.business ? escapeHtml(lead.business) : '';
+  const safeService = lead.service ? escapeHtml(lead.service) : '';
+  const safeMessage = lead.message ? formatMultilineHtml(lead.message) : '';
+  const phoneHref = lead.phone.replace(/[^\d+]/g, '');
+  const whatsappHref = lead.phone.replace(/\D/g, '');
+
   return {
     subject: `🎯 Nouveau lead OMA Digital: ${lead.name}`,
     html: `
@@ -66,16 +87,16 @@ export function buildLeadNotificationEmail(lead: {
         </div>
         <div style="padding: 32px;">
           <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #a0a0c0; width: 120px;">Nom</td><td style="padding: 8px 0; font-weight: 600;">${lead.name}</td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0c0;">Email</td><td style="padding: 8px 0;"><a href="mailto:${lead.email}" style="color: #7c6aff;">${lead.email}</a></td></tr>
-            <tr><td style="padding: 8px 0; color: #a0a0c0;">Téléphone</td><td style="padding: 8px 0;"><a href="tel:${lead.phone}" style="color: #7c6aff;">${lead.phone}</a></td></tr>
-            ${lead.business ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Entreprise</td><td style="padding: 8px 0;">${lead.business}</td></tr>` : ''}
-            ${lead.service ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Service</td><td style="padding: 8px 0;">${lead.service}</td></tr>` : ''}
-            ${lead.message ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Message</td><td style="padding: 8px 0;">${lead.message}</td></tr>` : ''}
+            <tr><td style="padding: 8px 0; color: #a0a0c0; width: 120px;">Nom</td><td style="padding: 8px 0; font-weight: 600;">${safeName}</td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0c0;">Email</td><td style="padding: 8px 0;"><a href="mailto:${safeEmail}" style="color: #7c6aff;">${safeEmail}</a></td></tr>
+            <tr><td style="padding: 8px 0; color: #a0a0c0;">Téléphone</td><td style="padding: 8px 0;"><a href="tel:${phoneHref}" style="color: #7c6aff;">${safePhone}</a></td></tr>
+            ${lead.business ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Entreprise</td><td style="padding: 8px 0;">${safeBusiness}</td></tr>` : ''}
+            ${lead.service ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Service</td><td style="padding: 8px 0;">${safeService}</td></tr>` : ''}
+            ${lead.message ? `<tr><td style="padding: 8px 0; color: #a0a0c0;">Message</td><td style="padding: 8px 0;">${safeMessage}</td></tr>` : ''}
           </table>
           <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-            <a href="https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}" style="display: inline-block; background: #25D366; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-right: 8px;">📱 WhatsApp</a>
-            <a href="mailto:${lead.email}" style="display: inline-block; background: #7c6aff; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">📧 Email</a>
+            <a href="https://wa.me/${whatsappHref}" style="display: inline-block; background: #25D366; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-right: 8px;">📱 WhatsApp</a>
+            <a href="mailto:${safeEmail}" style="display: inline-block; background: #7c6aff; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">📧 Email</a>
           </div>
         </div>
         <div style="padding: 16px 32px; background: rgba(255,255,255,0.03); text-align: center; color: #6b6b8a; font-size: 12px;">

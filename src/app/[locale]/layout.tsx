@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Inter, Outfit } from 'next/font/google';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -7,6 +8,18 @@ import { BUSINESS } from '@/lib/constants';
 import ChatWidget from '@/components/chat/ChatWidget';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import StructuredData from '@/components/StructuredData';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
 
 export async function generateMetadata({
   params,
@@ -61,27 +74,27 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
   setRequestLocale(locale);
 
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth">
+    <html
+      lang={locale}
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${outfit.variable}`}
+    >
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-        <StructuredData />
+        <StructuredData locale={locale} />
       </head>
-      <body className="bg-bg-primary text-text-primary antialiased" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <body className="bg-bg-primary text-text-primary antialiased">
         <GoogleAnalytics />
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

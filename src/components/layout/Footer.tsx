@@ -9,20 +9,34 @@ import Image from 'next/image';
 export default function Footer() {
   const t = useTranslations();
   const [email, setEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [subscribed, setSubscribed] = useState(false);
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
+    setNewsletterStatus('sending');
+
     try {
-      await fetch('/api/newsletter', {
+      const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email,
+          companyWebsite: '',
+        }),
       });
-      setSubscribed(true);
-      setEmail('');
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setSubscribed(true);
+        setEmail('');
+        setNewsletterStatus('success');
+      } else {
+        setNewsletterStatus('error');
+      }
     } catch {
-      // silently fail
+      setNewsletterStatus('error');
     }
   };
 
@@ -109,6 +123,15 @@ export default function Footer() {
             ) : (
               <form onSubmit={handleNewsletter} className="flex flex-col gap-3">
                 <input
+                  type="text"
+                  value=""
+                  onChange={() => undefined}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+                <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -118,10 +141,14 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
+                  disabled={newsletterStatus === 'sending'}
                   className="gradient-bg text-white text-sm font-medium py-2.5 rounded-lg hover:shadow-glow transition-all"
                 >
-                  {t('footer.newsletterButton')}
+                  {newsletterStatus === 'sending' ? '...' : t('footer.newsletterButton')}
                 </button>
+                {newsletterStatus === 'error' && (
+                  <p className="text-accent-coral text-sm">{t('footer.newsletterError')}</p>
+                )}
               </form>
             )}
             {/* Contact info */}

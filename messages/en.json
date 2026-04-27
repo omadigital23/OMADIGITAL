@@ -194,8 +194,14 @@
     "success": "Message sent! We'll reply within 24h.",
     "error": "Error sending. Try again or contact us via WhatsApp.",
     "infoTitle": "Our details",
+    "addressLabel": "Address",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "responseTimeLabel": "Response time",
     "address": "Thiès, Senegal",
-    "responseTime": "Average response time: 2h"
+    "responseTime": "Average response time: 2h",
+    "whatsappTitle": "Talk on WhatsApp",
+    "whatsappSubtitle": "Fast replies for your project"
   },
   "footer": {
     "description": "Digital agency specializing in website creation, mobile apps and AI automation in Senegal.",
@@ -208,6 +214,7 @@
     "newsletterPlaceholder": "Your email",
     "newsletterButton": "Subscribe",
     "newsletterSuccess": "Thanks for subscribing!",
+    "newsletterError": "We could not subscribe you right now.",
     "copyright": "© 2025 OMA Digital. All rights reserved.",
     "privacy": "Privacy",
     "terms": "Terms"
@@ -221,7 +228,21 @@
     "quickServices": "📋 Our services",
     "quickPricing": "💰 Our pricing",
     "quickAudit": "🎯 Free audit",
-    "quickContact": "📞 Contact us"
+    "quickContact": "📞 Contact us",
+    "connectionError": "Connection error. Please try again.",
+    "voiceReady": "Microphone ready",
+    "voiceHint": "You can also use the microphone to speak to the chatbot.",
+    "voiceStart": "Start voice recording",
+    "voiceStop": "Stop voice recording",
+    "voiceTapToSpeak": "Tap the microphone",
+    "voiceRecording": "Recording...",
+    "voiceRecordingStatus": "Recording... {duration}",
+    "voiceTranscribing": "Transcribing your voice message...",
+    "voiceTranscribingStatus": "Transcription in progress...",
+    "voicePleaseWait": "Please wait",
+    "voicePermissionError": "Unable to access the microphone.",
+    "voiceEmptyError": "No speech detected. Please try again.",
+    "voiceTranscriptionError": "Unable to transcribe your voice message."
   },
   "whatsapp": { "tooltip": "Chat on WhatsApp" },
   "notFound": {
@@ -232,7 +253,12 @@
   "seoPages": {
     "ctaText": "Get your free audit",
     "ctaSubtext": "Discover how we can transform your business",
-    "faqTitle": "Frequently asked questions"
+    "faqTitle": "Frequently asked questions",
+    "pricingTitle": "Our pricing",
+    "pricingFrom": "Starting at",
+    "pricingRange": "Up to {price} FCFA for premium solutions",
+    "pricingCta": "Request a custom quote",
+    "whatsappCta": "WhatsApp"
   },
   "booking": {
     "title": "Book a slot",

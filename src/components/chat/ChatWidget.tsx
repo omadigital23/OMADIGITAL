@@ -1,8 +1,14 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { motion, AnimatePresence } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { AnimatePresence, motion } from 'motion/react';
+import {
+  getChatContactActions,
+  getDefaultChatSuggestions,
+  type ChatLocale,
+  type ChatSuggestion,
+} from '@/lib/chatbot';
 import { generateId } from '@/lib/utils';
 
 interface Message {
@@ -11,31 +17,132 @@ interface Message {
   content: string;
 }
 
+type VoiceState = 'idle' | 'recording' | 'transcribing';
+
+function getSupportedRecordingMimeType() {
+  if (typeof MediaRecorder === 'undefined' || typeof MediaRecorder.isTypeSupported !== 'function') {
+    return undefined;
+  }
+
+  const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'];
+  return candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate));
+}
+
+function formatVoiceDuration(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+function isChatSuggestion(value: unknown): value is ChatSuggestion {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    typeof (value as { label?: unknown }).label === 'string' &&
+    ((value as { kind?: unknown }).kind === 'prompt' ||
+      (value as { kind?: unknown }).kind === 'link') &&
+    typeof (value as { value?: unknown }).value === 'string'
+  );
+}
+
+function getChatLocale(locale: string): ChatLocale {
+  return locale === 'en' ? 'en' : 'fr';
+}
+
 export default function ChatWidget() {
+  const locale = useLocale();
+  const chatLocale = getChatLocale(locale);
   const t = useTranslations('chat');
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [voiceSupported, setVoiceSupported] = useState(false);
+  const [voiceState, setVoiceState] = useState<VoiceState>('idle');
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
+  const [suggestions, setSuggestions] = useState<ChatSuggestion[] | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<BlobPart[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
+  const recordingIntervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([{ id: generateId(), role: 'assistant', content: t('greeting') }]);
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [messages, loading, voiceState, suggestions]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setVoiceSupported(
+        typeof MediaRecorder !== 'undefined' &&
+          !!navigator.mediaDevices?.getUserMedia
+      );
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (open && voiceState === 'idle') {
+      inputRef.current?.focus();
     }
-  }, [open, messages.length, t]);
+  }, [open, voiceState]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages]);
+  const contactActions = getChatContactActions(chatLocale);
+  const defaultSuggestions = getDefaultChatSuggestions(chatLocale);
+  const displayedSuggestions = suggestions ?? defaultSuggestions;
+
+  const addAssistantMessage = (content: string) => {
+    setMessages((prev) => [
+      ...prev,
+      { id: generateId(), role: 'assistant', content },
+    ]);
+  };
+
+  const openChat = () => {
+    if (messages.length === 0) {
+      setMessages([{ id: generateId(), role: 'assistant', content: t('greeting') }]);
+      setSuggestions(null);
+    }
+
+    setOpen(true);
+  };
+
+  const applySuggestionPayload = (payload: unknown) => {
+    if (!Array.isArray(payload)) {
+      setSuggestions(null);
+      return;
+    }
+
+    const nextSuggestions = payload.filter(isChatSuggestion).slice(0, 4);
+    setSuggestions(nextSuggestions.length > 0 ? nextSuggestions : null);
+  };
+
+  const handleSuggestionSelect = async (suggestion: ChatSuggestion) => {
+    if (suggestion.kind === 'link') {
+      window.open(suggestion.value, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    await sendMessage(suggestion.value);
+  };
 
   const sendMessage = async (text?: string) => {
     const msg = text || input.trim();
     if (!msg || loading) return;
 
     const userMsg: Message = { id: generateId(), role: 'user', content: msg };
-    setMessages((prev) => [...prev, userMsg]);
+    const nextMessages = [...messages, userMsg];
+
+    setMessages(nextMessages);
     setInput('');
     setLoading(true);
 
@@ -44,33 +151,165 @@ export default function ChatWidget() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...messages, userMsg].map((m) => ({ role: m.role, content: m.content })),
+          locale: chatLocale,
+          messages: nextMessages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
         }),
       });
-      const data = await res.json();
-      setMessages((prev) => [
-        ...prev,
-        { id: generateId(), role: 'assistant', content: data.message },
-      ]);
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || typeof data.message !== 'string') {
+        throw new Error('Chat request failed');
+      }
+
+      addAssistantMessage(data.message);
+      applySuggestionPayload(data.suggestions);
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        { id: generateId(), role: 'assistant', content: 'Erreur de connexion. Réessayez.' },
-      ]);
+      addAssistantMessage(t('connectionError'));
+      setSuggestions(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const quickActions = [
-    { label: t('quickServices'), msg: 'Quels sont vos services ?' },
-    { label: t('quickPricing'), msg: 'Quels sont vos tarifs ?' },
-    { label: t('quickAudit'), msg: "Je souhaite un audit gratuit" },
-    { label: t('quickContact'), msg: 'Comment vous contacter ?' },
-  ];
+  const transcribeAudio = async (audioBlob: Blob) => {
+    const fileExtension = audioBlob.type.includes('mp4') ? 'mp4' : 'webm';
+    const audioFile = new File([audioBlob], `voice-message.${fileExtension}`, {
+      type: audioBlob.type || `audio/${fileExtension}`,
+    });
+    const formData = new FormData();
+
+    formData.append('file', audioFile);
+    formData.append('language', chatLocale);
+
+    const res = await fetch('/api/chat/transcribe', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok || typeof data.text !== 'string') {
+      throw new Error('Transcription failed');
+    }
+
+    return data.text.trim();
+  };
+
+  const stopRecordingTimer = () => {
+    if (recordingIntervalRef.current !== null) {
+      window.clearInterval(recordingIntervalRef.current);
+      recordingIntervalRef.current = null;
+    }
+
+    setRecordingSeconds(0);
+  };
+
+  const startRecordingTimer = () => {
+    setRecordingSeconds(0);
+
+    recordingIntervalRef.current = window.setInterval(() => {
+      setRecordingSeconds((current) => current + 1);
+    }, 1000);
+  };
+
+  const cleanupRecording = () => {
+    stopRecordingTimer();
+    mediaRecorderRef.current = null;
+    audioChunksRef.current = [];
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+  };
+
+  const startVoiceRecording = async () => {
+    if (!voiceSupported || loading || voiceState !== 'idle') {
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = getSupportedRecordingMimeType();
+      const mediaRecorder = mimeType
+        ? new MediaRecorder(stream, { mimeType })
+        : new MediaRecorder(stream);
+
+      streamRef.current = stream;
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onerror = () => {
+        cleanupRecording();
+        setVoiceState('idle');
+        addAssistantMessage(t('voiceTranscriptionError'));
+      };
+
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: mediaRecorder.mimeType || 'audio/webm',
+        });
+
+        cleanupRecording();
+
+        if (audioBlob.size === 0) {
+          setVoiceState('idle');
+          addAssistantMessage(t('voiceEmptyError'));
+          return;
+        }
+
+        setVoiceState('transcribing');
+
+        try {
+          const text = await transcribeAudio(audioBlob);
+
+          if (!text) {
+            throw new Error('Empty transcription');
+          }
+
+          await sendMessage(text);
+        } catch {
+          addAssistantMessage(t('voiceTranscriptionError'));
+        } finally {
+          setVoiceState('idle');
+        }
+      };
+
+      mediaRecorder.start();
+      startRecordingTimer();
+      setVoiceState('recording');
+    } catch {
+      cleanupRecording();
+      setVoiceState('idle');
+      addAssistantMessage(t('voicePermissionError'));
+    }
+  };
+
+  const stopVoiceRecording = () => {
+    if (mediaRecorderRef.current?.state === 'recording') {
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const isBusy = loading || voiceState === 'transcribing';
+  const showVoiceHint = voiceSupported && messages.length <= 1 && voiceState === 'idle';
+  const showVoiceStatus = voiceSupported || voiceState !== 'idle';
+  const voiceStatusText =
+    voiceState === 'recording'
+      ? t('voiceRecordingStatus', { duration: formatVoiceDuration(recordingSeconds) })
+      : voiceState === 'transcribing'
+        ? t('voiceTranscribingStatus')
+        : t('voiceReady');
 
   return (
     <>
-      {/* Toggle button */}
       <AnimatePresence>
         {!open && (
           <motion.button
@@ -78,8 +317,8 @@ export default function ChatWidget() {
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             transition={{ delay: 2, type: 'spring' }}
-            onClick={() => setOpen(true)}
-            className="fixed bottom-24 right-6 z-40 w-14 h-14 rounded-full gradient-bg shadow-glow-lg flex items-center justify-center hover:scale-110 transition-transform"
+            onClick={openChat}
+            className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full gradient-bg shadow-glow-lg transition-transform hover:scale-110"
             aria-label={t('title')}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -89,40 +328,43 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* Chat window */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] h-[520px] max-h-[calc(100vh-4rem)] flex flex-col rounded-2xl bg-bg-secondary border border-border-subtle shadow-float overflow-hidden"
+            className="fixed bottom-6 right-6 z-50 flex h-[560px] max-h-[calc(100vh-4rem)] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary shadow-float"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 gradient-bg">
-              <div>
-                <h3 className="font-heading font-semibold text-white">{t('title')}</h3>
-                <p className="text-white/70 text-xs">{t('subtitle')}</p>
+            <div className="gradient-bg px-5 py-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-heading text-base font-semibold text-white">{t('title')}</h3>
+                  <p className="text-xs text-white/75">{t('subtitle')}</p>
+                  <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-white/12 px-2.5 py-1 text-[11px] text-white/85">
+                    <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                    <span>AI + Voice</span>
+                  </div>
+                </div>
+                <button onClick={() => setOpen(false)} className="p-1 text-white/70 hover:text-white">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-              <button onClick={() => setOpen(false)} className="text-white/70 hover:text-white p-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
             </div>
 
-            {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                    className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'gradient-bg text-white rounded-br-md'
-                        : 'bg-bg-card border border-border-subtle text-text-primary rounded-bl-md'
+                        ? 'gradient-bg rounded-br-md text-white'
+                        : 'rounded-bl-md border border-border-subtle bg-bg-card text-text-primary'
                     }`}
                   >
                     {msg.content}
@@ -130,36 +372,107 @@ export default function ChatWidget() {
                 </div>
               ))}
 
-              {loading && (
+              {(loading || voiceState === 'transcribing') && (
                 <div className="flex justify-start">
-                  <div className="bg-bg-card border border-border-subtle rounded-2xl rounded-bl-md px-4 py-3 flex gap-1">
-                    <span className="w-2 h-2 rounded-full bg-text-muted animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 rounded-full bg-text-muted animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 rounded-full bg-text-muted animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="flex gap-1 rounded-2xl rounded-bl-md border border-border-subtle bg-bg-card px-4 py-3">
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-text-muted" style={{ animationDelay: '0ms' }} />
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-text-muted" style={{ animationDelay: '150ms' }} />
+                    <span className="h-2 w-2 animate-bounce rounded-full bg-text-muted" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               )}
 
-              {/* Quick actions (show only at start) */}
-              {messages.length <= 1 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {quickActions.map((action) => (
+              {showVoiceHint && (
+                <p className="text-xs text-text-muted">{t('voiceHint')}</p>
+              )}
+
+              {!isBusy && displayedSuggestions.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {displayedSuggestions.map((suggestion) => (
                     <button
-                      key={action.label}
-                      onClick={() => sendMessage(action.msg)}
-                      className="text-xs px-3 py-1.5 rounded-full border border-border-subtle text-text-secondary hover:text-accent-violet hover:border-accent-violet/30 transition-colors"
+                      key={`${suggestion.kind}:${suggestion.label}:${suggestion.value}`}
+                      onClick={() => {
+                        void handleSuggestionSelect(suggestion);
+                      }}
+                      disabled={voiceState === 'recording'}
+                      className={`rounded-full border px-3 py-1.5 text-xs transition-colors disabled:opacity-50 ${
+                        suggestion.kind === 'link'
+                          ? 'border-accent-cyan/30 bg-accent-cyan/10 text-text-primary hover:border-accent-cyan/50'
+                          : 'border-border-subtle text-text-secondary hover:border-accent-violet/30 hover:text-accent-violet'
+                      }`}
                     >
-                      {action.label}
+                      {suggestion.label}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Input */}
-            <div className="px-4 py-3 border-t border-border-subtle">
+            <div className="border-t border-border-subtle px-4 py-3">
+              {showVoiceStatus && (
+                <div
+                  className={`mb-3 flex items-center justify-between rounded-xl border px-3 py-2 text-xs transition-colors ${
+                    voiceState === 'recording'
+                      ? 'border-accent-coral/40 bg-accent-coral/10 text-text-primary'
+                      : voiceState === 'transcribing'
+                        ? 'border-accent-blue/30 bg-accent-blue/10 text-text-primary'
+                        : 'border-border-subtle bg-bg-card text-text-muted'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className={`h-2.5 w-2.5 rounded-full ${
+                        voiceState === 'recording'
+                          ? 'animate-pulse bg-accent-coral'
+                          : voiceState === 'transcribing'
+                            ? 'animate-pulse bg-accent-blue'
+                            : 'bg-accent-cyan'
+                      }`}
+                    />
+                    <span>{voiceStatusText}</span>
+                  </div>
+
+                  {voiceState === 'recording' ? (
+                    <div className="flex items-end gap-1">
+                      {[0, 150, 300].map((delay) => (
+                        <span
+                          key={delay}
+                          className="w-1 animate-bounce rounded-full bg-accent-coral"
+                          style={{
+                            height: delay === 150 ? '18px' : '12px',
+                            animationDelay: `${delay}ms`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-[11px] text-text-muted">
+                      {voiceState === 'transcribing' ? t('voicePleaseWait') : t('voiceTapToSpeak')}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <div className="mb-3 flex flex-wrap gap-2">
+                {contactActions.map((action) => (
+                  <button
+                    key={action.label}
+                    type="button"
+                    onClick={() => {
+                      void handleSuggestionSelect(action);
+                    }}
+                    className="rounded-full border border-border-subtle bg-bg-card px-3 py-1.5 text-xs text-text-secondary transition-colors hover:border-accent-cyan/40 hover:text-text-primary"
+                  >
+                    {action.label}
+                  </button>
+                ))}
+              </div>
+
               <form
-                onSubmit={(e) => { e.preventDefault(); sendMessage(); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void sendMessage();
+                }}
                 className="flex items-center gap-2"
               >
                 <input
@@ -167,13 +480,55 @@ export default function ChatWidget() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={t('placeholder')}
-                  className="flex-1 bg-bg-primary border border-border-subtle rounded-xl px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-violet transition-colors"
+                  placeholder={
+                    voiceState === 'recording'
+                      ? t('voiceRecording')
+                      : voiceState === 'transcribing'
+                        ? t('voiceTranscribing')
+                        : t('placeholder')
+                  }
+                  disabled={voiceState === 'recording'}
+                  className="flex-1 rounded-xl border border-border-subtle bg-bg-primary px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-accent-violet focus:outline-none disabled:opacity-70"
                 />
+
+                {voiceSupported && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (voiceState === 'recording') {
+                        stopVoiceRecording();
+                      } else {
+                        void startVoiceRecording();
+                      }
+                    }}
+                    disabled={voiceState === 'transcribing' || loading}
+                    aria-label={voiceState === 'recording' ? t('voiceStop') : t('voiceStart')}
+                    className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white transition-all disabled:opacity-40 ${
+                      voiceState === 'recording'
+                        ? 'bg-accent-coral shadow-glow'
+                        : 'border border-border-subtle bg-bg-card hover:border-accent-violet'
+                    }`}
+                  >
+                    {voiceState === 'recording' && (
+                      <span className="absolute inset-0 animate-pulse rounded-xl border border-accent-coral/60" />
+                    )}
+                    {voiceState === 'recording' ? (
+                      <span className="h-3 w-3 rounded-sm bg-white" />
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                        <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                        <path d="M12 18v4" />
+                        <path d="M8 22h8" />
+                      </svg>
+                    )}
+                  </button>
+                )}
+
                 <button
                   type="submit"
-                  disabled={!input.trim() || loading}
-                  className="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white disabled:opacity-40 hover:shadow-glow transition-all shrink-0"
+                  disabled={!input.trim() || isBusy || voiceState === 'recording'}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl gradient-bg text-white transition-all hover:shadow-glow disabled:opacity-40"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />

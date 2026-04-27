@@ -1,6 +1,17 @@
+import dns from 'node:dns';
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let adminClient: SupabaseClient | null = null;
+let dnsConfigured = false;
+
+function configureNodeDns() {
+  if (dnsConfigured) {
+    return;
+  }
+
+  dns.setDefaultResultOrder('ipv4first');
+  dnsConfigured = true;
+}
 
 export function getSupabaseAdmin(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -9,6 +20,8 @@ export function getSupabaseAdmin(): SupabaseClient | null {
   if (!url || !serviceRoleKey) {
     return null;
   }
+
+  configureNodeDns();
 
   if (!adminClient) {
     adminClient = createClient(url, serviceRoleKey, {

@@ -57,6 +57,23 @@ ALTER TABLE public.newsletter ENABLE ROW LEVEL SECURITY;
 -- Règle d'or : On n'autorise aucune lecture ou écriture avec la clé "anon" (publique).
 -- Tout passe par le serveur (Next.js avec service_role_key) ou par un admin authentifié.
 
+-- ============================================================
+-- 3.1 PRIVILEGES SQL
+-- ============================================================
+-- Important: RLS ne remplace pas les privilèges SQL.
+-- Sans GRANT explicite, même le rôle service_role peut recevoir
+-- "permission denied for table ...".
+
+GRANT USAGE ON SCHEMA public TO authenticated, service_role;
+
+GRANT SELECT, UPDATE, DELETE ON TABLE public.leads TO authenticated;
+GRANT SELECT, UPDATE, DELETE ON TABLE public.bookings TO authenticated;
+GRANT SELECT, UPDATE, DELETE ON TABLE public.newsletter TO authenticated;
+
+GRANT ALL PRIVILEGES ON TABLE public.leads TO service_role;
+GRANT ALL PRIVILEGES ON TABLE public.bookings TO service_role;
+GRANT ALL PRIVILEGES ON TABLE public.newsletter TO service_role;
+
 -- Suppression des anciennes règles potentiellement permissives
 DROP POLICY IF EXISTS "Allow public lead inserts" ON public.leads;
 DROP POLICY IF EXISTS "Allow public newsletter inserts" ON public.newsletter;

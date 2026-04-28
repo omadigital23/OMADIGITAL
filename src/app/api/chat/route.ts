@@ -96,8 +96,8 @@ export async function POST(req: NextRequest) {
             ...safeMessages,
           ],
           reasoning_format: 'hidden',
-          max_tokens: 800,
-          temperature: 0.6,
+          max_tokens: 256,
+          temperature: 0.4,
         });
 
         const content = completion.choices[0]?.message?.content;

@@ -116,6 +116,23 @@ function truncate(value: string, maxLength: number): string {
   return value.length > maxLength ? `${value.slice(0, maxLength).trim()}...` : value;
 }
 
+function normalizeReplyWhitespace(value: string): string {
+  return value
+    .replace(/\r\n?/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function normalizeReplyLists(value: string): string {
+  return value
+    .replace(/:\s*[-•]\s+/g, ':\n- ')
+    .replace(/([);.!?])\s*[-•]\s+(?=[A-Z0-9])/g, '$1\n- ')
+    .replace(/\n[-•]\s*/g, '\n- ');
+}
+
 function titleCaseName(name: string): string {
   return name
     .split(/\s+/)
@@ -408,13 +425,16 @@ Core offers:
 
 Hard rules:
 - Detect the language of the user's last message and reply in that same language. If the language is neither French nor English, reply in French.
-- Answer the user's question first, then ask at most one qualifying follow-up question.
-- Keep replies short: 2 to 5 sentences, no long lists unless asked.
+- Answer the user's exact latest question first. Only add context that directly helps answer it.
+- Keep replies short: 2 to 4 sentences by default, with at most one short qualifying follow-up question.
+- Do not automatically list every service, every price, or the full company pitch.
+- Only present multiple offers when the user explicitly asks for services, options, or pricing.
+- If you list offers, keep each item to one short line and only include the most relevant options.
 - Never invent phone numbers, prices, case studies, timelines, or countries.
 - Use these exact contact details only:
   WhatsApp: ${BUSINESS.phone}
   Email: ${BUSINESS.email}
-  WhatsApp link: ${WHATSAPP_URL}
+- Never paste a raw WhatsApp URL in the reply body. When sharing contact, show only the WhatsApp number and email.
 - Pricing must stay framed as "starting at", never give fake exact quotes.
 - Do not promise advanced features, delivery guarantees, or custom scope before a brief.
 - When a user shares a budget, position the closest starting package and say the final scope depends on the brief.
@@ -422,7 +442,8 @@ Hard rules:
 - When interest is strong, gather the missing items progressively: project type, budget, name, email, phone.
 - Ask for one missing field at a time, not everything at once.
 - If the user asks for pricing, give the relevant starting price and the main deliverable in one concise answer.
-- If the user asks for contact, provide the exact WhatsApp and email above.
+- If the user asks for contact, provide both the exact WhatsApp number and email above.
+- Do not re-introduce yourself unless the user asks who you are or starts with a greeting.
 
 Known lead context: ${knownContext}
 Missing data still useful: ${missingFieldsText}
@@ -444,13 +465,16 @@ Offres principales:
 
 Regles strictes:
 - Detecte la langue du dernier message utilisateur et reponds dans cette meme langue. Si la langue n'est ni le francais ni l'anglais, reponds en francais.
-- Reponds d'abord a la question, puis pose au maximum une seule question de qualification.
-- Reponses courtes: 2 a 5 phrases, pas de longues listes sauf demande explicite.
+- Reponds d'abord a la question exacte du dernier message. Ajoute seulement le contexte utile pour y repondre.
+- Reponses courtes par defaut: 2 a 4 phrases, avec au maximum une seule courte question de qualification.
+- Ne recite pas automatiquement tous les services, tous les prix, ni tout le pitch commercial.
+- Ne presente plusieurs offres que si l'utilisateur demande explicitement les services, les options ou les tarifs.
+- Si tu listes des offres, garde une ligne courte par offre et limite-toi aux options les plus pertinentes.
 - N'invente jamais de numero, de pays, de tarifs exacts, de delais ou de cas clients.
 - Utilise uniquement ces coordonnees exactes:
   WhatsApp: ${BUSINESS.phone}
   Email: ${BUSINESS.email}
-  Lien WhatsApp: ${WHATSAPP_URL}
+- N'affiche jamais d'URL WhatsApp brute dans le corps de la reponse. En cas de contact, affiche seulement le numero WhatsApp et l'email.
 - Les prix doivent toujours rester formules "a partir de".
 - Ne promets jamais de fonctionnalites avancees, de delais fermes ou de perimetre sur mesure sans brief.
 - Quand un budget est donne, rattache-le au forfait de depart le plus proche et precise que le perimetre final depend du brief.
@@ -458,7 +482,8 @@ Regles strictes:
 - Quand l'interet est reel, collecte progressivement les informations manquantes: type de projet, budget, nom, email, telephone.
 - Demande un seul champ manquant a la fois.
 - Si l'utilisateur demande les tarifs, donne le prix de depart pertinent et le livrable principal en une reponse concise.
-- Si l'utilisateur demande le contact, donne le WhatsApp et l'email exacts ci-dessus.
+- Si l'utilisateur demande le contact, donne a la fois le numero WhatsApp exact et l'email exact ci-dessus.
+- Ne te re-presente pas sauf si l'utilisateur demande qui tu es ou commence par une salutation.
 
 Contexte lead connu: ${knownContext}
 Donnees encore utiles: ${missingFieldsText}
@@ -471,14 +496,16 @@ Ton:
 }
 
 export function sanitizeAssistantReply(reply: string): string {
-  return reply
+  const normalizedReply = reply
     .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '$1: $2')
+    .replace(/\[([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})\]/gi, '$1')
     .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
-    .replace(/\r/g, '')
-    .replace(/https?:\/\/wa\.me\/\d+[^\s)"]*/gi, WHATSAPP_URL)
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/https?:\/\/(?:wa\.me\/\d+[^\s)"]*|api\.whatsapp\.com\/send\?[^\s)"]*)/gi, BUSINESS.phone)
     .replace(/\+?212[\s().-]*701[\s().-]*193[\s().-]*811/gi, BUSINESS.phone)
-    .replace(/support@omadigital\.(com|sn)/gi, BUSINESS.email)
-    .trim();
+    .replace(/support@omadigital\.(com|sn)/gi, BUSINESS.email);
+
+  return normalizeReplyWhitespace(normalizeReplyLists(normalizedReply));
 }
 
 export function appendDeterministicContactCta(
@@ -497,11 +524,28 @@ export function appendDeterministicContactCta(
     return reply;
   }
 
-  if (reply.includes(BUSINESS.phone) || reply.includes(BUSINESS.email)) {
+  const hasPhone = reply.includes(BUSINESS.phone);
+  const hasEmail = reply.includes(BUSINESS.email);
+
+  if (hasPhone && hasEmail) {
     return reply;
   }
 
-  return `${reply}\n\n${CONTACT_LINE[locale]}`;
+  if (!hasPhone && !hasEmail) {
+    return `${reply}\n\n${CONTACT_LINE[locale]}`;
+  }
+
+  const missingContactParts = [];
+
+  if (!hasPhone) {
+    missingContactParts.push(locale === 'fr' ? `WhatsApp : ${BUSINESS.phone}` : `WhatsApp: ${BUSINESS.phone}`);
+  }
+
+  if (!hasEmail) {
+    missingContactParts.push(locale === 'fr' ? `Email : ${BUSINESS.email}` : `Email: ${BUSINESS.email}`);
+  }
+
+  return `${reply}\n\n${missingContactParts.join(' | ')}`;
 }
 
 export function buildChatSuggestions(locale: ChatLocale, insights: LeadInsights): ChatSuggestion[] {

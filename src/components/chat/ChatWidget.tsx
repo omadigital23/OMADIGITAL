@@ -381,10 +381,10 @@ export default function ChatWidget() {
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                    className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed break-words ${
                       msg.role === 'user'
                         ? 'gradient-bg rounded-br-md text-white'
-                        : 'rounded-bl-md border border-border-subtle bg-bg-card text-text-primary'
+                        : 'rounded-bl-md border border-border-subtle bg-bg-card text-text-primary whitespace-pre-line'
                     }`}
                   >
                     {msg.content}

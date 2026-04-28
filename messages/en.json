@@ -18,7 +18,8 @@
     "titleAccent": "with AI",
     "subtitle": "Premium websites, mobile apps and AI automation solutions to propel your Senegalese business towards digital success.",
     "ctaPrimary": "Get a free audit",
-    "ctaSecondary": "Discover our services"
+    "ctaSecondary": "Discover our services",
+    "videoAriaLabel": "Video {number}"
   },
   "stats": {
     "clients": "Clients served",
@@ -88,23 +89,29 @@
     "result4": "98% Satisfaction",
     "result5": "+200% Productivity",
     "result6": "-95% Errors",
-    "techStack": "Technologies"
+    "techStack": "Technologies",
+    "challenge": "Challenge",
+    "solution": "Solution"
   },
   "testimonials": {
     "sectionTitle": "What our",
     "sectionTitleAccent": "clients say",
-    "quote1": "OMA Digital completely transformed our online presence. Our revenue tripled in 6 months.",
-    "name1": "Aminata Diallo",
-    "company1": "Saly Fashion",
-    "role1": "Founder",
-    "quote2": "The appointment app revolutionized our clinic. Our patients love the simplicity.",
-    "name2": "Dr. Moussa Ndiaye",
-    "company2": "MedPlus Clinic",
-    "role2": "Director",
-    "quote3": "Their automation solution saved us over 20 hours per week.",
-    "name3": "Ibrahima Sow",
-    "company3": "Agro Senegal Export",
-    "role3": "CEO"
+    "viewSite": "Visit website",
+    "quote1": "We needed a clear platform to structure our activities in legal consulting, taxation and recruitment. The website improves the readability of our offer and facilitates contact, both for companies and candidates. We see better quality incoming requests. A rigorous approach, aligned with our professional standards.",
+    "name1": "F. M.",
+    "company1": "Sojif Consulting",
+    "role1": "Managing Director",
+    "link1": "https://www.sojifconsulting.com/fr",
+    "quote2": "We wanted a digital presence that matched the quality of our creations, from ready-to-wear to bespoke. The site showcases our collections and reinforces the premium perception of the brand. We now receive more qualified requests, especially for bespoke orders. A refined execution perfectly aligned with our positioning.",
+    "name2": "P. B.",
+    "company2": "Nubia Aura",
+    "role2": "Managing Director",
+    "link2": "https://nubiaaura.com/fr",
+    "quote3": "We needed a website capable of showcasing our dairy products and structuring our online presence. The result highlights our range and builds trust with our clients and distributors. We see better visibility and more targeted inquiries. An efficient, results-oriented collaboration.",
+    "name3": "P. A. F.",
+    "company3": "Gueye Agro",
+    "role3": "Managing Director",
+    "link3": ""
   },
   "pricing": {
     "sectionTitle": "Transparent",
@@ -139,7 +146,81 @@
     "businessAIPrice": "500,000",
     "businessAIDesc": "Advanced automation",
     "premiumAIPrice": "1,000,000",
-    "premiumAIDesc": "Complete digital transformation"
+    "premiumAIDesc": "Complete digital transformation",
+    "features": {
+      "starterWeb": {
+        "f1": "5-page showcase website",
+        "f2": "Responsive design",
+        "f3": "Contact form",
+        "f4": "Basic SEO",
+        "f5": "1-year hosting",
+        "f6": "Delivered in 7 days"
+      },
+      "businessWeb": {
+        "f1": "Up to 15-page website",
+        "f2": "Custom premium design",
+        "f3": "Integrated blog",
+        "f4": "Advanced SEO + Analytics",
+        "f5": "Live chat",
+        "f6": "6-month support"
+      },
+      "premiumWeb": {
+        "f1": "Unlimited e-commerce site",
+        "f2": "Wave / Orange Money payment",
+        "f3": "Inventory management",
+        "f4": "Admin dashboard",
+        "f5": "AI chatbot integrated",
+        "f6": "24/7 support"
+      },
+      "starterMobile": {
+        "f1": "Android or iOS app",
+        "f2": "UI/UX design",
+        "f3": "Up to 5 screens",
+        "f4": "Push notifications",
+        "f5": "3-month support",
+        "f6": "Store publication"
+      },
+      "businessMobile": {
+        "f1": "Android + iOS app",
+        "f2": "Premium design",
+        "f3": "Unlimited screens",
+        "f4": "Backend API included",
+        "f5": "Mobile payment integration",
+        "f6": "6-month support"
+      },
+      "premiumMobile": {
+        "f1": "Android + iOS + Web app",
+        "f2": "Scalable architecture",
+        "f3": "Integrated AI",
+        "f4": "Advanced analytics",
+        "f5": "Multi-language",
+        "f6": "1-year support"
+      },
+      "starterAI": {
+        "f1": "Basic AI chatbot",
+        "f2": "1 automated workflow",
+        "f3": "WhatsApp integration",
+        "f4": "Team training",
+        "f5": "3-month support",
+        "f6": "Dashboard included"
+      },
+      "businessAI": {
+        "f1": "Advanced AI chatbot",
+        "f2": "5 automated workflows",
+        "f3": "Automated CRM",
+        "f4": "AI reports",
+        "f5": "Email / SMS integration",
+        "f6": "6-month support"
+      },
+      "premiumAI": {
+        "f1": "Custom AI solution",
+        "f2": "Unlimited workflows",
+        "f3": "Predictive analytics",
+        "f4": "Real-time dashboard",
+        "f5": "Custom API",
+        "f6": "1-year support"
+      }
+    }
   },
   "cta": {
     "title": "Ready to transform",
@@ -177,7 +258,18 @@
     "shareArticle": "Share",
     "relatedArticles": "Related articles",
     "tableOfContents": "Contents",
-    "backToBlog": "← Back to blog"
+    "backToBlog": "← Back to blog",
+    "authorName": "OMA Digital",
+    "authorRole": "AI Automation Agency",
+    "ctaTitle": "Ready to take action?",
+    "ctaText": "Contact OMA Digital for a free audit of your project.",
+    "ctaButton": "Get a free audit →",
+    "preview1Title": "How to create a professional website in Senegal in 2025",
+    "preview1Excerpt": "Complete guide to creating a website that converts visitors into clients.",
+    "preview2Title": "AI automation: guide for Senegalese businesses",
+    "preview2Excerpt": "Discover how AI can transform your business and save you time.",
+    "preview3Title": "Mobile app: why your business needs one",
+    "preview3Excerpt": "With 90% mobile penetration in Senegal, your business needs to be on smartphone."
   },
   "contact": {
     "pageTitle": "Contact",
@@ -240,7 +332,9 @@
     "voiceTranscribing": "Transcribing your voice message...",
     "voiceTranscribingStatus": "Transcription in progress...",
     "voicePleaseWait": "Please wait",
-    "voicePermissionError": "Unable to access the microphone.",
+    "voicePermissionError": "Unable to access the microphone. Please check your permissions.",
+    "voiceNotFoundError": "No microphone detected on this device.",
+    "voiceNotSupportedError": "Your browser does not support microphone access.",
     "voiceEmptyError": "No speech detected. Please try again.",
     "voiceTranscriptionError": "Unable to transcribe your voice message."
   },

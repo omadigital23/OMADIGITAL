@@ -1,12 +1,12 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'motion/react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import Button from '@/components/ui/Button';
-import { WHATSAPP_URL } from '@/lib/constants';
+import { getWhatsAppUrl } from '@/lib/constants';
 
 interface SEOPageProps {
   title: string;
@@ -28,6 +28,8 @@ export default function SEOPageClient({
   pricingInfo,
 }: SEOPageProps) {
   const t = useTranslations('seoPages');
+  const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
 
   return (
     <>
@@ -45,7 +47,7 @@ export default function SEOPageClient({
             </h1>
             <p className="text-lg text-accent-violet mb-4">{subtitle}</p>
             <p className="text-text-secondary leading-relaxed mb-8">{description}</p>
-            <Button size="lg" href={WHATSAPP_URL} external>
+            <Button size="lg" href={whatsappUrl} external>
               {t('ctaText')} {'->'}
             </Button>
           </motion.div>
@@ -80,7 +82,7 @@ export default function SEOPageClient({
               <p className="text-text-muted text-sm mb-6">
                 {t('pricingRange', { price: pricingInfo.to })}
               </p>
-              <Button href={WHATSAPP_URL} external>
+              <Button href={whatsappUrl} external>
                 {t('pricingCta')}
               </Button>
             </div>
@@ -133,7 +135,7 @@ export default function SEOPageClient({
             </h2>
             <p className="text-white/70 mb-6">{t('ctaSubtext')}</p>
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-bg-primary font-medium px-8 py-3 rounded-full hover:shadow-lg transition-all"

@@ -53,33 +53,38 @@ export default function BlogListClient() {
 
       {/* Articles */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((post, i) => (
-          <motion.div
-            key={post.slug}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-          >
-            <Link href={`/blog/${post.slug}`}>
-              <Card className="p-6 h-full flex flex-col cursor-pointer">
-                <div className="text-3xl mb-4">{post.emoji}</div>
-                <div className="text-xs text-accent-violet mb-2 uppercase tracking-wide">
-                  {post.category.replace('-', ' ')}
-                </div>
-                <h2 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
-                  {locale === 'fr' ? post.titleFr : post.titleEn}
-                </h2>
-                <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
-                  {locale === 'fr' ? post.excerptFr : post.excerptEn}
-                </p>
-                <div className="flex items-center justify-between text-xs text-text-muted pt-3 border-t border-border-subtle">
-                  <span>{post.readTime} {t('readTime')}</span>
-                  <span>{post.date}</span>
-                </div>
-              </Card>
-            </Link>
-          </motion.div>
-        ))}
+        {filtered.map((post, i) => {
+          const categoryLabel = categoryLabelMap[post.category]
+            ? t(categoryLabelMap[post.category])
+            : post.category.replace('-', ' ');
+          return (
+            <motion.div
+              key={post.slug}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+            >
+              <Link href={`/blog/${post.slug}`}>
+                <Card className="p-6 h-full flex flex-col cursor-pointer">
+                  <div className="text-3xl mb-4">{post.emoji}</div>
+                  <div className="text-xs text-accent-violet mb-2 uppercase tracking-wide">
+                    {categoryLabel}
+                  </div>
+                  <h2 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
+                    {locale === 'fr' ? post.titleFr : post.titleEn}
+                  </h2>
+                  <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
+                    {locale === 'fr' ? post.excerptFr : post.excerptEn}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-text-muted pt-3 border-t border-border-subtle">
+                    <span>{post.readTime} {t('readTime')}</span>
+                    <span>{post.date}</span>
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

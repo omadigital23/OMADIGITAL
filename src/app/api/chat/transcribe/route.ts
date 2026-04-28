@@ -42,7 +42,9 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file');
     const requestedLanguage = normalizeText(formData.get('language'));
     const locale = resolveChatLocale(requestedLanguage);
-    const language = SUPPORTED_LANGUAGES.has(locale) ? locale : undefined;
+    // On ne force pas la langue à Whisper : il la détecte automatiquement
+    // Le prompt reste pour aider sans contraindre
+    void SUPPORTED_LANGUAGES; // conservé pour ref future
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: 'Missing audio file' }, { status: 400 });
@@ -68,7 +70,6 @@ export async function POST(req: NextRequest) {
     const transcription = await groq.audio.transcriptions.create({
       file,
       model: WHISPER_MODEL,
-      language,
       prompt: buildTranscriptionPrompt(locale),
       response_format: 'json',
       temperature: 0,

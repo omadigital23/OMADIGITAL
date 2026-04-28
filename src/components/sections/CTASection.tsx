@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import Button from '@/components/ui/Button';
-import { WHATSAPP_URL } from '@/lib/constants';
+import { getWhatsAppUrl } from '@/lib/constants';
 
 export default function CTASection() {
   const t = useTranslations('cta');
+  const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const [form, setForm] = useState({ name: '', email: '', phone: '', business: '' });
@@ -57,7 +59,7 @@ export default function CTASection() {
             </h2>
             <p className="mt-4 text-text-secondary text-lg">{t('subtitle')}</p>
             <div className="mt-8">
-              <Button size="lg" href={WHATSAPP_URL} external>
+              <Button size="lg" href={whatsappUrl} external>
                 {t('button')}
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </Button>

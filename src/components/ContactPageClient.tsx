@@ -1,16 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'motion/react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { BUSINESS, WHATSAPP_URL } from '@/lib/constants';
+import { BUSINESS, getWhatsAppUrl } from '@/lib/constants';
 
 export default function ContactPageClient() {
   const t = useTranslations('contact');
   const servicesT = useTranslations('services');
+  const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
@@ -169,7 +171,7 @@ export default function ContactPageClient() {
               </div>
 
               <a
-                href={WHATSAPP_URL}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-6 rounded-2xl bg-green-500/10 border border-green-500/20 hover:bg-green-500/15 transition-colors group"

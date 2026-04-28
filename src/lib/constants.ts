@@ -5,7 +5,7 @@
 export const BUSINESS = {
   name: 'OMA Digital',
   tagline: 'AI Automation Agency',
-  email: 'support@omadigital.net',
+  email: 'omadigital23@gmail.com',
   phone: '+212701193811',
   whatsappNumber: '212701193811',
   location: {
@@ -21,9 +21,19 @@ export const BUSINESS = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.omadigital.net',
 } as const;
 
-export const WHATSAPP_URL = `https://wa.me/${BUSINESS.whatsappNumber}?text=${encodeURIComponent(
-  'Bonjour, je souhaite un audit gratuit pour mon entreprise'
-)}`;
+// Messages WhatsApp localisés FR / EN
+const WHATSAPP_MESSAGES: Record<string, string> = {
+  fr: 'Bonjour, je souhaite un audit gratuit pour mon entreprise',
+  en: 'Hello, I would like a free audit for my business',
+};
+
+export function getWhatsAppUrl(locale: string = 'fr'): string {
+  const msg = WHATSAPP_MESSAGES[locale] ?? WHATSAPP_MESSAGES.fr;
+  return `https://wa.me/${BUSINESS.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+}
+
+// URL par défaut (FR) — conservée pour la compatibilité des composants sans locale
+export const WHATSAPP_URL = getWhatsAppUrl('fr');
 
 export const NAV_ITEMS = [
   { labelKey: 'nav.services', href: '/#services' },

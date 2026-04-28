@@ -1,8 +1,8 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { NAV_ITEMS, WHATSAPP_URL } from '@/lib/constants';
+import { NAV_ITEMS, getWhatsAppUrl } from '@/lib/constants';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface MobileMenuProps {
@@ -13,6 +13,8 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenuProps) {
   const t = useTranslations('nav');
+  const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
 
   return (
     <AnimatePresence>
@@ -73,7 +75,7 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
                 {t('languageSwitch')}
               </button>
               <a
-                href={WHATSAPP_URL}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}

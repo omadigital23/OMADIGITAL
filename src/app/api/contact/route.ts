@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
       name.length < 2 ||
       name.length > 80 ||
       !isValidEmail(email) ||
+      phone.length === 0 ||
       !isValidPhone(phone) ||
       business.length > 120 ||
       message.length > 2000 ||

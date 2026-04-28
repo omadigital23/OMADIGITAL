@@ -1,6 +1,6 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import { Link } from '@/i18n/navigation';
@@ -9,63 +9,35 @@ import Card from '@/components/ui/Card';
 const previewArticles = [
   {
     slug: 'creer-site-web-professionnel-senegal',
-    category: 'website',
+    categoryKey: 'categoryWebsite',
     readTime: 8,
     emoji: '🌐',
+    titleKey: 'preview1Title',
+    excerptKey: 'preview1Excerpt',
   },
   {
     slug: 'automatisation-ia-guide-entreprises-senegalaises',
-    category: 'ai-automation',
+    categoryKey: 'categoryAI',
     readTime: 10,
     emoji: '🤖',
+    titleKey: 'preview2Title',
+    excerptKey: 'preview2Excerpt',
   },
   {
     slug: 'application-mobile-entreprise-senegal',
-    category: 'mobile',
+    categoryKey: 'categoryMobile',
     readTime: 7,
     emoji: '📱',
+    titleKey: 'preview3Title',
+    excerptKey: 'preview3Excerpt',
   },
 ] as const;
 
-const articleContent = {
-  article1: {
-    fr: {
-      title: 'Comment creer un site web professionnel au Senegal en 2025',
-      excerpt: 'Guide complet pour creer un site web qui convertit vos visiteurs en clients.',
-    },
-    en: {
-      title: 'How to create a professional website in Senegal in 2025',
-      excerpt: 'Complete guide to creating a website that converts visitors into clients.',
-    },
-  },
-  article2: {
-    fr: {
-      title: "L'automatisation IA : guide pour les entreprises senegalaises",
-      excerpt: "Decouvrez comment l'IA peut transformer votre entreprise et vous faire gagner du temps.",
-    },
-    en: {
-      title: 'AI automation: guide for Senegalese businesses',
-      excerpt: 'Discover how AI can transform your business and save you time.',
-    },
-  },
-  article3: {
-    fr: {
-      title: 'Application mobile : pourquoi votre entreprise en a besoin',
-      excerpt: 'Avec 90% de penetration mobile au Senegal, votre entreprise doit etre sur smartphone.',
-    },
-    en: {
-      title: 'Mobile app: why your business needs one',
-      excerpt: 'With 90% mobile penetration in Senegal, your business needs to be on smartphone.',
-    },
-  },
-} as const;
-
 export default function BlogPreview() {
-  const locale = useLocale();
   const t = useTranslations('blogPreview');
+  const tBlog = useTranslations('blog');
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const contentLocale = locale === 'en' ? 'en' : 'fr';
 
   return (
     <section ref={ref} className="py-20 md:py-28 bg-bg-secondary">
@@ -83,40 +55,35 @@ export default function BlogPreview() {
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {previewArticles.map((article, index) => {
-            const key = `article${index + 1}` as keyof typeof articleContent;
-            const content = articleContent[key][contentLocale];
-
-            return (
-              <motion.div
-                key={article.slug}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.2 + index * 0.15 }}
-              >
-                <Link href={`/blog/${article.slug}`}>
-                  <Card className="p-6 h-full flex flex-col cursor-pointer">
-                    <div className="text-3xl mb-4">{article.emoji}</div>
-                    <div className="text-xs text-accent-violet mb-2 uppercase tracking-wide">
-                      {article.category.replace('-', ' ')}
-                    </div>
-                    <h3 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
-                      {content.title}
-                    </h3>
-                    <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
-                      {content.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-xs text-text-muted">
-                      <span>{article.readTime} {t('minRead')}</span>
-                      <span className="text-accent-violet hover:underline">
-                        {t('readMore')} {'->'}
-                      </span>
-                    </div>
-                  </Card>
-                </Link>
-              </motion.div>
-            );
-          })}
+          {previewArticles.map((article, index) => (
+            <motion.div
+              key={article.slug}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 + index * 0.15 }}
+            >
+              <Link href={`/blog/${article.slug}`}>
+                <Card className="p-6 h-full flex flex-col cursor-pointer">
+                  <div className="text-3xl mb-4">{article.emoji}</div>
+                  <div className="text-xs text-accent-violet mb-2 uppercase tracking-wide">
+                    {tBlog(article.categoryKey)}
+                  </div>
+                  <h3 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
+                    {tBlog(article.titleKey)}
+                  </h3>
+                  <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
+                    {tBlog(article.excerptKey)}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-text-muted">
+                    <span>{article.readTime} {t('minRead')}</span>
+                    <span className="text-accent-violet hover:underline">
+                      {t('readMore')}
+                    </span>
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
         <motion.div

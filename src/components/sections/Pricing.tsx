@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
-import { WHATSAPP_URL } from '@/lib/constants';
+import { getWhatsAppUrl } from '@/lib/constants';
 
 type PlanCategory = 'website' | 'mobile' | 'ai';
 
@@ -36,20 +36,12 @@ const categoryLabels: Record<PlanCategory, string> = {
   ai: 'aiPlans',
 };
 
-const featureMap: Record<string, string[]> = {
-  starterWeb: ['Site vitrine 5 pages', 'Design responsive', 'Formulaire de contact', 'SEO de base', 'Hébergement 1 an'],
-  businessWeb: ['Site jusqu\'à 15 pages', 'Design premium', 'Blog intégré', 'SEO avancé', 'Analytics', 'Chat en direct'],
-  premiumWeb: ['Site e-commerce illimité', 'Paiement Wave/OM', 'Gestion des stocks', 'Dashboard admin', 'Chatbot IA', 'Support 24/7'],
-  starterMobile: ['App Android ou iOS', 'Design UI/UX', '5 écrans max', 'Notifications push', 'Support 3 mois'],
-  businessMobile: ['App Android + iOS', 'Design premium', 'Écrans illimités', 'Backend API', 'Paiement mobile', 'Support 6 mois'],
-  premiumMobile: ['App Android + iOS + Web', 'Architecture scalable', 'IA intégrée', 'Analytics avancés', 'Multi-langue', 'Support 1 an'],
-  starterAI: ['Chatbot IA basique', '1 workflow automatisé', 'Intégration WhatsApp', 'Formation équipe', 'Support 3 mois'],
-  businessAI: ['Chatbot IA avancé', '5 workflows', 'CRM automatisé', 'Rapports IA', 'Intégration email/SMS', 'Support 6 mois'],
-  premiumAI: ['IA sur mesure', 'Workflows illimités', 'Analyse prédictive', 'Dashboard temps réel', 'API personnalisée', 'Support 1 an'],
-};
+const FEATURE_SLOTS = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6'] as const;
 
 export default function Pricing() {
   const t = useTranslations('pricing');
+  const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
   const [active, setActive] = useState<PlanCategory>('website');
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
@@ -68,6 +60,7 @@ export default function Pricing() {
         <p className="mt-4 text-text-secondary max-w-xl mx-auto">{t('sectionSubtitle')}</p>
       </motion.div>
 
+      {/* Category tabs */}
       <div className="flex justify-center mb-12">
         <div className="inline-flex bg-bg-card rounded-xl p-1 border border-border-subtle">
           {(Object.keys(plans) as PlanCategory[]).map((category) => (
@@ -112,26 +105,31 @@ export default function Pricing() {
               </div>
 
               <div className="space-y-3 mb-8 flex-grow">
-                {featureMap[plan.featuresKey]?.map((feature) => (
-                  <div key={feature} className="flex items-start gap-2 text-sm text-text-secondary">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="var(--color-accent-cyan)"
-                      strokeWidth="2"
-                      className="shrink-0 mt-0.5"
-                    >
-                      <path d="M20 6L9 17l-5-5" />
-                    </svg>
-                    {feature}
-                  </div>
-                ))}
+                <p className="text-xs font-medium text-text-muted uppercase tracking-wide">{t('includes')}</p>
+                {FEATURE_SLOTS.map((slot) => {
+                  const featureText = t(`features.${plan.featuresKey}.${slot}` as Parameters<typeof t>[0]);
+                  if (!featureText) return null;
+                  return (
+                    <div key={slot} className="flex items-start gap-2 text-sm text-text-secondary">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="var(--color-accent-cyan)"
+                        strokeWidth="2"
+                        className="shrink-0 mt-0.5"
+                      >
+                        <path d="M20 6L9 17l-5-5" />
+                      </svg>
+                      {featureText}
+                    </div>
+                  );
+                })}
               </div>
 
               <a
-                href={WHATSAPP_URL}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`block text-center py-3 rounded-xl font-medium text-sm transition-all ${

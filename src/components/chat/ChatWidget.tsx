@@ -229,8 +229,20 @@ export default function ChatWidget() {
       return;
     }
 
+    // Revérifier MediaRecorder au moment de l'appel (iOS < 14.3 peut ne pas l'avoir)
+    if (typeof MediaRecorder === 'undefined') {
+      addAssistantMessage(t('voiceNotSupportedError'));
+      return;
+    }
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 16000,
+        },
+      });
       const mimeType = getSupportedRecordingMimeType();
       const mediaRecorder = mimeType
         ? new MediaRecorder(stream, { mimeType })
@@ -285,10 +297,18 @@ export default function ChatWidget() {
       mediaRecorder.start();
       startRecordingTimer();
       setVoiceState('recording');
-    } catch {
+    } catch (err: unknown) {
       cleanupRecording();
       setVoiceState('idle');
-      addAssistantMessage(t('voicePermissionError'));
+      const name = err instanceof DOMException ? err.name : '';
+      if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+        addAssistantMessage(t('voiceNotFoundError'));
+      } else if (name === 'NotSupportedError' || name === 'SecurityError') {
+        addAssistantMessage(t('voiceNotSupportedError'));
+      } else {
+        // NotAllowedError, PermissionDeniedError, et autres
+        addAssistantMessage(t('voicePermissionError'));
+      }
     }
   };
 

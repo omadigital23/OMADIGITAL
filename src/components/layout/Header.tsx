@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
-import { NAV_ITEMS, WHATSAPP_URL } from '@/lib/constants';
+import { NAV_ITEMS, getWhatsAppUrl } from '@/lib/constants';
 import Image from 'next/image';
 import MobileMenu from './MobileMenu';
 
 export default function Header() {
   const t = useTranslations('nav');
   const locale = useLocale();
+  const whatsappUrl = getWhatsAppUrl(locale);
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -70,7 +71,7 @@ export default function Header() {
               {t('languageSwitch')}
             </button>
             <a
-              href={WHATSAPP_URL}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="gradient-bg text-white text-sm font-medium px-5 py-2.5 rounded-full hover:shadow-glow transition-all hover:scale-105"

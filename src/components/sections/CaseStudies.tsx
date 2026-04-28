@@ -57,9 +57,13 @@ export default function CaseStudies() {
               <Card className="p-6 h-full flex flex-col">
                 <div className="text-xs text-text-muted mb-2">{t(cs.industryKey)}</div>
                 <h3 className="font-heading font-semibold text-lg text-text-primary mb-3">{t(cs.clientKey)}</h3>
-                <p className="text-sm text-text-muted mb-3 leading-relaxed"><strong className="text-text-secondary">Défi:</strong> {t(cs.challengeKey)}</p>
-                <p className="text-sm text-text-muted mb-4 leading-relaxed"><strong className="text-accent-cyan">Solution:</strong> {t(cs.solutionKey)}</p>
-                
+                <p className="text-sm text-text-muted mb-3 leading-relaxed">
+                  <strong className="text-text-secondary">{t('challenge')} :</strong> {t(cs.challengeKey)}
+                </p>
+                <p className="text-sm text-text-muted mb-4 leading-relaxed">
+                  <strong className="text-accent-cyan">{t('solution')} :</strong> {t(cs.solutionKey)}
+                </p>
+
                 {/* Results */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   {cs.results.map((r) => (

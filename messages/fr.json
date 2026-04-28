@@ -18,7 +18,8 @@
     "titleAccent": "avec l'IA",
     "subtitle": "Sites web premium, applications mobiles et solutions d'automatisation IA pour propulser votre entreprise sénégalaise vers le succès digital.",
     "ctaPrimary": "Obtenez un audit gratuit",
-    "ctaSecondary": "Découvrez nos services"
+    "ctaSecondary": "Découvrez nos services",
+    "videoAriaLabel": "Vidéo {number}"
   },
   "stats": {
     "clients": "Clients accompagnés",
@@ -88,23 +89,29 @@
     "result4": "98% Satisfaction",
     "result5": "+200% Productivité",
     "result6": "-95% Erreurs",
-    "techStack": "Technologies"
+    "techStack": "Technologies",
+    "challenge": "Défi",
+    "solution": "Solution"
   },
   "testimonials": {
     "sectionTitle": "Ce que disent",
     "sectionTitleAccent": "nos clients",
-    "quote1": "OMA Digital a complètement transformé notre présence en ligne. Notre chiffre d'affaires a triplé en 6 mois.",
-    "name1": "Aminata Diallo",
-    "company1": "Saly Fashion",
-    "role1": "Fondatrice",
-    "quote2": "L'application de rendez-vous a révolutionné notre cabinet. Nos patients adorent la simplicité.",
-    "name2": "Dr. Moussa Ndiaye",
-    "company2": "Cabinet MedPlus",
-    "role2": "Directeur",
-    "quote3": "Leur solution d'automatisation nous a fait économiser plus de 20 heures par semaine.",
-    "name3": "Ibrahima Sow",
-    "company3": "Agro Sénégal Export",
-    "role3": "DG"
+    "viewSite": "Voir le site",
+    "quote1": "Nous avions besoin d'une plateforme claire pour structurer nos activités en conseil juridique, fiscalité et recrutement. Le site améliore la lisibilité de notre offre et facilite les prises de contact, aussi bien côté entreprises que candidats. Nous constatons une meilleure qualité des demandes entrantes. Une approche rigoureuse, alignée avec nos standards professionnels.",
+    "name1": "F. M.",
+    "company1": "Sojif Consulting",
+    "role1": "Directeur Général",
+    "link1": "https://www.sojifconsulting.com/fr",
+    "quote2": "Nous souhaitions une présence digitale à la hauteur de la qualité de nos créations, du prêt-à-porter au sur-mesure. Le site met en valeur nos collections et renforce la perception premium de la marque. Nous recevons aujourd'hui des demandes plus qualifiées, notamment pour le sur-mesure. Une exécution soignée et parfaitement alignée avec notre positionnement.",
+    "name2": "P. B.",
+    "company2": "Nubia Aura",
+    "role2": "Directeur Général",
+    "link2": "https://nubiaaura.com/fr",
+    "quote3": "Nous avions besoin d'un site capable de valoriser nos produits laitiers et de structurer notre présence en ligne. Le résultat met en avant notre gamme et renforce la confiance auprès de nos clients et distributeurs. Nous constatons une meilleure visibilité et des demandes plus ciblées. Une collaboration efficace, orientée résultats.",
+    "name3": "P. A. F.",
+    "company3": "Gueye Agro",
+    "role3": "Directeur Général",
+    "link3": ""
   },
   "pricing": {
     "sectionTitle": "Tarifs",
@@ -118,7 +125,7 @@
     "popular": "Populaire",
     "ctaButton": "Commencer",
     "ctaWhatsApp": "Discuter sur WhatsApp",
-    "includes": "Inclus:",
+    "includes": "Inclus :",
     "websitePlans": "Sites Web",
     "mobilePlans": "Apps Mobiles",
     "aiPlans": "Automatisation IA",
@@ -139,7 +146,81 @@
     "businessAIPrice": "500 000",
     "businessAIDesc": "Automatisation avancée",
     "premiumAIPrice": "1 000 000",
-    "premiumAIDesc": "Transformation digitale complète"
+    "premiumAIDesc": "Transformation digitale complète",
+    "features": {
+      "starterWeb": {
+        "f1": "Site vitrine 5 pages",
+        "f2": "Design responsive",
+        "f3": "Formulaire de contact",
+        "f4": "SEO de base",
+        "f5": "Hébergement 1 an",
+        "f6": "Livraison en 7 jours"
+      },
+      "businessWeb": {
+        "f1": "Site jusqu'à 15 pages",
+        "f2": "Design premium sur mesure",
+        "f3": "Blog intégré",
+        "f4": "SEO avancé + Analytics",
+        "f5": "Chat en direct",
+        "f6": "Support 6 mois"
+      },
+      "premiumWeb": {
+        "f1": "Site e-commerce illimité",
+        "f2": "Paiement Wave / Orange Money",
+        "f3": "Gestion des stocks",
+        "f4": "Dashboard administrateur",
+        "f5": "Chatbot IA intégré",
+        "f6": "Support 24/7"
+      },
+      "starterMobile": {
+        "f1": "App Android ou iOS",
+        "f2": "Design UI/UX",
+        "f3": "5 écrans maximum",
+        "f4": "Notifications push",
+        "f5": "Support 3 mois",
+        "f6": "Publication sur les stores"
+      },
+      "businessMobile": {
+        "f1": "App Android + iOS",
+        "f2": "Design premium",
+        "f3": "Écrans illimités",
+        "f4": "Backend API inclus",
+        "f5": "Paiement mobile intégré",
+        "f6": "Support 6 mois"
+      },
+      "premiumMobile": {
+        "f1": "App Android + iOS + Web",
+        "f2": "Architecture scalable",
+        "f3": "Intelligence artificielle intégrée",
+        "f4": "Analytics avancés",
+        "f5": "Multi-langue",
+        "f6": "Support 1 an"
+      },
+      "starterAI": {
+        "f1": "Chatbot IA basique",
+        "f2": "1 workflow automatisé",
+        "f3": "Intégration WhatsApp",
+        "f4": "Formation de l'équipe",
+        "f5": "Support 3 mois",
+        "f6": "Tableau de bord inclus"
+      },
+      "businessAI": {
+        "f1": "Chatbot IA avancé",
+        "f2": "5 workflows automatisés",
+        "f3": "CRM automatisé",
+        "f4": "Rapports IA",
+        "f5": "Intégration email / SMS",
+        "f6": "Support 6 mois"
+      },
+      "premiumAI": {
+        "f1": "IA sur mesure",
+        "f2": "Workflows illimités",
+        "f3": "Analyse prédictive",
+        "f4": "Dashboard temps réel",
+        "f5": "API personnalisée",
+        "f6": "Support 1 an"
+      }
+    }
   },
   "cta": {
     "title": "Prêt à transformer",
@@ -177,7 +258,18 @@
     "shareArticle": "Partager",
     "relatedArticles": "Articles similaires",
     "tableOfContents": "Sommaire",
-    "backToBlog": "← Retour au blog"
+    "backToBlog": "← Retour au blog",
+    "authorName": "OMA Digital",
+    "authorRole": "Agence d'Automatisation IA",
+    "ctaTitle": "Prêt à passer à l'action ?",
+    "ctaText": "Contactez OMA Digital pour un audit gratuit de votre projet.",
+    "ctaButton": "Obtenir un audit gratuit →",
+    "preview1Title": "Comment créer un site web professionnel au Sénégal en 2025",
+    "preview1Excerpt": "Guide complet pour créer un site web qui convertit vos visiteurs en clients.",
+    "preview2Title": "L'automatisation IA : guide pour les entreprises sénégalaises",
+    "preview2Excerpt": "Découvrez comment l'IA peut transformer votre entreprise et vous faire gagner du temps.",
+    "preview3Title": "Application mobile : pourquoi votre entreprise en a besoin",
+    "preview3Excerpt": "Avec 90% de pénétration mobile au Sénégal, votre entreprise doit être sur smartphone."
   },
   "contact": {
     "pageTitle": "Contactez",
@@ -196,12 +288,12 @@
     "infoTitle": "Nos coordonnées",
     "addressLabel": "Adresse",
     "emailLabel": "Email",
-    "phoneLabel": "Telephone",
-    "responseTimeLabel": "Temps de reponse",
+    "phoneLabel": "Téléphone",
+    "responseTimeLabel": "Temps de réponse",
     "address": "Thiès, Sénégal",
     "responseTime": "Temps de réponse moyen : 2h",
     "whatsappTitle": "Parler sur WhatsApp",
-    "whatsappSubtitle": "Reponse rapide pour votre projet"
+    "whatsappSubtitle": "Réponse rapide pour votre projet"
   },
   "footer": {
     "description": "Agence digitale spécialisée en création de sites web, applications mobiles et automatisation IA au Sénégal.",
@@ -229,19 +321,21 @@
     "quickPricing": "💰 Nos tarifs",
     "quickAudit": "🎯 Audit gratuit",
     "quickContact": "📞 Nous contacter",
-    "connectionError": "Erreur de connexion. Reessayez.",
-    "voiceReady": "Micro pret",
+    "connectionError": "Erreur de connexion. Réessayez.",
+    "voiceReady": "Micro prêt",
     "voiceHint": "Vous pouvez aussi utiliser le micro pour parler au chatbot.",
-    "voiceStart": "Demarrer l'enregistrement vocal",
-    "voiceStop": "Arreter l'enregistrement vocal",
+    "voiceStart": "Démarrer l'enregistrement vocal",
+    "voiceStop": "Arrêter l'enregistrement vocal",
     "voiceTapToSpeak": "Touchez le micro",
     "voiceRecording": "Enregistrement en cours...",
     "voiceRecordingStatus": "Enregistrement... {duration}",
     "voiceTranscribing": "Transcription du message vocal...",
     "voiceTranscribingStatus": "Transcription en cours...",
     "voicePleaseWait": "Veuillez patienter",
-    "voicePermissionError": "Impossible d'acceder au microphone.",
-    "voiceEmptyError": "Aucune voix detectee. Reessayez.",
+    "voicePermissionError": "Impossible d'accéder au microphone. Vérifiez les permissions.",
+    "voiceNotFoundError": "Aucun microphone détecté sur cet appareil.",
+    "voiceNotSupportedError": "Votre navigateur ne supporte pas l'accès au microphone.",
+    "voiceEmptyError": "Aucune voix détectée. Réessayez.",
     "voiceTranscriptionError": "Impossible de transcrire votre message vocal."
   },
   "whatsapp": { "tooltip": "Discuter sur WhatsApp" },
@@ -255,9 +349,9 @@
     "ctaSubtext": "Découvrez comment nous pouvons transformer votre entreprise",
     "faqTitle": "Questions fréquentes",
     "pricingTitle": "Nos tarifs",
-    "pricingFrom": "A partir de",
-    "pricingRange": "Jusqu'a {price} FCFA pour les solutions premium",
-    "pricingCta": "Demander un devis personnalise",
+    "pricingFrom": "À partir de",
+    "pricingRange": "Jusqu'à {price} FCFA pour les solutions premium",
+    "pricingCta": "Demander un devis personnalisé",
     "whatsappCta": "WhatsApp"
   },
   "booking": {

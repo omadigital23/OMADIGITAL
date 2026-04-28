@@ -3,17 +3,30 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'motion/react';
 import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
 import type { BlogPostData } from '@/data/blog-posts';
 import { blogPosts } from '@/data/blog-posts';
-import { WHATSAPP_URL } from '@/lib/constants';
+import { getWhatsAppUrl } from '@/lib/constants';
+
+const categoryLabelMap: Record<string, string> = {
+  website: 'categoryWebsite',
+  ecommerce: 'categoryEcommerce',
+  mobile: 'categoryMobile',
+  'ai-automation': 'categoryAI',
+};
 
 export default function BlogArticleClient({ post }: { post: BlogPostData }) {
   const locale = useLocale();
   const t = useTranslations('blog');
+  const whatsappUrl = getWhatsAppUrl(locale);
   const title = locale === 'fr' ? post.titleFr : post.titleEn;
   const content = locale === 'fr' ? post.contentFr : post.contentEn;
 
   const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2);
+
+  const categoryLabel = categoryLabelMap[post.category]
+    ? t(categoryLabelMap[post.category])
+    : post.category.replace('-', ' ');
 
   return (
     <div className="container-custom max-w-4xl">
@@ -24,7 +37,7 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
 
         <div className="mt-6 mb-4 flex items-center gap-3 text-sm text-text-muted">
           <span className="text-accent-violet uppercase tracking-wide text-xs font-medium">
-            {post.category.replace('-', ' ')}
+            {categoryLabel}
           </span>
           <span>•</span>
           <span>{post.readTime} {t('readTime')}</span>
@@ -38,10 +51,16 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
 
         {/* Author */}
         <div className="flex items-center gap-3 mb-10 pb-8 border-b border-border-subtle">
-          <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-sm">O</div>
+          <Image
+            src="/images/logo.png"
+            alt={t('authorName')}
+            width={120}
+            height={40}
+            className="h-10 w-auto object-contain"
+          />
           <div>
-            <div className="font-medium text-text-primary text-sm">OMA Digital</div>
-            <div className="text-xs text-text-muted">Agence d&apos;Automatisation IA</div>
+            <div className="font-medium text-text-primary text-sm">{t('authorName')}</div>
+            <div className="text-xs text-text-muted">{t('authorRole')}</div>
           </div>
         </div>
 
@@ -67,10 +86,10 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
 
         {/* CTA */}
         <div className="mt-12 p-8 rounded-2xl bg-gradient-to-br from-accent-violet/10 to-accent-blue/10 border border-accent-violet/20 text-center">
-          <h3 className="font-heading font-bold text-xl mb-3">Prêt à passer à l&apos;action ?</h3>
-          <p className="text-text-muted mb-5">Contactez OMA Digital pour un audit gratuit de votre projet.</p>
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 gradient-bg text-white font-medium px-6 py-3 rounded-full hover:shadow-glow transition-all">
-            Obtenir un audit gratuit →
+          <h3 className="font-heading font-bold text-xl mb-3">{t('ctaTitle')}</h3>
+          <p className="text-text-muted mb-5">{t('ctaText')}</p>
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 gradient-bg text-white font-medium px-6 py-3 rounded-full hover:shadow-glow transition-all">
+            {t('ctaButton')}
           </a>
         </div>
 
@@ -79,15 +98,20 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
           <div className="mt-16">
             <h3 className="font-heading font-semibold text-xl mb-6">{t('relatedArticles')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {related.map((r) => (
-                <Link key={r.slug} href={`/blog/${r.slug}`}>
-                  <div className="p-5 rounded-xl bg-bg-card border border-border-subtle hover:border-border-medium transition-all">
-                    <div className="text-xs text-accent-violet mb-2 uppercase">{r.category}</div>
-                    <h4 className="font-heading font-semibold text-text-primary">{locale === 'fr' ? r.titleFr : r.titleEn}</h4>
-                    <p className="text-sm text-text-muted mt-2 line-clamp-2">{locale === 'fr' ? r.excerptFr : r.excerptEn}</p>
-                  </div>
-                </Link>
-              ))}
+              {related.map((r) => {
+                const relatedCategoryLabel = categoryLabelMap[r.category]
+                  ? t(categoryLabelMap[r.category])
+                  : r.category.replace('-', ' ');
+                return (
+                  <Link key={r.slug} href={`/blog/${r.slug}`}>
+                    <div className="p-5 rounded-xl bg-bg-card border border-border-subtle hover:border-border-medium transition-all">
+                      <div className="text-xs text-accent-violet mb-2 uppercase">{relatedCategoryLabel}</div>
+                      <h4 className="font-heading font-semibold text-text-primary">{locale === 'fr' ? r.titleFr : r.titleEn}</h4>
+                      <p className="text-sm text-text-muted mt-2 line-clamp-2">{locale === 'fr' ? r.excerptFr : r.excerptEn}</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}

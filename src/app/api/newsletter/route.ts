@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendEmail, buildNewsletterNotificationEmail } from '@/lib/email';
 import { consumeRateLimit } from '@/lib/rate-limit';
 import {
   getClientIp,
@@ -72,9 +73,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 
+    // Send email notification to admin
+    const supportEmail = process.env.SMTP_SUPPORT_EMAIL || process.env.SMTP_FROM_EMAIL;
+    if (supportEmail && supportEmail.trim().length > 0) {
+      const { subject, html } = buildNewsletterNotificationEmail(email);
+      sendEmail({ to: supportEmail, subject, html }).catch((err) => {
+        console.error('Newsletter email notification error:', err);
+      });
+    }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Newsletter API error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
+

@@ -141,6 +141,16 @@
   100% { background-position: 200% 0; }
 }
 
+@keyframes progress-bar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 @keyframes rotate-orbit {
   from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
   to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
@@ -164,6 +174,11 @@ body {
   color: white;
 }
 
+/* ── Smooth page transitions ── */
+@view-transition {
+  navigation: auto;
+}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
@@ -180,6 +195,12 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent-violet);
+}
+
+/* ── Focus visible global ── */
+*:focus-visible {
+  outline: 2px solid var(--color-accent-violet);
+  outline-offset: 3px;
 }
 
 /* ── Utility Classes ── */

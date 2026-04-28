@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
             ...safeMessages,
           ],
           reasoning_format: 'hidden',
-          max_tokens: 256,
+          max_tokens: 150,
           temperature: 0.4,
         });
 

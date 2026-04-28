@@ -106,3 +106,30 @@ export function buildLeadNotificationEmail(lead: {
     `,
   };
 }
+
+export function buildNewsletterNotificationEmail(email: string): { subject: string; html: string } {
+  const safeEmail = escapeHtml(email);
+
+  return {
+    subject: `📬 Nouvel abonné newsletter: ${email}`,
+    html: `
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a12; color: #f0f0f8; border-radius: 16px; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #06b6d4, #7c6aff, #a855f7); padding: 24px 32px;">
+          <h1 style="margin: 0; font-size: 20px; color: white;">📬 Nouvel Abonné Newsletter</h1>
+        </div>
+        <div style="padding: 32px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #a0a0c0; width: 120px;">Email</td><td style="padding: 8px 0; font-weight: 600;"><a href="mailto:${safeEmail}" style="color: #7c6aff;">${safeEmail}</a></td></tr>
+          </table>
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <a href="mailto:${safeEmail}" style="display: inline-block; background: #7c6aff; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">📧 Répondre</a>
+          </div>
+        </div>
+        <div style="padding: 16px 32px; background: rgba(255,255,255,0.03); text-align: center; color: #6b6b8a; font-size: 12px;">
+          OMA Digital — ${new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Dakar' })}
+        </div>
+      </div>
+    `,
+  };
+}
+

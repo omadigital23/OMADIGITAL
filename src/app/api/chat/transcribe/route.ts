@@ -11,6 +11,35 @@ const TRANSCRIPTION_RATE_LIMIT = {
 
 const MAX_AUDIO_FILE_SIZE = 8 * 1024 * 1024;
 const SUPPORTED_LANGUAGES = new Set(['fr', 'en']);
+const SUPPORTED_AUDIO_EXTENSIONS = new Set([
+  '.flac',
+  '.m4a',
+  '.mp3',
+  '.mp4',
+  '.mpeg',
+  '.mpga',
+  '.ogg',
+  '.wav',
+  '.webm',
+  '.mov',
+]);
+const SUPPORTED_NON_AUDIO_MIME_TYPES = new Set([
+  'video/mp4',
+  'video/quicktime',
+]);
+
+function isAcceptedAudioUpload(file: File) {
+  if (file.type.startsWith('audio/')) {
+    return true;
+  }
+
+  if (SUPPORTED_NON_AUDIO_MIME_TYPES.has(file.type.toLowerCase())) {
+    return true;
+  }
+
+  const lowerName = file.name.toLowerCase();
+  return Array.from(SUPPORTED_AUDIO_EXTENSIONS).some((extension) => lowerName.endsWith(extension));
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,7 +79,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing audio file' }, { status: 400 });
     }
 
-    if (!file.type.startsWith('audio/')) {
+    if (!isAcceptedAudioUpload(file)) {
       return NextResponse.json({ error: 'Invalid audio file' }, { status: 400 });
     }
 

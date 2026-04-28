@@ -18,14 +18,48 @@ interface Message {
 }
 
 type VoiceState = 'idle' | 'recording' | 'transcribing';
+const RECORDING_TIMESLICE_MS = 1000;
 
 function getSupportedRecordingMimeType() {
   if (typeof MediaRecorder === 'undefined' || typeof MediaRecorder.isTypeSupported !== 'function') {
     return undefined;
   }
 
-  const candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'];
+  const candidates = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/ogg;codecs=opus',
+    'audio/mp4;codecs=mp4a.40.2',
+    'audio/mp4',
+    'video/mp4',
+  ];
   return candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate));
+}
+
+function getAudioUploadExtension(mimeType: string) {
+  const normalizedMimeType = mimeType.toLowerCase();
+
+  if (normalizedMimeType.includes('mp4') || normalizedMimeType.includes('m4a')) {
+    return 'mp4';
+  }
+
+  if (normalizedMimeType.includes('ogg')) {
+    return 'ogg';
+  }
+
+  if (normalizedMimeType.includes('mpeg') || normalizedMimeType.includes('mp3')) {
+    return 'mp3';
+  }
+
+  if (normalizedMimeType.includes('wav')) {
+    return 'wav';
+  }
+
+  return 'webm';
+}
+
+function getBlobPartMimeType(part: BlobPart | undefined) {
+  return part instanceof Blob ? part.type : '';
 }
 
 function isMicrophoneAllowedByDocumentPolicy() {
@@ -194,9 +228,10 @@ export default function ChatWidget() {
   };
 
   const transcribeAudio = async (audioBlob: Blob) => {
-    const fileExtension = audioBlob.type.includes('mp4') ? 'mp4' : 'webm';
+    const mimeType = audioBlob.type || 'audio/webm';
+    const fileExtension = getAudioUploadExtension(mimeType);
     const audioFile = new File([audioBlob], `voice-message.${fileExtension}`, {
-      type: audioBlob.type || `audio/${fileExtension}`,
+      type: mimeType,
     });
     const formData = new FormData();
 
@@ -287,8 +322,12 @@ export default function ChatWidget() {
       };
 
       mediaRecorder.onstop = async () => {
+        const recordingMimeType =
+          mediaRecorder.mimeType ||
+          getBlobPartMimeType(audioChunksRef.current[0]) ||
+          'audio/webm';
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType || 'audio/webm',
+          type: recordingMimeType,
         });
 
         cleanupRecording();
@@ -316,7 +355,7 @@ export default function ChatWidget() {
         }
       };
 
-      mediaRecorder.start();
+      mediaRecorder.start(RECORDING_TIMESLICE_MS);
       startRecordingTimer();
       setVoiceState('recording');
     } catch (err: unknown) {
@@ -336,6 +375,11 @@ export default function ChatWidget() {
 
   const stopVoiceRecording = () => {
     if (mediaRecorderRef.current?.state === 'recording') {
+      try {
+        mediaRecorderRef.current.requestData();
+      } catch {
+        // Some mobile browsers throw if no data is ready yet.
+      }
       mediaRecorderRef.current.stop();
     }
   };

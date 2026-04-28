@@ -10,7 +10,8 @@
     "blog": "Blog",
     "contact": "Contact",
     "auditCta": "Free Audit",
-    "languageSwitch": "FR"
+    "languageSwitch": "FR",
+    "skipToContent": "Skip to main content"
   },
   "hero": {
     "badge": "🚀 #1 AI Agency in Senegal",
@@ -19,12 +20,14 @@
     "subtitle": "Premium websites, mobile apps and AI automation solutions to propel your Senegalese business towards digital success.",
     "ctaPrimary": "Get a free audit",
     "ctaSecondary": "Discover our services",
-    "videoAriaLabel": "Video {number}"
+    "videoAriaLabel": "Video {number}",
+    "urgency": "Limited free audit slots available this week"
   },
   "stats": {
     "clients": "Clients served",
     "automations": "Automations built",
-    "timeSaved": "Time saved"
+    "timeSaved": "Time saved",
+    "label": "OMA Digital key metrics"
   },
   "trustBadges": {
     "title": "They trust us",
@@ -222,21 +225,49 @@
       }
     }
   },
+  "process": {
+    "sectionTitle": "How",
+    "sectionTitleAccent": "it works?",
+    "sectionSubtitle": "A simple and transparent process from idea to launch.",
+    "step1Title": "Free audit",
+    "step1Desc": "We review your current situation and goals in 30 minutes.",
+    "step2Title": "Tailored strategy",
+    "step2Desc": "We recommend a solution that fits your budget and needs.",
+    "step3Title": "Development",
+    "step3Desc": "Our team builds your solution with regular progress updates.",
+    "step4Title": "Launch & support",
+    "step4Desc": "We deploy, train your team and support you after delivery.",
+    "g1": "Delivery within agreed timelines",
+    "g2": "Client satisfaction or refund",
+    "g3": "Source code delivered with the project"
+  },
+  "stickyBar": {
+    "title": "Free digital audit",
+    "subtitle": "Reply in under 24h",
+    "cta": "Get my audit"
+  },
   "cta": {
     "title": "Ready to transform",
     "titleAccent": "your business?",
     "subtitle": "Get a free audit of your digital presence.",
     "button": "Get my free audit",
     "clientCount": "50+ businesses served",
+    "benefit1": "Results-focused audit with clear priorities.",
+    "benefit2": "Concrete action plan tailored to your budget.",
+    "benefit3": "Measurable recommendations to save time and win leads.",
     "formTitle": "Request your free audit",
     "formName": "Your name",
     "formEmail": "Your email",
     "formPhone": "Your phone",
     "formBusiness": "Business type",
     "formMessage": "Your message (optional)",
+    "formBadge": "Free audit",
     "formSubmit": "Send my request",
     "formSuccess": "Thank you! We'll contact you within 24h.",
-    "formError": "Error sending. Please try again."
+    "formSuccessNote": "We will reach out via WhatsApp or email within 24 hours.",
+    "formError": "Error sending. Please try again.",
+    "guarantee": "Your information stays confidential and is never shared with third parties.",
+    "formPrivacy": "Your data is secured and never resold."
   },
   "blogPreview": {
     "sectionTitle": "Our",

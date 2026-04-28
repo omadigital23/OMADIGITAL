@@ -240,7 +240,6 @@ export default function ChatWidget() {
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
-          sampleRate: 16000,
         },
       });
       const mimeType = getSupportedRecordingMimeType();
@@ -366,7 +365,11 @@ export default function ChatWidget() {
                     <span>AI + Voice</span>
                   </div>
                 </div>
-                <button onClick={() => setOpen(false)} className="p-1 text-white/70 hover:text-white">
+                <button
+                  onClick={() => setOpen(false)}
+                  className="p-1 text-white/70 hover:text-white"
+                  aria-label={chatLocale === 'en' ? 'Close chat' : 'Fermer le chat'}
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M18 6L6 18M6 6l12 12" />
                   </svg>

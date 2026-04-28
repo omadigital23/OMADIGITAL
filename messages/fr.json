@@ -10,7 +10,8 @@
     "blog": "Blog",
     "contact": "Contact",
     "auditCta": "Audit Gratuit",
-    "languageSwitch": "EN"
+    "languageSwitch": "EN",
+    "skipToContent": "Aller au contenu principal"
   },
   "hero": {
     "badge": "🚀 Agence #1 d'IA au Sénégal",
@@ -19,12 +20,14 @@
     "subtitle": "Sites web premium, applications mobiles et solutions d'automatisation IA pour propulser votre entreprise sénégalaise vers le succès digital.",
     "ctaPrimary": "Obtenez un audit gratuit",
     "ctaSecondary": "Découvrez nos services",
-    "videoAriaLabel": "Vidéo {number}"
+    "videoAriaLabel": "Vidéo {number}",
+    "urgency": "Créneaux d'audit gratuits limités cette semaine"
   },
   "stats": {
     "clients": "Clients accompagnés",
     "automations": "Automatisations créées",
-    "timeSaved": "Temps économisé"
+    "timeSaved": "Temps économisé",
+    "label": "Indicateurs clés OMA Digital"
   },
   "trustBadges": {
     "title": "Ils nous font confiance",
@@ -222,21 +225,49 @@
       }
     }
   },
+  "process": {
+    "sectionTitle": "Comment",
+    "sectionTitleAccent": "\u00e7a marche ?",
+    "sectionSubtitle": "Un processus simple et transparent, de l'id\u00e9e au lancement.",
+    "step1Title": "Audit gratuit",
+    "step1Desc": "On analyse votre situation actuelle et vos objectifs en 30 minutes.",
+    "step2Title": "Strat\u00e9gie sur mesure",
+    "step2Desc": "On vous propose une solution adapt\u00e9e \u00e0 votre budget et vos besoins.",
+    "step3Title": "D\u00e9veloppement",
+    "step3Desc": "Notre \u00e9quipe constr\u00fcit votre solution avec des points de suivi r\u00e9guliers.",
+    "step4Title": "Lancement & suivi",
+    "step4Desc": "On d\u00e9ploie, on forme votre \u00e9quipe et on assure le support apr\u00e8s livraison.",
+    "g1": "Livraison dans les d\u00e9lais garantis",
+    "g2": "Satisfaction client ou remboursement",
+    "g3": "Code source livr\u00e9 avec le projet"
+  },
+  "stickyBar": {
+    "title": "Audit digital gratuit",
+    "subtitle": "R\u00e9ponse en moins de 24h",
+    "cta": "Obtenir mon audit"
+  },
   "cta": {
     "title": "Prêt à transformer",
     "titleAccent": "votre entreprise ?",
     "subtitle": "Obtenez un audit gratuit de votre présence digitale.",
     "button": "Obtenir mon audit gratuit",
     "clientCount": "50+ entreprises accompagnées",
+    "benefit1": "Audit orienté résultats avec priorités claires.",
+    "benefit2": "Plan d'action concret adapté à votre budget.",
+    "benefit3": "Recommandations mesurables pour gagner du temps et des leads.",
     "formTitle": "Demandez votre audit gratuit",
     "formName": "Votre nom",
     "formEmail": "Votre email",
     "formPhone": "Votre téléphone",
     "formBusiness": "Type d'entreprise",
     "formMessage": "Votre message (optionnel)",
+    "formBadge": "Audit offert",
     "formSubmit": "Envoyer ma demande",
     "formSuccess": "Merci ! Nous vous contacterons dans les 24h.",
-    "formError": "Erreur lors de l'envoi. Veuillez réessayer."
+    "formSuccessNote": "Nous vous contacterons par WhatsApp ou email dans les 24h.",
+    "formError": "Erreur lors de l'envoi. Veuillez réessayer.",
+    "guarantee": "Toutes vos informations sont confidentielles et ne seront jamais partagées avec des tiers.",
+    "formPrivacy": "Vos données sont sécurisées et ne sont jamais revendues."
   },
   "blogPreview": {
     "sectionTitle": "Notre",

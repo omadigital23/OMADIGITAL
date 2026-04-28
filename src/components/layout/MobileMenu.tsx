@@ -39,7 +39,11 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
           >
             {/* Close */}
             <div className="flex justify-end p-4">
-              <button onClick={onClose} className="p-2 text-text-secondary hover:text-text-primary">
+              <button
+                onClick={onClose}
+                className="p-2 text-text-secondary hover:text-text-primary"
+                aria-label="Close menu"
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>

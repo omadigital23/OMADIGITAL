@@ -13,7 +13,14 @@ export default function ContactPageClient() {
   const servicesT = useTranslations('services');
   const locale = useLocale();
   const whatsappUrl = getWhatsAppUrl(locale);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: '',
+    companyWebsite: '',
+  });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,17 +31,14 @@ export default function ContactPageClient() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          companyWebsite: '',
-        }),
+        body: JSON.stringify(form),
       });
 
       const data = await res.json();
 
       if (res.ok && data.success) {
         setStatus('success');
-        setForm({ name: '', email: '', phone: '', service: '', message: '' });
+        setForm({ name: '', email: '', phone: '', service: '', message: '', companyWebsite: '' });
       } else {
         setStatus('error');
       }
@@ -79,10 +83,11 @@ export default function ContactPageClient() {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                       type="text"
-                      value=""
-                      onChange={() => undefined}
+                      value={form.companyWebsite}
+                      onChange={(e) => setForm({ ...form, companyWebsite: e.target.value })}
                       tabIndex={-1}
                       autoComplete="off"
+                      name="companyWebsite"
                       aria-hidden="true"
                       className="hidden"
                     />

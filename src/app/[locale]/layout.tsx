@@ -1,25 +1,34 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { BUSINESS } from '@/lib/constants';
-import ChatWidget from '@/components/chat/ChatWidget';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements';
 import StructuredData from '@/components/StructuredData';
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+  preload: true,
 });
 
 const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-outfit',
+  preload: true,
 });
+
+// Viewport séparé de Metadata (Next.js 14+)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#0a0a12',
+};
 
 export async function generateMetadata({
   params,
@@ -28,6 +37,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
+  const ogImage = `${BUSINESS.siteUrl}/images/og-image.png`;
 
   return {
     title: {
@@ -36,17 +46,31 @@ export async function generateMetadata({
     },
     description: t('description'),
     keywords: t('keywords'),
+    authors: [{ name: BUSINESS.name, url: BUSINESS.siteUrl }],
+    creator: BUSINESS.name,
+    publisher: BUSINESS.name,
+    metadataBase: new URL(BUSINESS.siteUrl),
     openGraph: {
       title: t('title'),
       description: t('description'),
       siteName: BUSINESS.name,
       locale: locale === 'fr' ? 'fr_SN' : 'en_US',
       type: 'website',
+      url: `${BUSINESS.siteUrl}/${locale}`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: t('title'),
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
+      images: [ogImage],
     },
     alternates: {
       canonical: `${BUSINESS.siteUrl}/${locale}`,
@@ -58,6 +82,16 @@ export async function generateMetadata({
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     },
   };
 }
@@ -82,23 +116,36 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = (await import(`../../../messages/${locale}.json`)).default;
+  const t = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <html
       lang={locale}
-      data-scroll-behavior="smooth"
       className={`${inter.variable} ${outfit.variable}`}
     >
       <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Icons */}
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="manifest" href="/manifest.webmanifest" />
+
+        {/* Structured data */}
         <StructuredData locale={locale} />
       </head>
       <body className="bg-bg-primary text-text-primary antialiased">
-        <GoogleAnalytics />
+        {/* Skip to content — accessibilité clavier */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:gradient-bg focus:text-white focus:font-medium"
+        >
+          {t('skipToContent')}
+        </a>
+
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-          <ChatWidget />
+          <div id="main-content">
+            {children}
+          </div>
+          <ClientLayoutEnhancements />
         </NextIntlClientProvider>
       </body>
     </html>

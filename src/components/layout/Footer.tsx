@@ -9,6 +9,7 @@ import Image from 'next/image';
 export default function Footer() {
   const t = useTranslations();
   const [email, setEmail] = useState('');
+  const [companyWebsite, setCompanyWebsite] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -22,7 +23,7 @@ export default function Footer() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          companyWebsite: '',
+          companyWebsite,
         }),
       });
 
@@ -31,6 +32,7 @@ export default function Footer() {
       if (res.ok && data.success) {
         setSubscribed(true);
         setEmail('');
+        setCompanyWebsite('');
         setNewsletterStatus('success');
       } else {
         setNewsletterStatus('error');
@@ -119,15 +121,16 @@ export default function Footer() {
               {t('footer.newsletter')}
             </h3>
             {subscribed ? (
-              <p className="text-accent-cyan text-sm">{t('footer.newsletterSuccess')}</p>
+              <p className="text-accent-cyan text-sm" role="status">{t('footer.newsletterSuccess')}</p>
             ) : (
               <form onSubmit={handleNewsletter} className="flex flex-col gap-3">
                 <input
                   type="text"
-                  value=""
-                  onChange={() => undefined}
+                  value={companyWebsite}
+                  onChange={(e) => setCompanyWebsite(e.target.value)}
                   tabIndex={-1}
                   autoComplete="off"
+                  name="companyWebsite"
                   aria-hidden="true"
                   className="hidden"
                 />
@@ -147,7 +150,7 @@ export default function Footer() {
                   {newsletterStatus === 'sending' ? '...' : t('footer.newsletterButton')}
                 </button>
                 {newsletterStatus === 'error' && (
-                  <p className="text-accent-coral text-sm">{t('footer.newsletterError')}</p>
+                  <p className="text-accent-coral text-sm" role="alert">{t('footer.newsletterError')}</p>
                 )}
               </form>
             )}
@@ -164,8 +167,8 @@ export default function Footer() {
         <div className="mt-12 pt-6 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-muted">
           <p>{t('footer.copyright')}</p>
           <div className="flex gap-6">
-            <span className="hover:text-text-primary cursor-pointer transition-colors">{t('footer.privacy')}</span>
-            <span className="hover:text-text-primary cursor-pointer transition-colors">{t('footer.terms')}</span>
+            <span>{t('footer.privacy')}</span>
+            <span>{t('footer.terms')}</span>
           </div>
         </div>
       </div>

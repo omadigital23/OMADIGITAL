@@ -28,6 +28,22 @@ function getSupportedRecordingMimeType() {
   return candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate));
 }
 
+function isMicrophoneAllowedByDocumentPolicy() {
+  const featurePolicy = (
+    document as Document & {
+      featurePolicy?: {
+        allowsFeature?: (feature: string) => boolean;
+      };
+    }
+  ).featurePolicy;
+
+  if (!featurePolicy || typeof featurePolicy.allowsFeature !== 'function') {
+    return true;
+  }
+
+  return featurePolicy.allowsFeature('microphone');
+}
+
 function formatVoiceDuration(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
@@ -79,8 +95,10 @@ export default function ChatWidget() {
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       setVoiceSupported(
+        window.isSecureContext &&
         typeof MediaRecorder !== 'undefined' &&
-          !!navigator.mediaDevices?.getUserMedia
+          !!navigator.mediaDevices?.getUserMedia &&
+          isMicrophoneAllowedByDocumentPolicy()
       );
     });
 
@@ -226,6 +244,11 @@ export default function ChatWidget() {
 
   const startVoiceRecording = async () => {
     if (!voiceSupported || loading || voiceState !== 'idle') {
+      return;
+    }
+
+    if (!isMicrophoneAllowedByDocumentPolicy()) {
+      addAssistantMessage(t('voiceNotSupportedError'));
       return;
     }
 

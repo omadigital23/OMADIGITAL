@@ -30,24 +30,54 @@ function VideoSlider() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   /* ── helpers ── */
+  const primeVideo = useCallback((video: HTMLVideoElement | null) => {
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', 'true');
+    video.setAttribute('webkit-playsinline', 'true');
+  }, []);
+
   const tryPlay = useCallback((index: number) => {
     const v = videoRefs.current[index];
     if (!v) return;
-    if (v.readyState < 2) {
+    primeVideo(v);
+    const playVideo = () => {
+      if (v.ended) v.currentTime = 0;
+
+      requestAnimationFrame(() => {
+        v.play().catch(() => {
+          window.setTimeout(() => {
+            primeVideo(v);
+            v.play().catch(() => undefined);
+          }, 250);
+        });
+      });
+    };
+
+    if (v.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
       // Pas encore décodable : attendre loadeddata
       const onReady = () => {
         v.removeEventListener('loadeddata', onReady);
-        v.play().catch(() => undefined);
+        v.removeEventListener('canplay', onReady);
+        playVideo();
       };
-      v.addEventListener('loadeddata', onReady);
-      v.load(); // force le chargement sur iOS
-    } else {
-      if (v.ended) v.currentTime = 0;
-      v.play().catch(() => {
-        setTimeout(() => v.play().catch(() => undefined), 300);
-      });
+      v.addEventListener('loadeddata', onReady, { once: true });
+      v.addEventListener('canplay', onReady, { once: true });
+      if (v.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+        v.load(); // force le chargement sur iOS
+      }
+      return;
     }
-  }, []);
+
+    playVideo();
+  }, [primeVideo]);
 
   const pauseOthers = useCallback((active: number) => {
     videoRefs.current.forEach((v, i) => {
@@ -110,14 +140,23 @@ function VideoSlider() {
           }}
         >
           <video
-            ref={(el) => { videoRefs.current[i] = el; }}
+            ref={(el) => {
+              videoRefs.current[i] = el;
+              primeVideo(el);
+            }}
             src={src}
             muted
+            defaultMuted
             loop
             playsInline
-            autoPlay={i === 0}
-            preload={i === 0 ? 'auto' : 'metadata'}
+            autoPlay
+            preload="auto"
             disablePictureInPicture
+            onLoadedData={() => {
+              if (i === current && !animating) {
+                tryPlay(i);
+              }
+            }}
             className="w-full h-full object-cover"
             /* attribut webkit nécessaire pour anciens iOS */
             {...({ 'webkit-playsinline': 'true' } as Record<string, string>)}

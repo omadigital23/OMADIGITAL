@@ -8,7 +8,11 @@ import Badge from '@/components/ui/Badge';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { STATS, getWhatsAppUrl } from '@/lib/constants';
 
-const VIDEOS = ['/videos/hero1.webm', '/videos/hero2.webm', '/videos/hero3.webm'];
+const VIDEOS = [
+  { id: 'hero1', mp4: '/videos/hero1.mp4', webm: '/videos/hero1.webm' },
+  { id: 'hero2', mp4: '/videos/hero2.mp4', webm: '/videos/hero2.webm' },
+  { id: 'hero3', mp4: '/videos/hero3.mp4', webm: '/videos/hero3.webm' },
+];
 const SLIDE_INTERVAL = 5000;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -129,9 +133,9 @@ function VideoSlider() {
   return (
     <div className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group">
       {/* ── vidéos : toutes dans le DOM, visibilité CSS seulement ── */}
-      {VIDEOS.map((src, i) => (
+      {VIDEOS.map((video, i) => (
         <div
-          key={src}
+          key={video.id}
           className="absolute inset-0 transition-opacity duration-500"
           style={{
             opacity: i === current && !animating ? 1 : 0,
@@ -144,7 +148,6 @@ function VideoSlider() {
               videoRefs.current[i] = el;
               primeVideo(el);
             }}
-            src={src}
             muted
             loop
             playsInline
@@ -159,7 +162,10 @@ function VideoSlider() {
             className="w-full h-full object-cover"
             /* attribut webkit nécessaire pour anciens iOS */
             {...({ 'webkit-playsinline': 'true' } as Record<string, string>)}
-          />
+          >
+            <source src={video.mp4} type="video/mp4" />
+            <source src={video.webm} type="video/webm" />
+          </video>
         </div>
       ))}
 

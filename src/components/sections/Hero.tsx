@@ -146,7 +146,6 @@ function VideoSlider() {
             }}
             src={src}
             muted
-            defaultMuted
             loop
             playsInline
             autoPlay

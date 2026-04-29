@@ -19,6 +19,11 @@ interface Message {
 
 type VoiceState = 'idle' | 'recording' | 'transcribing';
 const RECORDING_TIMESLICE_MS = 1000;
+const VOICE_SILENCE_THRESHOLD = 0.02;
+const VOICE_SILENCE_STOP_MS = 1400;
+const VOICE_MIN_RECORDING_MS = 900;
+const VOICE_NO_SPEECH_TIMEOUT_MS = 9000;
+const VOICE_MAX_RECORDING_MS = 45000;
 
 function getSupportedRecordingMimeType() {
   if (typeof MediaRecorder === 'undefined' || typeof MediaRecorder.isTypeSupported !== 'function') {
@@ -60,6 +65,11 @@ function getAudioUploadExtension(mimeType: string) {
 
 function getBlobPartMimeType(part: BlobPart | undefined) {
   return part instanceof Blob ? part.type : '';
+}
+
+function getAudioContextConstructor() {
+  return window.AudioContext ||
+    (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
 }
 
 function isMicrophoneAllowedByDocumentPolicy() {
@@ -118,6 +128,11 @@ export default function ChatWidget() {
   const audioChunksRef = useRef<BlobPart[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const recordingIntervalRef = useRef<number | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const voiceMonitorFrameRef = useRef<number | null>(null);
+  const voiceStartedRef = useRef(false);
+  const silenceStartedAtRef = useRef<number | null>(null);
+  const recordingStartedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -268,12 +283,106 @@ export default function ChatWidget() {
     }, 1000);
   };
 
+  const stopVoiceActivityMonitor = () => {
+    if (voiceMonitorFrameRef.current !== null) {
+      window.cancelAnimationFrame(voiceMonitorFrameRef.current);
+      voiceMonitorFrameRef.current = null;
+    }
+
+    void audioContextRef.current?.close().catch(() => undefined);
+    audioContextRef.current = null;
+    voiceStartedRef.current = false;
+    silenceStartedAtRef.current = null;
+    recordingStartedAtRef.current = null;
+  };
+
   const cleanupRecording = () => {
+    stopVoiceActivityMonitor();
     stopRecordingTimer();
     mediaRecorderRef.current = null;
     audioChunksRef.current = [];
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
+  };
+
+  const stopVoiceRecording = () => {
+    if (mediaRecorderRef.current?.state === 'recording') {
+      try {
+        mediaRecorderRef.current.requestData();
+      } catch {
+        // Some mobile browsers throw if no data is ready yet.
+      }
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const startVoiceActivityMonitor = (stream: MediaStream) => {
+    const AudioContextCtor = getAudioContextConstructor();
+    if (!AudioContextCtor) {
+      return;
+    }
+
+    try {
+      const audioContext = new AudioContextCtor();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaStreamSource(stream);
+
+      analyser.fftSize = 1024;
+      const samples = new Uint8Array(analyser.fftSize);
+      source.connect(analyser);
+      audioContextRef.current = audioContext;
+      recordingStartedAtRef.current = null;
+      void audioContext.resume().catch(() => undefined);
+
+      const monitor: FrameRequestCallback = (now) => {
+        const recorder = mediaRecorderRef.current;
+
+        if (!recorder || recorder.state !== 'recording') {
+          return;
+        }
+
+        const startedAt = recordingStartedAtRef.current ?? now;
+        recordingStartedAtRef.current = startedAt;
+        analyser.getByteTimeDomainData(samples);
+
+        let sum = 0;
+        for (const sample of samples) {
+          const normalized = (sample - 128) / 128;
+          sum += normalized * normalized;
+        }
+
+        const volume = Math.sqrt(sum / samples.length);
+        const elapsed = now - startedAt;
+        const hasVoice = volume > VOICE_SILENCE_THRESHOLD;
+
+        if (hasVoice) {
+          voiceStartedRef.current = true;
+          silenceStartedAtRef.current = null;
+        } else if (voiceStartedRef.current) {
+          silenceStartedAtRef.current ??= now;
+        }
+
+        const silenceMs = silenceStartedAtRef.current ? now - silenceStartedAtRef.current : 0;
+        const shouldStopAfterSpeech =
+          voiceStartedRef.current &&
+          elapsed >= VOICE_MIN_RECORDING_MS &&
+          silenceMs >= VOICE_SILENCE_STOP_MS;
+        const shouldStopWithoutSpeech =
+          !voiceStartedRef.current && elapsed >= VOICE_NO_SPEECH_TIMEOUT_MS;
+        const shouldStopAtMaxDuration = elapsed >= VOICE_MAX_RECORDING_MS;
+
+        if (shouldStopAfterSpeech || shouldStopWithoutSpeech || shouldStopAtMaxDuration) {
+          stopVoiceRecording();
+          return;
+        }
+
+        voiceMonitorFrameRef.current = window.requestAnimationFrame(monitor);
+      };
+
+      voiceMonitorFrameRef.current = window.requestAnimationFrame(monitor);
+    } catch {
+      stopVoiceActivityMonitor();
+    }
   };
 
   const startVoiceRecording = async () => {
@@ -355,6 +464,7 @@ export default function ChatWidget() {
       };
 
       mediaRecorder.start(RECORDING_TIMESLICE_MS);
+      startVoiceActivityMonitor(stream);
       startRecordingTimer();
       setVoiceState('recording');
     } catch (err: unknown) {
@@ -369,17 +479,6 @@ export default function ChatWidget() {
         // NotAllowedError, PermissionDeniedError, et autres
         addAssistantMessage(t('voicePermissionError'));
       }
-    }
-  };
-
-  const stopVoiceRecording = () => {
-    if (mediaRecorderRef.current?.state === 'recording') {
-      try {
-        mediaRecorderRef.current.requestData();
-      } catch {
-        // Some mobile browsers throw if no data is ready yet.
-      }
-      mediaRecorderRef.current.stop();
     }
   };
 

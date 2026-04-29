@@ -13,6 +13,13 @@ import {
   normalizeText,
 } from '@/lib/security';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
+import {
+  getEmailDomain,
+  getRequestLogContext,
+  logEmailNotification,
+  logServerEvent,
+  recordApiFailure,
+} from '@/lib/server-observability';
 
 const CONTACT_RATE_LIMIT = {
   limit: 5,
@@ -20,8 +27,17 @@ const CONTACT_RATE_LIMIT = {
 };
 
 export async function POST(req: NextRequest) {
+  const start = Date.now();
+  const requestContext = getRequestLogContext(req.headers, '/api/contact');
+
   try {
     if (!isAllowedOrigin(req.headers)) {
+      logServerEvent('warn', 'api_request_blocked', {
+        ...requestContext,
+        status: 403,
+        reason: 'forbidden_origin',
+        ms: Date.now() - start,
+      });
       return NextResponse.json({ error: 'Forbidden origin' }, { status: 403 });
     }
 
@@ -34,6 +50,12 @@ export async function POST(req: NextRequest) {
     );
 
     if (!rateLimit.ok) {
+      logServerEvent('warn', 'api_request_rate_limited', {
+        ...requestContext,
+        status: 429,
+        retryAfterSeconds: rateLimit.retryAfterSeconds,
+        ms: Date.now() - start,
+      });
       return NextResponse.json(
         { error: 'Too many requests' },
         {
@@ -55,6 +77,12 @@ export async function POST(req: NextRequest) {
     const companyWebsite = normalizeText(body?.companyWebsite);
 
     if (isBotTrapFilled(companyWebsite)) {
+      logServerEvent('info', 'api_request_completed', {
+        ...requestContext,
+        status: 200,
+        outcome: 'honeypot',
+        ms: Date.now() - start,
+      });
       return NextResponse.json({ success: true });
     }
 
@@ -68,6 +96,12 @@ export async function POST(req: NextRequest) {
       message.length > 2000 ||
       !isValidContactService(service)
     ) {
+      logServerEvent('warn', 'api_request_rejected', {
+        ...requestContext,
+        status: 400,
+        reason: 'invalid_form_submission',
+        ms: Date.now() - start,
+      });
       return NextResponse.json({ error: 'Invalid form submission' }, { status: 400 });
     }
 
@@ -75,7 +109,12 @@ export async function POST(req: NextRequest) {
     const supabase = getSupabaseAdmin();
 
     if (!supabase) {
-      console.error('Contact API error: missing SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_URL');
+      recordApiFailure({
+        route: '/api/contact',
+        status: 500,
+        source: 'missing_supabase_config',
+        requestId: requestContext.requestId as string | undefined,
+      });
       return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
     }
 
@@ -90,7 +129,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (error) {
-      console.error('Contact API database error:', error);
+      recordApiFailure({
+        route: '/api/contact',
+        status: 500,
+        source: 'database_insert',
+        requestId: requestContext.requestId as string | undefined,
+        error,
+      });
       return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 
@@ -102,12 +147,31 @@ export async function POST(req: NextRequest) {
 
     if (supportEmail && supportEmail.trim().length > 0) {
       const { subject, html } = buildLeadNotificationEmail(lead);
+      const emailStartedAt = Date.now();
       notifications.push(
-        sendEmail({ to: supportEmail, subject, html, replyTo: email }).then((ok) => ({
-          channel: 'email',
-          ok,
-        }))
+        sendEmail({ to: supportEmail, subject, html, replyTo: email }).then((ok) => {
+          logEmailNotification({
+            form: 'contact',
+            ok,
+            requestId: requestContext.requestId as string | undefined,
+            recipientDomain: getEmailDomain(supportEmail),
+            ms: Date.now() - emailStartedAt,
+            reason: ok ? undefined : 'smtp_delivery_failed',
+          });
+
+          return {
+            channel: 'email',
+            ok,
+          };
+        })
       );
+    } else {
+      logEmailNotification({
+        form: 'contact',
+        ok: false,
+        requestId: requestContext.requestId as string | undefined,
+        reason: 'missing_support_email',
+      });
     }
 
     const waMessage = buildLeadWhatsAppMessage(lead);
@@ -121,15 +185,35 @@ export async function POST(req: NextRequest) {
     const results = await Promise.allSettled(notifications);
     for (const result of results) {
       if (result.status === 'rejected') {
-        console.error('Contact API notification error:', result.reason);
+        logServerEvent('error', 'contact_notification_failed', {
+          ...requestContext,
+          error: result.reason instanceof Error ? result.reason.message : 'Unknown error',
+        });
       } else if (!result.value.ok) {
-        console.error(`Contact API ${result.value.channel} notification was not delivered.`);
+        logServerEvent('error', 'contact_notification_not_delivered', {
+          ...requestContext,
+          channel: result.value.channel,
+        });
       }
     }
 
+    logServerEvent('info', 'api_request_completed', {
+      ...requestContext,
+      status: 200,
+      outcome: 'lead_saved',
+      notificationCount: notifications.length,
+      ms: Date.now() - start,
+    });
+
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Contact API error:', error);
+    recordApiFailure({
+      route: '/api/contact',
+      status: 500,
+      source: 'unhandled_exception',
+      requestId: requestContext.requestId as string | undefined,
+      error,
+    });
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

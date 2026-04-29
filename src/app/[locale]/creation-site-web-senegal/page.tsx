@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import SEOPageClient from '@/components/SEOPageClient';
 import { getServicePageContent } from '@/data/service-pages';
+import { buildPageMetadata } from '@/lib/seo';
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -11,11 +12,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   const content = getServicePageContent('website-senegal', locale);
 
-  return {
+  return buildPageMetadata({
+    locale,
+    path: '/creation-site-web-senegal',
     title: content.title,
     description: content.metadata.description,
     keywords: content.metadata.keywords,
-  };
+  });
 }
 
 export default async function Page({ params }: PageProps) {

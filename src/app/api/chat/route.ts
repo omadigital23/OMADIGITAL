@@ -15,6 +15,11 @@ import {
 import { persistQualifiedChatLead } from '@/lib/chat-leads';
 import { consumeRateLimit } from '@/lib/rate-limit';
 import { getClientIp, isAllowedOrigin, normalizeText } from '@/lib/security';
+import {
+  getRequestLogContext,
+  logServerEvent,
+  recordApiFailure,
+} from '@/lib/server-observability';
 
 const CHAT_RATE_LIMIT = {
   limit: 20,
@@ -96,7 +101,10 @@ async function generateGroqReply(
           return sanitizedContent;
         }
       } catch (error) {
-        console.error(`Groq chat completion error with model ${model}:`, error);
+        logServerEvent('error', 'groq_chat_completion_failed', {
+          model,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
   }
@@ -105,10 +113,18 @@ async function generateGroqReply(
 }
 
 export async function POST(req: NextRequest) {
+  const start = Date.now();
+  const requestContext = getRequestLogContext(req.headers, '/api/chat');
   let locale: 'fr' | 'en' = 'fr';
 
   try {
     if (!isAllowedOrigin(req.headers)) {
+      logServerEvent('warn', 'api_request_blocked', {
+        ...requestContext,
+        status: 403,
+        reason: 'forbidden_origin',
+        ms: Date.now() - start,
+      });
       return NextResponse.json({ error: 'Forbidden origin' }, { status: 403 });
     }
 
@@ -121,6 +137,12 @@ export async function POST(req: NextRequest) {
     );
 
     if (!rateLimit.ok) {
+      logServerEvent('warn', 'api_request_rate_limited', {
+        ...requestContext,
+        status: 429,
+        retryAfterSeconds: rateLimit.retryAfterSeconds,
+        ms: Date.now() - start,
+      });
       return NextResponse.json(
         { error: 'Rate limit exceeded' },
         {
@@ -138,6 +160,12 @@ export async function POST(req: NextRequest) {
     const safeMessages = buildSafeMessages(messages);
 
     if (safeMessages.length === 0) {
+      logServerEvent('warn', 'api_request_rejected', {
+        ...requestContext,
+        status: 400,
+        reason: 'invalid_payload',
+        ms: Date.now() - start,
+      });
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
     }
 
@@ -166,6 +194,16 @@ export async function POST(req: NextRequest) {
 
     const leadCaptured = await persistQualifiedChatLead(leadInsights, locale);
 
+    logServerEvent('info', 'api_request_completed', {
+      ...requestContext,
+      status: 200,
+      outcome: degraded ? 'fallback_reply' : 'ai_reply',
+      leadCaptured,
+      leadStage: leadInsights.stage,
+      degraded,
+      ms: Date.now() - start,
+    });
+
     return NextResponse.json({
       message: normalizedReply,
       suggestions,
@@ -174,7 +212,13 @@ export async function POST(req: NextRequest) {
       degraded,
     });
   } catch (error) {
-    console.error('Chat API error:', error);
+    recordApiFailure({
+      route: '/api/chat',
+      status: 200,
+      source: 'fallback_after_exception',
+      requestId: requestContext.requestId as string | undefined,
+      error,
+    });
 
     return NextResponse.json({
       message: buildChatFallback(locale),

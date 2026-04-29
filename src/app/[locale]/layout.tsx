@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { BUSINESS } from '@/lib/constants';
+import { buildLocalizedAlternates } from '@/lib/seo';
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements';
 import StructuredData from '@/components/StructuredData';
 
@@ -72,13 +73,7 @@ export async function generateMetadata({
       description: t('description'),
       images: [ogImage],
     },
-    alternates: {
-      canonical: `${BUSINESS.siteUrl}/${locale}`,
-      languages: {
-        fr: `${BUSINESS.siteUrl}/fr`,
-        en: `${BUSINESS.siteUrl}/en`,
-      },
-    },
+    alternates: buildLocalizedAlternates(locale),
     robots: {
       index: true,
       follow: true,

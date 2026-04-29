@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import BlogArticleClient from '@/components/BlogArticleClient';
 import { blogPosts } from '@/data/blog-posts';
+import { buildPageMetadata } from '@/lib/seo';
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
@@ -19,10 +20,12 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
   if (!post) return {};
-  return {
+  return buildPageMetadata({
+    locale,
+    path: `/blog/${slug}`,
     title: locale === 'fr' ? post.titleFr : post.titleEn,
     description: locale === 'fr' ? post.excerptFr : post.excerptEn,
-  };
+  });
 }
 
 export default async function BlogArticlePage({

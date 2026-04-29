@@ -1,4 +1,5 @@
 import type { Transporter } from 'nodemailer';
+import { getEmailDomain, logServerEvent } from '@/lib/server-observability';
 
 interface EmailOptions {
   to: string;
@@ -58,13 +59,24 @@ function getSmtpConfig(): SmtpConfig | null {
   const fromName = process.env.SMTP_FROM_NAME?.trim() || 'OMA DIGITAL';
   const port = Number(portValue);
 
+  const missing = [
+    !host ? 'SMTP_HOST' : null,
+    !user ? 'SMTP_USER' : null,
+    !pass ? 'SMTP_PASSWORD' : null,
+    !fromEmail ? 'SMTP_FROM_EMAIL' : null,
+  ].filter((value): value is string => Boolean(value));
+
   if (!host || !user || !pass || !fromEmail) {
-    console.warn('SMTP not configured, skipping email');
+    logServerEvent('warn', 'smtp_not_configured', {
+      missing: missing.join(','),
+    });
     return null;
   }
 
   if (!Number.isInteger(port) || port <= 0) {
-    console.error('Invalid SMTP_PORT value:', portValue);
+    logServerEvent('error', 'smtp_invalid_port', {
+      port: portValue,
+    });
     return null;
   }
 
@@ -134,7 +146,10 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailOptions): P
 
     return info.accepted.length > 0;
   } catch (error) {
-    console.error('Email send error:', error);
+    logServerEvent('error', 'smtp_send_failed', {
+      recipientDomain: getEmailDomain(to),
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
     return false;
   }
 }

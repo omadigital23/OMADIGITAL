@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import BlogListClient from '@/components/BlogListClient';
+import { buildPageMetadata } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'blog' });
-  return { title: t('pageTitle'), description: t('pageSubtitle') };
+  return buildPageMetadata({
+    locale,
+    path: '/blog',
+    title: t('pageTitle'),
+    description: t('pageSubtitle'),
+  });
 }
 
 export default async function BlogPage({

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { CHAT_MODEL, getGroqClient } from '@/lib/groq';
+import { CHAT_MODELS, getGroqClient } from '@/lib/groq';
 import {
   appendDeterministicContactCta,
   buildChatFallback,
@@ -40,6 +40,53 @@ function buildSafeMessages(messages: unknown[]): ChatMessage[] {
     }))
     .filter((message) => message.content.length > 0)
     .slice(-12);
+}
+
+function isUsefulAssistantReply(reply: string): boolean {
+  const normalized = reply.toLowerCase().replace(/[.!?]+$/g, '').trim();
+  const hasCompleteEnding = /[.!?]$/.test(reply.trim());
+
+  return (
+    hasCompleteEnding &&
+    normalized.length >= 12 &&
+    !['bonjour', 'hello', 'hi', 'salut', 'bonsoir', 'hey'].includes(normalized)
+  );
+}
+
+async function generateGroqReply(
+  groq: NonNullable<ReturnType<typeof getGroqClient>>,
+  locale: 'fr' | 'en',
+  leadInsights: ReturnType<typeof extractLeadInsights>,
+  safeMessages: ChatMessage[]
+): Promise<string | null> {
+  const messages = [
+    { role: 'system' as const, content: buildSystemPrompt(locale, leadInsights) },
+    ...safeMessages,
+  ];
+
+  for (const model of CHAT_MODELS) {
+    try {
+      const completion = await groq.chat.completions.create({
+        model,
+        messages,
+        ...(model.startsWith('qwen/') ? { reasoning_format: 'hidden' as const } : {}),
+        max_tokens: 280,
+        temperature: 0.35,
+      });
+
+      const content = completion.choices[0]?.message?.content;
+      const sanitizedContent =
+        typeof content === 'string' ? sanitizeAssistantReply(content) : '';
+
+      if (isUsefulAssistantReply(sanitizedContent)) {
+        return sanitizedContent;
+      }
+    } catch (error) {
+      console.error(`Groq chat completion error with model ${model}:`, error);
+    }
+  }
+
+  return null;
 }
 
 export async function POST(req: NextRequest) {
@@ -88,26 +135,11 @@ export async function POST(req: NextRequest) {
 
     const groq = getGroqClient();
     if (groq) {
-      try {
-        const completion = await groq.chat.completions.create({
-          model: CHAT_MODEL,
-          messages: [
-            { role: 'system', content: buildSystemPrompt(locale, leadInsights) },
-            ...safeMessages,
-          ],
-          reasoning_format: 'hidden',
-          max_tokens: 150,
-          temperature: 0.4,
-        });
+      const content = await generateGroqReply(groq, locale, leadInsights, safeMessages);
 
-        const content = completion.choices[0]?.message?.content;
-
-        if (typeof content === 'string' && content.trim().length > 0) {
-          reply = content;
-          degraded = false;
-        }
-      } catch (error) {
-        console.error('Groq chat completion error:', error);
+      if (content) {
+        reply = content;
+        degraded = false;
       }
     }
 

@@ -236,7 +236,6 @@ export default function ChatWidget() {
     const formData = new FormData();
 
     formData.append('file', audioFile);
-    formData.append('language', chatLocale);
 
     const res = await fetch('/api/chat/transcribe', {
       method: 'POST',

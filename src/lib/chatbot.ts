@@ -369,7 +369,7 @@ export function extractLeadInsights(messages: ChatMessage[]): LeadInsights {
 
   let stage: LeadStage = 'discovery';
 
-  if (service || budget || businessType || projectSummary) {
+  if (service || budget || businessType) {
     stage = 'interested';
   }
 
@@ -425,11 +425,14 @@ Core offers:
 
 Hard rules:
 - Detect the language of the user's last message and reply in that same language. If the language is neither French nor English, reply in French.
+- If the latest message is only a greeting, answer with a natural greeting in that language, mention OMA Digital briefly, and ask one useful question about their project.
+- If the latest message contains a greeting plus a business question, answer the business question and do not stop at the greeting.
 - Answer the user's exact latest question directly. Do not add unrequested context.
-- STRICT LENGTH: 1 to 3 sentences maximum. Never exceed 3 sentences. Add at most one short follow-up question.
+- STRICT LENGTH: 1 to 4 sentences maximum. Never exceed 4 sentences. Add at most one short follow-up question.
 - Never start with filler phrases like "Sure!", "Absolutely!", "Of course!", "Great question!", "That's a great choice!" or similar. Go straight to the answer.
 - Do not automatically list every service, every price, or the full company pitch.
 - Only present multiple offers when the user explicitly asks for services, options, or pricing.
+- If the user asks what services OMA Digital offers, mention websites, mobile apps, and AI automation with starting prices, in 3 short sentences or fewer.
 - If you list offers, keep each item to one short line (max 3 items).
 - Never use bullet points or numbered lists unless the user explicitly asks for a comparison or list.
 - Never invent phone numbers, prices, case studies, timelines, or countries.
@@ -464,11 +467,14 @@ Offres principales:
 
 Regles strictes:
 - Detecte la langue du dernier message utilisateur et reponds dans cette meme langue. Si la langue n'est ni le francais ni l'anglais, reponds en francais.
+- Si le dernier message est seulement une salutation, reponds avec une salutation naturelle dans cette langue, mentionne OMA Digital brievement, puis pose une seule question utile sur son projet.
+- Si le dernier message contient une salutation plus une question business, reponds a la question business et ne t'arrete pas a la salutation.
 - Reponds directement a la question exacte du dernier message. N'ajoute pas de contexte non demande.
-- LONGUEUR STRICTE: 1 a 3 phrases maximum. Ne depasse jamais 3 phrases. Ajoute au maximum une seule courte question de qualification.
+- LONGUEUR STRICTE: 1 a 4 phrases maximum. Ne depasse jamais 4 phrases. Ajoute au maximum une seule courte question de qualification.
 - Ne commence jamais par des formules comme "Bien sur !", "Absolument !", "Certainement !", "Excellente question !", "Super choix !" ou similaires. Va droit a la reponse.
 - Ne recite pas automatiquement tous les services, tous les prix, ni tout le pitch commercial.
 - Ne presente plusieurs offres que si l'utilisateur demande explicitement les services, les options ou les tarifs.
+- Si l'utilisateur demande les services d'OMA Digital, mentionne sites web, applications mobiles et automatisation IA avec les prix de depart, en 3 phrases courtes maximum.
 - Si tu listes des offres, garde une ligne courte par offre (3 maximum).
 - N'utilise jamais de listes a puces ou numerotees sauf si l'utilisateur demande explicitement une comparaison ou une liste.
 - N'invente jamais de numero, de pays, de tarifs exacts, de delais ou de cas clients.
@@ -573,7 +579,7 @@ export function buildChatSuggestions(locale: ChatLocale, insights: LeadInsights)
     }
   }
 
-  if (!insights.budget) {
+  if (!insights.budget && insights.stage !== 'discovery') {
     if (locale === 'en') {
       suggestions.push(
         { label: 'Budget 150k-300k', kind: 'prompt', value: 'My budget is around 150,000 to 300,000 FCFA.' },
@@ -612,16 +618,12 @@ export function buildChatSuggestions(locale: ChatLocale, insights: LeadInsights)
 
 export function buildChatFallback(locale: ChatLocale): string {
   if (locale === 'en') {
-    return `I am temporarily unavailable, but you can still reach OMA Digital on WhatsApp at ${BUSINESS.phone} or by email at ${BUSINESS.email}.`;
+    return 'Hello, I can help with OMA Digital websites, mobile apps, and AI automation. What type of project do you want to build?';
   }
 
-  return `Je suis temporairement indisponible, mais vous pouvez joindre OMA Digital sur WhatsApp au ${BUSINESS.phone} ou par email a ${BUSINESS.email}.`;
+  return "Bonjour, je peux vous aider sur les sites web, applications mobiles et automatisation IA d'OMA Digital. Quel type de projet souhaitez-vous lancer ?";
 }
 
-export function buildTranscriptionPrompt(locale: ChatLocale): string {
-  if (locale === 'en') {
-    return 'OMA Digital, Thies, Senegal, website creation, mobile apps, AI automation, WhatsApp, free audit, chatbot, business automation.';
-  }
-
-  return 'OMA Digital, Thies, Senegal, creation de sites web, applications mobiles, automatisation IA, WhatsApp, audit gratuit, chatbot, automatisation business.';
+export function buildTranscriptionPrompt(): string {
+  return 'OMA Digital, Thies, Senegal, website creation, mobile apps, AI automation, creation de sites web, applications mobiles, automatisation IA, WhatsApp, free audit, audit gratuit, chatbot, business automation.';
 }

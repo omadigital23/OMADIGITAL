@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail, buildNewsletterNotificationEmail } from '@/lib/email';
+import { BUSINESS } from '@/lib/constants';
 import { consumeRateLimit } from '@/lib/rate-limit';
 import {
   getClientIp,
@@ -74,12 +75,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Send email notification to admin
-    const supportEmail = process.env.SMTP_SUPPORT_EMAIL || process.env.SMTP_FROM_EMAIL;
+    const supportEmail =
+      process.env.SMTP_SUPPORT_EMAIL?.trim() ||
+      BUSINESS.email ||
+      process.env.SMTP_FROM_EMAIL?.trim();
     if (supportEmail && supportEmail.trim().length > 0) {
       const { subject, html } = buildNewsletterNotificationEmail(email);
-      sendEmail({ to: supportEmail, subject, html }).catch((err) => {
-        console.error('Newsletter email notification error:', err);
-      });
+      const emailSent = await sendEmail({ to: supportEmail, subject, html, replyTo: email });
+      if (!emailSent) {
+        console.error('Newsletter email notification was not delivered.');
+      }
     }
 
     return NextResponse.json({ success: true });

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getGroqClient, WHISPER_MODEL } from '@/lib/groq';
-import { buildTranscriptionPrompt, resolveChatLocale } from '@/lib/chatbot';
+import { buildTranscriptionPrompt } from '@/lib/chatbot';
 import { consumeRateLimit } from '@/lib/rate-limit';
 import { getClientIp, isAllowedOrigin, normalizeText } from '@/lib/security';
 
@@ -10,7 +10,6 @@ const TRANSCRIPTION_RATE_LIMIT = {
 };
 
 const MAX_AUDIO_FILE_SIZE = 8 * 1024 * 1024;
-const SUPPORTED_LANGUAGES = new Set(['fr', 'en']);
 const SUPPORTED_AUDIO_EXTENSIONS = new Set([
   '.flac',
   '.m4a',
@@ -69,12 +68,6 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get('file');
-    const requestedLanguage = normalizeText(formData.get('language'));
-    const locale = resolveChatLocale(requestedLanguage);
-    // On ne force pas la langue à Whisper : il la détecte automatiquement
-    // Le prompt reste pour aider sans contraindre
-    void SUPPORTED_LANGUAGES; // conservé pour ref future
-
     if (!(file instanceof File)) {
       return NextResponse.json({ error: 'Missing audio file' }, { status: 400 });
     }
@@ -99,7 +92,7 @@ export async function POST(req: NextRequest) {
     const transcription = await groq.audio.transcriptions.create({
       file,
       model: WHISPER_MODEL,
-      prompt: buildTranscriptionPrompt(locale),
+      prompt: buildTranscriptionPrompt(),
       response_format: 'json',
       temperature: 0,
     });

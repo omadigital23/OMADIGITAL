@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail, buildLeadNotificationEmail } from '@/lib/email';
+import { BUSINESS } from '@/lib/constants';
 import { sendWhatsAppNotification, buildLeadWhatsAppMessage } from '@/lib/whatsapp';
 import { consumeRateLimit } from '@/lib/rate-limit';
 import {
@@ -93,21 +94,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 
-    const supportEmail = process.env.SMTP_SUPPORT_EMAIL || process.env.SMTP_FROM_EMAIL;
-    const notifications: Promise<unknown>[] = [];
+    const supportEmail =
+      process.env.SMTP_SUPPORT_EMAIL?.trim() ||
+      BUSINESS.email ||
+      process.env.SMTP_FROM_EMAIL?.trim();
+    const notifications: Array<Promise<{ channel: string; ok: boolean }>> = [];
 
     if (supportEmail && supportEmail.trim().length > 0) {
       const { subject, html } = buildLeadNotificationEmail(lead);
-      notifications.push(sendEmail({ to: supportEmail, subject, html }));
+      notifications.push(
+        sendEmail({ to: supportEmail, subject, html, replyTo: email }).then((ok) => ({
+          channel: 'email',
+          ok,
+        }))
+      );
     }
 
     const waMessage = buildLeadWhatsAppMessage(lead);
-    notifications.push(sendWhatsAppNotification(waMessage));
+    notifications.push(
+      sendWhatsAppNotification(waMessage).then((ok) => ({
+        channel: 'whatsapp',
+        ok,
+      }))
+    );
 
     const results = await Promise.allSettled(notifications);
     for (const result of results) {
       if (result.status === 'rejected') {
         console.error('Contact API notification error:', result.reason);
+      } else if (!result.value.ok) {
+        console.error(`Contact API ${result.value.channel} notification was not delivered.`);
       }
     }
 

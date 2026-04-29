@@ -6,8 +6,6 @@ import Groq from 'groq-sdk';
 
 const DEFAULT_CHAT_MODELS = [
   'qwen/qwen3-32b',
-  'llama-3.1-8b-instant',
-  'llama-3.3-70b-versatile',
 ] as const;
 
 function parseChatModels(): string[] {

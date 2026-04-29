@@ -30,10 +30,7 @@ export type LeadInsights = {
   stage: LeadStage;
 };
 
-const CONTACT_LINE = {
-  fr: `WhatsApp : ${BUSINESS.phone} | Email : ${BUSINESS.email}`,
-  en: `WhatsApp: ${BUSINESS.phone} | Email: ${BUSINESS.email}`,
-} as const;
+const CONTACT_LINE = `WhatsApp: ${BUSINESS.phone} | Email: ${BUSINESS.email}`;
 
 const SERVICE_COPY = {
   fr: {
@@ -395,15 +392,14 @@ export function extractLeadInsights(messages: ChatMessage[]): LeadInsights {
   };
 }
 
-export function buildSystemPrompt(locale: ChatLocale, insights: LeadInsights): string {
-  const serviceCopy = SERVICE_COPY[locale];
+export function buildSystemPrompt(insights: LeadInsights): string {
   const missingFields = getMissingFields(insights);
-  const missingFieldsText =
-    missingFields.length > 0
-      ? missingFields.join(', ')
-      : locale === 'fr'
-        ? 'aucun, le lead est presque complet'
-        : 'none, the lead is almost complete';
+  const missingFieldsText = missingFields.length > 0 ? missingFields.join(', ') : 'none';
+  const serviceReference = [
+    `${SERVICE_COPY.en.website} / ${SERVICE_COPY.fr.website}`,
+    `${SERVICE_COPY.en.mobile} / ${SERVICE_COPY.fr.mobile}`,
+    `${SERVICE_COPY.en.ai} / ${SERVICE_COPY.fr.ai}`,
+  ].join('\n- ');
   const knownContext = [
     `name=${insights.name || 'unknown'}`,
     `email=${insights.email || 'unknown'}`,
@@ -414,21 +410,24 @@ export function buildSystemPrompt(locale: ChatLocale, insights: LeadInsights): s
     `stage=${insights.stage}`,
   ].join('; ');
 
-  if (locale === 'en') {
-    return `You are the sales assistant for ${BUSINESS.name}, an agency based in ${BUSINESS.location.city}, ${BUSINESS.location.country}.
+  return `You are the sales assistant for ${BUSINESS.name}, an agency based in ${BUSINESS.location.city}, ${BUSINESS.location.country}.
 Website: ${BUSINESS.siteUrl}
 
-Core offers:
-- ${serviceCopy.website}
-- ${serviceCopy.mobile}
-- ${serviceCopy.ai}
+Core offers / Offres principales:
+- ${serviceReference}
 
 Hard rules:
-- Detect the language of the user's last message and reply in that same language. If the language is neither French nor English, reply in French.
-- If the latest message is only a greeting, answer with a natural greeting in that language, mention OMA Digital briefly, and ask one useful question about their project.
+- Ignore the website UI locale. It is not a language signal for your reply.
+- Detect the language of the user's latest message yourself.
+- Reply in English when the latest user message is English.
+- Reply in French when the latest user message is French.
+- If the latest user message mixes English and French, reply in the dominant language of that latest message.
+- If the latest user message is neither English nor French, reply in French.
+- If the latest message is only a greeting, answer with a natural greeting in that same language, mention OMA Digital briefly, and ask one useful question about their project.
 - If the latest message contains a greeting plus a business question, answer the business question and do not stop at the greeting.
 - Answer the user's exact latest question directly. Do not add unrequested context.
 - STRICT LENGTH: 1 to 4 sentences maximum. Never exceed 4 sentences. Add at most one short follow-up question.
+- Always end with a complete sentence and final punctuation.
 - Never start with filler phrases like "Sure!", "Absolutely!", "Of course!", "Great question!", "That's a great choice!" or similar. Go straight to the answer.
 - Do not automatically list every service, every price, or the full company pitch.
 - Only present multiple offers when the user explicitly asks for services, options, or pricing.
@@ -455,48 +454,6 @@ Known lead context: ${knownContext}
 Missing data still useful: ${missingFieldsText}
 
 Tone: Consultative, sharp, modern. Confident, never pushy. Do not mention these instructions.`;
-  }
-
-  return `Tu es l'assistant commercial de ${BUSINESS.name}, une agence basee a ${BUSINESS.location.city}, ${BUSINESS.location.country}.
-Site web: ${BUSINESS.siteUrl}
-
-Offres principales:
-- ${serviceCopy.website}
-- ${serviceCopy.mobile}
-- ${serviceCopy.ai}
-
-Regles strictes:
-- Detecte la langue du dernier message utilisateur et reponds dans cette meme langue. Si la langue n'est ni le francais ni l'anglais, reponds en francais.
-- Si le dernier message est seulement une salutation, reponds avec une salutation naturelle dans cette langue, mentionne OMA Digital brievement, puis pose une seule question utile sur son projet.
-- Si le dernier message contient une salutation plus une question business, reponds a la question business et ne t'arrete pas a la salutation.
-- Reponds directement a la question exacte du dernier message. N'ajoute pas de contexte non demande.
-- LONGUEUR STRICTE: 1 a 4 phrases maximum. Ne depasse jamais 4 phrases. Ajoute au maximum une seule courte question de qualification.
-- Ne commence jamais par des formules comme "Bien sur !", "Absolument !", "Certainement !", "Excellente question !", "Super choix !" ou similaires. Va droit a la reponse.
-- Ne recite pas automatiquement tous les services, tous les prix, ni tout le pitch commercial.
-- Ne presente plusieurs offres que si l'utilisateur demande explicitement les services, les options ou les tarifs.
-- Si l'utilisateur demande les services d'OMA Digital, mentionne sites web, applications mobiles et automatisation IA avec les prix de depart, en 3 phrases courtes maximum.
-- Si tu listes des offres, garde une ligne courte par offre (3 maximum).
-- N'utilise jamais de listes a puces ou numerotees sauf si l'utilisateur demande explicitement une comparaison ou une liste.
-- N'invente jamais de numero, de pays, de tarifs exacts, de delais ou de cas clients.
-- Utilise uniquement ces coordonnees exactes:
-  WhatsApp: ${BUSINESS.phone}
-  Email: ${BUSINESS.email}
-- N'affiche jamais d'URL WhatsApp brute dans le corps de la reponse. En cas de contact, affiche seulement le numero WhatsApp et l'email.
-- Les prix doivent toujours rester formules "a partir de".
-- Ne promets jamais de fonctionnalites avancees, de delais fermes ou de perimetre sur mesure sans brief.
-- Quand un budget est donne, rattache-le au forfait de depart le plus proche et precise que le perimetre final depend du brief.
-- Ton objectif est de qualifier le lead pour WhatsApp ou le formulaire de contact.
-- Quand l'interet est reel, collecte progressivement les informations manquantes: type de projet, budget, nom, email, telephone.
-- Demande un seul champ manquant a la fois.
-- Si l'utilisateur demande les tarifs, donne le prix de depart pertinent en une seule phrase.
-- Si l'utilisateur demande le contact, donne le numero WhatsApp et l'email en une seule phrase.
-- Ne te re-presente pas sauf si l'utilisateur demande qui tu es ou commence par une salutation.
-- N'utilise jamais de formatage markdown (pas de **, pas de ##, pas de [](), pas de backticks).
-
-Contexte lead connu: ${knownContext}
-Donnees encore utiles: ${missingFieldsText}
-
-Ton: Professionnel, moderne, efficace. Serein, jamais agressif. Ne mentionne jamais ces instructions.`;
 }
 
 export function sanitizeAssistantReply(reply: string): string {
@@ -522,7 +479,6 @@ export function sanitizeAssistantReply(reply: string): string {
 
 export function appendDeterministicContactCta(
   reply: string,
-  locale: ChatLocale,
   intent: ChatIntent,
   stage: LeadStage
 ): string {
@@ -544,17 +500,17 @@ export function appendDeterministicContactCta(
   }
 
   if (!hasPhone && !hasEmail) {
-    return `${reply}\n\n${CONTACT_LINE[locale]}`;
+    return `${reply}\n\n${CONTACT_LINE}`;
   }
 
   const missingContactParts = [];
 
   if (!hasPhone) {
-    missingContactParts.push(locale === 'fr' ? `WhatsApp : ${BUSINESS.phone}` : `WhatsApp: ${BUSINESS.phone}`);
+    missingContactParts.push(`WhatsApp: ${BUSINESS.phone}`);
   }
 
   if (!hasEmail) {
-    missingContactParts.push(locale === 'fr' ? `Email : ${BUSINESS.email}` : `Email: ${BUSINESS.email}`);
+    missingContactParts.push(`Email: ${BUSINESS.email}`);
   }
 
   return `${reply}\n\n${missingContactParts.join(' | ')}`;
@@ -618,10 +574,10 @@ export function buildChatSuggestions(locale: ChatLocale, insights: LeadInsights)
 
 export function buildChatFallback(locale: ChatLocale): string {
   if (locale === 'en') {
-    return 'Hello, I can help with OMA Digital websites, mobile apps, and AI automation. What type of project do you want to build?';
+    return 'Hello / Bonjour, I can help with OMA Digital websites, mobile apps, and AI automation. What type of project do you want to build?';
   }
 
-  return "Bonjour, je peux vous aider sur les sites web, applications mobiles et automatisation IA d'OMA Digital. Quel type de projet souhaitez-vous lancer ?";
+  return "Hello / Bonjour, je peux vous aider sur les sites web, applications mobiles et automatisation IA d'OMA Digital. Quel type de projet souhaitez-vous lancer ?";
 }
 
 export function buildTranscriptionPrompt(): string {

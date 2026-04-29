@@ -43,46 +43,61 @@ function buildSafeMessages(messages: unknown[]): ChatMessage[] {
 }
 
 function isUsefulAssistantReply(reply: string): boolean {
-  const normalized = reply.toLowerCase().replace(/[.!?]+$/g, '').trim();
-  const hasCompleteEnding = /[.!?]$/.test(reply.trim());
+  const trimmed = reply.trim();
+  const normalized = trimmed.toLowerCase().replace(/[.!?]+$/g, '').trim();
+  const hasCompleteEnding = /[.!?]$/.test(trimmed);
+  const endsWithLikelyContinuation =
+    /\b(and|or|the|a|an|to|for|with|these|this|et|ou|de|des|les|la|le|un|une|pour|avec|ces|ce|cette|qui|que|dont|en)$/i.test(
+      trimmed
+    );
 
   return (
     hasCompleteEnding &&
     normalized.length >= 12 &&
+    !endsWithLikelyContinuation &&
     !['bonjour', 'hello', 'hi', 'salut', 'bonsoir', 'hey'].includes(normalized)
   );
 }
 
 async function generateGroqReply(
   groq: NonNullable<ReturnType<typeof getGroqClient>>,
-  locale: 'fr' | 'en',
   leadInsights: ReturnType<typeof extractLeadInsights>,
   safeMessages: ChatMessage[]
 ): Promise<string | null> {
   const messages = [
-    { role: 'system' as const, content: buildSystemPrompt(locale, leadInsights) },
+    { role: 'system' as const, content: buildSystemPrompt(leadInsights) },
     ...safeMessages,
   ];
 
   for (const model of CHAT_MODELS) {
-    try {
-      const completion = await groq.chat.completions.create({
-        model,
-        messages,
-        ...(model.startsWith('qwen/') ? { reasoning_format: 'hidden' as const } : {}),
-        max_tokens: 280,
-        temperature: 0.35,
-      });
+    for (const repairAttempt of [false, true]) {
+      try {
+        const completion = await groq.chat.completions.create({
+          model,
+          messages: repairAttempt
+            ? [
+                {
+                  role: 'system' as const,
+                  content: `${buildSystemPrompt(leadInsights)}\nYour previous response was missing or incomplete. Answer the latest user message again in a complete response, 1 to 4 sentences, ending with final punctuation.`,
+                },
+                ...safeMessages,
+              ]
+            : messages,
+          ...(model.startsWith('qwen/') ? { reasoning_format: 'hidden' as const } : {}),
+          max_tokens: 420,
+          temperature: 0.3,
+        });
 
-      const content = completion.choices[0]?.message?.content;
-      const sanitizedContent =
-        typeof content === 'string' ? sanitizeAssistantReply(content) : '';
+        const content = completion.choices[0]?.message?.content;
+        const sanitizedContent =
+          typeof content === 'string' ? sanitizeAssistantReply(content) : '';
 
-      if (isUsefulAssistantReply(sanitizedContent)) {
-        return sanitizedContent;
+        if (isUsefulAssistantReply(sanitizedContent)) {
+          return sanitizedContent;
+        }
+      } catch (error) {
+        console.error(`Groq chat completion error with model ${model}:`, error);
       }
-    } catch (error) {
-      console.error(`Groq chat completion error with model ${model}:`, error);
     }
   }
 
@@ -135,7 +150,7 @@ export async function POST(req: NextRequest) {
 
     const groq = getGroqClient();
     if (groq) {
-      const content = await generateGroqReply(groq, locale, leadInsights, safeMessages);
+      const content = await generateGroqReply(groq, leadInsights, safeMessages);
 
       if (content) {
         reply = content;
@@ -145,7 +160,6 @@ export async function POST(req: NextRequest) {
 
     const normalizedReply = appendDeterministicContactCta(
       sanitizeAssistantReply(reply),
-      locale,
       userIntent,
       leadInsights.stage
     );

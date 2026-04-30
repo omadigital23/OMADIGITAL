@@ -37,7 +37,6 @@ function VideoSlider() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const currentVideo = VIDEOS[current];
-  const videoKey = `${currentVideo.webm}|${currentVideo.mp4}`;
 
   /* ── helpers ── */
   const primeVideo = useCallback((video: HTMLVideoElement | null, shouldAutoplay = false) => {
@@ -110,17 +109,6 @@ function VideoSlider() {
     v.play().catch(() => undefined);
   }, [current, isVisible, primeVideo]);
 
-  const pauseOthers = useCallback((active: number) => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-
-      if (i !== active) {
-        primeVideo(v, false);
-        v.pause();
-      }
-    });
-  }, [primeVideo]);
-
   const goTo = useCallback(
     (index: number) => {
       if (index === current) return;
@@ -161,16 +149,19 @@ function VideoSlider() {
 
   /* ── autoplay de la vidéo active ── */
   useEffect(() => {
-    videoRefs.current.forEach((v, i) => primeVideo(v, i === current && isVisible));
+    const v = videoRefs.current[current];
+    if (!v || !mounted) return;
+
+    primeVideo(v, isVisible);
 
     if (!isVisible) {
-      videoRefs.current.forEach((v) => v?.pause());
+      v.pause();
       return;
     }
 
-    pauseOthers(current);
+    v.load();
     tryPlay(current);
-  }, [current, isVisible, primeVideo, tryPlay, pauseOthers]);
+  }, [current, isVisible, mounted, primeVideo, tryPlay]);
 
   /* ── reprise iOS si l'autoplay a ete bloque avant une interaction ── */
   useEffect(() => {
@@ -223,7 +214,6 @@ function VideoSlider() {
       {/* ── video active : modele single-video repris de l'ancienne app OMA ── */}
       {mounted ? (
         <div
-          key={videoKey}
           className="absolute inset-0 transition-opacity duration-500"
           style={{
             opacity: i === current ? 1 : 0,
@@ -256,8 +246,8 @@ function VideoSlider() {
               'webkit-playsinline': 'true',
             } as Record<string, string>)}
           >
-            <source src={video.webm} type="video/webm" />
             <source src={video.mp4} type="video/mp4" />
+            <source src={video.webm} type="video/webm" />
           </video>
         </div>
       ) : (

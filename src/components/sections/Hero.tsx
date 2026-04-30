@@ -16,12 +16,14 @@ const VIDEOS = [
 const SLIDE_INTERVAL = 5000;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// VideoSlider — autoplay garanti iOS Safari / Android Chrome / Desktop
+// VideoSlider — autoplay robuste iOS Safari / Android Chrome / Desktop
 //
 // Stratégie :
 //  • Toutes les <video> restent montées dans le DOM (iOS garde le décodeur actif).
 //  • La visibilité est gérée uniquement via CSS opacity/z-index (pas de
 //    montage/démontage, pas d'attribut `hidden` — ce qui bloquerait le play).
+//  • Seule la vidéo active porte `autoplay`; les autres sont préchargées en
+//    metadata et mises en pause pour éviter les suspensions WebKit.
 //  • useEffect appelle .play() à chaque changement d'index.  Les promesses
 //    rejetées (politique autoplay du navigateur) sont interceptées silencieusement.
 //  • Le timer est réinitialisé après chaque interaction manuelle.
@@ -29,36 +31,50 @@ const SLIDE_INTERVAL = 5000;
 function VideoSlider() {
   const t = useTranslations('hero');
   const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   /* ── helpers ── */
-  const primeVideo = useCallback((video: HTMLVideoElement | null) => {
+  const primeVideo = useCallback((video: HTMLVideoElement | null, shouldAutoplay = false) => {
     if (!video) return;
 
     video.muted = true;
     video.defaultMuted = true;
+    video.volume = 0;
     video.loop = true;
-    video.autoplay = true;
     video.playsInline = true;
-    video.preload = 'auto';
+    video.autoplay = shouldAutoplay;
+    video.preload = shouldAutoplay ? 'auto' : 'metadata';
     video.setAttribute('muted', '');
-    video.setAttribute('playsinline', 'true');
-    video.setAttribute('webkit-playsinline', 'true');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('disablepictureinpicture', '');
+    video.setAttribute('disableremoteplayback', '');
+
+    if (shouldAutoplay) {
+      video.setAttribute('autoplay', '');
+    } else {
+      video.removeAttribute('autoplay');
+    }
   }, []);
 
   const tryPlay = useCallback((index: number) => {
+    if (!isVisible) return;
+
     const v = videoRefs.current[index];
     if (!v) return;
-    primeVideo(v);
+
+    primeVideo(v, true);
+
     const playVideo = () => {
       if (v.ended) v.currentTime = 0;
 
       requestAnimationFrame(() => {
         v.play().catch(() => {
           window.setTimeout(() => {
-            primeVideo(v);
+            primeVideo(v, true);
             v.play().catch(() => undefined);
           }, 250);
         });
@@ -81,35 +97,94 @@ function VideoSlider() {
     }
 
     playVideo();
-  }, [primeVideo]);
+  }, [isVisible, primeVideo]);
+
+  const playFromUserGesture = useCallback(() => {
+    const v = videoRefs.current[current];
+    if (!v || !isVisible) return;
+
+    primeVideo(v, true);
+    v.play().catch(() => undefined);
+  }, [current, isVisible, primeVideo]);
 
   const pauseOthers = useCallback((active: number) => {
     videoRefs.current.forEach((v, i) => {
-      if (v && i !== active) v.pause();
+      if (!v) return;
+
+      if (i !== active) {
+        primeVideo(v, false);
+        v.pause();
+      }
     });
-  }, []);
+  }, [primeVideo]);
 
   const goTo = useCallback(
     (index: number) => {
-      if (index === current || animating) return;
-      setAnimating(true);
-      setTimeout(() => {
-        setCurrent(index);
-        setAnimating(false);
-      }, 350);
+      if (index === current) return;
+      setCurrent(index);
     },
-    [current, animating],
+    [current],
   );
 
   const advance = useCallback(() => {
     goTo((current + 1) % VIDEOS.length);
   }, [current, goTo]);
 
+  /* ── activation uniquement quand le slider est vraiment dans le viewport ── */
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    if (typeof window.IntersectionObserver === 'undefined') {
+      const fallbackFrame = window.requestAnimationFrame(() => setIsVisible(true));
+      return () => window.cancelAnimationFrame(fallbackFrame);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting && entry.intersectionRatio > 0.15);
+      },
+      { threshold: [0, 0.15, 0.5] },
+    );
+
+    observer.observe(slider);
+    return () => observer.disconnect();
+  }, []);
+
   /* ── autoplay de la vidéo active ── */
   useEffect(() => {
-    tryPlay(current);
+    videoRefs.current.forEach((v, i) => primeVideo(v, i === current && isVisible));
+
+    if (!isVisible) {
+      videoRefs.current.forEach((v) => v?.pause());
+      return;
+    }
+
     pauseOthers(current);
-  }, [current, tryPlay, pauseOthers]);
+    tryPlay(current);
+  }, [current, isVisible, primeVideo, tryPlay, pauseOthers]);
+
+  /* ── reprise iOS si l'autoplay a ete bloque avant une interaction ── */
+  useEffect(() => {
+    window.addEventListener('pageshow', playFromUserGesture);
+    window.addEventListener('touchend', playFromUserGesture, { passive: true });
+    window.addEventListener('pointerup', playFromUserGesture, { passive: true });
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        playFromUserGesture();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      window.removeEventListener('pageshow', playFromUserGesture);
+      window.removeEventListener('touchend', playFromUserGesture);
+      window.removeEventListener('pointerup', playFromUserGesture);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [playFromUserGesture]);
 
   /* ── timer automatique ── */
   const startTimer = useCallback(() => {
@@ -131,14 +206,14 @@ function VideoSlider() {
   };
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group">
+    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group">
       {/* ── vidéos : toutes dans le DOM, visibilité CSS seulement ── */}
       {VIDEOS.map((video, i) => (
         <div
           key={video.id}
           className="absolute inset-0 transition-opacity duration-500"
           style={{
-            opacity: i === current && !animating ? 1 : 0,
+            opacity: i === current ? 1 : 0,
             zIndex: i === current ? 1 : 0,
             pointerEvents: i === current ? 'auto' : 'none',
           }}
@@ -146,16 +221,17 @@ function VideoSlider() {
           <video
             ref={(el) => {
               videoRefs.current[i] = el;
-              primeVideo(el);
+              primeVideo(el, i === current && isVisible);
             }}
             muted
             loop
             playsInline
-            autoPlay
-            preload="auto"
+            autoPlay={i === current}
+            preload={i === current ? 'auto' : 'metadata'}
             disablePictureInPicture
+            disableRemotePlayback
             onLoadedData={() => {
-              if (i === current && !animating) {
+              if (i === current) {
                 tryPlay(i);
               }
             }}
@@ -323,12 +399,7 @@ export default function Hero() {
           </div>
 
           {/* ── Colonne droite — slider vidéo ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="w-full"
-          >
+          <div className="w-full">
             <VideoSlider />
 
             {/* Badges flottants sous le slider */}
@@ -344,7 +415,7 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* ── Stats ── */}

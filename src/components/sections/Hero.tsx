@@ -31,10 +31,13 @@ const SLIDE_INTERVAL = 5000;
 function VideoSlider() {
   const t = useTranslations('hero');
   const [current, setCurrent] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const currentVideo = VIDEOS[current];
+  const videoKey = `${currentVideo.webm}|${currentVideo.mp4}`;
 
   /* ── helpers ── */
   const primeVideo = useCallback((video: HTMLVideoElement | null, shouldAutoplay = false) => {
@@ -130,6 +133,11 @@ function VideoSlider() {
     goTo((current + 1) % VIDEOS.length);
   }, [current, goTo]);
 
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setMounted(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   /* ── activation uniquement quand le slider est vraiment dans le viewport ── */
   useEffect(() => {
     const slider = sliderRef.current;
@@ -167,6 +175,7 @@ function VideoSlider() {
   /* ── reprise iOS si l'autoplay a ete bloque avant une interaction ── */
   useEffect(() => {
     window.addEventListener('pageshow', playFromUserGesture);
+    window.addEventListener('touchstart', playFromUserGesture, { passive: true });
     window.addEventListener('touchend', playFromUserGesture, { passive: true });
     window.addEventListener('pointerup', playFromUserGesture, { passive: true });
 
@@ -180,6 +189,7 @@ function VideoSlider() {
 
     return () => {
       window.removeEventListener('pageshow', playFromUserGesture);
+      window.removeEventListener('touchstart', playFromUserGesture);
       window.removeEventListener('touchend', playFromUserGesture);
       window.removeEventListener('pointerup', playFromUserGesture);
       document.removeEventListener('visibilitychange', handleVisibility);
@@ -205,12 +215,15 @@ function VideoSlider() {
     startTimer();
   };
 
+  const video = currentVideo;
+  const i = current;
+
   return (
-    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group">
-      {/* ── vidéos : toutes dans le DOM, visibilité CSS seulement ── */}
-      {VIDEOS.map((video, i) => (
+    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group" suppressHydrationWarning>
+      {/* ── video active : modele single-video repris de l'ancienne app OMA ── */}
+      {mounted ? (
         <div
-          key={video.id}
+          key={videoKey}
           className="absolute inset-0 transition-opacity duration-500"
           style={{
             opacity: i === current ? 1 : 0,
@@ -226,8 +239,9 @@ function VideoSlider() {
             muted
             loop
             playsInline
-            autoPlay={i === current}
-            preload={i === current ? 'auto' : 'metadata'}
+            autoPlay
+            controls={false}
+            preload="metadata"
             disablePictureInPicture
             disableRemotePlayback
             onLoadedData={() => {
@@ -237,13 +251,18 @@ function VideoSlider() {
             }}
             className="w-full h-full object-cover"
             /* attribut webkit nécessaire pour anciens iOS */
-            {...({ 'webkit-playsinline': 'true' } as Record<string, string>)}
+            {...({
+              'x-webkit-airplay': 'allow',
+              'webkit-playsinline': 'true',
+            } as Record<string, string>)}
           >
-            <source src={video.mp4} type="video/mp4" />
             <source src={video.webm} type="video/webm" />
+            <source src={video.mp4} type="video/mp4" />
           </video>
         </div>
-      ))}
+      ) : (
+        <div className="w-full h-full bg-bg-card" />
+      )}
 
       {/* ── overlay gradient ── */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none z-10" />

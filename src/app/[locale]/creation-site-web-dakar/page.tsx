@@ -30,6 +30,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <SEOPageClient
       serviceEmoji={content.serviceEmoji}
+      serviceVariant="website"
       title={content.title}
       subtitle={content.subtitle}
       description={content.description}

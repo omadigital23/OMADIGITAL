@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import Button from '@/components/ui/Button';
 import { getWhatsAppUrl } from '@/lib/constants';
+import { AuditReportPreview } from '@/components/VisualMockups';
 
 const BENEFITS = [
   { icon: '🎯', key: 'benefit1' },
@@ -95,6 +96,8 @@ export default function CTASection() {
               ))}
             </div>
 
+            <AuditReportPreview locale={locale} className="mt-8 max-w-lg" />
+
             <div className="mt-8">
               <Button size="lg" href={whatsappUrl} external>
                 {t('button')}
@@ -149,13 +152,14 @@ export default function CTASection() {
                     className="hidden"
                   />
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <input
                         type="text" required value={form.name}
                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                         onBlur={() => setTouched({ ...touched, name: true })}
                         placeholder={t('formName')}
+                        aria-label={t('formName')}
                         className={inputClass('name')}
                       />
                     </div>
@@ -165,6 +169,7 @@ export default function CTASection() {
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         onBlur={() => setTouched({ ...touched, email: true })}
                         placeholder={t('formEmail')}
+                        aria-label={t('formEmail')}
                         className={inputClass('email')}
                       />
                     </div>
@@ -174,6 +179,7 @@ export default function CTASection() {
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     onBlur={() => setTouched({ ...touched, phone: true })}
                     placeholder={t('formPhone')}
+                    aria-label={t('formPhone')}
                     className={inputClass('phone')}
                   />
                   <input
@@ -181,6 +187,7 @@ export default function CTASection() {
                     onChange={(e) => setForm({ ...form, business: e.target.value })}
                     onBlur={() => setTouched({ ...touched, business: true })}
                     placeholder={t('formBusiness')}
+                    aria-label={t('formBusiness')}
                     className={inputClass('business')}
                   />
                   <button

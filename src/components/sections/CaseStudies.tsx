@@ -1,33 +1,38 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import Card from '@/components/ui/Card';
+import { CaseStudyMedia, type ServiceVariant } from '@/components/VisualMockups';
 
 const caseStudyData = [
   {
     clientKey: 'client1', industryKey: 'industry1', challengeKey: 'challenge1', solutionKey: 'solution1',
     results: ['result1', 'result2'],
     tech: ['Next.js', 'Supabase', 'Wave API', 'Groq AI'],
+    variant: 'website' as ServiceVariant,
     color: 'accent-coral',
   },
   {
     clientKey: 'client2', industryKey: 'industry2', challengeKey: 'challenge2', solutionKey: 'solution2',
     results: ['result3', 'result4'],
     tech: ['React Native', 'Node.js', 'PostgreSQL'],
+    variant: 'mobile' as ServiceVariant,
     color: 'accent-cyan',
   },
   {
     clientKey: 'client3', industryKey: 'industry3', challengeKey: 'challenge3', solutionKey: 'solution3',
     results: ['result5', 'result6'],
     tech: ['Python', 'OpenAI', 'Supabase', 'Zapier'],
+    variant: 'ai' as ServiceVariant,
     color: 'accent-violet',
   },
 ];
 
 export default function CaseStudies() {
   const t = useTranslations('caseStudies');
+  const locale = useLocale();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -54,35 +59,44 @@ export default function CaseStudies() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2 + i * 0.15 }}
             >
-              <Card className="p-6 h-full flex flex-col">
-                <div className="text-xs text-text-muted mb-2">{t(cs.industryKey)}</div>
-                <h3 className="font-heading font-semibold text-lg text-text-primary mb-3">{t(cs.clientKey)}</h3>
-                <p className="text-sm text-text-muted mb-3 leading-relaxed">
-                  <strong className="text-text-secondary">{t('challenge')} :</strong> {t(cs.challengeKey)}
-                </p>
-                <p className="text-sm text-text-muted mb-4 leading-relaxed">
-                  <strong className="text-accent-cyan">{t('solution')} :</strong> {t(cs.solutionKey)}
-                </p>
+              <Card className="h-full flex flex-col p-0">
+                <CaseStudyMedia
+                  variant={cs.variant}
+                  clientName={t(cs.clientKey)}
+                  metric={t(cs.results[0])}
+                  locale={locale}
+                />
 
-                {/* Results */}
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {cs.results.map((r) => (
-                    <div key={r} className="bg-bg-glass rounded-lg p-3 text-center border border-border-subtle">
-                      <span className="font-heading font-bold text-lg gradient-text">{t(r).split(' ')[0]}</span>
-                      <span className="block text-xs text-text-muted mt-0.5">{t(r).split(' ').slice(1).join(' ')}</span>
-                    </div>
-                  ))}
-                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="text-xs text-text-muted mb-2">{t(cs.industryKey)}</div>
+                  <h3 className="font-heading font-semibold text-lg text-text-primary mb-3">{t(cs.clientKey)}</h3>
+                  <p className="text-sm text-text-muted mb-3 leading-relaxed">
+                    <strong className="text-text-secondary">{t('challenge')} :</strong> {t(cs.challengeKey)}
+                  </p>
+                  <p className="text-sm text-text-muted mb-4 leading-relaxed">
+                    <strong className="text-accent-cyan">{t('solution')} :</strong> {t(cs.solutionKey)}
+                  </p>
 
-                {/* Tech */}
-                <div className="mt-auto pt-4 border-t border-border-subtle">
-                  <div className="text-xs text-text-muted mb-2">{t('techStack')}</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {cs.tech.map((tech) => (
-                      <span key={tech} className="text-xs px-2 py-0.5 rounded bg-bg-glass border border-border-subtle text-text-secondary">
-                        {tech}
-                      </span>
+                  {/* Results */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {cs.results.map((r) => (
+                      <div key={r} className="bg-bg-glass rounded-lg p-3 text-center border border-border-subtle">
+                        <span className="font-heading font-bold text-lg gradient-text">{t(r).split(' ')[0]}</span>
+                        <span className="block text-xs text-text-muted mt-0.5">{t(r).split(' ').slice(1).join(' ')}</span>
+                      </div>
                     ))}
+                  </div>
+
+                  {/* Tech */}
+                  <div className="mt-auto pt-4 border-t border-border-subtle">
+                    <div className="text-xs text-text-muted mb-2">{t('techStack')}</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cs.tech.map((tech) => (
+                        <span key={tech} className="text-xs px-2 py-0.5 rounded bg-bg-glass border border-border-subtle text-text-secondary">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </Card>

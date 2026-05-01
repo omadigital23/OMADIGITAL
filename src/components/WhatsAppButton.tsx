@@ -14,7 +14,7 @@ export default function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 group"
+      className="fixed bottom-4 right-4 z-40 h-14 w-14 group md:bottom-6 md:right-6"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ delay: 1.5, type: 'spring' }}
@@ -33,7 +33,7 @@ export default function WhatsAppButton() {
       </span>
 
       {/* Tooltip */}
-      <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-bg-card border border-border-subtle rounded-lg text-sm text-text-primary whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+      <span className="absolute right-full mr-3 top-1/2 hidden -translate-y-1/2 px-3 py-1.5 bg-bg-card border border-border-subtle rounded-lg text-sm text-text-primary whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none md:block">
         {t('tooltip')}
       </span>
     </motion.a>

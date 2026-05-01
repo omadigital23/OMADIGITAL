@@ -11,6 +11,7 @@ export default function StickyAuditBar() {
   const whatsappUrl = getWhatsAppUrl(locale);
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [blockedByContent, setBlockedByContent] = useState(false);
 
   useEffect(() => {
     // Apparaît après 4s ou après scroll de 400px
@@ -25,18 +26,32 @@ export default function StickyAuditBar() {
     };
   }, []);
 
-  // Disparaît quand on est proche du formulaire CTA
+  // Hide where the page already has dense CTAs or forms.
   useEffect(() => {
+    const targets = ['services', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (targets.length === 0) return;
+
+    const visibility = new Map<Element, boolean>();
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
-      { threshold: 0.1 }
+      (entries) => {
+        entries.forEach((entry) => visibility.set(entry.target, entry.isIntersecting));
+        setBlockedByContent(Array.from(visibility.values()).some(Boolean));
+      },
+      { threshold: 0.18 }
     );
-    const target = document.getElementById('contact');
-    if (target) observer.observe(target);
+
+    targets.forEach((target) => {
+      visibility.set(target, false);
+      observer.observe(target);
+    });
+
     return () => observer.disconnect();
   }, []);
 
-  if (dismissed) return null;
+  if (dismissed || blockedByContent) return null;
 
   return (
     <AnimatePresence>
@@ -46,24 +61,20 @@ export default function StickyAuditBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ type: 'spring', damping: 20 }}
-          className="fixed bottom-0 left-0 right-0 z-30 md:hidden"
+          className="fixed bottom-4 left-4 z-30 md:hidden"
         >
-          <div className="mx-4 mb-4 flex items-center justify-between gap-3 px-4 py-3 rounded-2xl gradient-bg shadow-glow border border-white/10">
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm leading-tight truncate">{t('title')}</p>
-              <p className="text-white/70 text-xs truncate">{t('subtitle')}</p>
-            </div>
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-bg-card/95 p-1.5 shadow-glow backdrop-blur">
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 bg-white text-bg-primary font-semibold text-xs px-4 py-2 rounded-xl hover:bg-white/90 transition-colors"
+              className="shrink-0 rounded-full gradient-bg px-4 py-2 text-xs font-semibold text-white transition-shadow hover:shadow-glow"
             >
               {t('cta')}
             </a>
             <button
               onClick={() => setDismissed(true)}
-              className="shrink-0 text-white/50 hover:text-white p-1"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
               aria-label="Fermer"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

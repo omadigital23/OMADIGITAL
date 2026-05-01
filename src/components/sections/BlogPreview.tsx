@@ -1,10 +1,11 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import { Link } from '@/i18n/navigation';
 import Card from '@/components/ui/Card';
+import { ServiceMockup, type ServiceVariant } from '@/components/VisualMockups';
 
 const previewArticles = [
   {
@@ -12,6 +13,7 @@ const previewArticles = [
     categoryKey: 'categoryWebsite',
     readTime: 8,
     emoji: '🌐',
+    variant: 'website' as ServiceVariant,
     titleKey: 'preview1Title',
     excerptKey: 'preview1Excerpt',
   },
@@ -20,6 +22,7 @@ const previewArticles = [
     categoryKey: 'categoryAI',
     readTime: 10,
     emoji: '🤖',
+    variant: 'ai' as ServiceVariant,
     titleKey: 'preview2Title',
     excerptKey: 'preview2Excerpt',
   },
@@ -28,6 +31,7 @@ const previewArticles = [
     categoryKey: 'categoryMobile',
     readTime: 7,
     emoji: '📱',
+    variant: 'mobile' as ServiceVariant,
     titleKey: 'preview3Title',
     excerptKey: 'preview3Excerpt',
   },
@@ -36,6 +40,7 @@ const previewArticles = [
 export default function BlogPreview() {
   const t = useTranslations('blogPreview');
   const tBlog = useTranslations('blog');
+  const locale = useLocale();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -63,22 +68,27 @@ export default function BlogPreview() {
               transition={{ delay: 0.2 + index * 0.15 }}
             >
               <Link href={`/blog/${article.slug}`}>
-                <Card className="p-6 h-full flex flex-col cursor-pointer">
-                  <div className="text-3xl mb-4">{article.emoji}</div>
-                  <div className="text-xs text-accent-violet mb-2 uppercase tracking-wide">
-                    {tBlog(article.categoryKey)}
-                  </div>
-                  <h3 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
-                    {tBlog(article.titleKey)}
-                  </h3>
-                  <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
-                    {tBlog(article.excerptKey)}
-                  </p>
-                  <div className="flex items-center justify-between text-xs text-text-muted">
-                    <span>{article.readTime} {t('minRead')}</span>
-                    <span className="text-accent-violet hover:underline">
-                      {t('readMore')}
-                    </span>
+                <Card className="h-full flex flex-col cursor-pointer p-0">
+                  <ServiceMockup variant={article.variant} locale={locale} compact className="m-4 mb-0" />
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="text-2xl" aria-hidden="true">{article.emoji}</span>
+                      <div className="text-xs text-accent-violet uppercase tracking-wide">
+                        {tBlog(article.categoryKey)}
+                      </div>
+                    </div>
+                    <h3 className="font-heading font-semibold text-text-primary mb-3 line-clamp-2">
+                      {tBlog(article.titleKey)}
+                    </h3>
+                    <p className="text-sm text-text-muted mb-4 line-clamp-3 flex-grow">
+                      {tBlog(article.excerptKey)}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-text-muted">
+                      <span>{article.readTime} {t('minRead')}</span>
+                      <span className="text-accent-violet hover:underline">
+                        {t('readMore')}
+                      </span>
+                    </div>
                   </div>
                 </Card>
               </Link>

@@ -15,19 +15,8 @@ const VIDEOS = [
 ];
 const SLIDE_INTERVAL = 5000;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// VideoSlider — autoplay robuste iOS Safari / Android Chrome / Desktop
-//
-// Stratégie :
-//  • Toutes les <video> restent montées dans le DOM (iOS garde le décodeur actif).
-//  • La visibilité est gérée uniquement via CSS opacity/z-index (pas de
-//    montage/démontage, pas d'attribut `hidden` — ce qui bloquerait le play).
-//  • Seule la vidéo active porte `autoplay`; les autres sont préchargées en
-//    metadata et mises en pause pour éviter les suspensions WebKit.
-//  • useEffect appelle .play() à chaque changement d'index.  Les promesses
-//    rejetées (politique autoplay du navigateur) sont interceptées silencieusement.
-//  • Le timer est réinitialisé après chaque interaction manuelle.
-// ─────────────────────────────────────────────────────────────────────────────
+// Single stable player model for better autoplay behavior across iOS, Android, and desktop.
+// The active source is loaded and replayed on each slide change.
 function VideoSlider() {
   const t = useTranslations('hero');
   const [current, setCurrent] = useState(0);
@@ -211,7 +200,7 @@ function VideoSlider() {
 
   return (
     <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group" suppressHydrationWarning>
-      {/* ── video active : modele single-video repris de l'ancienne app OMA ── */}
+      {/* Active video */}
       {mounted ? (
         <div
           className="absolute inset-0 transition-opacity duration-500"
@@ -312,25 +301,6 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-bg"
       aria-label={t('hero.title')}
     >
-      {/* ── orbs flottants ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <motion.div
-          animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[15%] left-[10%] w-64 h-64 rounded-full bg-accent-violet/5 blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [0, 20, 0], x: [0, -20, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-[30%] right-[10%] w-80 h-80 rounded-full bg-accent-blue/5 blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-[20%] left-[30%] w-48 h-48 rounded-full bg-accent-purple/5 blur-3xl"
-        />
-      </div>
-
       <div className="container-custom relative z-10 pt-24 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 

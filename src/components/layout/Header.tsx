@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
-import { NAV_ITEMS, getWhatsAppUrl } from '@/lib/constants';
+import { NAV_ITEMS, getWhatsAppUrl, resolveLocalizedPath } from '@/lib/constants';
 import Image from 'next/image';
 import MobileMenu from './MobileMenu';
 
@@ -16,6 +16,10 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    href: resolveLocalizedPath(item.href, locale),
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,10 +72,10 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="Navigation principale">
-            {NAV_ITEMS.map((item) => (
+          <nav className="hidden md:flex items-center gap-5 lg:gap-8" role="navigation" aria-label="Navigation principale">
+            {navItems.map((item) => (
               <Link
-                key={item.href}
+                key={item.labelKey}
                 href={item.href}
                 className={`text-sm transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent-violet after:transition-all after:duration-300 ${
                   isActive(item.href)

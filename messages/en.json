@@ -6,6 +6,7 @@
   },
   "nav": {
     "services": "Services",
+    "support": "Support",
     "pricing": "Pricing",
     "blog": "Blog",
     "contact": "Contact",
@@ -65,6 +66,7 @@
     "mobile": "Mobile Apps",
     "mobileDesc": "Custom iOS and Android apps to connect your business with clients everywhere.",
     "ai": "AI Automation",
+    "supportSoftware": "Software support",
     "aiDesc": "Smart chatbots, workflow automation and AI solutions for your productivity.",
     "startingAt": "Starting at",
     "learnMore": "Learn more",

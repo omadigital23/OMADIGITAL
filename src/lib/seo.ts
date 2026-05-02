@@ -40,6 +40,29 @@ export function buildLocalizedAlternates(locale: string, path?: string): Metadat
   };
 }
 
+export function buildLocalizedAlternatesFromPaths(
+  locale: string,
+  pathsByLocale: Partial<Record<string, string>>
+): Metadata['alternates'] {
+  const currentPath = pathsByLocale[locale] ?? pathsByLocale[routing.defaultLocale] ?? '';
+  const languages = Object.fromEntries(
+    routing.locales.map((availableLocale) => [
+      availableLocale,
+      `${BUSINESS.siteUrl}/${availableLocale}${normalizePath(pathsByLocale[availableLocale] ?? currentPath)}`,
+    ])
+  );
+
+  return {
+    canonical: `${BUSINESS.siteUrl}/${locale}${normalizePath(currentPath)}`,
+    languages: {
+      ...languages,
+      'x-default': `${BUSINESS.siteUrl}/${routing.defaultLocale}${normalizePath(
+        pathsByLocale[routing.defaultLocale] ?? currentPath
+      )}`,
+    },
+  };
+}
+
 export function buildPageMetadata({
   locale,
   path,

@@ -15,6 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/application-mobile-senegal',
     '/automatisation-ia-senegal',
   ];
+  const localizedPages: Record<string, string[]> = {
+    fr: ['/depannage-logiciel-configuration-appareils'],
+    en: ['/software-troubleshooting-device-setup'],
+  };
 
   const blogSlugs = [
     'creer-site-web-professionnel-senegal',
@@ -26,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of locales) {
-    for (const page of pages) {
+    for (const page of [...pages, ...(localizedPages[locale] ?? [])]) {
       entries.push({
         url: `${BASE_URL}/${locale}${page}`,
         lastModified: new Date(),

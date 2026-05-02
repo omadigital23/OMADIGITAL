@@ -6,6 +6,7 @@
   },
   "nav": {
     "services": "Services",
+    "support": "Dépannage",
     "pricing": "Tarifs",
     "blog": "Blog",
     "contact": "Contact",
@@ -65,6 +66,7 @@
     "mobile": "Applications Mobiles",
     "mobileDesc": "Applications iOS et Android sur mesure pour connecter votre entreprise à vos clients.",
     "ai": "Automatisation IA",
+    "supportSoftware": "Dépannage logiciel",
     "aiDesc": "Chatbots intelligents, automatisation des workflows et solutions d'IA pour votre productivité.",
     "startingAt": "À partir de",
     "learnMore": "En savoir plus",

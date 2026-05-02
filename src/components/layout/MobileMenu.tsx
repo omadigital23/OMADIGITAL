@@ -2,7 +2,7 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { NAV_ITEMS, getWhatsAppUrl } from '@/lib/constants';
+import { NAV_ITEMS, getWhatsAppUrl, resolveLocalizedPath } from '@/lib/constants';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface MobileMenuProps {
@@ -15,6 +15,10 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
   const t = useTranslations('nav');
   const locale = useLocale();
   const whatsappUrl = getWhatsAppUrl(locale);
+  const navItems = NAV_ITEMS.map((item) => ({
+    ...item,
+    href: resolveLocalizedPath(item.href, locale),
+  }));
 
   return (
     <AnimatePresence>
@@ -52,9 +56,9 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
 
             {/* Links */}
             <nav className="flex flex-col px-6 gap-2">
-              {NAV_ITEMS.map((item, i) => (
+              {navItems.map((item, i) => (
                 <motion.div
-                  key={item.href}
+                  key={item.labelKey}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}

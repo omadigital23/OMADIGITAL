@@ -35,12 +35,36 @@ export function getWhatsAppUrl(locale: string = 'fr'): string {
 // URL par défaut (FR) — conservée pour la compatibilité des composants sans locale
 export const WHATSAPP_URL = getWhatsAppUrl('fr');
 
+type LocalizedPath = {
+  readonly fr: string;
+  readonly en: string;
+};
+
+export const SUPPORT_PAGE_PATHS = {
+  fr: '/depannage-logiciel-configuration-appareils',
+  en: '/software-troubleshooting-device-setup',
+} as const satisfies LocalizedPath;
+
+export function getSupportPagePath(locale: string = 'fr'): string {
+  return locale === 'en' ? SUPPORT_PAGE_PATHS.en : SUPPORT_PAGE_PATHS.fr;
+}
+
+export function resolveLocalizedPath(path: string | LocalizedPath, locale: string = 'fr'): string {
+  return typeof path === 'string' ? path : locale === 'en' ? path.en : path.fr;
+}
+
+type NavItem = {
+  readonly labelKey: string;
+  readonly href: string | LocalizedPath;
+};
+
 export const NAV_ITEMS = [
   { labelKey: 'nav.services', href: '/#services' },
+  { labelKey: 'nav.support', href: SUPPORT_PAGE_PATHS },
   { labelKey: 'nav.pricing', href: '/pricing' },
   { labelKey: 'nav.blog', href: '/blog' },
   { labelKey: 'nav.contact', href: '/contact' },
-] as const;
+] as const satisfies readonly NavItem[];
 
 export const SERVICE_PAGES = [
   { slug: 'creation-site-web-senegal', labelKey: 'services.website' },

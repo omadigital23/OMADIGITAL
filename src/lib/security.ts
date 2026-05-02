@@ -2,7 +2,7 @@ type HeaderBag = {
   get(name: string): string | null;
 };
 
-const CONTACT_SERVICES = new Set(['website', 'mobile', 'ai']);
+const CONTACT_SERVICES = new Set(['website', 'mobile', 'ai', 'support']);
 
 export function getClientIp(headers: HeaderBag): string {
   const forwardedFor = headers.get('x-forwarded-for');

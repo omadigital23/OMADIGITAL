@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { BUSINESS, NAV_ITEMS, SERVICE_PAGES } from '@/lib/constants';
+import { BUSINESS, getSupportPagePath, NAV_ITEMS, resolveLocalizedPath, SERVICE_PAGES } from '@/lib/constants';
 import Image from 'next/image';
 
 export default function Footer() {
   const t = useTranslations();
+  const locale = useLocale();
   const [email, setEmail] = useState('');
   const [companyWebsite, setCompanyWebsite] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -93,6 +94,14 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href={getSupportPagePath(locale)}
+                  className="text-sm text-text-muted hover:text-text-primary transition-colors"
+                >
+                  {t('services.supportSoftware')}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -102,10 +111,10 @@ export default function Footer() {
               {t('footer.resources')}
             </h3>
             <ul className="space-y-2.5">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.href}>
+              {NAV_ITEMS.filter((item) => item.labelKey !== 'nav.support').map((item) => (
+                <li key={item.labelKey}>
                   <Link
-                    href={item.href}
+                    href={resolveLocalizedPath(item.href, locale)}
                     className="text-sm text-text-muted hover:text-text-primary transition-colors"
                   >
                     {t(item.labelKey.replace('nav.', 'nav.'))}

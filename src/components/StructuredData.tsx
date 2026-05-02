@@ -6,6 +6,8 @@ export default function StructuredData({ locale }: { locale: string }) {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     name: BUSINESS.name,
+    logo: `${BUSINESS.siteUrl}/icon-512.png`,
+    image: `${BUSINESS.siteUrl}/icon-512.png`,
     description: isEnglish
       ? 'AI automation agency in Senegal. Websites, mobile apps and practical automation systems.'
       : "Agence d'automatisation IA au Senegal. Creation de sites web, applications mobiles et solutions d'automatisation.",

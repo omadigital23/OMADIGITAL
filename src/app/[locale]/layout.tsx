@@ -38,7 +38,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
-  const ogImage = `${BUSINESS.siteUrl}/images/og-image.png`;
+  const ogImage = `${BUSINESS.siteUrl}/og-image.png`;
 
   return {
     title: {
@@ -120,7 +120,8 @@ export default async function LocaleLayout({
     >
       <head>
         {/* Icons */}
-        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link rel="manifest" href="/manifest.webmanifest" />
 

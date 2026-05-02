@@ -62,6 +62,15 @@ export default async function Page({ params }: PageProps) {
     name: content.title,
     description: content.metadata.description,
     serviceType: 'Software troubleshooting and device setup',
+    areaServed: {
+      '@type': 'City',
+      name: 'Campbell River',
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'BC',
+        addressCountry: 'CA',
+      },
+    },
     provider: {
       '@type': 'ProfessionalService',
       name: BUSINESS.name,

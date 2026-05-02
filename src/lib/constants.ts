@@ -50,7 +50,8 @@ export function getSupportPagePath(locale: string = 'fr'): string {
 }
 
 export function resolveLocalizedPath(path: string | LocalizedPath, locale: string = 'fr'): string {
-  return typeof path === 'string' ? path : locale === 'en' ? path.en : path.fr;
+  const resolved = typeof path === 'string' ? path : locale === 'en' ? path.en : path.fr;
+  return resolved.startsWith('/') ? resolved : `/${resolved}`;
 }
 
 type NavItem = {
@@ -72,6 +73,27 @@ export const SERVICE_PAGES = [
   { slug: 'creation-site-web-thies', labelKey: 'services.websiteThies' },
   { slug: 'application-mobile-senegal', labelKey: 'services.mobile' },
   { slug: 'automatisation-ia-senegal', labelKey: 'services.ai' },
+  {
+    slug: {
+      fr: 'creation-site-web-campbell-river',
+      en: 'website-design-campbell-river',
+    },
+    labelKey: 'services.websiteCampbellRiver',
+  },
+  {
+    slug: {
+      fr: 'application-mobile-campbell-river',
+      en: 'mobile-app-development-campbell-river',
+    },
+    labelKey: 'services.mobileCampbellRiver',
+  },
+  {
+    slug: {
+      fr: 'automatisation-ia-campbell-river',
+      en: 'ai-automation-campbell-river',
+    },
+    labelKey: 'services.aiCampbellRiver',
+  },
 ] as const;
 
 export const STATS = [

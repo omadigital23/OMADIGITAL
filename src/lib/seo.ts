@@ -10,6 +10,10 @@ type PageMetadataInput = {
   keywords?: Metadata['keywords'];
 };
 
+type LocalizedPageMetadataInput = Omit<PageMetadataInput, 'path'> & {
+  pathsByLocale: Partial<Record<string, string>>;
+};
+
 function normalizePath(path: string | undefined): string {
   if (!path) {
     return '';
@@ -78,6 +82,38 @@ export function buildPageMetadata({
     description: normalizedDescription,
     keywords,
     alternates: buildLocalizedAlternates(locale, path),
+    openGraph: {
+      title,
+      description: normalizedDescription,
+      url,
+      type: 'website',
+      locale: locale === 'fr' ? 'fr_SN' : 'en_US',
+      siteName: BUSINESS.name,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: normalizedDescription,
+    },
+  };
+}
+
+export function buildLocalizedPageMetadata({
+  locale,
+  pathsByLocale,
+  title,
+  description,
+  keywords,
+}: LocalizedPageMetadataInput): Metadata {
+  const currentPath = pathsByLocale[locale] ?? pathsByLocale[routing.defaultLocale] ?? '';
+  const url = buildLocalizedUrl(locale, currentPath);
+  const normalizedDescription = description ?? undefined;
+
+  return {
+    title,
+    description: normalizedDescription,
+    keywords,
+    alternates: buildLocalizedAlternatesFromPaths(locale, pathsByLocale),
     openGraph: {
       title,
       description: normalizedDescription,

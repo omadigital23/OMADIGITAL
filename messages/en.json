@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "OMA Digital — AI Automation Agency in Senegal",
-    "description": "OMA Digital, your digital agency specializing in website creation, mobile apps and AI automation in Senegal.",
-    "keywords": "digital agency Senegal, website creation, mobile app, AI automation"
+    "title": "OMA Digital — Websites, Apps & AI Automation in Senegal and Campbell River",
+    "description": "OMA Digital builds websites, mobile apps and AI automations for Senegal and Campbell River, with local software troubleshooting in Campbell River.",
+    "keywords": "digital agency Senegal, website design Campbell River, mobile app Campbell River, AI automation Senegal, AI automation Campbell River, software troubleshooting Campbell River"
   },
   "nav": {
     "services": "Services",
@@ -62,10 +62,13 @@
     "website": "Website Creation",
     "websiteDakar": "Websites Dakar",
     "websiteThies": "Websites Thiès",
+    "websiteCampbellRiver": "Websites Campbell River",
     "websiteDesc": "Showcase sites, e-commerce and modern web apps, fast and SEO-optimized.",
     "mobile": "Mobile Apps",
+    "mobileCampbellRiver": "Apps Campbell River",
     "mobileDesc": "Custom iOS and Android apps to connect your business with clients everywhere.",
     "ai": "AI Automation",
+    "aiCampbellRiver": "AI Campbell River",
     "supportSoftware": "Software support",
     "aiDesc": "Smart chatbots, workflow automation and AI solutions for your productivity.",
     "startingAt": "Starting at",
@@ -329,7 +332,7 @@
     "whatsappSubtitle": "Fast replies for your project"
   },
   "footer": {
-    "description": "Digital agency specializing in website creation, mobile apps and AI automation in Senegal.",
+    "description": "Digital agency for websites, mobile apps and AI automation in Senegal and Campbell River.",
     "company": "Company",
     "about": "About",
     "servicesTitle": "Services",

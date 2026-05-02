@@ -14,6 +14,21 @@ export default function StructuredData({ locale }: { locale: string }) {
     url: BUSINESS.siteUrl,
     telephone: BUSINESS.phone,
     email: BUSINESS.email,
+    areaServed: [
+      {
+        '@type': 'Country',
+        name: 'Senegal',
+      },
+      {
+        '@type': 'City',
+        name: 'Campbell River',
+        address: {
+          '@type': 'PostalAddress',
+          addressRegion: 'BC',
+          addressCountry: 'CA',
+        },
+      },
+    ],
     address: {
       '@type': 'PostalAddress',
       addressLocality: BUSINESS.location.city,
@@ -68,6 +83,20 @@ export default function StructuredData({ locale }: { locale: string }) {
             description: isEnglish
               ? 'Intelligent chatbots and workflow automation'
               : 'Chatbots intelligents et automatisation des workflows',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: isEnglish ? 'Software troubleshooting' : 'Depannage logiciel',
+            areaServed: {
+              '@type': 'City',
+              name: 'Campbell River',
+            },
+            description: isEnglish
+              ? 'Software support and device setup in Campbell River'
+              : 'Support logiciel et configuration d’appareils a Campbell River',
           },
         },
       ],

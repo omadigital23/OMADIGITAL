@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "OMA Digital — Agence d'Automatisation IA au Sénégal",
-    "description": "OMA Digital, votre agence digitale spécialisée en création de sites web, applications mobiles et automatisation IA au Sénégal.",
-    "keywords": "agence digitale Sénégal, création site web, application mobile, automatisation IA"
+    "title": "OMA Digital — Sites Web, Apps & Automatisation IA au Sénégal et à Campbell River",
+    "description": "OMA Digital crée des sites web, applications mobiles et automatisations IA pour le Sénégal et Campbell River, avec dépannage logiciel local à Campbell River.",
+    "keywords": "agence digitale Sénégal, création site web Campbell River, application mobile Campbell River, automatisation IA Sénégal, automatisation IA Campbell River, dépannage logiciel Campbell River"
   },
   "nav": {
     "services": "Services",
@@ -62,10 +62,13 @@
     "website": "Création de Sites Web",
     "websiteDakar": "Sites Web Dakar",
     "websiteThies": "Sites Web Thiès",
+    "websiteCampbellRiver": "Sites Web Campbell River",
     "websiteDesc": "Sites vitrines, e-commerce et applications web modernes, rapides et optimisés SEO.",
     "mobile": "Applications Mobiles",
+    "mobileCampbellRiver": "Apps Campbell River",
     "mobileDesc": "Applications iOS et Android sur mesure pour connecter votre entreprise à vos clients.",
     "ai": "Automatisation IA",
+    "aiCampbellRiver": "IA Campbell River",
     "supportSoftware": "Dépannage logiciel",
     "aiDesc": "Chatbots intelligents, automatisation des workflows et solutions d'IA pour votre productivité.",
     "startingAt": "À partir de",
@@ -329,7 +332,7 @@
     "whatsappSubtitle": "Réponse rapide pour votre projet"
   },
   "footer": {
-    "description": "Agence digitale spécialisée en création de sites web, applications mobiles et automatisation IA au Sénégal.",
+    "description": "Agence digitale pour sites web, applications mobiles et automatisation IA au Sénégal et à Campbell River.",
     "company": "Entreprise",
     "about": "À propos",
     "servicesTitle": "Services",

@@ -85,9 +85,9 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5">
               {SERVICE_PAGES.map((page) => (
-                <li key={page.slug}>
+                <li key={page.labelKey}>
                   <Link
-                    href={`/${page.slug}`}
+                    href={resolveLocalizedPath(page.slug, locale)}
                     className="text-sm text-text-muted hover:text-text-primary transition-colors"
                   >
                     {t(`services.${page.labelKey.replace('services.', '')}`)}

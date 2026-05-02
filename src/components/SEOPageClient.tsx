@@ -22,7 +22,12 @@ interface SEOPageProps {
   faqs?: { q: string; a: string }[];
   serviceEmoji: string;
   serviceVariant: ServiceVariant;
-  pricingInfo: { from: string; to: string };
+  pricingInfo: {
+    from: string;
+    to?: string;
+    currencyLabel?: string;
+    note?: string;
+  };
 }
 
 export default function SEOPageClient({
@@ -40,6 +45,16 @@ export default function SEOPageClient({
   const whatsappUrl = getWhatsAppUrl(locale);
   const visual = getServiceVisualCopy(serviceVariant, locale);
   const isEnglish = locale === 'en';
+  const currencyLabel = pricingInfo.currencyLabel ?? 'FCFA';
+  const priceText = [pricingInfo.from, currencyLabel].filter(Boolean).join(' ');
+  const rangeText =
+    pricingInfo.to && currencyLabel === 'FCFA'
+      ? t('pricingRange', { price: pricingInfo.to })
+      : pricingInfo.to && currencyLabel
+        ? t('pricingRange', { price: `${pricingInfo.to} ${currencyLabel}` })
+      : pricingInfo.to
+        ? t('pricingRange', { price: pricingInfo.to })
+        : pricingInfo.note;
 
   return (
     <>
@@ -112,11 +127,9 @@ export default function SEOPageClient({
               <h2 className="font-heading font-bold text-2xl mb-4">{t('pricingTitle')}</h2>
               <p className="text-text-secondary mb-2">{t('pricingFrom')}</p>
               <p className="font-heading font-bold text-4xl gradient-text mb-1">
-                {pricingInfo.from} FCFA
+                {priceText}
               </p>
-              <p className="text-text-muted text-sm mb-6">
-                {t('pricingRange', { price: pricingInfo.to })}
-              </p>
+              {rangeText && <p className="text-text-muted text-sm mb-6">{rangeText}</p>}
               <Button href={whatsappUrl} external>
                 {t('pricingCta')}
               </Button>

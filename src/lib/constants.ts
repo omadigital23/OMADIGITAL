@@ -96,6 +96,10 @@ export const SERVICE_PAGES = [
   },
 ] as const;
 
+export const FRONTEND_SERVICE_PAGES = SERVICE_PAGES.filter(
+  (page) => !page.labelKey.endsWith('CampbellRiver')
+);
+
 export const STATS = [
   { value: 50, suffix: '+', labelKey: 'stats.clients' },
   { value: 120, suffix: '+', labelKey: 'stats.automations' },

@@ -90,21 +90,21 @@ const supportPageContent: Record<SupportLocale, SupportPageContent> = {
     eyebrow: 'OMA Digital Support',
     title: 'Dépannage logiciel & configuration d’appareils',
     subtitle:
-      'Assistance à Campbell River pour PC Windows, Mac, iPhone, iPad, Android, tablettes, caméras intelligentes et logiciels du quotidien.',
+      'Assistance pour PC Windows, Mac, iPhone, iPad, Android, tablettes, caméras intelligentes et logiciels du quotidien.',
     description:
-      'Un support clair pour résoudre les problèmes logiciels, configurer vos appareils et remettre vos outils numériques en état de fonctionner à Campbell River, sans intervention hardware.',
+      'Un support clair pour résoudre les problèmes logiciels, configurer vos appareils et remettre vos outils numériques en état de fonctionner, sans intervention hardware.',
     primaryCta: 'Envoyer mon problème sur WhatsApp',
     secondaryCta: 'Lancer un diagnostic',
     whatsappMessage:
       'Bonjour, je souhaite un diagnostic OMA Digital Support pour un problème logiciel ou une configuration d’appareil.',
     heroBullets: [
-      'Campbell River, Colombie-Britannique',
+      'Diagnostic logiciel et configuration',
       'Diagnostic logiciel rapide',
       'Assistance à distance ou sur rendez-vous local',
     ],
     form: {
       title: 'Diagnostic rapide',
-      subtitle: 'Décrivez le problème et votre disponibilité à Campbell River pour recevoir une réponse plus précise.',
+      subtitle: 'Décrivez le problème et votre disponibilité pour recevoir une réponse plus précise.',
       name: 'Nom complet',
       email: 'Email',
       phone: 'Téléphone',
@@ -235,21 +235,21 @@ const supportPageContent: Record<SupportLocale, SupportPageContent> = {
     eyebrow: 'OMA Digital Support',
     title: 'Software troubleshooting & device setup',
     subtitle:
-      'Support in Campbell River for Windows PCs, Macs, iPhone, iPad, Android, tablets, smart cameras and everyday software.',
+      'Support for Windows PCs, Macs, iPhone, iPad, Android, tablets, smart cameras and everyday software.',
     description:
-      'Practical support to fix software issues, configure devices and get digital tools working again in Campbell River without hardware repair.',
+      'Practical support to fix software issues, configure devices and get digital tools working again without hardware repair.',
     primaryCta: 'Send the issue on WhatsApp',
     secondaryCta: 'Start a diagnostic',
     whatsappMessage:
       'Hello, I need an OMA Digital Support diagnostic for a software issue or device setup.',
     heroBullets: [
-      'Campbell River, British Columbia',
+      'Software diagnostic and setup',
       'Fast software diagnostic',
       'Remote or local appointment-based support',
     ],
     form: {
       title: 'Quick diagnostic',
-      subtitle: 'Describe the issue and your Campbell River availability so the first reply can be more precise.',
+      subtitle: 'Describe the issue and your availability so the first reply can be more precise.',
       name: 'Full name',
       email: 'Email',
       phone: 'Phone',

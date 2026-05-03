@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { BUSINESS, getSupportPagePath, NAV_ITEMS, resolveLocalizedPath, SERVICE_PAGES } from '@/lib/constants';
+import { BUSINESS, FRONTEND_SERVICE_PAGES, getSupportPagePath, NAV_ITEMS, resolveLocalizedPath } from '@/lib/constants';
 import Image from 'next/image';
 
 export default function Footer() {
@@ -84,7 +84,7 @@ export default function Footer() {
               {t('footer.servicesTitle')}
             </h3>
             <ul className="space-y-2.5">
-              {SERVICE_PAGES.map((page) => (
+              {FRONTEND_SERVICE_PAGES.map((page) => (
                 <li key={page.labelKey}>
                   <Link
                     href={resolveLocalizedPath(page.slug, locale)}

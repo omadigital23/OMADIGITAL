@@ -358,13 +358,13 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'création site web Campbell River, site web Campbell River, web design Campbell River, agence web Colombie-Britannique',
       },
       serviceEmoji: '🌐',
-      title: 'Création de Site Web à Campbell River',
+      title: 'Création de Site Web sur mesure',
       subtitle:
-        'Des sites clairs, rapides et orientés leads pour les entreprises locales de Campbell River.',
+        'Des sites clairs, rapides et orientés leads pour les entreprises locales.',
       description:
-        'OMA Digital accompagne les commerces, freelances et petites entreprises de Campbell River avec des sites vitrines, pages de service et plateformes web conçues pour inspirer confiance et recevoir des demandes qualifiées.',
+        'OMA Digital accompagne les commerces, freelances et petites entreprises avec des sites vitrines, pages de service et plateformes web conçues pour inspirer confiance et recevoir des demandes qualifiées.',
       localContext:
-        'À Campbell River, les clients comparent vite avant d’appeler: Google, mobile, avis, services et formulaire de contact. Une page locale bien structurée aide votre entreprise à être comprise rapidement, surtout pour les recherches de proximité sur Vancouver Island.',
+        'Les clients comparent vite avant d’appeler: Google, mobile, avis, services et formulaire de contact. Une page locale bien structurée aide votre entreprise à être comprise rapidement, surtout pour les recherches de proximité.',
       pricingInfo: {
         from: 'Sur devis',
         currencyLabel: '',
@@ -372,7 +372,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
       },
       faqs: [
         {
-          q: 'Travaillez-vous avec les petites entreprises à Campbell River ?',
+          q: 'Travaillez-vous avec les petites entreprises locales ?',
           a: 'Oui. La page est pensée pour commerces, services locaux, indépendants, consultants et petites équipes qui veulent recevoir plus de demandes via leur site.',
         },
         {
@@ -381,7 +381,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
         },
         {
           q: 'Faites-vous aussi le SEO local ?',
-          a: 'Oui. Les pages peuvent être structurées autour de Campbell River, des services proposés, des questions clients et des appels à l’action.',
+          a: 'Oui. Les pages peuvent être structurées autour de votre zone, des services proposés, des questions clients et des appels à l’action.',
         },
       ],
     },
@@ -394,13 +394,13 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'website design Campbell River, web design Campbell River BC, Campbell River website developer, local SEO Campbell River',
       },
       serviceEmoji: '🌐',
-      title: 'Website Design in Campbell River',
+      title: 'Website Design for Local Businesses',
       subtitle:
-        'Clear, fast and lead-focused websites for Campbell River businesses.',
+        'Clear, fast and lead-focused websites for local businesses.',
       description:
-        'OMA Digital helps Campbell River businesses, freelancers and local service providers launch websites that explain the offer, build trust and make it easier for visitors to contact you.',
+        'OMA Digital helps businesses, freelancers and local service providers launch websites that explain the offer, build trust and make it easier for visitors to contact you.',
       localContext:
-        'In Campbell River, potential clients often check your website before they call. A strong local page has to work on mobile, explain your services quickly and make the next step obvious: call, WhatsApp, form or booking request.',
+        'Potential clients often check your website before they call. A strong local page has to work on mobile, explain your services quickly and make the next step obvious: call, WhatsApp, form or booking request.',
       pricingInfo: {
         from: 'Custom quote',
         currencyLabel: '',
@@ -408,7 +408,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
       },
       faqs: [
         {
-          q: 'Do you work with small businesses in Campbell River?',
+          q: 'Do you work with small local businesses?',
           a: 'Yes. The service is designed for local shops, service providers, freelancers, consultants and small teams that need a credible website.',
         },
         {
@@ -417,7 +417,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
         },
         {
           q: 'Do you handle local SEO?',
-          a: 'Yes. Pages can be structured around Campbell River, your services, customer questions and clear calls to action.',
+          a: 'Yes. Pages can be structured around your area, your services, customer questions and clear calls to action.',
         },
       ],
     },
@@ -432,11 +432,11 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'application mobile Campbell River, développement app Campbell River, app iOS Android Campbell River, web app Colombie-Britannique',
       },
       serviceEmoji: '📱',
-      title: 'Application Mobile pour Campbell River',
+      title: 'Application Mobile sur mesure',
       subtitle:
         'Des apps utiles pour les clients, les opérations et les services locaux.',
       description:
-        'OMA Digital crée des applications mobiles et web apps pour aider les entreprises de Campbell River à mieux gérer les demandes, les rendez-vous, les clients et les opérations internes.',
+        'OMA Digital crée des applications mobiles et web apps pour aider les entreprises à mieux gérer les demandes, les rendez-vous, les clients et les opérations internes.',
       localContext:
         'Les entreprises locales ont souvent besoin d’outils simples: réservation, suivi de demandes, notifications, portail client ou tableau de bord interne. Une app doit résoudre un vrai blocage opérationnel avant d’ajouter des fonctions complexes.',
       pricingInfo: {
@@ -454,7 +454,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           a: 'Oui. Les cas possibles incluent prise de rendez-vous, demandes client, suivi interne, notifications et tableau de bord.',
         },
         {
-          q: 'Travaillez-vous à distance avec Campbell River ?',
+          q: 'Travaillez-vous à distance ?',
           a: 'Oui. Le cadrage, les maquettes, les tests et les itérations peuvent se faire à distance avec des points de suivi clairs.',
         },
       ],
@@ -468,13 +468,13 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'mobile app development Campbell River, app developer Campbell River BC, web app Campbell River, iOS Android app Campbell River',
       },
       serviceEmoji: '📱',
-      title: 'Mobile App Development in Campbell River',
+      title: 'Custom Mobile App Development',
       subtitle:
         'Practical apps for local operations, customers and service workflows.',
       description:
-        'OMA Digital builds mobile apps and web apps for Campbell River businesses that need better bookings, customer requests, internal tracking or digital service delivery.',
+        'OMA Digital builds mobile apps and web apps for businesses that need better bookings, customer requests, internal tracking or digital service delivery.',
       localContext:
-        'A useful app should reduce friction: fewer manual messages, clearer customer requests, simpler scheduling and better follow-up. For Campbell River businesses, the right solution may be a native app, a web app or a private internal tool.',
+        'A useful app should reduce friction: fewer manual messages, clearer customer requests, simpler scheduling and better follow-up. The right solution may be a native app, a web app or a private internal tool.',
       pricingInfo: {
         from: 'Custom quote',
         currencyLabel: '',
@@ -490,7 +490,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           a: 'Yes. Typical use cases include bookings, customer requests, internal tracking, notifications and dashboards.',
         },
         {
-          q: 'Can you work remotely with Campbell River businesses?',
+          q: 'Can you work remotely with businesses?',
           a: 'Yes. Planning, wireframes, tests and iterations can be handled remotely with a clear review process.',
         },
       ],
@@ -506,11 +506,11 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'automatisation IA Campbell River, chatbot Campbell River, n8n Campbell River, automatisation entreprise Colombie-Britannique',
       },
       serviceEmoji: '🤖',
-      title: 'Automatisation IA à Campbell River',
+      title: 'Automatisation IA sur mesure',
       subtitle:
         'Des workflows IA pour répondre plus vite, qualifier les demandes et réduire les tâches répétitives.',
       description:
-        'OMA Digital aide les entreprises de Campbell River à automatiser la qualification de leads, les réponses initiales, les suivis, les formulaires, les notifications et certains processus internes.',
+        'OMA Digital aide les entreprises à automatiser la qualification de leads, les réponses initiales, les suivis, les formulaires, les notifications et certains processus internes.',
       localContext:
         'Pour une petite entreprise locale, l’IA doit rester concrète: capter une demande, poser les bonnes questions, envoyer une notification, alimenter un CRM ou déclencher une relance. L’objectif est de gagner du temps sans perdre le contrôle.',
       pricingInfo: {
@@ -542,11 +542,11 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
           'AI automation Campbell River, chatbot Campbell River, n8n automation Campbell River, business automation BC',
       },
       serviceEmoji: '🤖',
-      title: 'AI Automation in Campbell River',
+      title: 'Custom AI Automation',
       subtitle:
         'AI workflows that reply faster, qualify leads and reduce repetitive admin work.',
       description:
-        'OMA Digital helps Campbell River businesses automate lead qualification, first replies, form routing, reminders, notifications and practical internal workflows.',
+        'OMA Digital helps businesses automate lead qualification, first replies, form routing, reminders, notifications and practical internal workflows.',
       localContext:
         'For a local business, AI is useful when it improves response speed and follow-up. A practical setup can collect the right details, notify the right person, update a CRM and keep the lead warm until a human takes over.',
       pricingInfo: {
@@ -556,7 +556,7 @@ const servicePages: Record<ServicePageId, Record<Locale, ServicePageContent>> = 
       },
       faqs: [
         {
-          q: 'What can AI automate for a Campbell River business?',
+          q: 'What can AI automate for a business?',
           a: 'Inbound requests, lead qualification, first replies, reminders, CRM handoff, team notifications and simple reporting.',
         },
         {

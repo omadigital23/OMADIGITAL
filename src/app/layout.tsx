@@ -1,8 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.omadigital.net'),
+  metadataBase: new URL(getSiteUrl()),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

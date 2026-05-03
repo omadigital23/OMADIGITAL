@@ -2,6 +2,8 @@
 // OMA Digital — Business Constants
 // ============================================================
 
+import { getSiteUrl } from '@/lib/site-url';
+
 export const BUSINESS = {
   name: 'OMA Digital',
   tagline: 'AI Automation Agency',
@@ -18,7 +20,7 @@ export const BUSINESS = {
     linkedin: 'https://linkedin.com/company/omadigital',
     twitter: 'https://twitter.com/omadigital',
   },
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.omadigital.net',
+  siteUrl: getSiteUrl(),
 } as const;
 
 // Messages WhatsApp localisés FR / EN

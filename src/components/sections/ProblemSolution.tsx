@@ -53,7 +53,7 @@ export default function ProblemSolution() {
           <div className="space-y-6">
             {problems.map((p, i) => (
               <motion.div
-                key={i}
+                key={p.title}
                 initial={{ opacity: 0, x: -20 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.3 + i * 0.1 }}
@@ -83,7 +83,7 @@ export default function ProblemSolution() {
           <div className="space-y-6">
             {solutions.map((s, i) => (
               <motion.div
-                key={i}
+                key={s.title}
                 initial={{ opacity: 0, x: 20 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.3 + i * 0.1 }}

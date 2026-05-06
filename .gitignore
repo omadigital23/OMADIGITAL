@@ -64,3 +64,29 @@ generate-icons.js
 
 # local supabase artifacts
 /supabase/.temp/
+
+# local marketing exports and generated media
+/marketing/
+/marketing-exports/
+/generated-marketing/
+/tmp/marketing/
+/tmp/imagegen/
+
+# safety net for generated marketing media outside the normal folder
+*.local.mp4
+*.local.mov
+*.local.webm
+*.local.wav
+*.local.mp3
+
+# local agent logs/artifacts
+/.codex-logs/
+
+# extra credentials and private keys
+*.key
+*.crt
+*.p12
+*.pfx
+*service-account*.json
+*credentials*.json
+secrets/

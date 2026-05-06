@@ -199,10 +199,13 @@ function VideoSlider() {
   const i = current;
 
   return (
-    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group" suppressHydrationWarning>
+    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group" role="region" aria-roledescription="carousel" aria-label={t('videoAriaLabel', { number: 1 })} suppressHydrationWarning>
       {/* Active video */}
       {mounted ? (
         <div
+          role="group"
+          aria-roledescription="slide"
+          aria-label={t('videoAriaLabel', { number: current + 1 })}
           className="absolute inset-0 transition-opacity duration-500"
           style={{
             opacity: i === current ? 1 : 0,
@@ -221,6 +224,7 @@ function VideoSlider() {
             autoPlay
             controls={false}
             preload="metadata"
+            poster="/images/hero-poster.webp"
             disablePictureInPicture
             disableRemotePlayback
             onLoadedData={() => {

@@ -35,17 +35,27 @@ export default function CTASection() {
     return false;
   };
 
+  const attemptSubmit = async () => {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    return res.ok && data.success;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
+      let success = await attemptSubmit();
+      // Auto-retry once on failure
+      if (!success) {
+        await new Promise((r) => setTimeout(r, 1000));
+        success = await attemptSubmit();
+      }
+      if (success) {
         setStatus('success');
         setForm({ name: '', email: '', phone: '', business: '', companyWebsite: '' });
         setTouched({});
@@ -207,7 +217,7 @@ export default function CTASection() {
                   </button>
 
                   {status === 'error' && (
-                    <p className="text-accent-coral text-sm text-center flex items-center justify-center gap-2">
+                    <p className="text-accent-coral text-sm text-center flex items-center justify-center gap-2" role="alert">
                       <span>⚠️</span> {t('formError')}
                     </p>
                   )}

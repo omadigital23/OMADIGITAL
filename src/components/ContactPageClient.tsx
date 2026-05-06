@@ -23,20 +23,28 @@ export default function ContactPageClient() {
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
+  const attemptSubmit = async (): Promise<boolean> => {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    return res.ok && data.success;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
+      let success = await attemptSubmit();
+      // Auto-retry once on failure
+      if (!success) {
+        await new Promise((r) => setTimeout(r, 1000));
+        success = await attemptSubmit();
+      }
+      if (success) {
         setStatus('success');
         setForm({ name: '', email: '', phone: '', service: '', message: '', companyWebsite: '' });
       } else {
@@ -127,7 +135,7 @@ export default function ContactPageClient() {
                       {status === 'sending' ? t('sending') : t('submit')}
                     </button>
                     {status === 'error' && (
-                      <p className="text-accent-coral text-sm text-center">{t('error')}</p>
+                      <p className="text-accent-coral text-sm text-center" role="alert">{t('error')}</p>
                     )}
                   </form>
                 )}

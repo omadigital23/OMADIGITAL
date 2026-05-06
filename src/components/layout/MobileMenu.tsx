@@ -40,13 +40,16 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed top-0 right-0 bottom-0 w-[300px] bg-bg-secondary border-l border-border-subtle z-50 flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-label={locale === 'en' ? 'Navigation menu' : 'Menu de navigation'}
           >
             {/* Close */}
             <div className="flex justify-end p-4">
               <button
                 onClick={onClose}
                 className="p-2 text-text-secondary hover:text-text-primary"
-                aria-label="Close menu"
+                aria-label={locale === 'en' ? 'Close menu' : 'Fermer le menu'}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />

@@ -300,3 +300,46 @@ body {
     padding-inline: 4rem;
   }
 }
+
+/* ── Screen-reader only ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Reduced motion — Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mesh-bg::before {
+    animation: none;
+    background-size: 100% 100%;
+  }
+}
+
+/* ── Performance: below-fold sections ── */
+section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* ── Performance: frequently animated elements ── */
+.gradient-bg,
+.gradient-border::before,
+.mesh-bg::before {
+  will-change: transform;
+}

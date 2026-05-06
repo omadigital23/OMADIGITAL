@@ -62,10 +62,14 @@ export default function Pricing() {
 
       {/* Category tabs */}
       <div className="flex justify-center mb-12">
-        <div className="inline-flex bg-bg-card rounded-xl p-1 border border-border-subtle">
+        <div className="inline-flex bg-bg-card rounded-xl p-1 border border-border-subtle" role="tablist" aria-label={t('sectionTitle')}>
           {(Object.keys(plans) as PlanCategory[]).map((category) => (
             <button
               key={category}
+              role="tab"
+              aria-selected={active === category}
+              aria-controls={`tabpanel-${category}`}
+              id={`tab-${category}`}
               onClick={() => setActive(category)}
               className={`px-5 py-2.5 text-sm font-medium rounded-lg transition-all ${
                 active === category
@@ -79,7 +83,7 @@ export default function Pricing() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid md:grid-cols-3 gap-6 lg:gap-8" role="tabpanel" id={`tabpanel-${active}`} aria-labelledby={`tab-${active}`}>
         {plans[active].map((plan, index) => (
           <motion.div
             key={`${active}-${plan.tier}`}

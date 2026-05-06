@@ -214,22 +214,35 @@ export default function ChatWidget() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          locale: chatLocale,
-          messages: nextMessages.map((message) => ({
-            role: message.role,
-            content: message.content,
-          })),
-        }),
-      });
+      const attemptChat = async () => {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            locale: chatLocale,
+            messages: nextMessages.map((message) => ({
+              role: message.role,
+              content: message.content,
+            })),
+          }),
+        });
 
-      const data = await res.json().catch(() => ({}));
+        const data = await res.json().catch(() => ({}));
 
-      if (!res.ok || typeof data.message !== 'string') {
-        throw new Error('Chat request failed');
+        if (!res.ok || typeof data.message !== 'string') {
+          throw new Error('Chat request failed');
+        }
+
+        return data;
+      };
+
+      let data;
+      try {
+        data = await attemptChat();
+      } catch {
+        // Auto-retry once after 1s
+        await new Promise((r) => setTimeout(r, 1000));
+        data = await attemptChat();
       }
 
       addAssistantMessage(data.message);
@@ -542,7 +555,7 @@ export default function ChatWidget() {
               </div>
             </div>
 
-            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite" aria-relevant="additions">
               {messages.map((msg) => (
                 <div
                   key={msg.id}

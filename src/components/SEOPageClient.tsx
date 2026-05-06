@@ -59,6 +59,25 @@ export default function SEOPageClient({
   return (
     <>
       <Header />
+      {faqs && faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.q,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.a,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
       <main className="pt-24 pb-20">
         <section className="container-custom mb-16 md:mb-20">
           <motion.div

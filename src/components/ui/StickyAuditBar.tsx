@@ -75,7 +75,7 @@ export default function StickyAuditBar() {
             <button
               onClick={() => setDismissed(true)}
               className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label="Fermer"
+              aria-label={locale === 'en' ? 'Close' : 'Fermer'}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 6L6 18M6 6l12 12" />

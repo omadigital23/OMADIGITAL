@@ -14,23 +14,28 @@ export default function Footer() {
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [subscribed, setSubscribed] = useState(false);
 
+  const attemptNewsletterSubmit = async (): Promise<boolean> => {
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, companyWebsite }),
+    });
+    const data = await res.json();
+    return res.ok && data.success;
+  };
+
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
     setNewsletterStatus('sending');
 
     try {
-      const res = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          companyWebsite,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
+      let success = await attemptNewsletterSubmit();
+      // Auto-retry once on failure
+      if (!success) {
+        await new Promise((r) => setTimeout(r, 1000));
+        success = await attemptNewsletterSubmit();
+      }
+      if (success) {
         setSubscribed(true);
         setEmail('');
         setCompanyWebsite('');
@@ -44,7 +49,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-bg-secondary border-t border-border-subtle">
+    <footer className="bg-bg-secondary border-t border-border-subtle" role="contentinfo">
       <div className="container-custom py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
@@ -63,18 +68,26 @@ export default function Footer() {
             </p>
             {/* Social */}
             <div className="flex gap-3 mt-5">
-              {['facebook', 'instagram', 'linkedin', 'twitter'].map((s) => (
+              {(['facebook', 'instagram', 'linkedin', 'twitter'] as const).map((s) => {
+                const socialLabels: Record<string, string> = {
+                  facebook: 'Visitez notre page Facebook',
+                  instagram: 'Suivez-nous sur Instagram',
+                  linkedin: 'Connectez-vous sur LinkedIn',
+                  twitter: 'Suivez-nous sur Twitter',
+                };
+                return (
                 <a
                   key={s}
                   href={BUSINESS.social[s as keyof typeof BUSINESS.social]}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-bg-glass border border-border-subtle flex items-center justify-center text-text-muted hover:text-accent-violet hover:border-accent-violet/30 transition-all"
-                  aria-label={s}
+                  aria-label={socialLabels[s]}
                 >
                   <SocialIcon name={s} />
                 </a>
-              ))}
+                );
+              })}
             </div>
           </div>
 

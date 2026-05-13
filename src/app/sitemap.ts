@@ -57,8 +57,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const entries: MetadataRoute.Sitemap = [];
+
   const alternateFor = (locale: string, page: string) => {
-    const localizedPair = localizedAlternates.find((pair) => pair[locale as 'fr' | 'en'] === page);
+    const localizedPair = localizedAlternates.find(
+      (pair) => pair[locale as 'fr' | 'en'] === page
+    );
     const paths = localizedPair ?? { fr: page, en: page };
 
     return {
@@ -72,8 +75,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const locale of locales) {
     for (const page of [...pages, ...(localizedPages[locale] ?? [])]) {
+      // IMPORTANT : URL sans trailing slash pour éviter les redirects GSC
+      // /fr (pas /fr/) retourne 200 directement avec localePrefix: 'always'
+      const url = page === ''
+        ? `${BASE_URL}/${locale}`
+        : `${BASE_URL}/${locale}${page}`;
+
       entries.push({
-        url: `${BASE_URL}/${locale}${page}`,
+        url,
         lastModified: new Date(),
         changeFrequency: page === '' ? 'weekly' : 'monthly',
         priority: page === '' ? 1 : 0.8,
@@ -83,7 +92,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     for (const slug of blogSlugs) {
       const page = `/blog/${slug}`;
-
       entries.push({
         url: `${BASE_URL}/${locale}${page}`,
         lastModified: new Date(),

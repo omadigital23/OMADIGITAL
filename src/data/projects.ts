@@ -8,6 +8,7 @@ export type CompletedProject = {
   url: string;
   image: string;
   type: LocalizedText;
+  outcome: LocalizedText;
   summary: LocalizedText;
   tags: Record<ProjectLocale, string[]>;
 };
@@ -20,6 +21,7 @@ export const projectShowcaseCopy = {
     subtitle:
       'Une sélection de sites, plateformes et applications livrés avec une attention forte portée au design, à la clarté du parcours et à la conversion.',
     visitLabel: 'Voir le projet',
+    outcomeLabel: 'Impact',
     imageAltPrefix: 'Capture du projet',
   },
   en: {
@@ -29,6 +31,7 @@ export const projectShowcaseCopy = {
     subtitle:
       'A selection of websites, platforms and applications delivered with a strong focus on design, clear journeys and conversion.',
     visitLabel: 'View project',
+    outcomeLabel: 'Impact',
     imageAltPrefix: 'Screenshot of',
   },
 } satisfies Record<ProjectLocale, {
@@ -37,6 +40,7 @@ export const projectShowcaseCopy = {
   titleAccent: string;
   subtitle: string;
   visitLabel: string;
+  outcomeLabel: string;
   imageAltPrefix: string;
 }>;
 
@@ -45,10 +49,14 @@ export const completedProjects = [
     id: 'nubia-aura',
     title: 'Nubia Aura',
     url: 'https://www.nubiaaura.com/fr',
-    image: '/images/projects/nubia-aura.webp',
+    image: '/images/projects/nubia-aura-portfolio.webp',
     type: {
       fr: 'Mode africaine',
       en: 'African fashion',
+    },
+    outcome: {
+      fr: 'Catalogue clair et image premium renforcée.',
+      en: 'Clear catalogue and stronger premium brand image.',
     },
     summary: {
       fr: 'Une présence web premium pour présenter des créations, guider vers le catalogue et renforcer l’image de marque.',
@@ -68,6 +76,10 @@ export const completedProjects = [
       fr: 'Agence digitale',
       en: 'Digital agency',
     },
+    outcome: {
+      fr: 'Parcours d’audit, pages SEO et assistant IA réunis.',
+      en: 'Audit journey, SEO pages and AI assistant combined.',
+    },
     summary: {
       fr: 'Le site agence OMA Digital avec pages SEO, offres de services, formulaire, WhatsApp et assistant IA.',
       en: 'The OMA Digital agency website with SEO pages, service offers, contact form, WhatsApp and AI assistant.',
@@ -85,6 +97,10 @@ export const completedProjects = [
     type: {
       fr: 'Formation cloud',
       en: 'Cloud learning',
+    },
+    outcome: {
+      fr: 'Modules, quiz et progression réunis dans une interface simple.',
+      en: 'Modules, quizzes and progress tracking in one simple interface.',
     },
     summary: {
       fr: 'Une plateforme d’apprentissage structurée pour suivre des modules, quiz et objectifs de progression cloud.',
@@ -104,6 +120,10 @@ export const completedProjects = [
       fr: 'Conseil & RH',
       en: 'Consulting & HR',
     },
+    outcome: {
+      fr: 'Offres plus lisibles et demandes mieux orientées.',
+      en: 'Clearer offers and better-routed inquiries.',
+    },
     summary: {
       fr: 'Un site institutionnel clair pour structurer les services juridiques, fiscaux, RH et les demandes entrantes.',
       en: 'A clear institutional website for legal, tax, HR services and qualified inbound requests.',
@@ -121,6 +141,10 @@ export const completedProjects = [
     type: {
       fr: 'Application métier',
       en: 'Business app',
+    },
+    outcome: {
+      fr: 'Accès sécurisé à un espace comptable SYSCOHADA dédié.',
+      en: 'Secure access to a dedicated SYSCOHADA accounting workspace.',
     },
     summary: {
       fr: 'Une application privée pensée pour la comptabilité SYSCOHADA, avec accès sécurisé et espace de travail dédié.',

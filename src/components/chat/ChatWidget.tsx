@@ -122,6 +122,7 @@ export default function ChatWidget() {
   const [voiceState, setVoiceState] = useState<VoiceState>('idle');
   const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [suggestions, setSuggestions] = useState<ChatSuggestion[] | null>(null);
+  const [isHiddenNearPrimaryContent, setIsHiddenNearPrimaryContent] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -162,6 +163,32 @@ export default function ChatWidget() {
       inputRef.current?.focus();
     }
   }, [open, voiceState]);
+
+  useEffect(() => {
+    const observedSections = ['services', 'projects', 'pricing', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (observedSections.length === 0) {
+      return undefined;
+    }
+
+    const visibility = new Map<Element, boolean>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => visibility.set(entry.target, entry.isIntersecting));
+        setIsHiddenNearPrimaryContent(Array.from(visibility.values()).some(Boolean));
+      },
+      { rootMargin: '-18% 0px -18% 0px', threshold: 0.1 },
+    );
+
+    observedSections.forEach((section) => {
+      visibility.set(section, false);
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const contactActions = getChatContactActions(chatLocale);
   const defaultSuggestions = getDefaultChatSuggestions(chatLocale);
@@ -508,14 +535,14 @@ export default function ChatWidget() {
   return (
     <>
       <AnimatePresence>
-        {!open && (
+        {!open && !isHiddenNearPrimaryContent && (
           <motion.button
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             transition={{ delay: 2, type: 'spring' }}
             onClick={openChat}
-            className="fixed bottom-24 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full gradient-bg shadow-glow-lg transition-transform hover:scale-110"
+            className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full gradient-bg shadow-glow-lg transition-transform hover:scale-110 md:bottom-24 md:right-6 md:h-14 md:w-14"
             aria-label={t('title')}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -26,9 +26,9 @@ export default function StickyAuditBar() {
     };
   }, []);
 
-  // Hide where the page already has dense CTAs or forms.
+  // Hide where the page already has dense CTAs, project links, pricing, or forms.
   useEffect(() => {
-    const targets = ['services', 'contact']
+    const targets = ['services', 'projects', 'pricing', 'contact']
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
 

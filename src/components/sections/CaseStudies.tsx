@@ -1,107 +1,110 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import Image from 'next/image';
+import { useLocale } from 'next-intl';
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import Card from '@/components/ui/Card';
-import { CaseStudyMedia, type ServiceVariant } from '@/components/VisualMockups';
+import { completedProjects, projectShowcaseCopy, type ProjectLocale } from '@/data/projects';
 
-const caseStudyData = [
-  {
-    clientKey: 'client1', industryKey: 'industry1', challengeKey: 'challenge1', solutionKey: 'solution1',
-    results: ['result1', 'result2'],
-    tech: ['Next.js', 'Supabase', 'Wave API', 'Groq AI'],
-    variant: 'website' as ServiceVariant,
-    color: 'accent-coral',
-  },
-  {
-    clientKey: 'client2', industryKey: 'industry2', challengeKey: 'challenge2', solutionKey: 'solution2',
-    results: ['result3', 'result4'],
-    tech: ['React Native', 'Node.js', 'PostgreSQL'],
-    variant: 'mobile' as ServiceVariant,
-    color: 'accent-cyan',
-  },
-  {
-    clientKey: 'client3', industryKey: 'industry3', challengeKey: 'challenge3', solutionKey: 'solution3',
-    results: ['result5', 'result6'],
-    tech: ['Python', 'OpenAI', 'Supabase', 'Zapier'],
-    variant: 'ai' as ServiceVariant,
-    color: 'accent-violet',
-  },
-];
+function normalizeLocale(locale: string): ProjectLocale {
+  return locale === 'en' ? 'en' : 'fr';
+}
 
 export default function CaseStudies() {
-  const t = useTranslations('caseStudies');
-  const locale = useLocale();
+  const locale = normalizeLocale(useLocale());
+  const copy = projectShowcaseCopy[locale];
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-20 md:py-28 bg-bg-secondary">
+    <section ref={ref} id="projects" className="py-20 md:py-28 bg-bg-secondary">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-16"
+          className="mx-auto mb-14 max-w-3xl text-center"
         >
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-accent-cyan">
+            {copy.eyebrow}
+          </p>
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl">
-            {t('sectionTitle')}{' '}
-            <span className="gradient-text">{t('sectionTitleAccent')}</span>
+            {copy.title}{' '}
+            <span className="gradient-text">{copy.titleAccent}</span>
           </h2>
-          <p className="mt-4 text-text-secondary max-w-xl mx-auto">{t('sectionSubtitle')}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-text-secondary">
+            {copy.subtitle}
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {caseStudyData.map((cs, i) => (
-            <motion.div
-              key={cs.clientKey}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.15 }}
-            >
-              <Card className="h-full flex flex-col p-0">
-                <CaseStudyMedia
-                  variant={cs.variant}
-                  clientName={t(cs.clientKey)}
-                  metric={t(cs.results[0])}
-                  locale={locale}
-                />
+        <div className="grid gap-6 lg:grid-cols-12">
+          {completedProjects.map((project, i) => {
+            const featured = i === 0 || i === 1;
 
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="text-xs text-text-muted mb-2">{t(cs.industryKey)}</div>
-                  <h3 className="font-heading font-semibold text-lg text-text-primary mb-3">{t(cs.clientKey)}</h3>
-                  <p className="text-sm text-text-muted mb-3 leading-relaxed">
-                    <strong className="text-text-secondary">{t('challenge')} :</strong> {t(cs.challengeKey)}
-                  </p>
-                  <p className="text-sm text-text-muted mb-4 leading-relaxed">
-                    <strong className="text-accent-cyan">{t('solution')} :</strong> {t(cs.solutionKey)}
-                  </p>
-
-                  {/* Results */}
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    {cs.results.map((r) => (
-                      <div key={r} className="bg-bg-glass rounded-lg p-3 text-center border border-border-subtle">
-                        <span className="font-heading font-bold text-lg gradient-text">{t(r).split(' ')[0]}</span>
-                        <span className="block text-xs text-text-muted mt-0.5">{t(r).split(' ').slice(1).join(' ')}</span>
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.15 + i * 0.08 }}
+                className={featured ? 'lg:col-span-6' : 'lg:col-span-4'}
+              >
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block h-full"
+                  aria-label={`${copy.visitLabel}: ${project.title}`}
+                >
+                  <Card className="flex h-full flex-col p-0">
+                    <div className="relative aspect-[16/9] overflow-hidden bg-bg-primary">
+                      <Image
+                        src={project.image}
+                        alt={`${copy.imageAltPrefix} ${project.title}`}
+                        fill
+                        loading={featured ? 'eager' : 'lazy'}
+                        sizes={featured ? '(max-width: 1024px) 100vw, 50vw' : '(max-width: 1024px) 100vw, 33vw'}
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bg-card via-bg-card/70 to-transparent" />
+                      <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-bg-primary/75 px-3 py-1 text-xs font-medium text-text-primary backdrop-blur-md">
+                        {project.type[locale]}
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Tech */}
-                  <div className="mt-auto pt-4 border-t border-border-subtle">
-                    <div className="text-xs text-text-muted mb-2">{t('techStack')}</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {cs.tech.map((tech) => (
-                        <span key={tech} className="text-xs px-2 py-0.5 rounded bg-bg-glass border border-border-subtle text-text-secondary">
-                          {tech}
-                        </span>
-                      ))}
                     </div>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+
+                    <div className="flex flex-1 flex-col p-5 md:p-6">
+                      <div className="mb-3 flex items-start justify-between gap-4">
+                        <h3 className="font-heading text-xl font-semibold text-text-primary">
+                          {project.title}
+                        </h3>
+                        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border-subtle bg-bg-glass text-text-secondary transition-colors group-hover:border-accent-cyan/40 group-hover:text-accent-cyan">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <path d="M7 17L17 7" />
+                            <path d="M8 7h9v9" />
+                          </svg>
+                        </span>
+                      </div>
+
+                      <p className="mb-5 text-sm leading-relaxed text-text-secondary">
+                        {project.summary[locale]}
+                      </p>
+
+                      <div className="mt-auto flex flex-wrap gap-2">
+                        {project.tags[locale].map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full border border-border-subtle bg-bg-glass px-3 py-1 text-xs text-text-secondary"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                </a>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

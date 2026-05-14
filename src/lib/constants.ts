@@ -63,6 +63,7 @@ type NavItem = {
 
 export const NAV_ITEMS = [
   { labelKey: 'nav.services', href: '/#services' },
+  { labelKey: 'nav.projects', href: '/#projects' },
   { labelKey: 'nav.support', href: SUPPORT_PAGE_PATHS },
   { labelKey: 'nav.pricing', href: '/pricing' },
   { labelKey: 'nav.blog', href: '/blog' },

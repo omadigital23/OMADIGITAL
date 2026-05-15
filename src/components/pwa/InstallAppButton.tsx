@@ -18,6 +18,7 @@ let deferredPrompt: BeforeInstallPromptEvent | null = null;
 let pwaListenersReady = false;
 let serviceWorkerRegistrationStarted = false;
 const promptSubscribers = new Set<(available: boolean) => void>();
+const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 function notifyPromptSubscribers() {
   promptSubscribers.forEach((subscriber) => subscriber(Boolean(deferredPrompt)));
@@ -83,6 +84,7 @@ export default function InstallAppButton({
   const [canPrompt, setCanPrompt] = useState(Boolean(deferredPrompt));
   const [installed, setInstalled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [checkingInstallability, setCheckingInstallability] = useState(false);
 
   useEffect(() => {
     setupPwaInstallListeners();
@@ -105,14 +107,13 @@ export default function InstallAppButton({
     return null;
   }
 
-  const handleInstall = async () => {
-    if (!deferredPrompt) {
-      setShowHelp(true);
-      onAfterClick?.();
-      return;
+  const promptNativeInstall = async () => {
+    const promptEvent = deferredPrompt;
+
+    if (!promptEvent) {
+      return false;
     }
 
-    const promptEvent = deferredPrompt;
     deferredPrompt = null;
     notifyPromptSubscribers();
     await promptEvent.prompt();
@@ -123,6 +124,44 @@ export default function InstallAppButton({
     }
 
     onAfterClick?.();
+    return true;
+  };
+
+  const waitForNativePrompt = async () => {
+    for (let attempt = 0; attempt < 18; attempt += 1) {
+      if (deferredPrompt) {
+        return true;
+      }
+
+      await sleep(150);
+    }
+
+    return Boolean(deferredPrompt);
+  };
+
+  const handleInstall = async () => {
+    if (await promptNativeInstall()) {
+      return;
+    }
+
+    setCheckingInstallability(true);
+
+    if ('serviceWorker' in navigator && window.isSecureContext) {
+      await Promise.race([
+        navigator.serviceWorker.ready.catch(() => undefined),
+        sleep(2500),
+      ]);
+    }
+
+    const promptAvailable = await waitForNativePrompt();
+    setCheckingInstallability(false);
+
+    if (promptAvailable && await promptNativeInstall()) {
+      return;
+    }
+
+    setShowHelp(true);
+    onAfterClick?.();
   };
 
   return (
@@ -132,6 +171,7 @@ export default function InstallAppButton({
         onClick={() => {
           void handleInstall();
         }}
+        disabled={checkingInstallability}
         className={className ?? `inline-flex items-center justify-center gap-2 rounded-full border border-border-subtle bg-bg-glass px-4 py-2.5 text-sm font-medium text-text-primary transition-all hover:border-accent-cyan/40 hover:bg-accent-cyan/10 ${fullWidth ? 'w-full' : ''}`}
         aria-label={t('label')}
       >
@@ -141,7 +181,7 @@ export default function InstallAppButton({
           <path d="M5 21h14" />
           <path d="M6 17h12" />
         </svg>
-        <span>{canPrompt ? t('label') : t('shortLabel')}</span>
+        <span>{checkingInstallability ? t('preparing') : canPrompt ? t('label') : t('shortLabel')}</span>
       </button>
 
       <AnimatePresence>

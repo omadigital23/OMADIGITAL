@@ -18,10 +18,11 @@
   "installApp": {
     "label": "Installer l’app",
     "shortLabel": "Installer",
+    "preparing": "Préparation...",
     "eyebrow": "Accès offline",
     "helpTitle": "Installer OMA Digital",
-    "desktopHelp": "Sur Chrome ou Edge, utilisez l’icône d’installation dans la barre d’adresse ou le menu du navigateur. Une icône peut être ajoutée au bureau, au dock ou au menu d’applications selon votre système.",
-    "mobileHelp": "Sur mobile, ouvrez le menu de partage du navigateur puis choisissez “Ajouter à l’écran d’accueil”. L’icône OMA Digital apparaîtra avec vos apps.",
+    "desktopHelp": "Le navigateur n’a pas encore autorisé le prompt d’installation direct. Sur Chrome ou Edge, rechargez la page si besoin puis utilisez l’icône d’installation dans la barre d’adresse ou le menu du navigateur.",
+    "mobileHelp": "Sur iPhone et certains navigateurs mobiles, l’installation directe est bloquée par le système. Ouvrez le menu de partage puis choisissez “Ajouter à l’écran d’accueil”.",
     "understood": "J’ai compris",
     "close": "Fermer"
   },

@@ -14,14 +14,28 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<InstallChoice>;
 }
 
-let deferredPrompt: BeforeInstallPromptEvent | null = null;
-let pwaListenersReady = false;
-let serviceWorkerRegistrationStarted = false;
-const promptSubscribers = new Set<(available: boolean) => void>();
-const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+declare global {
+  interface Window {
+    __omaAppInstalled?: boolean;
+    __omaInstallPrompt?: BeforeInstallPromptEvent | null;
+    __omaPwaInstallInitialized?: boolean;
+    __omaPwaInstallFallbackReady?: boolean;
+  }
+}
 
-function notifyPromptSubscribers() {
-  promptSubscribers.forEach((subscriber) => subscriber(Boolean(deferredPrompt)));
+let serviceWorkerRegistrationStarted = false;
+const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+const INSTALL_PROMPT_CHANGE_EVENT = 'oma-installprompt-change';
+
+function getDeferredPrompt() {
+  return window.__omaInstallPrompt ?? null;
+}
+
+function setDeferredPrompt(prompt: BeforeInstallPromptEvent | null) {
+  window.__omaInstallPrompt = prompt;
+  window.dispatchEvent(new CustomEvent(INSTALL_PROMPT_CHANGE_EVENT, {
+    detail: { available: Boolean(prompt) },
+  }));
 }
 
 function isStandaloneDisplay() {
@@ -32,21 +46,20 @@ function isStandaloneDisplay() {
 }
 
 function setupPwaInstallListeners() {
-  if (pwaListenersReady) {
+  if (window.__omaPwaInstallInitialized || window.__omaPwaInstallFallbackReady) {
     return;
   }
 
-  pwaListenersReady = true;
+  window.__omaPwaInstallFallbackReady = true;
 
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
-    deferredPrompt = event as BeforeInstallPromptEvent;
-    notifyPromptSubscribers();
+    setDeferredPrompt(event as BeforeInstallPromptEvent);
   });
 
   window.addEventListener('appinstalled', () => {
-    deferredPrompt = null;
-    notifyPromptSubscribers();
+    window.__omaAppInstalled = true;
+    setDeferredPrompt(null);
   });
 }
 
@@ -81,7 +94,7 @@ export default function InstallAppButton({
   onAfterClick,
 }: InstallAppButtonProps) {
   const t = useTranslations('installApp');
-  const [canPrompt, setCanPrompt] = useState(Boolean(deferredPrompt));
+  const [canPrompt, setCanPrompt] = useState(false);
   const [installed, setInstalled] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [checkingInstallability, setCheckingInstallability] = useState(false);
@@ -90,16 +103,19 @@ export default function InstallAppButton({
     setupPwaInstallListeners();
     registerServiceWorker();
 
-    const updateInstalled = () => setInstalled(isStandaloneDisplay());
+    const updateInstallState = () => {
+      setCanPrompt(Boolean(getDeferredPrompt()));
+      setInstalled(Boolean(window.__omaAppInstalled) || isStandaloneDisplay());
+    };
     const standaloneQuery = window.matchMedia('(display-mode: standalone)');
-    updateInstalled();
+    updateInstallState();
 
-    promptSubscribers.add(setCanPrompt);
-    standaloneQuery.addEventListener('change', updateInstalled);
+    window.addEventListener(INSTALL_PROMPT_CHANGE_EVENT, updateInstallState);
+    standaloneQuery.addEventListener('change', updateInstallState);
 
     return () => {
-      promptSubscribers.delete(setCanPrompt);
-      standaloneQuery.removeEventListener('change', updateInstalled);
+      window.removeEventListener(INSTALL_PROMPT_CHANGE_EVENT, updateInstallState);
+      standaloneQuery.removeEventListener('change', updateInstallState);
     };
   }, []);
 
@@ -108,14 +124,13 @@ export default function InstallAppButton({
   }
 
   const promptNativeInstall = async () => {
-    const promptEvent = deferredPrompt;
+    const promptEvent = getDeferredPrompt();
 
     if (!promptEvent) {
       return false;
     }
 
-    deferredPrompt = null;
-    notifyPromptSubscribers();
+    setDeferredPrompt(null);
     await promptEvent.prompt();
     const choice = await promptEvent.userChoice.catch(() => null);
 
@@ -129,14 +144,14 @@ export default function InstallAppButton({
 
   const waitForNativePrompt = async () => {
     for (let attempt = 0; attempt < 18; attempt += 1) {
-      if (deferredPrompt) {
+      if (getDeferredPrompt()) {
         return true;
       }
 
       await sleep(150);
     }
 
-    return Boolean(deferredPrompt);
+    return Boolean(getDeferredPrompt());
   };
 
   const handleInstall = async () => {

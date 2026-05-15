@@ -1,9 +1,10 @@
-const CACHE_NAME = 'oma-digital-offline-v1';
+const CACHE_NAME = 'oma-digital-offline-v2';
 const PRECACHE_URLS = [
   '/',
   '/fr',
   '/en',
   '/manifest.webmanifest',
+  '/favicon.ico',
   '/favicon.png',
   '/icon-192.png',
   '/icon-512.png',

@@ -15,6 +15,16 @@
     "languageSwitch": "EN",
     "skipToContent": "Aller au contenu principal"
   },
+  "installApp": {
+    "label": "Installer l’app",
+    "shortLabel": "Installer",
+    "eyebrow": "Accès offline",
+    "helpTitle": "Installer OMA Digital",
+    "desktopHelp": "Sur Chrome ou Edge, utilisez l’icône d’installation dans la barre d’adresse ou le menu du navigateur. Une icône peut être ajoutée au bureau, au dock ou au menu d’applications selon votre système.",
+    "mobileHelp": "Sur mobile, ouvrez le menu de partage du navigateur puis choisissez “Ajouter à l’écran d’accueil”. L’icône OMA Digital apparaîtra avec vos apps.",
+    "understood": "J’ai compris",
+    "close": "Fermer"
+  },
   "hero": {
     "badge": "🚀 Agence #1 d'IA au Sénégal",
     "title": "Automatisez votre business",

@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { NAV_ITEMS, getWhatsAppUrl, resolveLocalizedPath } from '@/lib/constants';
 import { motion, AnimatePresence } from 'motion/react';
+import InstallAppButton from '@/components/pwa/InstallAppButton';
 
 interface MobileMenuProps {
   open: boolean;
@@ -79,6 +80,10 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
 
             {/* Bottom actions */}
             <div className="mt-auto p-6 flex flex-col gap-3">
+              <InstallAppButton
+                fullWidth
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-subtle bg-bg-glass px-4 py-3 text-sm font-medium text-text-primary transition-all hover:border-accent-cyan/40 hover:bg-accent-cyan/10"
+              />
               <button
                 onClick={() => { onSwitchLocale(); onClose(); }}
                 className="w-full py-3 text-sm text-text-secondary border border-border-subtle rounded-xl hover:border-border-medium transition-colors"

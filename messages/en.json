@@ -15,6 +15,16 @@
     "languageSwitch": "FR",
     "skipToContent": "Skip to main content"
   },
+  "installApp": {
+    "label": "Install app",
+    "shortLabel": "Install",
+    "eyebrow": "Offline access",
+    "helpTitle": "Install OMA Digital",
+    "desktopHelp": "On Chrome or Edge, use the install icon in the address bar or the browser menu. An icon can be added to your desktop, dock or app launcher depending on your system.",
+    "mobileHelp": "On mobile, open the browser share menu and choose “Add to Home Screen”. The OMA Digital icon will appear with your apps.",
+    "understood": "Got it",
+    "close": "Close"
+  },
   "hero": {
     "badge": "🚀 #1 AI Agency in Senegal",
     "title": "Automate your business",

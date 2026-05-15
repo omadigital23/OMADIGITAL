@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { NAV_ITEMS, getWhatsAppUrl, resolveLocalizedPath } from '@/lib/constants';
 import Image from 'next/image';
+import InstallAppButton from '@/components/pwa/InstallAppButton';
 import MobileMenu from './MobileMenu';
 
 export default function Header() {
@@ -89,7 +90,8 @@ export default function Header() {
           </nav>
 
           {/* Right side */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <InstallAppButton className="inline-flex items-center justify-center gap-2 rounded-full border border-border-subtle bg-bg-glass px-4 py-2.5 text-sm font-medium text-text-primary transition-all hover:border-accent-cyan/40 hover:bg-accent-cyan/10" />
             <button
               onClick={switchLocale}
               className="text-sm text-text-secondary hover:text-text-primary transition-colors px-3 py-1.5 rounded-full border border-border-subtle hover:border-border-medium"

@@ -82,6 +82,7 @@ export default function MobileMenu({ open, onClose, onSwitchLocale }: MobileMenu
             <div className="mt-auto p-6 flex flex-col gap-3">
               <InstallAppButton
                 fullWidth
+                onAfterClick={onClose}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border-subtle bg-bg-glass px-4 py-3 text-sm font-medium text-text-primary transition-all hover:border-accent-cyan/40 hover:bg-accent-cyan/10"
               />
               <button

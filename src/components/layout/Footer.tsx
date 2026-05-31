@@ -145,7 +145,7 @@ export default function Footer() {
             {subscribed ? (
               <p className="text-accent-cyan text-sm" role="status">{t('footer.newsletterSuccess')}</p>
             ) : (
-              <form onSubmit={handleNewsletter} className="flex flex-col gap-3">
+              <form onSubmit={handleNewsletter} aria-label={t('footer.newsletter')} className="flex flex-col gap-3">
                 <input
                   type="text"
                   value={companyWebsite}
@@ -161,6 +161,7 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('footer.newsletterPlaceholder')}
+                  aria-label={t('footer.newsletterPlaceholder')}
                   required
                   className="w-full px-4 py-2.5 rounded-lg bg-bg-primary border border-border-subtle text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:border-accent-violet transition-colors"
                 />

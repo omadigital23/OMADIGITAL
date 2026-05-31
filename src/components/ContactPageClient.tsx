@@ -88,7 +88,7 @@ export default function ContactPageClient() {
                     <p className="text-accent-cyan font-medium text-lg">{t('success')}</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} aria-label={t('formTitle')} className="space-y-4">
                     <input
                       type="text"
                       value={form.companyWebsite}
@@ -107,12 +107,14 @@ export default function ContactPageClient() {
                         value={form[field]}
                         onChange={(e) => setForm({ ...form, [field]: e.target.value })}
                         placeholder={t(field)}
+                        aria-label={t(field)}
                         className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border-subtle text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:border-accent-violet transition-colors"
                       />
                     ))}
                     <select
                       value={form.service}
                       onChange={(e) => setForm({ ...form, service: e.target.value })}
+                      aria-label={t('service')}
                       className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border-subtle text-text-primary text-sm focus:outline-none focus:border-accent-violet transition-colors"
                     >
                       <option value="">{t('service')}</option>
@@ -124,6 +126,7 @@ export default function ContactPageClient() {
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       placeholder={t('message')}
+                      aria-label={t('message')}
                       rows={4}
                       className="w-full px-4 py-3 rounded-xl bg-bg-primary border border-border-subtle text-text-primary placeholder:text-text-muted text-sm focus:outline-none focus:border-accent-violet transition-colors resize-none"
                     />

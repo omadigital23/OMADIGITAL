@@ -10,7 +10,7 @@ test('localized home page renders without browser errors', async ({ page }) => {
     }
   });
 
-  await page.goto('/fr');
+  await page.goto('/fr', { waitUntil: 'domcontentloaded' });
 
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
   await expect(page.locator('#main-content')).toBeVisible();

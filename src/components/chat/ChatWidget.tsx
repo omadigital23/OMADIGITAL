@@ -559,6 +559,8 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-6 right-6 z-50 flex h-[560px] max-h-[calc(100vh-4rem)] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary shadow-float"
+            role="dialog"
+            aria-label={t('title')}
           >
             <div className="gradient-bg px-5 py-4">
               <div className="flex items-start justify-between gap-4">
@@ -701,6 +703,7 @@ export default function ChatWidget() {
                   e.preventDefault();
                   void sendMessage();
                 }}
+                aria-label={t('title')}
                 className="flex items-center gap-2"
               >
                 <input
@@ -756,6 +759,7 @@ export default function ChatWidget() {
                 <button
                   type="submit"
                   disabled={!input.trim() || isBusy || voiceState === 'recording'}
+                  aria-label={t('send')}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl gradient-bg text-white transition-all hover:shadow-glow disabled:opacity-40"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

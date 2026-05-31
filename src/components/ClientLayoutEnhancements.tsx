@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 const ChatWidget = dynamic(() => import('@/components/chat/ChatWidget'), {
@@ -11,6 +12,14 @@ const GoogleAnalytics = dynamic(() => import('@/components/GoogleAnalytics'), {
 });
 
 export default function ClientLayoutEnhancements() {
+  useEffect(() => {
+    document.documentElement.dataset.omaHydrated = 'true';
+
+    return () => {
+      delete document.documentElement.dataset.omaHydrated;
+    };
+  }, []);
+
   return (
     <>
       <GoogleAnalytics />

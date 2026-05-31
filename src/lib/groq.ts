@@ -2,6 +2,8 @@
 // OMA Digital - Groq AI Client (lazy-initialized)
 // ============================================================
 
+import 'server-only';
+
 import Groq from 'groq-sdk';
 
 const DEFAULT_CHAT_MODELS = [

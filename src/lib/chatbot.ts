@@ -209,7 +209,12 @@ function extractPhone(texts: string[]): string | null {
       continue;
     }
 
-    const candidate = sanitizeCapturedValue(matches[matches.length - 1]);
+    const lastMatch = matches.at(-1);
+    if (!lastMatch) {
+      continue;
+    }
+
+    const candidate = sanitizeCapturedValue(lastMatch);
     const digits = candidate.replace(/\D/g, '');
 
     if (digits.length >= 7 && digits.length <= 15) {

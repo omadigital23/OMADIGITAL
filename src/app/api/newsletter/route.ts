@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ip = getClientIp(req.headers);
-    const rateLimit = consumeRateLimit(
+    const rateLimit = await consumeRateLimit(
       'newsletter',
       ip,
       NEWSLETTER_RATE_LIMIT.limit,

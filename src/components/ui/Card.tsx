@@ -5,12 +5,14 @@ import { cn } from '@/lib/utils';
 
 interface CardProps {
   children: React.ReactNode;
-  className?: string;
-  hover?: boolean;
-  gradient?: boolean;
+  className?: string | undefined;
+  hover?: boolean | undefined;
+  gradient?: boolean | undefined;
 }
 
 export default function Card({ children, className, hover = true, gradient = false }: CardProps) {
+  const hoverProps = hover ? { whileHover: { y: -4 } } : {};
+
   return (
     <motion.div
       className={cn(
@@ -21,7 +23,7 @@ export default function Card({ children, className, hover = true, gradient = fal
         hover && 'hover:bg-bg-card-hover hover:border-border-medium hover:shadow-card-hover transition-all duration-300',
         className
       )}
-      whileHover={hover ? { y: -4 } : undefined}
+      {...hoverProps}
     >
       {children}
     </motion.div>

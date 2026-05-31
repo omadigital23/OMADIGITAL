@@ -8,13 +8,13 @@ import Card from '@/components/ui/Card';
 import { blogPosts } from '@/data/blog-posts';
 
 const categories = ['all', 'website', 'ecommerce', 'mobile', 'ai-automation'] as const;
-const categoryLabelMap: Record<string, string> = {
+const categoryLabelMap = {
   all: 'allCategories',
   website: 'categoryWebsite',
   ecommerce: 'categoryEcommerce',
   mobile: 'categoryMobile',
   'ai-automation': 'categoryAI',
-};
+} as const;
 
 export default function BlogListClient() {
   const t = useTranslations('blog');
@@ -36,26 +36,30 @@ export default function BlogListClient() {
 
       {/* Categories */}
       <div className="flex flex-wrap justify-center gap-2 mb-12">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeCategory === cat
-                ? 'gradient-bg text-white'
-                : 'bg-bg-card border border-border-subtle text-text-muted hover:text-text-primary'
-            }`}
-          >
-            {t(categoryLabelMap[cat])}
-          </button>
-        ))}
+        {categories.map((cat) => {
+          const labelKey = categoryLabelMap[cat];
+          return (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                activeCategory === cat
+                  ? 'gradient-bg text-white'
+                  : 'bg-bg-card border border-border-subtle text-text-muted hover:text-text-primary'
+              }`}
+            >
+              {t(labelKey)}
+            </button>
+          );
+        })}
       </div>
 
       {/* Articles */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((post, i) => {
-          const categoryLabel = categoryLabelMap[post.category]
-            ? t(categoryLabelMap[post.category])
+          const categoryLabelKey = categoryLabelMap[post.category as keyof typeof categoryLabelMap];
+          const categoryLabel = categoryLabelKey
+            ? t(categoryLabelKey)
             : post.category.replace('-', ' ');
           return (
             <motion.div

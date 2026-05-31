@@ -40,7 +40,8 @@ export default function Header() {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
-    return pathname.startsWith(href.replace('#', '').split('#')[0]);
+    const [basePath = ''] = href.replace('#', '').split('#');
+    return pathname.startsWith(basePath);
   };
 
   return (

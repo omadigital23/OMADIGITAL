@@ -2,6 +2,8 @@
 // OMA Digital — WhatsApp Notifications (CallMeBot)
 // ============================================================
 
+import 'server-only';
+
 export async function sendWhatsAppNotification(message: string): Promise<boolean> {
   const phone = process.env.CALLMEBOT_PHONE;
   const apiKey = process.env.CALLMEBOT_API_KEY;

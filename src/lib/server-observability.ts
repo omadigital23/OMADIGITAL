@@ -1,3 +1,5 @@
+import 'server-only';
+
 type LogLevel = 'info' | 'warn' | 'error';
 
 type LogValue = string | number | boolean | null | undefined;
@@ -12,7 +14,7 @@ type ApiFailureInput = {
   route: string;
   status: number;
   source: string;
-  requestId?: string;
+  requestId?: string | undefined;
   error?: unknown;
 };
 
@@ -134,10 +136,10 @@ export function logEmailNotification({
 }: {
   form: 'contact' | 'newsletter';
   ok: boolean;
-  requestId?: string;
-  recipientDomain?: string;
-  ms?: number;
-  reason?: string;
+  requestId?: string | undefined;
+  recipientDomain?: string | undefined;
+  ms?: number | undefined;
+  reason?: string | undefined;
 }) {
   logServerEvent(ok ? 'info' : 'error', 'form_email_notification', {
     form,

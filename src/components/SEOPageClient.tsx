@@ -61,6 +61,7 @@ export default function SEOPageClient({
       <Header />
       {faqs && faqs.length > 0 && (
         <script
+          async
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({

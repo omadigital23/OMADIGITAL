@@ -1,3 +1,5 @@
+import 'server-only';
+
 import type { ChatLocale, LeadInsights } from '@/lib/chatbot';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
 import { isValidEmail, isValidPhone } from '@/lib/security';

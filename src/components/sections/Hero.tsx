@@ -25,7 +25,7 @@ function VideoSlider() {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const currentVideo = VIDEOS[current];
+  const currentVideo = VIDEOS[current] ?? VIDEOS[0]!;
 
   /* ── helpers ── */
   const primeVideo = useCallback((video: HTMLVideoElement | null, shouldAutoplay = false) => {
@@ -127,6 +127,7 @@ function VideoSlider() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return;
         setIsVisible(entry.isIntersecting && entry.intersectionRatio > 0.15);
       },
       { threshold: [0, 0.15, 0.5] },

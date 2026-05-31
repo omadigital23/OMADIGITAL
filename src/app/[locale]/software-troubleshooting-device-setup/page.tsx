@@ -84,6 +84,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       <script
+        async
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />

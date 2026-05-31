@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OMA Digital
 
-## Getting Started
+Production Next.js app for OMA Digital: bilingual agency website, SEO landing pages, lead capture, AI chat, PWA install, and offline support.
 
-First, run the development server:
+## Stack
+
+- Next.js App Router 16
+- React 19
+- TypeScript strict
+- Tailwind CSS 4
+- next-intl
+- Supabase SSR/Admin
+- Groq SDK
+- Nodemailer
+- Vitest
+- Playwright
+
+## Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run audit
+npm run quality
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`npm run quality` is the required local gate before pushing: lint, typecheck, unit tests, production build, and security audit.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.local.example` to `.env.local` and fill the production values.
 
-## Learn More
+Important server-only secrets:
 
-To learn more about Next.js, take a look at the following resources:
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `GROQ_API_KEY`
+- `SMTP_PASSWORD`
+- `CALLMEBOT_API_KEY`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Never expose server-only secrets with a `NEXT_PUBLIC_` prefix.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database
 
-## Deploy on Vercel
+Supabase migrations live in `supabase/migrations`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The app expects:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- RLS enabled on exposed tables.
+- Public form writes routed through Next.js API routes.
+- Distributed rate limiting through `public.consume_rate_limit(...)` backed by `private.rate_limits`.
+
+When the Supabase CLI is available, create future migrations with:
+
+```bash
+supabase migration new descriptive_name
+```
+
+## Quality Standard
+
+Every change should keep:
+
+- `npm run quality` green.
+- `npm audit` at 0 known vulnerabilities where the ecosystem allows it.
+- Server secrets isolated behind `server-only` modules.
+- User input validated on the server.
+- SEO alternates, sitemap, robots, metadata, and structured data consistent.
+- PWA install/offline behavior verified on a Chromium browser.

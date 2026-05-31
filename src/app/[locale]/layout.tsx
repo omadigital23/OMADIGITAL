@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { BUSINESS } from '@/lib/constants';
 import { buildLocalizedAlternates } from '@/lib/seo';
+import { pwaInstallBootstrap } from '@/lib/pwa-install-bootstrap';
 import ClientLayoutEnhancements from '@/components/ClientLayoutEnhancements';
 import StructuredData from '@/components/StructuredData';
 
@@ -127,6 +128,11 @@ export default async function LocaleLayout({
 
         {/* Structured data */}
         <StructuredData locale={locale} />
+        <script
+          async
+          id="oma-pwa-install-bootstrap"
+          dangerouslySetInnerHTML={{ __html: pwaInstallBootstrap }}
+        />
       </head>
       <body className="bg-bg-primary text-text-primary antialiased">
         {/* Skip to content — accessibilité clavier */}

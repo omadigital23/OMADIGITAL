@@ -1,3 +1,5 @@
+import 'server-only';
+
 import type { Transporter } from 'nodemailer';
 import { getEmailDomain, logServerEvent } from '@/lib/server-observability';
 

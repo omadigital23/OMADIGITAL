@@ -8,12 +8,26 @@ import type { BlogPostData } from '@/data/blog-posts';
 import { blogPosts } from '@/data/blog-posts';
 import { getWhatsAppUrl } from '@/lib/constants';
 
-const categoryLabelMap: Record<string, string> = {
+const categoryLabelMap = {
   website: 'categoryWebsite',
   ecommerce: 'categoryEcommerce',
   mobile: 'categoryMobile',
   'ai-automation': 'categoryAI',
-};
+} as const;
+
+function renderInlineMarkdown(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={`${part}-${index}`} className="text-text-primary">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    return part;
+  });
+}
 
 export default function BlogArticleClient({ post }: { post: BlogPostData }) {
   const locale = useLocale();
@@ -24,8 +38,9 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
 
   const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2);
 
-  const categoryLabel = categoryLabelMap[post.category]
-    ? t(categoryLabelMap[post.category])
+  const categoryLabelKey = categoryLabelMap[post.category as keyof typeof categoryLabelMap];
+  const categoryLabel = categoryLabelKey
+    ? t(categoryLabelKey)
     : post.category.replace('-', ' ');
 
   return (
@@ -74,13 +89,13 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
               return <h3 key={i} className="font-heading font-semibold text-xl text-text-primary mt-8 mb-3">{line.replace('### ', '')}</h3>;
             }
             if (line.startsWith('- **')) {
-              return <li key={i} className="text-text-secondary ml-4 mb-2" dangerouslySetInnerHTML={{ __html: line.replace('- ', '').replace(/\*\*(.*?)\*\*/g, '<strong class="text-text-primary">$1</strong>') }} />;
+              return <li key={i} className="text-text-secondary ml-4 mb-2">{renderInlineMarkdown(line.replace('- ', ''))}</li>;
             }
             if (line.match(/^\d+\. \*\*/)) {
-              return <li key={i} className="text-text-secondary ml-4 mb-2 list-decimal" dangerouslySetInnerHTML={{ __html: line.replace(/^\d+\. /, '').replace(/\*\*(.*?)\*\*/g, '<strong class="text-text-primary">$1</strong>') }} />;
+              return <li key={i} className="text-text-secondary ml-4 mb-2 list-decimal">{renderInlineMarkdown(line.replace(/^\d+\. /, ''))}</li>;
             }
             if (line.trim() === '') return <div key={i} className="h-4" />;
-            return <p key={i} className="text-text-secondary leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-text-primary">$1</strong>') }} />;
+            return <p key={i} className="text-text-secondary leading-relaxed mb-4">{renderInlineMarkdown(line)}</p>;
           })}
         </article>
 
@@ -99,8 +114,9 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
             <h3 className="font-heading font-semibold text-xl mb-6">{t('relatedArticles')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
               {related.map((r) => {
-                const relatedCategoryLabel = categoryLabelMap[r.category]
-                  ? t(categoryLabelMap[r.category])
+                const relatedCategoryLabelKey = categoryLabelMap[r.category as keyof typeof categoryLabelMap];
+                const relatedCategoryLabel = relatedCategoryLabelKey
+                  ? t(relatedCategoryLabelKey)
                   : r.category.replace('-', ' ');
                 return (
                   <Link key={r.slug} href={`/blog/${r.slug}`}>

@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ip = getClientIp(req.headers);
-    const rateLimit = consumeRateLimit(
+    const rateLimit = await consumeRateLimit(
       'chat',
       ip,
       CHAT_RATE_LIMIT.limit,

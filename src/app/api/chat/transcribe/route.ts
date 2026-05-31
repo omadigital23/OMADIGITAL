@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ip = getClientIp(req.headers);
-    const rateLimit = consumeRateLimit(
+    const rateLimit = await consumeRateLimit(
       'chat-transcribe',
       ip,
       TRANSCRIPTION_RATE_LIMIT.limit,

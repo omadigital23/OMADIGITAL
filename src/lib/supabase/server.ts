@@ -2,6 +2,8 @@
 // OMA Digital — Supabase Server Client
 // ============================================================
 
+import 'server-only';
+
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 

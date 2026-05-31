@@ -24,13 +24,13 @@ export const BUSINESS = {
 } as const;
 
 // Messages WhatsApp localisés FR / EN
-const WHATSAPP_MESSAGES: Record<string, string> = {
+const WHATSAPP_MESSAGES = {
   fr: 'Bonjour, je souhaite un audit gratuit pour mon entreprise',
   en: 'Hello, I would like a free audit for my business',
-};
+} as const;
 
 export function getWhatsAppUrl(locale: string = 'fr'): string {
-  const msg = WHATSAPP_MESSAGES[locale] ?? WHATSAPP_MESSAGES.fr;
+  const msg = locale === 'en' ? WHATSAPP_MESSAGES.en : WHATSAPP_MESSAGES.fr;
   return `https://wa.me/${BUSINESS.whatsappNumber}?text=${encodeURIComponent(msg)}`;
 }
 

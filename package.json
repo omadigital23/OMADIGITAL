@@ -17,6 +17,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "groq-sdk": "^1.2.1",
     "motion": "^12.40.0",

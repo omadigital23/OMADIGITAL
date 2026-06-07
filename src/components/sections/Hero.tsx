@@ -3,6 +3,7 @@
 import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
@@ -14,6 +15,11 @@ const VIDEOS = [
   { id: 'hero3', mp4: '/videos/hero3.mp4', webm: '/videos/hero3.webm' },
 ];
 const SLIDE_INTERVAL = 5000;
+const HERO_CLIENTS = [
+  { name: 'Nubia Aura', shortName: 'Nubia', logo: '/images/logo_nubia_aura.png' },
+  { name: 'SOJIF', shortName: 'SOJIF', logo: '/images/logo_sojif.png' },
+  { name: 'Gueye Agro', shortName: 'Gueye', logo: '/images/logo_gueye_agro.png' },
+] as const;
 
 // Single stable player model for better autoplay behavior across iOS, Android, and desktop.
 // The active source is loaded and replayed on each slide change.
@@ -200,7 +206,7 @@ function VideoSlider() {
   const i = current;
 
   return (
-    <div ref={sliderRef} className="relative w-full rounded-2xl overflow-hidden border border-border-subtle shadow-float bg-bg-card aspect-video group" role="region" aria-roledescription="carousel" aria-label={t('videoAriaLabel', { number: 1 })} suppressHydrationWarning>
+    <div ref={sliderRef} className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-bg-card shadow-[0_24px_80px_rgba(0,0,0,0.45)] aspect-video group" role="region" aria-roledescription="carousel" aria-label={t('videoAriaLabel', { number: 1 })} suppressHydrationWarning>
       {/* Active video */}
       {mounted ? (
         <div
@@ -300,25 +306,31 @@ export default function Hero() {
   const t = useTranslations();
   const locale = useLocale();
   const whatsappUrl = getWhatsAppUrl(locale);
+  const isEnglish = locale === 'en';
+  const clientProofLabel = isEnglish ? 'Delivered for' : 'Livré pour';
+  const clientProofOutcome = isEnglish ? 'Real client work, live and inspectable' : 'Projets clients réels, en ligne et vérifiables';
+  const sliderBadges = isEnglish
+    ? ['Secure SSL', 'Fast delivery', '24/7 support']
+    : ['SSL sécurisé', 'Livraison rapide', 'Support 24/7'];
 
   return (
     <section
+      id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-bg"
       aria-label={t('hero.title')}
     >
-      <div className="container-custom relative z-10 pt-24 pb-16">
+      <div className="container-custom relative z-10 pt-24 pb-16 md:pt-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
           {/* ── Colonne gauche ── */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left lg:pr-8">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <motion.div initial={false} animate={{ opacity: 1, y: 0 }}>
               <Badge variant="accent" className="mb-6">{t('hero.badge')}</Badge>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
               className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl leading-tight text-balance"
             >
               {t('hero.title')}{' '}
@@ -326,18 +338,16 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
               className="mt-6 text-lg md:text-xl text-text-secondary max-w-xl leading-relaxed"
             >
               {t('hero.subtitle')}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
               className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
             >
               <Button size="lg" href={whatsappUrl} external className="w-full sm:w-auto">
@@ -353,9 +363,8 @@ export default function Hero() {
 
             {/* Urgency */}
             <motion.p
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
               className="mt-4 text-xs text-text-muted flex items-center gap-1.5"
             >
               <span className="inline-block w-2 h-2 rounded-full bg-accent-cyan animate-pulse" aria-hidden="true" />
@@ -364,38 +373,49 @@ export default function Hero() {
 
             {/* Social proof micro */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-              className="mt-6 flex items-center gap-3"
+              className="mt-7 w-full max-w-xl"
             >
-              <div className="flex -space-x-2">
-                {[1,2,3,4].map((n) => (
-                  <div key={n} className="w-8 h-8 rounded-full border-2 border-bg-primary bg-gradient-to-br from-accent-violet to-accent-blue flex items-center justify-center text-[10px] font-bold text-white">
-                    {['AS','MK','FD','TB'][n-1]}
+              <div className="flex items-center justify-center gap-2 text-xs text-text-muted lg:justify-start">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan" aria-hidden="true" />
+                <span>{clientProofLabel}</span>
+                <span className="hidden sm:inline text-text-secondary">{clientProofOutcome}</span>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {HERO_CLIENTS.map((client) => (
+                  <div
+                    key={client.name}
+                    className="flex min-h-12 items-center justify-center gap-2 rounded-xl border border-border-subtle bg-bg-card/75 px-3 py-2 backdrop-blur-sm"
+                  >
+                    <span className="relative h-7 w-7 shrink-0 overflow-hidden rounded-md bg-white">
+                      <Image
+                        src={client.logo}
+                        alt=""
+                        fill
+                        sizes="28px"
+                        className="object-contain p-0.5"
+                      />
+                    </span>
+                    <span className="truncate text-[11px] font-semibold text-text-secondary">
+                      {client.shortName}
+                    </span>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-text-muted">
-                <span className="text-accent-cyan font-semibold">50+</span> clients satisfaits
-              </p>
             </motion.div>
           </div>
 
           {/* ── Colonne droite — slider vidéo ── */}
-          <div className="w-full">
+          <div className="w-full max-w-2xl mx-auto lg:max-w-none">
             <VideoSlider />
 
             {/* Badges flottants sous le slider */}
             <div className="mt-4 flex items-center justify-center gap-3 flex-wrap">
-              {[
-                { icon: '🔒', label: 'SSL & Sécurisé' },
-                { icon: '⚡', label: 'Livraison rapide' },
-                { icon: '🌍', label: 'Support 24/7' },
-              ].map((b) => (
-                <div key={b.label} className="flex items-center gap-1.5 text-xs text-text-muted bg-bg-glass border border-border-subtle rounded-full px-3 py-1.5">
-                  <span>{b.icon}</span>
-                  <span>{b.label}</span>
+              {sliderBadges.map((label) => (
+                <div key={label} className="flex items-center gap-1.5 text-xs text-text-muted bg-bg-glass border border-border-subtle rounded-full px-3 py-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-cyan" aria-hidden="true" />
+                  <span>{label}</span>
                 </div>
               ))}
             </div>

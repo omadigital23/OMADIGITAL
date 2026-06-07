@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'motion/react';
+import { usePathname } from '@/i18n/navigation';
 import {
   getChatContactActions,
   getDefaultChatSuggestions,
@@ -112,6 +113,7 @@ function getChatLocale(locale: string): ChatLocale {
 
 export default function ChatWidget() {
   const locale = useLocale();
+  const pathname = usePathname();
   const chatLocale = getChatLocale(locale);
   const t = useTranslations('chat');
   const [open, setOpen] = useState(false);
@@ -165,7 +167,7 @@ export default function ChatWidget() {
   }, [open, voiceState]);
 
   useEffect(() => {
-    const observedSections = ['services', 'projects', 'pricing', 'contact']
+    const observedSections = ['hero', 'services', 'projects', 'pricing', 'contact', 'blog-list']
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
 
@@ -179,7 +181,7 @@ export default function ChatWidget() {
         entries.forEach((entry) => visibility.set(entry.target, entry.isIntersecting));
         setIsHiddenNearPrimaryContent(Array.from(visibility.values()).some(Boolean));
       },
-      { rootMargin: '-18% 0px -18% 0px', threshold: 0.1 },
+      { rootMargin: '-10% 0px -10% 0px', threshold: 0.01 },
     );
 
     observedSections.forEach((section) => {
@@ -523,6 +525,9 @@ export default function ChatWidget() {
   };
 
   const isBusy = loading || voiceState === 'transcribing';
+  const hideLauncherOnMobileBlog =
+    pathname.includes('/blog') ||
+    (typeof window !== 'undefined' && window.location.pathname.includes('/blog'));
   const showVoiceHint = voiceSupported && messages.length <= 1 && voiceState === 'idle';
   const showVoiceStatus = voiceSupported || voiceState !== 'idle';
   const voiceStatusText =
@@ -542,7 +547,7 @@ export default function ChatWidget() {
             exit={{ scale: 0 }}
             transition={{ delay: 2, type: 'spring' }}
             onClick={openChat}
-            className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full gradient-bg shadow-glow-lg transition-transform hover:scale-110 md:bottom-24 md:right-6 md:h-14 md:w-14"
+            className={`fixed bottom-[4.5rem] right-3 z-40 h-11 w-11 items-center justify-center rounded-full gradient-bg shadow-glow-lg transition-transform hover:scale-110 md:bottom-24 md:right-6 md:h-14 md:w-14 ${hideLauncherOnMobileBlog ? 'hidden md:flex' : 'flex'}`}
             aria-label={t('title')}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -558,7 +563,7 @@ export default function ChatWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 flex h-[560px] max-h-[calc(100vh-4rem)] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-3xl border border-border-subtle bg-bg-secondary shadow-float"
+            className="fixed bottom-3 right-3 z-50 flex h-[560px] max-h-[calc(100vh-1.5rem)] w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-2xl border border-border-subtle bg-bg-secondary shadow-float sm:bottom-6 sm:right-6 sm:max-h-[calc(100vh-4rem)] sm:w-[380px] sm:rounded-3xl"
             role="dialog"
             aria-label={t('title')}
           >

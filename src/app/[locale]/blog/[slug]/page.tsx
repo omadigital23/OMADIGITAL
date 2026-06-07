@@ -7,7 +7,8 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import BlogArticleClient from '@/components/BlogArticleClient';
 import BlogListClient from '@/components/BlogListClient';
 import { blogCategoryLabelKeys, blogCategorySlugs, blogPosts, isBlogCategorySlug } from '@/data/blog-posts';
-import { buildPageMetadata } from '@/lib/seo';
+import { BUSINESS } from '@/lib/constants';
+import { buildAbsoluteUrl, buildPageMetadata } from '@/lib/seo';
 
 export async function generateStaticParams() {
   return [
@@ -39,12 +40,23 @@ export async function generateMetadata({
   }
 
   if (!post) return {};
+  const title = locale === 'fr' ? post.titleFr : post.titleEn;
+  const description = locale === 'fr' ? post.excerptFr : post.excerptEn;
+  const coverAlt = (locale === 'fr' ? post.coverAltFr : post.coverAltEn) ?? title;
 
   return buildPageMetadata({
     locale,
     path: `/blog/${slug}`,
-    title: locale === 'fr' ? post.titleFr : post.titleEn,
-    description: locale === 'fr' ? post.excerptFr : post.excerptEn,
+    title,
+    description,
+    ...(post.coverImage
+      ? {
+          image: {
+            url: post.coverImage,
+            alt: coverAlt,
+          },
+        }
+      : {}),
   });
 }
 
@@ -58,9 +70,42 @@ export default async function BlogArticlePage({
   const post = blogPosts.find((p) => p.slug === slug);
   const category = isBlogCategorySlug(slug) ? slug : null;
   if (!post && !category) notFound();
+  const blogPostingJsonLd = post
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: locale === 'fr' ? post.titleFr : post.titleEn,
+        description: locale === 'fr' ? post.excerptFr : post.excerptEn,
+        image: post.coverImage ? [buildAbsoluteUrl(post.coverImage)] : [`${BUSINESS.siteUrl}/og-image.png`],
+        datePublished: post.date,
+        dateModified: post.date,
+        inLanguage: locale,
+        mainEntityOfPage: `${BUSINESS.siteUrl}/${locale}/blog/${post.slug}`,
+        author: {
+          '@type': 'Organization',
+          name: BUSINESS.name,
+          url: BUSINESS.siteUrl,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: BUSINESS.name,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${BUSINESS.siteUrl}/icon-512.png`,
+          },
+        },
+      }
+    : null;
 
   return (
     <>
+      {blogPostingJsonLd && (
+        <script
+          async
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+        />
+      )}
       <Header />
       <main className="pt-24 pb-20">
         {post ? <BlogArticleClient post={post} /> : <BlogListClient initialCategory={category ?? 'all'} />}

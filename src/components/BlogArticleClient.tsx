@@ -51,6 +51,7 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
   const whatsappUrl = getWhatsAppUrl(locale);
   const title = locale === 'fr' ? post.titleFr : post.titleEn;
   const content = locale === 'fr' ? post.contentFr : post.contentEn;
+  const coverAlt = (locale === 'fr' ? post.coverAltFr : post.coverAltEn) ?? title;
 
   const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2);
 
@@ -76,6 +77,23 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
         <h1 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-text-primary leading-tight mb-8">
           {title}
         </h1>
+
+        {post.coverImage && (
+          <figure className="mb-10 overflow-hidden rounded-2xl border border-border-subtle bg-bg-card">
+            <picture>
+              {post.coverImageAvif && <source srcSet={post.coverImageAvif} type="image/avif" />}
+              <Image
+                src={post.coverImage}
+                alt={coverAlt}
+                width={1200}
+                height={630}
+                priority
+                sizes="(max-width: 768px) calc(100vw - 32px), 896px"
+                className="aspect-[1200/630] w-full object-cover"
+              />
+            </picture>
+          </figure>
+        )}
 
         {/* Author */}
         <div className="flex items-center gap-3 mb-10 pb-8 border-b border-border-subtle">

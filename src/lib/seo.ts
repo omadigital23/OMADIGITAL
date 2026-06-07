@@ -8,6 +8,13 @@ type PageMetadataInput = {
   title: string;
   description?: Metadata['description'];
   keywords?: Metadata['keywords'];
+  image?: {
+    url: string;
+    alt: string;
+    width?: number;
+    height?: number;
+    type?: string;
+  };
 };
 
 type LocalizedPageMetadataInput = Omit<PageMetadataInput, 'path'> & {
@@ -24,6 +31,14 @@ function normalizePath(path: string | undefined): string {
 
 function buildLocalizedUrl(locale: string, path?: string): string {
   return `${BUSINESS.siteUrl}/${locale}${normalizePath(path)}`;
+}
+
+export function buildAbsoluteUrl(pathOrUrl: string): string {
+  if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
+    return pathOrUrl;
+  }
+
+  return `${BUSINESS.siteUrl}${normalizePath(pathOrUrl)}`;
 }
 
 export function buildLocalizedAlternates(locale: string, path?: string): Metadata['alternates'] {
@@ -73,9 +88,21 @@ export function buildPageMetadata({
   title,
   description,
   keywords,
+  image,
 }: PageMetadataInput): Metadata {
   const url = buildLocalizedUrl(locale, path);
   const normalizedDescription = description ?? undefined;
+  const openGraphImages = image
+    ? [
+        {
+          url: buildAbsoluteUrl(image.url),
+          width: image.width ?? 1200,
+          height: image.height ?? 630,
+          alt: image.alt,
+          type: image.type ?? 'image/webp',
+        },
+      ]
+    : undefined;
 
   return {
     title,
@@ -89,11 +116,13 @@ export function buildPageMetadata({
       type: 'website',
       locale: locale === 'fr' ? 'fr_SN' : 'en_US',
       siteName: BUSINESS.name,
+      ...(openGraphImages ? { images: openGraphImages } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description: normalizedDescription,
+      ...(openGraphImages ? { images: openGraphImages.map((item) => item.url) } : {}),
     },
   };
 }

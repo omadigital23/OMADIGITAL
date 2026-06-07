@@ -45,6 +45,10 @@ export interface BlogPostData {
   readTime: number;
   date: string;
   emoji: string;
+  coverImage?: string;
+  coverImageAvif?: string;
+  coverAltFr?: string;
+  coverAltEn?: string;
   contentFr: string;
   contentEn: string;
 }
@@ -60,6 +64,10 @@ export const blogPosts: BlogPostData[] = [
     readTime: 10,
     date: '2026-06-07',
     emoji: '🧭',
+    coverImage: '/images/blog/2026-06-07-veille-tech-agents-mobile-hardware.webp',
+    coverImageAvif: '/images/blog/2026-06-07-veille-tech-agents-mobile-hardware.avif',
+    coverAltFr: 'Illustration editoriale de veille technologique avec cloud, interfaces, agents IA et appareils connectes.',
+    coverAltEn: 'Editorial illustration of technology watch with cloud, interfaces, AI agents and connected devices.',
     contentFr: `## Ce qu'il faut retenir
 
 La semaine confirme une tendance simple : la technologie ne se limite plus a des outils separes. Les agents IA arrivent dans les environnements cloud, les systemes d'exploitation, les smartphones, la recherche Google, les PC et meme la robotique. Pour une PME, cela change la facon de penser un site web, une application mobile ou une automatisation : il faut construire des experiences capables d'etre trouvees, comprises, utilisees et connectees par des assistants intelligents.
@@ -156,6 +164,10 @@ OMA Digital clients should focus on three priorities: publish useful sourced con
     readTime: 10,
     date: '2026-06-07',
     emoji: '🧠',
+    coverImage: '/images/blog/2026-06-07-ia-agents-cloud-confiance.webp',
+    coverImageAvif: '/images/blog/2026-06-07-ia-agents-cloud-confiance.avif',
+    coverAltFr: 'Illustration editoriale d agents IA dans le cloud avec interface de controle et symbole de confiance.',
+    coverAltEn: 'Editorial illustration of cloud AI agents with a control interface and trust symbol.',
     contentFr: `## Ce qu'il faut retenir
 
 La tendance IA de la semaine est claire : les agents quittent le discours marketing et entrent dans les environnements de travail. OpenAI rapproche ses modeles et Codex d'AWS. Anthropic ameliore Claude Opus pour les taches longues, le code et l'utilisation d'outils. Google parle d'une ere Gemini agentique, ou les assistants deviennent plus proactifs dans Search, Android et les experiences du quotidien.
@@ -252,6 +264,10 @@ OMA Digital clients should start with a short automation audit: list repeated ta
     readTime: 10,
     date: '2026-06-07',
     emoji: '📱',
+    coverImage: '/images/blog/2026-06-07-apps-mobiles-android-wwdc.webp',
+    coverImageAvif: '/images/blog/2026-06-07-apps-mobiles-android-wwdc.avif',
+    coverAltFr: 'Illustration editoriale de deux smartphones et d une grille d applications mobiles connectees.',
+    coverAltEn: 'Editorial illustration of two smartphones and a connected mobile app grid.',
     contentFr: `## Ce qu'il faut retenir
 
 Le mobile reste le canal le plus direct pour toucher un client, mais la maniere de convertir change. Les annonces recentes de Google Play, les mises a jour Android de juin et l'approche de WWDC26 montrent trois priorites : decouverte au-dela du store, securite des utilisateurs et experiences adaptatives.
@@ -339,6 +355,10 @@ Build a clear app landing page, localize the store listing, use screenshots that
     readTime: 10,
     date: '2026-06-07',
     emoji: '🖥️',
+    coverImage: '/images/blog/2026-06-07-systemes-windows-android-macos.webp',
+    coverImageAvif: '/images/blog/2026-06-07-systemes-windows-android-macos.avif',
+    coverAltFr: 'Illustration editoriale de systemes d exploitation, terminal, tableaux de bord et securite des agents IA.',
+    coverAltEn: 'Editorial illustration of operating systems, terminal panels, dashboards and AI agent security.',
     contentFr: `## Ce qu'il faut retenir
 
 Les systemes d'exploitation changent de role. Windows, Android, macOS et les plateformes cloud ne sont plus seulement des environnements ou l'utilisateur lance des applications. Ils deviennent des couches d'orchestration ou des agents peuvent lire le contexte, proposer une action, executer une tache et rester limites par des regles de securite.
@@ -429,6 +449,10 @@ Before adding agents, audit devices, apps, accounts and repeated tasks. Start wi
     readTime: 10,
     date: '2026-06-07',
     emoji: '⚙️',
+    coverImage: '/images/blog/2026-06-07-hardware-ai-pc-edge.webp',
+    coverImageAvif: '/images/blog/2026-06-07-hardware-ai-pc-edge.avif',
+    coverAltFr: 'Illustration editoriale d un processeur IA, d un PC et de composants edge pour l automatisation.',
+    coverAltEn: 'Editorial illustration of an AI processor, a PC and edge components for automation.',
     contentFr: `## Ce qu'il faut retenir
 
 Le hardware redevient strategique. Pendant plusieurs annees, beaucoup de PME ont pense que tout devait aller dans le cloud. La vague des agents IA nuance cette idee. Certaines taches resteront dans le cloud, mais d'autres auront besoin de puissance locale, de faible latence, de confidentialite ou de fonctionnement en environnement limite.
@@ -517,6 +541,10 @@ Start in the cloud when the workflow is occasional, simple and low risk. Conside
     readTime: 10,
     date: '2026-06-07',
     emoji: '🤖',
+    coverImage: '/images/blog/2026-06-07-robotique-physical-ai-edge.webp',
+    coverImageAvif: '/images/blog/2026-06-07-robotique-physical-ai-edge.avif',
+    coverAltFr: 'Illustration editoriale d un bras robotique, de capteurs et d une ligne d inspection en edge AI.',
+    coverAltEn: 'Editorial illustration of a robotic arm, sensors and an edge AI inspection line.',
     contentFr: `## Ce qu'il faut retenir
 
 La robotique avance vers une nouvelle phase : la physical AI. L'idee n'est pas seulement d'avoir un robot spectaculaire, mais de donner a des machines, cameras, bras, vehicules ou postes d'inspection une capacite de perception, de raisonnement et d'action plus intelligente.

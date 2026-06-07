@@ -68,7 +68,8 @@ export default function Header() {
               alt="OMA Digital"
               width={140}
               height={48}
-              className="h-10 w-auto object-contain group-hover:brightness-110 transition-all"
+              className="object-contain group-hover:brightness-110 transition-all"
+              style={{ height: '40px', width: 'auto' }}
               priority
             />
           </Link>

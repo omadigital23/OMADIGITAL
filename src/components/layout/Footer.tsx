@@ -60,7 +60,8 @@ export default function Footer() {
                 alt="OMA Digital"
                 width={140}
                 height={48}
-                className="h-10 w-auto object-contain"
+                className="object-contain"
+                style={{ height: '40px', width: 'auto' }}
               />
             </Link>
             <p className="text-text-muted text-sm leading-relaxed">

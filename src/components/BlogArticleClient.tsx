@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion } from 'motion/react';
 import { Link } from '@/i18n/navigation';
@@ -8,17 +9,39 @@ import type { BlogPostData } from '@/data/blog-posts';
 import { blogCategoryLabelKeys, blogPosts } from '@/data/blog-posts';
 import { getWhatsAppUrl } from '@/lib/constants';
 
-function renderInlineMarkdown(text: string) {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
+function renderLinkedText(text: string, keyPrefix: string): ReactNode[] {
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, index) => {
+    if (part.startsWith('http://') || part.startsWith('https://')) {
       return (
-        <strong key={`${part}-${index}`} className="text-text-primary">
-          {part.slice(2, -2)}
-        </strong>
+        <a
+          key={`${keyPrefix}-link-${index}`}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent-blue underline underline-offset-2 transition-colors hover:text-accent-violet break-all"
+        >
+          {part}
+        </a>
       );
     }
 
     return part;
+  });
+}
+
+function renderInlineMarkdown(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).flatMap((part, index): ReactNode[] => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        [
+          <strong key={`${part}-${index}`} className="text-text-primary">
+            {renderLinkedText(part.slice(2, -2), `${part}-${index}`)}
+          </strong>,
+        ]
+      );
+    }
+
+    return renderLinkedText(part, `${part}-${index}`);
   });
 }
 
@@ -61,7 +84,8 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
             alt={t('authorName')}
             width={120}
             height={40}
-            className="h-10 w-auto object-contain"
+            className="object-contain"
+            style={{ height: '40px', width: 'auto' }}
           />
           <div>
             <div className="font-medium text-text-primary text-sm">{t('authorName')}</div>
@@ -79,13 +103,16 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
               return <h3 key={i} className="font-heading font-semibold text-xl text-text-primary mt-8 mb-3">{line.replace('### ', '')}</h3>;
             }
             if (line.startsWith('- **')) {
-              return <li key={i} className="text-text-secondary ml-4 mb-2">{renderInlineMarkdown(line.replace('- ', ''))}</li>;
+              return <li key={i} className="text-text-secondary ml-4 mb-2 break-words">{renderInlineMarkdown(line.replace('- ', ''))}</li>;
+            }
+            if (line.startsWith('- ')) {
+              return <li key={i} className="text-text-secondary ml-4 mb-2 break-words">{renderInlineMarkdown(line.replace('- ', ''))}</li>;
             }
             if (line.match(/^\d+\. \*\*/)) {
-              return <li key={i} className="text-text-secondary ml-4 mb-2 list-decimal">{renderInlineMarkdown(line.replace(/^\d+\. /, ''))}</li>;
+              return <li key={i} className="text-text-secondary ml-4 mb-2 list-decimal break-words">{renderInlineMarkdown(line.replace(/^\d+\. /, ''))}</li>;
             }
             if (line.trim() === '') return <div key={i} className="h-4" />;
-            return <p key={i} className="text-text-secondary leading-relaxed mb-4">{renderInlineMarkdown(line)}</p>;
+            return <p key={i} className="text-text-secondary leading-relaxed mb-4 break-words">{renderInlineMarkdown(line)}</p>;
           })}
         </article>
 

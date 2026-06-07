@@ -1,10 +1,47 @@
+export const blogCategorySlugs = [
+  'website',
+  'ecommerce',
+  'apps-mobiles',
+  'ia',
+  'veille-tech',
+  'systemes',
+  'hardware',
+  'robotique',
+] as const;
+
+export type BlogCategory = typeof blogCategorySlugs[number];
+
+export const blogCategoryLabelKeys = {
+  website: 'categoryWebsite',
+  ecommerce: 'categoryEcommerce',
+  'apps-mobiles': 'categoryAppsMobile',
+  ia: 'categoryIA',
+  'veille-tech': 'categoryVeilleTech',
+  systemes: 'categorySystems',
+  hardware: 'categoryHardware',
+  robotique: 'categoryRobotics',
+} as const satisfies Record<BlogCategory, string>;
+
+export const weeklyTechBlogCategories = [
+  'veille-tech',
+  'ia',
+  'apps-mobiles',
+  'systemes',
+  'hardware',
+  'robotique',
+] as const satisfies readonly BlogCategory[];
+
+export function isBlogCategorySlug(slug: string): slug is BlogCategory {
+  return (blogCategorySlugs as readonly string[]).includes(slug);
+}
+
 export interface BlogPostData {
   slug: string;
   titleFr: string;
   titleEn: string;
   excerptFr: string;
   excerptEn: string;
-  category: 'website' | 'ecommerce' | 'mobile' | 'ai-automation';
+  category: BlogCategory;
   readTime: number;
   date: string;
   emoji: string;
@@ -90,7 +127,7 @@ Investing in a professional website is the best digital investment you can make 
     titleEn: 'AI automation: complete guide for Senegalese businesses',
     excerptFr: "Découvrez comment l'IA peut transformer votre entreprise et vous faire gagner du temps.",
     excerptEn: 'Discover how AI can transform your business and save you time.',
-    category: 'ai-automation',
+    category: 'ia',
     readTime: 10,
     date: '2025-01-10',
     emoji: '🤖',
@@ -145,7 +182,7 @@ Our AI automation solutions start from 200,000 FCFA. Contact us for a free audit
     titleEn: 'Mobile app: why your business in Senegal needs one',
     excerptFr: 'Avec 90% de pénétration mobile au Sénégal, votre entreprise doit être sur smartphone.',
     excerptEn: 'With 90% mobile penetration in Senegal, your business needs to be on smartphone.',
-    category: 'mobile',
+    category: 'apps-mobiles',
     readTime: 7,
     date: '2025-01-05',
     emoji: '📱',

@@ -5,15 +5,8 @@ import { motion } from 'motion/react';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import type { BlogPostData } from '@/data/blog-posts';
-import { blogPosts } from '@/data/blog-posts';
+import { blogCategoryLabelKeys, blogPosts } from '@/data/blog-posts';
 import { getWhatsAppUrl } from '@/lib/constants';
-
-const categoryLabelMap = {
-  website: 'categoryWebsite',
-  ecommerce: 'categoryEcommerce',
-  mobile: 'categoryMobile',
-  'ai-automation': 'categoryAI',
-} as const;
 
 function renderInlineMarkdown(text: string) {
   return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
@@ -38,10 +31,7 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
 
   const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 2);
 
-  const categoryLabelKey = categoryLabelMap[post.category as keyof typeof categoryLabelMap];
-  const categoryLabel = categoryLabelKey
-    ? t(categoryLabelKey)
-    : post.category.replace('-', ' ');
+  const categoryLabel = t(blogCategoryLabelKeys[post.category]);
 
   return (
     <div className="container-custom max-w-4xl">
@@ -114,10 +104,7 @@ export default function BlogArticleClient({ post }: { post: BlogPostData }) {
             <h3 className="font-heading font-semibold text-xl mb-6">{t('relatedArticles')}</h3>
             <div className="grid md:grid-cols-2 gap-6">
               {related.map((r) => {
-                const relatedCategoryLabelKey = categoryLabelMap[r.category as keyof typeof categoryLabelMap];
-                const relatedCategoryLabel = relatedCategoryLabelKey
-                  ? t(relatedCategoryLabelKey)
-                  : r.category.replace('-', ' ');
+                const relatedCategoryLabel = t(blogCategoryLabelKeys[r.category]);
                 return (
                   <Link key={r.slug} href={`/blog/${r.slug}`}>
                     <div className="p-5 rounded-xl bg-bg-card border border-border-subtle hover:border-border-medium transition-all">

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { blogCategorySlugs, blogPosts } from '@/data/blog-posts';
 import { getSiteUrl } from '@/lib/site-url';
 
 const BASE_URL = getSiteUrl();
@@ -49,11 +50,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const blogSlugs = [
-    'creer-site-web-professionnel-senegal',
-    'automatisation-ia-guide-entreprises-senegalaises',
-    'application-mobile-entreprise-senegal',
-    'ecommerce-senegal-vendre-en-ligne',
+  const blogPages = [
+    ...blogCategorySlugs.map((category) => `/blog/${category}`),
+    ...blogPosts.map((post) => `/blog/${post.slug}`),
   ];
 
   const entries: MetadataRoute.Sitemap = [];
@@ -90,12 +89,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     }
 
-    for (const slug of blogSlugs) {
-      const page = `/blog/${slug}`;
+    for (const page of blogPages) {
       entries.push({
         url: `${BASE_URL}/${locale}${page}`,
         lastModified: new Date(),
-        changeFrequency: 'monthly',
+        changeFrequency: page.startsWith('/blog/') && blogCategorySlugs.some((category) => page === `/blog/${category}`)
+          ? 'weekly'
+          : 'monthly',
         priority: 0.6,
         alternates: alternateFor(locale, page),
       });

@@ -5,25 +5,24 @@ import { useTranslations, useLocale } from 'next-intl';
 import { motion } from 'motion/react';
 import { Link } from '@/i18n/navigation';
 import Card from '@/components/ui/Card';
-import { blogPosts } from '@/data/blog-posts';
+import { blogCategoryLabelKeys, blogCategorySlugs, blogPosts, isBlogCategorySlug } from '@/data/blog-posts';
 
-const categories = ['all', 'website', 'ecommerce', 'mobile', 'ai-automation'] as const;
-const categoryLabelMap = {
-  all: 'allCategories',
-  website: 'categoryWebsite',
-  ecommerce: 'categoryEcommerce',
-  mobile: 'categoryMobile',
-  'ai-automation': 'categoryAI',
-} as const;
+const categories = ['all', ...blogCategorySlugs] as const;
 
-export default function BlogListClient() {
+export default function BlogListClient({ initialCategory = 'all' }: { initialCategory?: string }) {
   const t = useTranslations('blog');
   const locale = useLocale();
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const normalizedInitialCategory = isBlogCategorySlug(initialCategory) ? initialCategory : 'all';
+  const [activeCategory, setActiveCategory] = useState<string>(normalizedInitialCategory);
 
   const filtered = activeCategory === 'all'
     ? blogPosts
     : blogPosts.filter((p) => p.category === activeCategory);
+
+  const getCategoryLabel = (category: typeof categories[number]) => {
+    if (category === 'all') return t('allCategories');
+    return t(blogCategoryLabelKeys[category]);
+  };
 
   return (
     <div className="container-custom">
@@ -37,7 +36,6 @@ export default function BlogListClient() {
       {/* Categories */}
       <div className="flex flex-wrap justify-center gap-2 mb-12">
         {categories.map((cat) => {
-          const labelKey = categoryLabelMap[cat];
           return (
             <button
               key={cat}
@@ -48,7 +46,7 @@ export default function BlogListClient() {
                   : 'bg-bg-card border border-border-subtle text-text-muted hover:text-text-primary'
               }`}
             >
-              {t(labelKey)}
+              {getCategoryLabel(cat)}
             </button>
           );
         })}
@@ -57,10 +55,7 @@ export default function BlogListClient() {
       {/* Articles */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((post, i) => {
-          const categoryLabelKey = categoryLabelMap[post.category as keyof typeof categoryLabelMap];
-          const categoryLabel = categoryLabelKey
-            ? t(categoryLabelKey)
-            : post.category.replace('-', ' ');
+          const categoryLabel = t(blogCategoryLabelKeys[post.category]);
           return (
             <motion.div
               key={post.slug}

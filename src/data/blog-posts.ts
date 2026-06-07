@@ -66,8 +66,8 @@ export const blogPosts: BlogPostData[] = [
     emoji: '🧭',
     coverImage: '/images/blog/2026-06-07-veille-tech-agents-mobile-hardware.webp',
     coverImageAvif: '/images/blog/2026-06-07-veille-tech-agents-mobile-hardware.avif',
-    coverAltFr: 'Photo realiste d un poste de travail avec ordinateur portable et smartphone pour illustrer la veille technologique.',
-    coverAltEn: 'Realistic photo of a workstation with a laptop and smartphone illustrating technology watch.',
+    coverAltFr: 'Illustration generee montrant des interfaces connectees, un mobile et des signaux de veille technologique.',
+    coverAltEn: 'Generated illustration showing connected interfaces, a mobile device and technology watch signals.',
     contentFr: `## Ce qu'il faut retenir
 
 La semaine confirme une tendance simple : la technologie ne se limite plus a des outils separes. Les agents IA arrivent dans les environnements cloud, les systemes d'exploitation, les smartphones, la recherche Google, les PC et meme la robotique. Pour une PME, cela change la facon de penser un site web, une application mobile ou une automatisation : il faut construire des experiences capables d'etre trouvees, comprises, utilisees et connectees par des assistants intelligents.
@@ -166,8 +166,8 @@ OMA Digital clients should focus on three priorities: publish useful sourced con
     emoji: '🧠',
     coverImage: '/images/blog/2026-06-07-ia-agents-cloud-confiance.webp',
     coverImageAvif: '/images/blog/2026-06-07-ia-agents-cloud-confiance.avif',
-    coverAltFr: 'Photo realiste d un serveur en data center pour illustrer le cloud, les agents IA et la confiance numerique.',
-    coverAltEn: 'Realistic photo of a data center server illustrating cloud AI agents and digital trust.',
+    coverAltFr: 'Illustration generee d agents IA dans le cloud avec interface de controle et symbole de confiance.',
+    coverAltEn: 'Generated illustration of cloud AI agents with a control interface and trust symbol.',
     contentFr: `## Ce qu'il faut retenir
 
 La tendance IA de la semaine est claire : les agents quittent le discours marketing et entrent dans les environnements de travail. OpenAI rapproche ses modeles et Codex d'AWS. Anthropic ameliore Claude Opus pour les taches longues, le code et l'utilisation d'outils. Google parle d'une ere Gemini agentique, ou les assistants deviennent plus proactifs dans Search, Android et les experiences du quotidien.
@@ -266,8 +266,8 @@ OMA Digital clients should start with a short automation audit: list repeated ta
     emoji: '📱',
     coverImage: '/images/blog/2026-06-07-apps-mobiles-android-wwdc.webp',
     coverImageAvif: '/images/blog/2026-06-07-apps-mobiles-android-wwdc.avif',
-    coverAltFr: 'Photo realiste d un smartphone et d un ordinateur portable pour illustrer les applications mobiles.',
-    coverAltEn: 'Realistic photo of a smartphone and laptop illustrating mobile applications.',
+    coverAltFr: 'Illustration generee de smartphones et d une grille d applications mobiles connectees.',
+    coverAltEn: 'Generated illustration of smartphones and a connected mobile application grid.',
     contentFr: `## Ce qu'il faut retenir
 
 Le mobile reste le canal le plus direct pour toucher un client, mais la maniere de convertir change. Les annonces recentes de Google Play, les mises a jour Android de juin et l'approche de WWDC26 montrent trois priorites : decouverte au-dela du store, securite des utilisateurs et experiences adaptatives.
@@ -357,8 +357,8 @@ Build a clear app landing page, localize the store listing, use screenshots that
     emoji: '🖥️',
     coverImage: '/images/blog/2026-06-07-systemes-windows-android-macos.webp',
     coverImageAvif: '/images/blog/2026-06-07-systemes-windows-android-macos.avif',
-    coverAltFr: 'Photo realiste d un ordinateur portable avec ecran blanc pour illustrer les systemes et environnements de travail.',
-    coverAltEn: 'Realistic photo of a laptop with a blank screen illustrating systems and work environments.',
+    coverAltFr: 'Illustration generee de systemes d exploitation, tableaux de bord et securite des agents IA.',
+    coverAltEn: 'Generated illustration of operating systems, dashboards and AI agent security.',
     contentFr: `## Ce qu'il faut retenir
 
 Les systemes d'exploitation changent de role. Windows, Android, macOS et les plateformes cloud ne sont plus seulement des environnements ou l'utilisateur lance des applications. Ils deviennent des couches d'orchestration ou des agents peuvent lire le contexte, proposer une action, executer une tache et rester limites par des regles de securite.
@@ -451,8 +451,8 @@ Before adding agents, audit devices, apps, accounts and repeated tasks. Start wi
     emoji: '⚙️',
     coverImage: '/images/blog/2026-06-07-hardware-ai-pc-edge.webp',
     coverImageAvif: '/images/blog/2026-06-07-hardware-ai-pc-edge.avif',
-    coverAltFr: 'Photo realiste d une carte mere et de composants informatiques pour illustrer le hardware IA.',
-    coverAltEn: 'Realistic photo of a motherboard and computer components illustrating AI hardware.',
+    coverAltFr: 'Illustration generee d un processeur IA, de composants PC et d infrastructure edge.',
+    coverAltEn: 'Generated illustration of an AI processor, PC components and edge infrastructure.',
     contentFr: `## Ce qu'il faut retenir
 
 Le hardware redevient strategique. Pendant plusieurs annees, beaucoup de PME ont pense que tout devait aller dans le cloud. La vague des agents IA nuance cette idee. Certaines taches resteront dans le cloud, mais d'autres auront besoin de puissance locale, de faible latence, de confidentialite ou de fonctionnement en environnement limite.
@@ -543,8 +543,8 @@ Start in the cloud when the workflow is occasional, simple and low risk. Conside
     emoji: '🤖',
     coverImage: '/images/blog/2026-06-07-robotique-physical-ai-edge.webp',
     coverImageAvif: '/images/blog/2026-06-07-robotique-physical-ai-edge.avif',
-    coverAltFr: 'Photo realiste d un bras robotique industriel pour illustrer la robotique et l IA physique.',
-    coverAltEn: 'Realistic photo of an industrial robotic arm illustrating robotics and physical AI.',
+    coverAltFr: 'Illustration generee d un bras robotique, de capteurs et d une ligne d inspection edge AI.',
+    coverAltEn: 'Generated illustration of a robotic arm, sensors and an edge AI inspection line.',
     contentFr: `## Ce qu'il faut retenir
 
 La robotique avance vers une nouvelle phase : la physical AI. L'idee n'est pas seulement d'avoir un robot spectaculaire, mais de donner a des machines, cameras, bras, vehicules ou postes d'inspection une capacite de perception, de raisonnement et d'action plus intelligente.

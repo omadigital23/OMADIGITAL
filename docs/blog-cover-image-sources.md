@@ -1,14 +1,14 @@
-# Blog Cover Image Sources
+# Blog Cover Image Notes
 
-These cover images are optimized derivatives of Pexels photos. Pexels allows free use and modification for websites and blogs; attribution is not required but source tracking is kept here for maintainability.
+These cover images are generated editorial illustrations created locally for OMA Digital blog articles. They are not stock photos and do not use third-party photo sources.
 
-License: https://www.pexels.com/license/
+Format: `1200x630`, optimized as WebP for Open Graph/Twitter metadata and AVIF for browser rendering.
 
 ## 2026-06-07 weekly tech batch
 
-- Veille tech: https://www.pexels.com/photo/a-laptop-and-a-smartphone-on-a-desk-8004006/
-- IA: https://www.pexels.com/photo/computer-server-in-data-center-room-17489163/
-- Apps mobiles: https://www.pexels.com/photo/laptop-and-a-phone-on-a-desk-23228194/
-- Systemes: https://www.pexels.com/photo/laptop-with-blank-screen-25589787/
-- Hardware: https://www.pexels.com/photo/brown-mother-board-2588756/
-- Robotique: https://www.pexels.com/photo/robots-are-working-in-a-factory-with-a-machine-18471441/
+- Veille tech: connected interfaces, mobile signal, weekly technology watch.
+- IA: cloud agent, control interface, trust shield.
+- Apps mobiles: smartphones and app discovery grid.
+- Systemes: operating system panels, workflow dashboard, security shield.
+- Hardware: AI processor, PC components, edge infrastructure.
+- Robotique: robotic arm, sensors, inspection line.

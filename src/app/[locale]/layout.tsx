@@ -3,7 +3,7 @@ import { Inter, Outfit } from 'next/font/google';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import Script from 'next/script';
 import { routing } from '@/i18n/routing';
 import { BUSINESS } from '@/lib/constants';
 import { buildLocalizedAlternates } from '@/lib/seo';
@@ -149,8 +149,14 @@ export default async function LocaleLayout({
             {children}
           </div>
           <ClientLayoutEnhancements />
-          <SpeedInsights />
         </NextIntlClientProvider>
+        <Script
+          id="vercel-speed-insights"
+          src="/_vercel/speed-insights/script.js"
+          strategy="afterInteractive"
+          data-sdkn="@vercel/speed-insights/next"
+          data-sdkv="2.0.0"
+        />
       </body>
     </html>
   );

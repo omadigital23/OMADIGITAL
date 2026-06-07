@@ -8,6 +8,20 @@ import type { NextConfig } from 'next';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/fr/sitemap.xml',
+        destination: '/sitemap.xml',
+        permanent: true,
+      },
+      {
+        source: '/en/sitemap.xml',
+        destination: '/sitemap.xml',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

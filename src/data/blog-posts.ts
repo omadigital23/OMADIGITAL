@@ -623,226 +623,372 @@ Start with detection before full automation: visual inspection, inventory checks
   },
   {
     slug: 'creer-site-web-professionnel-senegal',
-    titleFr: 'Comment créer un site web professionnel au Sénégal en 2025',
-    titleEn: 'How to create a professional website in Senegal in 2025',
-    excerptFr: 'Guide complet pour créer un site web qui convertit vos visiteurs en clients au Sénégal.',
-    excerptEn: 'Complete guide to creating a website that converts visitors into clients in Senegal.',
+    titleFr: 'Créer un site web professionnel au Sénégal en 2026 : SEO, IA et conversion',
+    titleEn: 'Creating a professional website in Senegal in 2026: SEO, AI and conversion',
+    excerptFr: "Un guide pratique pour construire un site rapide, utile, visible dans Google et pensé pour convertir les visiteurs sénégalais en clients.",
+    excerptEn: 'A practical guide to building a fast, useful, Google-ready website that converts Senegalese visitors into customers.',
     category: 'website',
-    readTime: 8,
-    date: '2025-01-15',
+    readTime: 10,
+    date: '2026-06-07',
     emoji: '🌐',
-    contentFr: `## Pourquoi un site web est essentiel au Sénégal
+    coverImage: '/images/blog/site-web-professionnel-senegal-2026.webp',
+    coverImageAvif: '/images/blog/site-web-professionnel-senegal-2026.avif',
+    coverAltFr: "Illustration éditoriale d'un site web responsive avec tableau de bord, indicateur de validation et aperçu mobile.",
+    coverAltEn: 'Editorial illustration of a responsive website with dashboard, validation indicator and mobile preview.',
+    contentFr: `## Ce qu'il faut retenir
 
-Avec plus de 10 millions d'utilisateurs internet au Sénégal, votre entreprise ne peut plus ignorer le digital. Un site web professionnel est votre vitrine 24h/24, accessible depuis Dakar, Thiès, Saint-Louis ou n'importe où dans le monde.
+Créer un site web professionnel au Sénégal en 2026 ne consiste plus seulement à mettre une belle page en ligne. Le vrai enjeu est de créer un actif commercial : une présence rapide, crédible, visible dans Google, lisible par les moteurs de recherche assistés par IA et capable de transformer une visite en prise de contact.
 
-### Les avantages d'un site web professionnel
+Le marché sénégalais est déjà fortement connecté. DataReportal indique que le Sénégal comptait environ 11,5 millions d'utilisateurs internet dans son rapport Digital 2026, et le GSMA signale une couverture 4G très large avec une adoption mobile internet qui progresse encore. Cela change la façon de concevoir un site : il doit être mobile-first, léger, clair et utile même quand la connexion n'est pas parfaite.
 
-1. **Crédibilité** — 75% des consommateurs jugent la crédibilité d'une entreprise par son site web
-2. **Visibilité** — Être trouvé sur Google quand vos clients cherchent vos services
-3. **Conversion** — Transformer les visiteurs en clients avec un design optimisé
-4. **Disponibilité** — Votre entreprise accessible 24h/24, 7j/7
+La deuxième tendance importante vient de Google. Les expériences de recherche avec IA, les aperçus génératifs et les exigences de contenu utile rendent les pages faibles beaucoup moins défendables. Un site qui copie des phrases génériques aura du mal à convaincre. Un site qui explique clairement le problème, le service, la zone couverte, le processus, les preuves et les prochaines étapes a beaucoup plus de chances d'être compris par Google et par les clients.
 
-### Choisir la bonne technologie
+## Les signaux du marché
 
-Pour le marché sénégalais, nous recommandons Next.js pour sa rapidité, même sur les connexions 3G. Un site rapide = plus de conversions.
+Le premier signal est la montée de la recherche conversationnelle. Les visiteurs ne tapent plus seulement "agence web Dakar". Ils posent des questions plus précises : "combien coûte un site vitrine pour une école à Thiès", "comment accepter Wave sur une boutique en ligne", "quel site web pour un cabinet de formation". Le contenu doit donc répondre à des intentions réelles, pas seulement répéter un mot-clé.
 
-### Intégrer les paiements mobiles
+Le deuxième signal est visuel. Google recommande des images pertinentes, descriptives, rapides à charger, intégrées avec de vrais éléments HTML et accompagnées d'un alt text utile. Pour un site d'entreprise, cela veut dire : photos ou visuels de qualité, images compressées, noms de fichiers clairs, Open Graph propre et données structurées quand c'est pertinent.
 
-Au Sénégal, Wave et Orange Money dominent. Votre site e-commerce doit absolument intégrer ces solutions de paiement pour maximiser vos ventes.
+Le troisième signal est la confiance locale. Un client sénégalais veut savoir qui vous êtes, où vous intervenez, comment vous travaillez, ce que vous livrez, combien cela peut coûter et comment vous joindre rapidement. Les pages doivent donc connecter SEO, conversion et support commercial.
 
-### Optimisation SEO locale
+## Pourquoi c'est important pour les PME
 
-Ciblez les mots-clés locaux comme "agence web Dakar", "création site web Thiès" pour attirer des clients dans votre zone géographique.
+Une PME peut perdre des clients avec un site pourtant "joli" si trois choses manquent. D'abord, la page ne répond pas à la vraie question du visiteur. Ensuite, l'appel à l'action n'est pas évident. Enfin, le site ne rassure pas : pas de processus, pas de détails, pas d'exemples, pas de canal direct.
 
-### Budget et tarifs
+Un site efficace doit avoir une hiérarchie simple. En haut de page : le service, la zone, la promesse réaliste et le bouton d'action. Ensuite : problèmes clients, solution, livrables, processus, exemples, prix indicatif ou fourchette, FAQ, preuves, contact WhatsApp et formulaire court.
 
-Un site vitrine professionnel au Sénégal coûte entre 150 000 et 750 000 FCFA selon la complexité. Chez OMA Digital, nous proposons des solutions adaptées à tous les budgets.
+La vitesse reste essentielle. Beaucoup de visiteurs consultent depuis mobile. Un site lourd, rempli de scripts et d'images non optimisées, augmente les abandons. Pour cela, OMA Digital privilégie des architectures modernes comme Next.js, des images WebP ou AVIF, des composants légers et une stratégie de contenu structurée.
 
-## Conclusion
+## Opportunités pour OMA Digital et ses clients
 
-Investir dans un site web professionnel est le meilleur investissement digital que vous puissiez faire pour votre entreprise au Sénégal. Contactez OMA Digital pour un audit gratuit.`,
-    contentEn: `## Why a website is essential in Senegal
+1. **SEO local plus précis** : créer des pages pour Dakar, Thiès, Sénégal, secteurs d'activité et services spécifiques.
 
-With over 10 million internet users in Senegal, your business can no longer ignore digital. A professional website is your 24/7 storefront, accessible from Dakar, Thiès, Saint-Louis or anywhere in the world.
+2. **Conversion WhatsApp** : intégrer un CTA WhatsApp clair, avec un message prérempli selon le service consulté.
 
-### Benefits of a professional website
+3. **Contenu prêt pour l'IA** : publier des guides qui répondent à des questions concrètes, avec sources et plan d'action.
 
-1. **Credibility** — 75% of consumers judge a business's credibility by its website
-2. **Visibility** — Be found on Google when clients search for your services
-3. **Conversion** — Turn visitors into clients with optimized design
-4. **Availability** — Your business accessible 24/7
+4. **Images de couverture utiles** : utiliser une image représentative pour chaque article et chaque page stratégique afin d'améliorer le taux de clic, le partage social et la compréhension visuelle.
 
-### Choosing the right technology
+5. **Données structurées** : ajouter Article, Organization, Service, FAQ ou Product selon le type de page pour aider Google à comprendre le contenu.
 
-For the Senegalese market, we recommend Next.js for its speed, even on 3G connections. A fast site = more conversions.
+## Risques à surveiller
 
-### Integrating mobile payments
+Le premier risque est de créer un site trop générique. Une page qui pourrait appartenir à n'importe quelle agence ne construit pas la confiance. Le deuxième risque est de promettre trop : garanties de trafic, résultats immédiats ou chiffres non vérifiés fragilisent la crédibilité. Le troisième risque est technique : images trop lourdes, mauvais redirects, absence de sitemap, pages non indexées ou contenu dupliqué.
 
-In Senegal, Wave and Orange Money dominate. Your e-commerce site must integrate these payment solutions to maximize sales.
+## Plan d'action conseillé
 
-### Local SEO optimization
+Commencez par un audit de trois pages : accueil, service principal et contact. Vérifiez si chaque page répond à ces questions : quel problème est traité, pour qui, dans quelle zone, avec quel processus, combien cela peut coûter, comment démarrer. Ensuite, ajoutez une image optimisée, un titre SEO clair, une méta-description utile et un CTA visible.
 
-Target local keywords like "web agency Dakar", "website creation Thiès" to attract clients in your geographic area.
+Pour un nouveau site, partez sur une base simple : page d'accueil, 3 à 5 pages services, blog ou ressources, contact, mentions légales, sitemap, robots.txt, Search Console, analytics et performance mobile. Le design doit servir la conversion, pas seulement l'esthétique.
 
-### Budget and pricing
+## Sources consultées
 
-A professional showcase website in Senegal costs between 150,000 and 750,000 FCFA depending on complexity. At OMA Digital, we offer solutions adapted to all budgets.
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/newsroom/press-release/new-gsma-report-shows-digital-reforms-could-connect-2-6-million-more-people-in-senegal-by-2030-and-expand-access-to-essential-services/
+- https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+- https://developers.google.com/search/docs/appearance/google-images
+- https://developers.google.com/search/docs/appearance/structured-data/article`,
+    contentEn: `## Key takeaway
 
-## Conclusion
+Building a professional website in Senegal in 2026 is not just about publishing a nice page. It is about creating a commercial asset: fast, credible, mobile-first, discoverable in Google and designed to turn visitors into conversations.
 
-Investing in a professional website is the best digital investment you can make for your business in Senegal. Contact OMA Digital for a free audit.`,
+## Market signals
+
+DataReportal reports roughly 11.5 million internet users in Senegal in its Digital 2026 report, while GSMA highlights broad 4G coverage and continued room for mobile internet adoption. Google Search is also becoming more conversational and AI-assisted, which makes thin generic pages less useful. Businesses need content that answers real questions, uses clear media and explains the local buying journey.
+
+## What SMEs should do
+
+A good business website should clearly show the service, target area, realistic promise, process, starting budget, proof points, FAQ, WhatsApp CTA and short contact form. Images should be optimized, descriptive and declared in metadata where useful. Structured data such as Article, Organization, Service, FAQ or Product can help search engines understand the page.
+
+## Risks
+
+Avoid generic copy, unverified promises, heavy images, weak redirects, missing sitemap files and duplicated content. A site that looks modern but does not answer the customer's question will not convert.
+
+## Sources reviewed
+
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/newsroom/press-release/new-gsma-report-shows-digital-reforms-could-connect-2-6-million-more-people-in-senegal-by-2030-and-expand-access-to-essential-services/
+- https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+- https://developers.google.com/search/docs/appearance/google-images
+- https://developers.google.com/search/docs/appearance/structured-data/article`,
   },
   {
     slug: 'automatisation-ia-guide-entreprises-senegalaises',
-    titleFr: "L'automatisation IA : guide complet pour les entreprises sénégalaises",
-    titleEn: 'AI automation: complete guide for Senegalese businesses',
-    excerptFr: "Découvrez comment l'IA peut transformer votre entreprise et vous faire gagner du temps.",
-    excerptEn: 'Discover how AI can transform your business and save you time.',
+    titleFr: 'Automatisation IA au Sénégal : agents, workflows et garde-fous pour PME',
+    titleEn: 'AI automation in Senegal: agents, workflows and safeguards for SMEs',
+    excerptFr: "Les agents IA deviennent opérationnels, mais une PME doit commencer par des workflows simples, mesurables et contrôlés.",
+    excerptEn: 'AI agents are becoming operational, but SMEs should start with simple, measurable and controlled workflows.',
     category: 'ia',
     readTime: 10,
-    date: '2025-01-10',
+    date: '2026-06-07',
     emoji: '🤖',
-    contentFr: `## L'IA est accessible à toutes les entreprises
+    coverImage: '/images/blog/automatisation-ia-pme-senegal-2026.webp',
+    coverImageAvif: '/images/blog/automatisation-ia-pme-senegal-2026.avif',
+    coverAltFr: "Illustration éditoriale d'un workflow d'automatisation IA reliant plusieurs tâches et un agent central.",
+    coverAltEn: 'Editorial illustration of an AI automation workflow connecting multiple tasks to a central agent.',
+    contentFr: `## Ce qu'il faut retenir
 
-L'intelligence artificielle n'est plus réservée aux géants de la tech. Aujourd'hui, même les PME sénégalaises peuvent profiter de l'IA pour automatiser leurs processus et gagner en productivité.
+L'automatisation IA devient enfin concrète pour les PME. Les annonces récentes d'OpenAI, Google, Anthropic et des plateformes d'automatisation montrent la même direction : les assistants ne se limitent plus à répondre à une question, ils peuvent utiliser des outils, suivre un processus, préparer une action et collaborer avec des systèmes existants.
 
-### Cas d'utilisation concrets
+Pour une entreprise sénégalaise, la bonne approche n'est pas de remplacer une équipe par un robot. La bonne approche est d'identifier les tâches répétitives, de les encadrer, puis d'ajouter une IA là où elle réduit les oublis, accélère la réponse ou améliore la qualité du suivi.
 
-1. **Chatbot WhatsApp** — Répondez automatiquement aux questions de vos clients 24h/24
-2. **Automatisation email** — Envoyez des emails personnalisés sans effort
-3. **Analyse de données** — Comprenez vos ventes et prédisez les tendances
-4. **Gestion des stocks** — Optimisez vos commandes avec l'IA
+Un bon projet IA commence donc par un workflow, pas par un modèle. Qui déclenche l'action ? Quelles données sont nécessaires ? Que peut faire l'IA ? Que doit valider un humain ? Où garde-t-on la trace ? Ces questions sont plus importantes que le nom du modèle choisi.
 
-### ROI de l'automatisation
+## Les signaux de la semaine
 
-Nos clients économisent en moyenne 20 heures par semaine grâce à nos solutions d'automatisation. C'est du temps que vous pouvez investir dans la croissance de votre entreprise.
+OpenAI a rendu ses modèles frontier et Codex disponibles sur AWS, et a aussi communiqué sur l'arrivée de modèles, Codex et Managed Agents dans Amazon Bedrock. Le signal est clair : l'IA entre dans les environnements cloud déjà utilisés par les entreprises.
 
-### Par où commencer ?
+Google met en avant une ère Gemini plus agentique, avec des assistants capables d'aider de façon plus proactive. Anthropic insiste sur les agents, les tâches longues, le code, l'utilisation d'outils et la réduction des réponses non fiables. n8n, de son côté, présente l'automatisation comme un point de contrôle entre les modèles IA, les applications métier, les webhooks et la validation humaine.
 
-Commencez par identifier les tâches répétitives dans votre entreprise. Chaque tâche qui suit un processus régulier peut potentiellement être automatisée.
+Le marché va donc vers des agents plus utiles, mais aussi plus risqués si les règles ne sont pas claires.
 
-### Tarifs et solutions
+## Pourquoi c'est important pour les PME
 
-Nos solutions d'automatisation IA commencent à partir de 200 000 FCFA. Contactez-nous pour un audit gratuit de vos processus.`,
-    contentEn: `## AI is accessible to all businesses
+Dans une PME, les pertes de temps sont souvent simples : demandes WhatsApp non classées, relances oubliées, devis à répéter, emails sans suivi, prospects qui ne reçoivent pas de réponse, fichiers client dispersés entre téléphone, Excel et messagerie.
 
-Artificial intelligence is no longer reserved for tech giants. Today, even Senegalese SMEs can benefit from AI to automate their processes and boost productivity.
+L'IA peut aider sur ces tâches si elle est connectée correctement. Un assistant peut qualifier un prospect, reconnaître le service demandé, préparer un résumé, proposer une réponse, créer une fiche CRM et programmer une relance. Mais il ne doit pas inventer un prix, confirmer une disponibilité ou envoyer un message sensible sans règle.
 
-### Concrete use cases
+La vraie valeur vient de la combinaison : formulaire clair, WhatsApp, base de données, email, tableau de bord, agent IA et validation humaine.
 
-1. **WhatsApp Chatbot** — Automatically answer customer questions 24/7
-2. **Email Automation** — Send personalized emails effortlessly
-3. **Data Analysis** — Understand your sales and predict trends
-4. **Inventory Management** — Optimize your orders with AI
+## Opportunités pour OMA Digital et ses clients
 
-### Automation ROI
+1. **Qualification automatique de prospects** : poser les bonnes questions, détecter le service, noter l'urgence et transmettre une fiche propre.
 
-Our clients save an average of 20 hours per week with our automation solutions. That's time you can invest in growing your business.
+2. **Support WhatsApp assisté** : répondre aux questions fréquentes, orienter vers la bonne page et passer à un humain dès que la demande devient sensible.
 
-### Where to start?
+3. **Relances commerciales** : envoyer un rappel après formulaire, devis ou rendez-vous, avec un ton contrôlé.
 
-Start by identifying repetitive tasks in your business. Every task that follows a regular process can potentially be automated.
+4. **CRM intelligent** : transformer chaque demande en statut, priorité, canal, prochaine action et historique.
 
-### Pricing and solutions
+5. **Reporting simple** : résumer les demandes de la semaine et repérer les services les plus demandés.
 
-Our AI automation solutions start from 200,000 FCFA. Contact us for a free audit of your processes.`,
+## Risques à surveiller
+
+Le premier risque est l'hallucination. Une IA peut écrire une réponse convaincante mais fausse. Le deuxième risque est la confidentialité : un workflow peut manipuler des numéros, emails, budgets ou demandes sensibles. Le troisième risque est l'autonomie excessive : un agent doit d'abord assister, pas décider seul.
+
+Il faut donc prévoir des garde-fous : liste de réponses autorisées, validation humaine, journalisation, limites d'accès, tests avec de vraies demandes et bouton d'arrêt si le workflow se comporte mal.
+
+## Plan d'action conseillé
+
+Commencez par un seul processus à forte répétition. Exemple : réception d'une demande WhatsApp ou formulaire, qualification, résumé, création d'une fiche, notification interne, relance. Mesurez ensuite trois indicateurs : temps de réponse, nombre de demandes traitées, nombre d'oublis évités.
+
+Si le résultat est bon, ajoutez une deuxième étape. Si le résultat est instable, corrigez le processus avant de changer de modèle IA.
+
+## Sources consultées
+
+- https://openai.com/index/openai-frontier-models-and-codex-are-now-available-on-aws/
+- https://openai.com/index/openai-on-aws
+- https://blog.google/innovation-and-ai/technology/ai/
+- https://www.anthropic.com/news/claude-opus-4-8
+- https://n8n.io/ai/
+- https://n8n.io/ai-agents/`,
+    contentEn: `## Key takeaway
+
+AI automation is becoming practical for SMEs, but the best projects start with a workflow, not with a model. The goal is not to replace a team. It is to reduce missed follow-ups, speed up replies and improve customer handling with clear human control.
+
+## Signals
+
+OpenAI brought frontier models and Codex into AWS environments. Google is positioning Gemini as a more proactive agentic assistant. Anthropic continues to focus on tool use, long tasks and reliability. n8n frames automation as the control layer between AI models, business apps, webhooks and human validation.
+
+## SME approach
+
+Start with one repeated process: lead qualification, WhatsApp support, quote follow-up, CRM update or weekly reporting. Define what triggers the workflow, which data is needed, what the AI can say, what a human must approve and where the activity is logged.
+
+## Risks
+
+Watch hallucinations, privacy, excessive autonomy and vendor lock-in. A good AI workflow needs approved responses, access limits, human review, logs and tests against real customer messages.
+
+## Sources reviewed
+
+- https://openai.com/index/openai-frontier-models-and-codex-are-now-available-on-aws/
+- https://openai.com/index/openai-on-aws
+- https://blog.google/innovation-and-ai/technology/ai/
+- https://www.anthropic.com/news/claude-opus-4-8
+- https://n8n.io/ai/
+- https://n8n.io/ai-agents/`,
   },
   {
     slug: 'application-mobile-entreprise-senegal',
-    titleFr: 'Application mobile : pourquoi votre entreprise au Sénégal en a besoin',
-    titleEn: 'Mobile app: why your business in Senegal needs one',
-    excerptFr: 'Avec 90% de pénétration mobile au Sénégal, votre entreprise doit être sur smartphone.',
-    excerptEn: 'With 90% mobile penetration in Senegal, your business needs to be on smartphone.',
+    titleFr: 'Application mobile au Sénégal : quand investir en 2026 et comment réussir',
+    titleEn: 'Mobile app in Senegal: when to invest in 2026 and how to succeed',
+    excerptFr: "Le mobile domine les usages, mais une application n'est rentable que si elle sert un parcours récurrent, mesurable et utile.",
+    excerptEn: 'Mobile dominates usage, but an app pays off only when it supports a recurring, measurable and useful journey.',
     category: 'apps-mobiles',
-    readTime: 7,
-    date: '2025-01-05',
+    readTime: 10,
+    date: '2026-06-07',
     emoji: '📱',
-    contentFr: `## Le mobile domine au Sénégal
+    coverImage: '/images/blog/application-mobile-senegal-2026.webp',
+    coverImageAvif: '/images/blog/application-mobile-senegal-2026.avif',
+    coverAltFr: 'Illustration éditoriale de deux interfaces mobiles avec notification et parcours client connecté.',
+    coverAltEn: 'Editorial illustration of two mobile interfaces with a notification and connected customer journey.',
+    contentFr: `## Ce qu'il faut retenir
 
-Le Sénégal est un pays "mobile-first". Plus de 90% de la population accède à internet via un smartphone. Si votre entreprise n'est pas sur mobile, vous manquez une opportunité énorme.
+Une application mobile peut être un excellent investissement au Sénégal, mais seulement si elle répond à un usage récurrent. Pour une entreprise, la question n'est pas "faut-il avoir une app ?", mais "quel problème revient assez souvent pour justifier une app ?".
 
-### Avantages d'une application mobile
+Le mobile est central dans les usages sénégalais. DataReportal indique que la majorité des connexions mobiles sont désormais en haut débit, et le GSMA souligne que le Sénégal dispose d'une couverture 4G très large avec encore un potentiel de croissance de l'adoption mobile internet. Cela crée un environnement favorable pour les apps, mais aussi une exigence : l'expérience doit être rapide, simple et fiable.
 
-1. **Engagement** — Les utilisateurs passent 90% de leur temps sur des apps
-2. **Notifications push** — Communiquez directement avec vos clients
-3. **Paiement mobile** — Intégrez Wave et Orange Money facilement
-4. **Fidélisation** — Créez une relation durable avec vos clients
+En 2026, les stores changent aussi. Google Play annonce plus de découverte d'applications via Gemini et des outils IA dans Play Console. Apple met en avant l'écosystème App Store, les outils développeurs et les contenus WWDC. Une application doit donc être pensée pour l'utilisateur, mais aussi pour la découverte, la fiche store, les avis, les captures, la sécurité et l'analyse.
 
-### Types d'applications
+## Les signaux de la semaine
 
-- **Application métier** — Gestion interne, suivi des commandes
-- **Application client** — E-commerce, réservation, services
-- **Application marketplace** — Connectez acheteurs et vendeurs
+Google Play prépare la découverte d'apps dans Gemini sur Android et le Web. Cela signifie qu'une application bien décrite, bien localisée et reliée à un cas d'usage clair peut devenir visible au-delà d'une recherche classique dans le Play Store.
 
-### Budget et délais
+Apple rappelle que l'écosystème App Store reste massif et que les développeurs doivent travailler la distribution, la confiance et l'expérience. WWDC26 apporte aussi des sessions et labs utiles pour améliorer présence App Store, analytics, design et qualité.
 
-Une application mobile au Sénégal coûte entre 300 000 et 1 200 000 FCFA. Le développement prend généralement 4 à 12 semaines selon la complexité.`,
-    contentEn: `## Mobile dominates in Senegal
+Pour les PME sénégalaises, ces annonces confirment une règle : une app ne doit pas seulement être développée, elle doit être lancée, mesurée, maintenue et améliorée.
 
-Senegal is a "mobile-first" country. Over 90% of the population accesses internet via smartphone. If your business isn't on mobile, you're missing a huge opportunity.
+## Pourquoi c'est important pour les PME
 
-### Benefits of a mobile application
+Une application devient utile quand elle réduit la friction d'un parcours fréquent : réservation, suivi de commande, fidélité, paiement, notifications, catalogue, formation, support ou reporting interne. Si le client n'utilise le service qu'une seule fois, un site web mobile ou une PWA peut suffire. Si le client revient chaque semaine, l'application peut devenir un avantage.
 
-1. **Engagement** — Users spend 90% of their time on apps
-2. **Push notifications** — Communicate directly with your clients
-3. **Mobile payment** — Easily integrate Wave and Orange Money
-4. **Loyalty** — Build lasting relationships with your clients
+Le contexte local compte. Une app doit fonctionner sur des téléphones variés, avec des connexions parfois instables, des écrans différents et des habitudes de paiement mobiles. Elle doit aussi prévoir des parcours simples : connexion rapide, messages clairs, état de commande, assistance WhatsApp, paiement local et notifications utiles.
 
-### Types of applications
+## Opportunités pour OMA Digital et ses clients
 
-- **Business app** — Internal management, order tracking
-- **Client app** — E-commerce, booking, services
-- **Marketplace app** — Connect buyers and sellers
+1. **Apps de réservation** : rendez-vous, rappels, confirmation WhatsApp et historique client.
 
-### Budget and timelines
+2. **Apps e-commerce** : catalogue, panier, paiement mobile, suivi de commande et fidélité.
 
-A mobile app in Senegal costs between 300,000 and 1,200,000 FCFA. Development typically takes 4 to 12 weeks depending on complexity.`,
+3. **Apps métier** : gestion interne, présence, tâches, stocks, interventions ou rapports terrain.
+
+4. **PWA avant app native** : tester l'usage avec une application web installable avant d'investir dans une app store complète.
+
+5. **Découverte store** : optimiser titre, description, captures, mots-clés, avis et localisation française.
+
+## Risques à surveiller
+
+Le premier risque est de développer une app sans usage récurrent. Le deuxième est de négliger la maintenance : compatibilité Android/iOS, sécurité, bugs, versions, stores, analytics. Le troisième est de surcharger l'interface. Une app mobile doit aller droit au but.
+
+Il faut aussi éviter les notifications inutiles. Une notification doit aider le client : rappel, statut, offre pertinente, message de support. Trop de notifications détruisent la confiance.
+
+## Plan d'action conseillé
+
+Avant de coder, listez les trois actions les plus fréquentes du client. Si elles peuvent être faites plus vite dans une app que sur un site, le projet est pertinent. Créez ensuite une version MVP : accueil, compte, action principale, paiement ou demande, suivi, support. Mesurez l'activation, la rétention, les demandes support et les transactions.
+
+Pour OMA Digital, la bonne recommandation est souvent progressive : site mobile rapide, puis PWA, puis app native si l'usage est prouvé.
+
+## Sources consultées
+
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/newsroom/press-release/new-gsma-report-shows-digital-reforms-could-connect-2-6-million-more-people-in-senegal-by-2030-and-expand-access-to-essential-services/
+- https://developer.android.com/blog/posts/i-o-2026-what-s-new-in-google-play
+- https://developer.apple.com/wwdc26/
+- https://www.apple.com/app-store/developing-for-the-app-store/`,
+    contentEn: `## Key takeaway
+
+A mobile app can be a strong investment in Senegal, but only when it supports a recurring use case. The right question is not whether every business needs an app. It is whether customers repeat a journey often enough to justify one.
+
+## Signals
+
+DataReportal and GSMA show that Senegal remains strongly mobile-led, with broad 4G coverage and room for more mobile internet adoption. Google Play is preparing app discovery through Gemini on Android and the web, while Apple continues to emphasize App Store distribution, analytics and developer quality through WWDC.
+
+## SME approach
+
+An app makes sense for booking, order tracking, loyalty, payment, support, internal operations, field reporting or recurring training. If the user only needs the service once, a mobile website or PWA may be enough. If the user returns weekly, an app can become a real advantage.
+
+## Risks
+
+Avoid building an app without a recurring use case. Plan maintenance, security, store updates, analytics and useful notifications. Too many features or push messages can damage trust.
+
+## Sources reviewed
+
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/newsroom/press-release/new-gsma-report-shows-digital-reforms-could-connect-2-6-million-more-people-in-senegal-by-2030-and-expand-access-to-essential-services/
+- https://developer.android.com/blog/posts/i-o-2026-what-s-new-in-google-play
+- https://developer.apple.com/wwdc26/
+- https://www.apple.com/app-store/developing-for-the-app-store/`,
   },
   {
     slug: 'ecommerce-senegal-vendre-en-ligne',
-    titleFr: 'E-commerce au Sénégal : comment vendre en ligne avec succès',
-    titleEn: 'E-commerce in Senegal: how to sell online successfully',
-    excerptFr: 'Le guide complet pour lancer votre boutique en ligne au Sénégal.',
-    excerptEn: 'The complete guide to launching your online store in Senegal.',
+    titleFr: 'E-commerce au Sénégal : paiements mobiles, confiance et SEO produit en 2026',
+    titleEn: 'E-commerce in Senegal: mobile payments, trust and product SEO in 2026',
+    excerptFr: 'Pour vendre en ligne, une boutique doit combiner paiement mobile, logistique claire, fiches produit riches et confiance locale.',
+    excerptEn: 'To sell online, a store must combine mobile payment, clear logistics, rich product pages and local trust.',
     category: 'ecommerce',
-    readTime: 9,
-    date: '2025-01-01',
+    readTime: 10,
+    date: '2026-06-07',
     emoji: '🛒',
-    contentFr: `## Le e-commerce explose au Sénégal
+    coverImage: '/images/blog/ecommerce-senegal-paiement-mobile-2026.webp',
+    coverImageAvif: '/images/blog/ecommerce-senegal-paiement-mobile-2026.avif',
+    coverAltFr: "Illustration éditoriale d'une boutique en ligne avec produits, smartphone et carte de paiement mobile.",
+    coverAltEn: 'Editorial illustration of an online store with products, smartphone and mobile payment card.',
+    contentFr: `## Ce qu'il faut retenir
 
-Le marché du e-commerce sénégalais connaît une croissance de plus de 30% par an. C'est le moment idéal pour lancer votre boutique en ligne.
+Le e-commerce au Sénégal ne se résume pas à ouvrir une boutique en ligne. Pour vendre réellement, il faut résoudre quatre points : confiance, paiement, livraison et visibilité. Si l'un de ces points est faible, le client hésite, abandonne ou préfère WhatsApp.
 
-### Les clés du succès e-commerce
+La bonne boutique 2026 combine donc un site rapide, des fiches produit détaillées, des images propres, un canal WhatsApp, des moyens de paiement adaptés, une politique de livraison claire et une présence Google structurée. Les réseaux sociaux peuvent amener le trafic, mais le site doit convertir et garder une trace.
 
-1. **Paiement mobile** — Wave et Orange Money sont incontournables
-2. **Livraison** — Proposez plusieurs options de livraison
-3. **Confiance** — Photos de qualité, avis clients, garanties
-4. **SEO local** — Optimisez pour les recherches locales
+Google recommande les données structurées Product pour aider les moteurs à comprendre prix, disponibilité, avis, livraison et variantes. Google Merchant Center explique aussi que les données structurées peuvent aider à maintenir les informations produit à jour. Pour une boutique sénégalaise, ce n'est pas un détail technique : c'est une façon de rendre les produits plus lisibles dans la recherche.
 
-### Plateforme e-commerce
+## Les signaux du marché
 
-Nous recommandons une solution sur mesure basée sur Next.js plutôt qu'une plateforme générique. Cela vous donne un contrôle total et de meilleures performances.
+Le mobile money reste un facteur clé en Afrique subsaharienne. Les rapports GSMA et IMF montrent l'importance des paiements digitaux et des portefeuilles mobiles dans la région. Au Sénégal, les clients s'attendent souvent à des options comme Wave, Orange Money ou paiement à la livraison selon le contexte.
 
-### Stratégie de lancement
+Le deuxième signal est la recherche produit. Google peut afficher des informations de produit enrichies dans Search, Google Images et Google Lens quand la page est bien structurée. Une boutique qui documente mal ses produits laisse de la visibilité sur la table.
 
-Commencez avec un catalogue limité, testez votre marché, puis élargissez. Le marketing sur les réseaux sociaux (Facebook, Instagram, TikTok) est essentiel au Sénégal.`,
-    contentEn: `## E-commerce is booming in Senegal
+Le troisième signal est la confiance. Beaucoup d'achats commencent sur Instagram, TikTok, Facebook ou WhatsApp, mais le client cherche ensuite des preuves : photos, prix, disponibilité, livraison, retours, contact et avis.
 
-The Senegalese e-commerce market is growing at over 30% per year. Now is the ideal time to launch your online store.
+## Pourquoi c'est important pour les PME
 
-### Keys to e-commerce success
+Une PME peut lancer une boutique avec peu de produits, mais elle doit être rigoureuse. Chaque fiche produit doit répondre aux questions simples : qu'est-ce que c'est, à qui cela sert, prix, disponibilité, livraison, paiement, délai, garantie ou retour, contact.
 
-1. **Mobile payment** — Wave and Orange Money are essential
-2. **Delivery** — Offer multiple delivery options
-3. **Trust** — Quality photos, customer reviews, guarantees
-4. **Local SEO** — Optimize for local searches
+Le parcours doit rester court. Si le client doit demander le prix, la disponibilité, la livraison et le moyen de paiement séparément, la boutique n'est pas encore prête. Le site doit réduire le nombre de messages nécessaires pour acheter.
 
-### E-commerce platform
+Pour les produits chers ou personnalisés, le panier classique peut être remplacé par une demande de devis ou une commande WhatsApp structurée. L'important est de garder une expérience claire.
 
-We recommend a custom solution based on Next.js rather than a generic platform. This gives you full control and better performance.
+## Opportunités pour OMA Digital et ses clients
 
-### Launch strategy
+1. **Catalogue optimisé** : fiches produit propres, images compressées, variantes, prix, disponibilité et catégories.
 
-Start with a limited catalog, test your market, then expand. Social media marketing (Facebook, Instagram, TikTok) is essential in Senegal.`,
+2. **Paiement mobile** : intégrer ou préparer les flux Wave, Orange Money, carte ou paiement à la livraison selon le modèle.
+
+3. **Commande WhatsApp structurée** : préremplir le message avec produit, quantité, localisation et option de livraison.
+
+4. **SEO produit** : utiliser Product structured data, images nommées clairement et contenu descriptif.
+
+5. **Tableau de bord simple** : suivre commandes, statuts, produits populaires, paniers abandonnés et demandes clients.
+
+## Risques à surveiller
+
+Le premier risque est de vendre sans politique claire. Livraison, retour, disponibilité et contact doivent être visibles. Le deuxième risque est de dépendre uniquement des réseaux sociaux. Une page sociale peut attirer, mais elle ne remplace pas un catalogue contrôlé. Le troisième risque est technique : produits sans URL propre, images lourdes, prix non à jour, données structurées absentes.
+
+## Plan d'action conseillé
+
+Commencez avec 20 à 50 produits bien préparés plutôt qu'un grand catalogue confus. Pour chaque produit, créez une URL unique, 3 à 5 images optimisées, une description utile, un prix ou une règle de devis, un statut de disponibilité et une option de commande claire.
+
+Ensuite, testez le tunnel : visite depuis mobile, ajout au panier ou demande WhatsApp, paiement, confirmation, livraison, suivi. Si une étape demande une explication manuelle, améliorez la page.
+
+## Sources consultées
+
+- https://developers.google.com/search/docs/appearance/structured-data/product
+- https://support.google.com/merchants/answer/6069143
+- https://support.google.com/merchants/answer/6386198
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/sotir/wp-content/uploads/2025/04/The-State-of-the-Industry-Report-2025_English.pdf
+- https://www.imf.org/-/media/files/publications/dp/2025/english/dpdpiea.pdf`,
+    contentEn: `## Key takeaway
+
+E-commerce in Senegal is not just about launching an online store. To sell, a business must solve trust, payment, delivery and visibility. If one of those is weak, customers hesitate or move the conversation back to WhatsApp.
+
+## Signals
+
+Mobile money remains central across Sub-Saharan Africa, and Senegalese buyers often expect local payment options such as Wave, Orange Money or cash on delivery depending on the use case. Google also recommends Product structured data and Merchant Center feeds so product pages can expose price, availability, images, shipping and richer search experiences.
+
+## SME approach
+
+Start with a focused catalog, not a huge messy one. Each product needs a clear URL, useful photos, description, price or quote rule, availability, delivery information and a simple order path. For high-value or customized products, a structured WhatsApp order may be better than a classic cart.
+
+## Risks
+
+Avoid unclear delivery rules, outdated prices, heavy images, missing product URLs and dependence on social media alone. A social page can bring traffic, but a store needs a controlled catalog and measurable funnel.
+
+## Sources reviewed
+
+- https://developers.google.com/search/docs/appearance/structured-data/product
+- https://support.google.com/merchants/answer/6069143
+- https://support.google.com/merchants/answer/6386198
+- https://datareportal.com/reports/digital-2026-senegal
+- https://www.gsma.com/sotir/wp-content/uploads/2025/04/The-State-of-the-Industry-Report-2025_English.pdf
+- https://www.imf.org/-/media/files/publications/dp/2025/english/dpdpiea.pdf`,
   },
 ];

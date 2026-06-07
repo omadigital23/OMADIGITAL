@@ -11,7 +11,7 @@ const previewArticles = [
   {
     slug: 'creer-site-web-professionnel-senegal',
     categoryKey: 'categoryWebsite',
-    readTime: 8,
+    readTime: 10,
     emoji: '🌐',
     variant: 'website' as ServiceVariant,
     titleKey: 'preview1Title',
@@ -29,7 +29,7 @@ const previewArticles = [
   {
     slug: 'application-mobile-entreprise-senegal',
     categoryKey: 'categoryMobile',
-    readTime: 7,
+    readTime: 10,
     emoji: '📱',
     variant: 'mobile' as ServiceVariant,
     titleKey: 'preview3Title',

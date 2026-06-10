@@ -55,6 +55,563 @@ export interface BlogPostData {
 
 export const blogPosts: BlogPostData[] = [
   {
+    slug: 'veille-tech-2026-06-10-assistants-ia-infrastructure-mobile',
+    titleFr: 'Veille tech : les assistants IA deviennent une couche business partout',
+    titleEn: 'Tech watch: AI assistants are becoming a business layer everywhere',
+    excerptFr: "Apple, Google, OpenAI, Microsoft, NVIDIA, AMD et Intel montrent la meme direction : l'IA quitte les demos pour entrer dans les parcours clients, les postes de travail et l'infrastructure.",
+    excerptEn: 'Apple, Google, OpenAI, Microsoft, NVIDIA, AMD and Intel point in the same direction: AI is moving from demos into customer journeys, workstations and infrastructure.',
+    category: 'veille-tech',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '🧭',
+    coverImage: '/images/blog/2026-06-10-veille-tech-assistants-infrastructure.webp',
+    coverImageAvif: '/images/blog/2026-06-10-veille-tech-assistants-infrastructure.avif',
+    coverAltFr: 'Illustration editoriale locale montrant un mobile, un tableau de bord et des signaux connectes par un assistant IA.',
+    coverAltEn: 'Local editorial illustration showing a mobile device, dashboard and connected signals handled by an AI assistant.',
+    contentFr: `## Ce qu'il faut retenir
+
+La veille de cette semaine montre une convergence forte. Les annonces ne parlent plus seulement de modeles plus rapides. Elles parlent de contexte, de memoire, de gouvernance, de decouverte mobile, de PC capables d'executer des agents, de semi-conducteurs pour les usines IA et de robots capables de raisonner dans le monde physique. Pour une PME, le message est clair : l'IA devient une couche transversale de l'entreprise.
+
+Apple a ouvert WWDC26 avec une nouvelle generation d'Apple Intelligence et Siri AI. Google pousse Android vers plus d'assistance, de securite et de decouverte. OpenAI presente Codex comme un outil de production pour plusieurs metiers, pas seulement pour les developpeurs. Microsoft structure les agents autour du contexte d'entreprise et de la securite. NVIDIA, AMD et Intel montrent que la bataille se joue aussi dans l'infrastructure, du PC local au data center, puis jusqu'a la robotique.
+
+Le point a retenir pour OMA Digital et ses clients est pragmatique : chaque site, application mobile, workflow CRM ou support WhatsApp doit etre pret pour des utilisateurs aides par des assistants. Les contenus doivent etre plus utiles, les parcours plus directs, les donnees mieux rangees et les automatisations mieux encadrees.
+
+## Les signaux de la semaine
+
+Apple a presente Siri AI comme un assistant plus conversationnel, capable de chercher dans les messages, emails et photos, de repondre a des questions et d'agir dans les apps. Les nouvelles fonctions sont disponibles pour les developpeurs et doivent arriver en beta plus tard dans l'annee, avec des limites de langue et de region a surveiller.
+
+OpenAI a annonce de nouvelles capacites Codex pour les roles, outils et workflows, avec des plugins metiers, des sites partageables et des annotations. C'est un signal important : les assistants deviennent des ateliers de production pour l'analyse, le marketing, la vente, le design produit et les operations.
+
+Microsoft Build 2026 a mis en avant Microsoft IQ, Work IQ, Agent 365, des conteneurs d'execution pour agents et des postes Windows avec RTX Spark. Le vocabulaire change : il ne s'agit pas seulement de generer du texte, mais de donner aux agents un contexte fiable, des permissions et un environnement controle.
+
+Cote mobile, Google a publie le June Android Drop avec des fonctions de partage, de securite familiale, de recherche visuelle et d'assistance dans Play Books. Apple a aussi annonce de nouvelles capacites App Store pour la decouverte, les assets marketing, les abonnements multi-utilisateurs et la retention.
+
+Cote infrastructure, AMD annonce un investissement jusqu'a 2 milliards de livres au Royaume-Uni pour soutenir l'IA, la recherche et les supercalculateurs. NVIDIA annonce une cooperation avec SK hynix sur la memoire pour les usines IA. Intel met en avant Core Ultra Series 3 et OpenVINO Physical AI pour le edge et la robotique.
+
+## Pourquoi c'est important pour les PME
+
+Une PME n'a pas besoin d'imiter les grands groupes, mais elle doit comprendre ce que ces annonces changent dans les attentes des clients. Les clients vont chercher plus vite, comparer avec l'aide d'assistants, demander des reponses personnalisees et attendre des parcours simples sur mobile. Une page qui cache les informations essentielles perdra des opportunites.
+
+Les equipes internes vont aussi changer leurs habitudes. Un commercial peut demander un resume des prospects chauds. Un responsable operations peut recevoir une liste des relances a faire. Un support client peut utiliser un assistant pour preparer une reponse, mais garder la validation humaine sur les cas sensibles. Cela demande des donnees propres et des regles claires.
+
+La consequence business est simple : le site web, l'application mobile et le CRM ne sont plus des projets separes. Ils doivent former un systeme. Le contenu attire, le mobile convertit, le CRM garde le contexte, l'IA automatise les taches repetees et WhatsApp facilite la relation.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Audit IA-ready du site** : verifier si les pages repondent clairement aux questions que les clients poseraient a un assistant.
+
+2. **Parcours mobile plus court** : reduire le nombre d'etapes entre une recherche, une preuve de confiance et une demande de contact.
+
+3. **Automatisation CRM legere** : transformer les formulaires, messages WhatsApp et emails en fiches prospects propres avec statut, besoin et relance.
+
+4. **Contenus de veille utiles** : publier des articles sources qui traduisent les tendances en decisions pour dirigeants de PME francophones.
+
+5. **Architecture flexible** : choisir des outils qui permettent de changer de modele IA ou de fournisseur cloud sans reconstruire tout le systeme.
+
+## Risques a surveiller
+
+Le premier risque est de confondre tendance et priorite. Une PME doit eviter de lancer un agent IA sans probleme concret. Le bon point de depart reste une tache repetee, mesurable et faiblement risquee.
+
+Le deuxieme risque est la gouvernance. Les annonces Microsoft et OpenAI montrent que le controle, les permissions, les traces et la securite deviennent centraux. Un assistant qui accede a des donnees clients doit avoir des limites.
+
+Le troisieme risque est le contenu superficiel. Google Trends et les cycles d'actualite peuvent aider a reperer la demande, mais ils ne remplacent pas l'expertise. Il faut eviter les articles opportunistes sans conseil pratique.
+
+## Plan d'action conseille
+
+Cette semaine, une PME peut lancer un diagnostic en trois etapes. D'abord, lister les questions que les clients posent avant d'acheter. Ensuite, verifier si le site, les fiches services et les contenus y repondent clairement. Enfin, choisir une automatisation courte : qualification WhatsApp, relance apres formulaire ou resume de demandes.
+
+Pour OMA Digital, le meilleur angle commercial est de relier chaque tendance a une offre concrete : site web professionnel, app mobile, automatisation IA, CRM, chatbot WhatsApp ou e-commerce. Le discours doit rester sobre : montrer ce qui est possible, expliquer les limites et proposer un audit.
+
+## Sources consultees
+
+- https://www.apple.com/newsroom/2026/06/apple-intelligence-brings-powerful-ai-capabilities-into-everyday-experiences/
+- https://openai.com/index/codex-for-every-role-tool-workflow/
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/
+- https://www.amd.com/en/newsroom/press-releases/2026-6-8-amd-commits-up-to-2-billion-to-accelerate-ai-inno.html
+- https://nvidianews.nvidia.com/news/sk-hynix-ai-factory
+- https://newsroom.intel.com/client-computing/customers-choose-intel-for-edge-devices`,
+    contentEn: `## Key takeaway
+
+This week points to one clear trend: AI assistants are becoming a business layer across mobile, search, workstations, cloud infrastructure and robotics. Apple introduced a new generation of Apple Intelligence and Siri AI. OpenAI positioned Codex for broader knowledge work. Microsoft focused on enterprise context, governance and agent runtimes. Google expanded Android assistance and mobile sharing. AMD, NVIDIA and Intel showed that AI infrastructure is moving from data centers to PCs, edge devices and robotics.
+
+## Why it matters
+
+SMEs should not chase every announcement. They should prepare their websites, mobile journeys, CRM data and support workflows for AI-assisted users. Customers will expect faster answers, clearer pages and simpler actions. Internal teams will expect assistants that summarize prospects, prepare replies, update records and surface next steps.
+
+## Recommended action
+
+Start with an AI-ready audit: list customer questions, check whether the website answers them, simplify the mobile path to contact, then automate one low-risk repeated workflow such as WhatsApp qualification or form follow-up.
+
+## Sources reviewed
+
+- https://www.apple.com/newsroom/2026/06/apple-intelligence-brings-powerful-ai-capabilities-into-everyday-experiences/
+- https://openai.com/index/codex-for-every-role-tool-workflow/
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/
+- https://www.amd.com/en/newsroom/press-releases/2026-6-8-amd-commits-up-to-2-billion-to-accelerate-ai-inno.html`,
+  },
+  {
+    slug: 'ia-2026-06-10-agents-memoire-contexte-gouvernance',
+    titleFr: "IA : memoire, contexte et gouvernance deviennent plus importants que l'effet waouh",
+    titleEn: 'AI: memory, context and governance now matter more than the wow effect',
+    excerptFr: "OpenAI, Anthropic et Microsoft montrent une IA plus operationnelle : elle garde le contexte, travaille dans les outils et doit etre gouvernee.",
+    excerptEn: 'OpenAI, Anthropic and Microsoft show a more operational AI layer: it keeps context, works inside tools and needs governance.',
+    category: 'ia',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '🧠',
+    coverImage: '/images/blog/2026-06-10-ia-agents-memoire-gouvernance.webp',
+    coverImageAvif: '/images/blog/2026-06-10-ia-agents-memoire-gouvernance.avif',
+    coverAltFr: 'Illustration editoriale locale montrant un cerveau reseau, une interface de controle et un symbole de validation.',
+    coverAltEn: 'Local editorial illustration showing a network brain, control interface and validation signal.',
+    contentFr: `## Ce qu'il faut retenir
+
+La categorie IA de cette semaine est moins spectaculaire qu'une annonce de modele, mais plus utile pour les PME. Les signaux les plus importants concernent la memoire, le contexte, les workflows et la gouvernance. OpenAI presente une memoire ChatGPT plus scalable et Codex comme un espace de production pour plusieurs metiers. Anthropic met en avant de nouveaux modeles et une actualite orientee travail complexe, securite et partenaires. Microsoft structure ses annonces autour de Microsoft IQ, Work IQ, Agent 365 et de controles pour agents.
+
+Pour une entreprise, cela change la question. Il ne faut plus demander seulement "quel modele est le meilleur ?". Il faut demander : quelles donnees l'assistant peut-il consulter ? Quelles actions peut-il executer ? Qui valide ? Ou sont les traces ? Comment eviter qu'il invente une promesse commerciale ? Comment le connecter a WhatsApp, au CRM, au site et aux documents internes ?
+
+L'IA utile n'est donc pas un chatbot pose sur une page. C'est un assistant qui comprend un processus, respecte des limites et produit un resultat verifiable.
+
+## Les signaux de la semaine
+
+OpenAI a annonce une evolution de la memoire ChatGPT, avec une base partagee plus capable et une reduction importante du cout de calcul pour servir certaines fonctions a plus d'utilisateurs. Cela indique que les assistants personnels vont devenir plus continus : ils gardent mieux les preferences, le contexte et les informations utiles dans le temps.
+
+OpenAI a aussi presente Codex pour les roles, outils et workflows. Les plugins metiers, les sites partageables et les annotations montrent une IA qui ne se limite pas au code. Elle peut aider a preparer des tableaux de bord, des supports commerciaux, des analyses, des briefs marketing ou des documents de decision.
+
+Anthropic liste cette semaine Claude Fable 5 et Claude Mythos 5, ainsi que des annonces recentes sur Project Glasswing, les menaces cyber activees par l'IA et le reseau de partenaires Claude. Meme sans entrer dans chaque detail technique, le signal est clair : les fournisseurs IA cherchent a couvrir le travail complexe tout en renforcant la securite et l'ecosysteme.
+
+Microsoft Build 2026 apporte une lecture tres entreprise. Microsoft IQ et Work IQ visent a ancrer les agents dans la connaissance du monde et la connaissance interne. Agent 365 et les controles de securite montrent que le deploiement d'agents demande un plan de gouvernance, pas seulement une interface conversationnelle.
+
+## Pourquoi c'est important pour les PME
+
+Dans une PME, la valeur de l'IA vient rarement d'une reponse brillante isolee. Elle vient de la reduction des frictions. Un agent qui resume un prospect, remplit un CRM, propose une relance et signale les demandes urgentes peut economiser des heures chaque semaine.
+
+Mais cette valeur depend du contexte. Si les offres, prix, delais, FAQ, politiques de retour et contacts ne sont pas clairement documentes, l'assistant ne peut pas travailler proprement. Si les donnees clients sont dispersees entre WhatsApp, email, Excel et formulaires, il faut d'abord structurer le flux.
+
+La gouvernance est aussi un sujet de confiance. Une PME doit savoir quand l'IA peut repondre seule, quand elle doit demander validation et quelles informations elle ne doit jamais envoyer. Cela protege la relation client et l'image de marque.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Assistant de qualification commerciale** : poser les bonnes questions, classer les demandes et preparer un resume lisible pour l'equipe.
+
+2. **Assistant support WhatsApp** : repondre aux questions frequentes, proposer un lien utile et passer a un humain lorsque la demande devient sensible.
+
+3. **Base de connaissance interne** : transformer les offres, FAQ, processus et documents en source fiable pour l'IA.
+
+4. **Agent de reporting** : produire chaque semaine un recap des prospects, demandes, relances et blocages.
+
+5. **Gouvernance simple** : definir une charte d'usage IA avec droits, limites, validation humaine et journalisation.
+
+## Risques a surveiller
+
+Le risque principal reste l'hallucination. Un agent peut inventer un prix, un delai ou une condition commerciale s'il n'a pas de source fiable. Les prompts ne suffisent pas ; il faut aussi des donnees propres et des controles.
+
+Le deuxieme risque est la fuite de donnees. Les messages clients peuvent contenir des informations personnelles. Les workflows doivent reduire les donnees partagees, limiter l'acces et garder les logs utiles sans stocker trop longtemps.
+
+Le troisieme risque est la dependance. Les fournisseurs avancent vite. OMA Digital doit privilegier des architectures ou les contenus, les donnees et les workflows restent portables.
+
+## Plan d'action conseille
+
+La bonne premiere etape est un atelier d'une heure : identifier trois taches repetees, choisir celle qui a le moins de risque et definir une mesure. Par exemple : delai moyen de reponse WhatsApp, nombre de prospects qualifies, taux de relance ou temps passe a resumer les demandes.
+
+Ensuite, construire une version assistee, pas autonome. L'IA prepare, l'humain valide. Une fois les reponses stables, l'autonomie peut augmenter sur les questions simples. Ce chemin est plus lent qu'une demo, mais beaucoup plus fiable pour une entreprise.
+
+## Sources consultees
+
+- https://openai.com/index/chatgpt-memory-dreaming/
+- https://openai.com/index/codex-for-every-role-tool-workflow/
+- https://www.anthropic.com/news
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://openai.com/index/built-to-benefit-everyone-our-plan/`,
+    contentEn: `## Key takeaway
+
+The useful AI story this week is not only model performance. It is memory, context, workflow integration and governance. OpenAI is expanding ChatGPT memory and positioning Codex for broader knowledge work. Anthropic is emphasizing advanced work, security and its partner ecosystem. Microsoft is building around enterprise context through Microsoft IQ, Work IQ and Agent 365.
+
+## Why it matters
+
+SMEs should ask operational questions: what data can the assistant use, what actions can it take, who validates outputs, where are logs stored, and how do we prevent invented prices or commitments?
+
+## Recommended action
+
+Begin with one assisted workflow such as lead qualification, WhatsApp support or weekly CRM reporting. Let AI prepare the work and keep human validation until the process is stable.
+
+## Sources reviewed
+
+- https://openai.com/index/chatgpt-memory-dreaming/
+- https://openai.com/index/codex-for-every-role-tool-workflow/
+- https://www.anthropic.com/news
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/`,
+  },
+  {
+    slug: 'apps-mobiles-2026-06-10-decouverte-app-store-android',
+    titleFr: 'Apps mobiles : la decouverte et la conversion deviennent plus intelligentes',
+    titleEn: 'Mobile apps: discovery and conversion are becoming more intelligent',
+    excerptFr: "App Store, Android Drop et outils developpeurs Android rappellent qu'une application doit etre decouvrable, testable, rapide et prete pour l'assistance IA.",
+    excerptEn: 'App Store updates, Android Drop and Android developer tooling show that apps must be discoverable, testable, fast and ready for AI assistance.',
+    category: 'apps-mobiles',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '📱',
+    coverImage: '/images/blog/2026-06-10-apps-mobiles-decouverte-conversion.webp',
+    coverImageAvif: '/images/blog/2026-06-10-apps-mobiles-decouverte-conversion.avif',
+    coverAltFr: 'Illustration editoriale locale montrant un smartphone relie a des cartes de decouverte et de conversion mobile.',
+    coverAltEn: 'Local editorial illustration showing a smartphone connected to mobile discovery and conversion cards.',
+    contentFr: `## Ce qu'il faut retenir
+
+La semaine mobile est dominee par trois signaux. Apple donne aux developpeurs plus de moyens de presenter, tester et monetiser leurs apps dans l'App Store. Google enrichit Android avec des fonctions plus personnelles et plus utiles au quotidien. Le blog Android Developers met en avant Android CLI stable, des skills Android pour agents et Android Bench pour evaluer les modeles sur des taches reelles de developpement mobile.
+
+Pour une PME, cela veut dire qu'une application mobile ne se juge plus seulement a son interface. Elle doit etre decouvrable, bien presentee, facile a tester, connectee aux parcours commerciaux et maintenable par une equipe qui utilise de plus en plus l'IA pour construire et verifier.
+
+Une app OMA Digital doit donc etre pensee comme un canal vivant : acquisition, onboarding, notifications, paiement, support, retention et analyse. Si l'app ne sert qu'a reproduire le site, elle risque de ne pas justifier l'investissement.
+
+## Les signaux de la semaine
+
+Apple annonce de nouvelles capacites App Store : Creative Assets dans les pages produit et les resultats de recherche, Asset Library dans App Store Connect, Personalized Collections, App Notes, nouvelles options d'abonnement de groupe et volume purchasing via Apple Business et Apple School Manager. Apple simplifie aussi certaines soumissions App Review et indique que les apps Mac App Store n'ont plus besoin de supporter Intel.
+
+Google Android Drop ajoute des fonctions visibles pour les utilisateurs : recherche visuelle via Circle to Search, garde-robe Google Photos, fonctions de securite familiale, compagnon de lecture dans Play Books et partage de fichiers plus fluide avec des iPhone sur certains appareils Android.
+
+Cote developpeurs, Android CLI est annonce stable en version 1.0, avec des integrations pour agents et Android Studio. Google explique aussi que les skills Android s'etendent et qu'Android Bench ajoute des modeles pour tester l'aide IA sur des taches Android reelles.
+
+Ces annonces ont un point commun : la frontiere entre marketing, developpement et assistance intelligente se reduit. Les assets, les fiches app, les tests, les parcours et la qualite technique deviennent un seul sujet.
+
+## Pourquoi c'est important pour les PME
+
+Une PME qui lance une app doit etre claire sur son objectif. Une app est utile quand elle cree une relation recurrente : commandes frequentes, suivi client, espace membre, reservation, fidelite, notifications, support ou contenu personnalise. Si l'objectif est seulement d'etre visible, un site mobile rapide peut suffire.
+
+La decouverte devient plus competitive. Les nouvelles fonctions App Store donnent plus de place aux assets et aux recommandations personnalisees. Cela signifie que les captures, videos, descriptions, pages personnalisees et messages de retention doivent etre travailles comme une vraie campagne.
+
+Sur Android, les fonctions d'assistance et les outils developpeurs montrent aussi que la qualite technique compte. Une app lente, mal testee ou difficile a maintenir coutera cher. Les outils agents peuvent aider, mais ils doivent etre branches sur de bonnes pratiques et des tests.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Audit app ou site mobile** : determiner si le besoin justifie une app native, une PWA ou simplement un meilleur site responsive.
+
+2. **Optimisation des fiches store** : travailler les visuels, descriptions, mots-cles, captures, pages personnalisees et offres.
+
+3. **Parcours de conversion mobile** : raccourcir le chemin entre decouverte, inscription, paiement, reservation ou contact WhatsApp.
+
+4. **Retention intelligente** : utiliser notifications, offres, messages in-app et contenus utiles sans harceler l'utilisateur.
+
+5. **Qualite developpeur** : integrer tests, analytics, crash reporting et verification avant chaque livraison.
+
+## Risques a surveiller
+
+Le premier risque est de creer une app sans usage recurrent. Dans ce cas, les couts de maintenance, store, mises a jour et support deviennent plus lourds que les benefices.
+
+Le deuxieme risque est une fiche store faible. Si les assets ne montrent pas clairement la valeur, la conversion baisse, meme si l'app est bonne.
+
+Le troisieme risque est la fragmentation. iOS, Android, stores, paiements, appareils et regions evoluent. Une PME doit prioriser les fonctionnalites qui servent vraiment son marche.
+
+## Plan d'action conseille
+
+Avant de lancer une app, OMA Digital devrait proposer une matrice simple : frequence d'usage, valeur de la notification, besoin de compte client, besoin hors ligne, paiement, fidelite et cout de maintenance. Si trois ou quatre criteres sont forts, l'app peut etre pertinente. Sinon, ameliorer le site mobile et WhatsApp est souvent plus rentable.
+
+Pour les apps existantes, la priorite de la semaine est d'auditer la fiche store, le premier ecran, l'inscription, les crashs, le suivi analytics et les messages de retention. Une petite amelioration du taux d'activation peut avoir plus d'impact qu'une nouvelle fonctionnalite visible.
+
+## Sources consultees
+
+- https://www.apple.com/newsroom/2026/06/apple-expands-app-store-capabilities-to-help-developers-grow-and-reach-new-users/
+- https://www.apple.com/newsroom/2026/06/apple-intelligence-brings-powerful-ai-capabilities-into-everyday-experiences/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/
+- https://android-developers.googleblog.com/2026/06/android-developer-productivity-updates.html
+- https://developer.android.com/about/versions/16`,
+    contentEn: `## Key takeaway
+
+Mobile apps are becoming more dependent on discovery, store presentation, AI-assisted development and retention. Apple announced new App Store assets, personalized discovery, group subscription options and review workflow updates. Google expanded Android user features and Android developer tooling, including Android CLI 1.0 and Android skills for agent-assisted work.
+
+## Why it matters
+
+An SME should not build an app only because apps look modern. A mobile app is justified when it supports repeated use: ordering, booking, membership, loyalty, notifications, support or personalized content.
+
+## Recommended action
+
+Run a mobile decision audit: native app, PWA or better responsive website. For existing apps, improve store assets, onboarding, analytics, crash monitoring and retention messages before adding features.
+
+## Sources reviewed
+
+- https://www.apple.com/newsroom/2026/06/apple-expands-app-store-capabilities-to-help-developers-grow-and-reach-new-users/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/
+- https://android-developers.googleblog.com/2026/06/android-developer-productivity-updates.html`,
+  },
+  {
+    slug: 'systemes-2026-06-10-windows-apple-android-agents',
+    titleFr: "Systemes : Windows, Apple et Android se preparent a l'ere des agents",
+    titleEn: 'Systems: Windows, Apple and Android are preparing for the agent era',
+    excerptFr: "Les systemes d'exploitation deviennent des environnements pour agents : contexte, sandboxing, IA locale, actions dans les apps et securite mobile.",
+    excerptEn: 'Operating systems are becoming agent environments: context, sandboxing, local AI, app actions and mobile safety.',
+    category: 'systemes',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '🖥️',
+    coverImage: '/images/blog/2026-06-10-systemes-postes-agentiques.webp',
+    coverImageAvif: '/images/blog/2026-06-10-systemes-postes-agentiques.avif',
+    coverAltFr: 'Illustration editoriale locale montrant un poste de travail, un terminal controle et un mobile connecte par des agents.',
+    coverAltEn: 'Local editorial illustration showing a workstation, controlled terminal and mobile device connected by agents.',
+    contentFr: `## Ce qu'il faut retenir
+
+La categorie systemes evolue rapidement. Windows, macOS, iOS, Android et les environnements developpeurs ne sont plus seulement des plateformes pour lancer des apps. Ils deviennent des couches d'orchestration pour agents IA, avec contexte, securite, sandboxing, actions dans les applications et calcul local.
+
+Microsoft Build 2026 est le signal le plus direct. Microsoft parle de Windows comme d'un runtime agentique, avec Microsoft Execution Containers pour isoler les workflows d'agents, un shell plus intelligent, WSL renforce et des machines locales capables d'executer des charges IA. Apple met Siri AI au coeur de ses plateformes, avec des actions dans les apps et de nouveaux outils d'ecriture et de vision. Android ajoute des fonctions utiles au quotidien et continue de renforcer securite, partage et assistance.
+
+Pour les PME, cela veut dire que le poste de travail redevient strategique. L'IA ne sera pas seulement dans un navigateur ou un SaaS. Elle sera dans l'OS, le terminal, l'app mobile, le dossier client et les outils de collaboration.
+
+## Les signaux de la semaine
+
+Microsoft annonce Microsoft IQ et Work IQ pour donner du contexte aux agents, mais aussi des primitives systeme pour les executer plus proprement. Les Microsoft Execution Containers, en preview, visent des environnements isoles imposes par l'OS. NVIDIA OpenShell et OpenClaw sont cites comme exemples d'integration autour de ces limites.
+
+Microsoft presente aussi Surface RTX Spark Dev Box comme une machine pour les charges agentiques, avec WSL 2, CUDA et des outils developpeurs preinstalles. Le message n'est pas que chaque PME doit acheter ce type de machine. Le message est que le calcul local et la securisation locale deviennent importants pour certains workflows.
+
+Apple presente Siri AI comme un assistant capable de chercher dans des donnees personnelles et d'agir dans les apps, avec une phase de test developpeur et une beta utilisateur prevue plus tard. Les limites annoncees par langue, appareil et region rappellent qu'il faut planifier les deploiements avec prudence.
+
+Android Drop ajoute des fonctions de securite familiale, de partage entre Android et iPhone, d'assistance dans Play Books et de recherche visuelle. Meme si certaines fonctions sont grand public, elles montrent une direction : l'OS devient plus proactif et plus connecte au contexte.
+
+## Pourquoi c'est important pour les PME
+
+Les PME utilisent souvent un melange de Windows, Android, iPhone, WhatsApp, Google Workspace ou Microsoft 365. Si les agents deviennent natifs dans ces environnements, les entreprises doivent reviser leurs regles internes : quels appareils sont autorises, quelles donnees peuvent etre traitees, qui administre les comptes, comment les mots de passe et acces sont geres.
+
+Un assistant IA dans un OS peut aider enormement : retrouver un document, preparer un email, resumer une reunion, lancer une tache, ouvrir un ticket ou verifier un planning. Mais il peut aussi creer du risque si les permissions sont trop larges ou si les donnees sensibles ne sont pas classees.
+
+Le sujet systeme est donc un sujet business. Une PME qui structure ses fichiers, comptes, acces et workflows pourra utiliser les agents plus vite et avec moins de risques.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Audit poste de travail** : verifier comptes, appareils, sauvegardes, mots de passe, droits et outils utilises.
+
+2. **Preparation Microsoft 365 ou Google Workspace** : organiser documents, groupes, dossiers et conventions de nommage pour que les agents trouvent le bon contexte.
+
+3. **Workflow securise** : utiliser l'IA pour preparer des actions, mais garder validation humaine sur les paiements, devis, contrats et donnees personnelles.
+
+4. **Formation courte** : expliquer aux equipes ce qu'un assistant peut faire, ce qu'il ne doit pas faire et comment signaler une erreur.
+
+5. **Mobile device hygiene** : imposer verrouillage, mises a jour, sauvegarde et separation entre comptes personnels et professionnels quand c'est possible.
+
+## Risques a surveiller
+
+Le premier risque est la confusion des permissions. Un agent qui a acces a tous les fichiers peut exposer des informations inutiles. Les droits doivent etre nettoyes avant de connecter des assistants.
+
+Le deuxieme risque est la disponibilite regionale. Les annonces Apple indiquent deja des limites initiales. Une strategie PME ne doit pas dependre d'une fonctionnalite non disponible dans son marche.
+
+Le troisieme risque est le shadow IT. Si les employes installent chacun leurs outils IA sans cadre, les donnees client partent dans plusieurs services. Une politique simple vaut mieux qu'une interdiction ignoree.
+
+## Plan d'action conseille
+
+OMA Digital peut proposer un diagnostic systemes IA-ready : inventaire des appareils, outils, comptes, fichiers critiques, canaux de support et automatisations possibles. Le livrable doit etre court : risques prioritaires, quick wins, workflow pilote et regles d'usage.
+
+Pour une PME, commencer par ranger l'existant est plus rentable que chercher une nouveaute. Un dossier client propre, une nomenclature coherente et des droits corrects rendent tous les agents meilleurs.
+
+## Sources consultees
+
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://news.microsoft.com/build-2026/
+- https://www.apple.com/newsroom/2026/06/apple-intelligence-brings-powerful-ai-capabilities-into-everyday-experiences/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/
+- https://android-developers.googleblog.com/2026/06/android-developer-productivity-updates.html`,
+    contentEn: `## Key takeaway
+
+Operating systems are becoming environments for AI agents. Microsoft is positioning Windows as an agent-native runtime with context layers, execution containers and local AI hardware. Apple is integrating Siri AI across its platforms. Android continues to add proactive assistance, sharing and safety features.
+
+## Why it matters
+
+SMEs should prepare devices, accounts, files and permissions before giving AI assistants access to work context. The productivity upside is real, but unmanaged permissions and shadow IT can expose customer data.
+
+## Recommended action
+
+Run an AI-ready systems audit: devices, accounts, file structure, access rights, backup, mobile hygiene and one safe workflow pilot.
+
+## Sources reviewed
+
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://news.microsoft.com/build-2026/
+- https://www.apple.com/newsroom/2026/06/apple-intelligence-brings-powerful-ai-capabilities-into-everyday-experiences/
+- https://blog.google/products-and-platforms/platforms/android/android-drop-june-2026/`,
+  },
+  {
+    slug: 'hardware-2026-06-10-infrastructure-ia-pc-edge',
+    titleFr: "Hardware : l'infrastructure IA se deplace du data center au PC et au edge",
+    titleEn: 'Hardware: AI infrastructure is moving from data centers to PCs and the edge',
+    excerptFr: "AMD, NVIDIA, Microsoft et Intel montrent une semaine hardware orientee capacite IA, memoire, calcul local et deploiement edge.",
+    excerptEn: 'AMD, NVIDIA, Microsoft and Intel show a hardware week focused on AI capacity, memory, local compute and edge deployment.',
+    category: 'hardware',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '💾',
+    coverImage: '/images/blog/2026-06-10-hardware-infrastructure-ia.webp',
+    coverImageAvif: '/images/blog/2026-06-10-hardware-infrastructure-ia.avif',
+    coverAltFr: 'Illustration editoriale locale montrant une puce IA connectee a une infrastructure cloud et edge.',
+    coverAltEn: 'Local editorial illustration showing an AI chip connected to cloud and edge infrastructure.',
+    contentFr: `## Ce qu'il faut retenir
+
+Le hardware IA de cette semaine confirme une transition importante. La puissance ne reste pas seulement dans les grands data centers. Elle descend vers les postes de travail, les PC developpeurs, les appareils edge, les robots et les systemes industriels. AMD investit dans l'infrastructure IA au Royaume-Uni. NVIDIA renforce la chaine memoire pour les usines IA avec SK hynix et pousse RTX Spark avec Microsoft. Intel met en avant Core Ultra Series 3, le edge AI et la robotique.
+
+Pour les PME, le sujet n'est pas d'acheter les dernieres puces. Le sujet est de choisir ou executer les traitements : cloud, poste local, serveur interne, edge device ou mobile. Chaque option a un impact sur cout, confidentialite, latence, maintenance et disponibilite.
+
+La bonne strategie hardware commence donc par les cas d'usage. Un chatbot commercial peut tourner dans le cloud. Une camera intelligente ou un robot de stock a besoin de decisions locales. Un studio de contenu ou une equipe developpement peut beneficier d'un poste puissant. Une PME classique doit surtout eviter les achats surdimensionnes.
+
+## Les signaux de la semaine
+
+AMD annonce jusqu'a 2 milliards de livres d'investissement sur cinq ans au Royaume-Uni pour soutenir l'IA, la recherche, les supercalculateurs et les infrastructures souveraines. Les annonces mentionnent AMD Instinct, AMD EPYC et ROCm pour des usages scientifiques, sante, secteur public et innovation.
+
+NVIDIA et SK hynix annoncent un partenariat pluriannuel sur la memoire pour soutenir les usines IA, avec des references aux plateformes Vera Rubin, Vera CPUs, RTX Spark et Jetson Thor. La memoire devient un goulot critique : les modeles IA ont besoin de bande passante, de capacite et d'une chaine d'approvisionnement fiable.
+
+Microsoft Build et NVIDIA mettent aussi en avant RTX Spark pour des PC Windows orientes agents personnels, avec calcul local et securite. L'objectif est de permettre certains workflows IA sans dependance permanente a des instances GPU cloud.
+
+Intel, via Computex 2026 et ses annonces edge, met en avant Core Ultra Series 3 comme plateforme CPU, GPU et NPU pour PC, edge et robotique. Intel annonce aussi des engagements de design edge et OpenVINO Physical AI pour faciliter le deploiement.
+
+## Pourquoi c'est important pour les PME
+
+Les PME achetent souvent du materiel par reflexe : un PC plus puissant, un serveur, une camera, une tablette, un routeur. Avec l'IA, ce reflexe peut couter cher si le besoin n'est pas precise. Il faut savoir si l'objectif est de reduire la latence, proteger les donnees, traiter de la video, faire tourner un modele local ou simplement utiliser une API cloud.
+
+Le cloud reste souvent le meilleur depart pour les PME, car il reduit l'investissement initial. Mais le local devient interessant quand la confidentialite, la vitesse ou le volume rendent le cloud moins adapte. Par exemple, analyser des flux camera en temps reel peut demander du edge. Rediger des reponses commerciales peut rester cloud.
+
+Le hardware devient donc une decision d'architecture, pas seulement d'achat.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Conseil cloud vs local** : aider les clients a choisir ou executer leur IA selon cout, donnees, latence et maintenance.
+
+2. **Postes createurs et developpeurs** : recommander des machines adaptees pour design, video, developpement ou tests IA locaux.
+
+3. **Edge AI pour operations** : identifier les cas ou camera, capteur, caisse ou kiosque doivent prendre une decision localement.
+
+4. **Optimisation cout IA** : eviter les GPU cloud permanents si un workflow n'en a pas besoin, et eviter le local si le volume est faible.
+
+5. **Plan de renouvellement** : integrer NPU, memoire, stockage et securite dans les criteres d'achat PC des trois prochaines annees.
+
+## Risques a surveiller
+
+Le premier risque est le surinvestissement. Beaucoup de PME n'ont pas besoin d'un serveur IA local. Elles ont besoin d'un workflow propre, d'une API fiable et d'une bonne mesure des couts.
+
+Le deuxieme risque est l'obsolescence. Les puces, modeles et frameworks evoluent vite. Acheter trop specifique peut enfermer l'entreprise.
+
+Le troisieme risque est la maintenance. Un systeme local demande sauvegarde, mises a jour, securite, refroidissement, energie et support. Ces couts doivent etre inclus.
+
+## Plan d'action conseille
+
+Avant tout achat, faire une fiche d'usage : donnees traitees, volume, delai acceptable, besoin hors ligne, confidentialite, budget mensuel, equipe disponible pour maintenir. Ensuite seulement, choisir cloud, local ou hybride.
+
+Pour OMA Digital, le service a proposer est un audit d'architecture IA pragmatique. Le resultat doit recommander le chemin le plus simple : API cloud pour demarrer, local seulement quand la valeur est claire, edge pour les cas physiques et video.
+
+## Sources consultees
+
+- https://www.amd.com/en/newsroom/press-releases/2026-6-8-amd-commits-up-to-2-billion-to-accelerate-ai-inno.html
+- https://nvidianews.nvidia.com/news/sk-hynix-ai-factory
+- https://nvidianews.nvidia.com/news/nvidia-microsoft-windows-pcs-agents-rtx-spark
+- https://blogs.microsoft.com/blog/2026/06/02/microsoft-build-2026-be-yourself-at-work/
+- https://newsroom.intel.com/artificial-intelligence/computex-2026-an-intelligent-world-built-on-silicon
+- https://newsroom.intel.com/client-computing/customers-choose-intel-for-edge-devices`,
+    contentEn: `## Key takeaway
+
+AI hardware is spreading from large data centers to PCs, edge devices and robotics. AMD announced major UK AI infrastructure investment. NVIDIA and SK hynix are working on memory for AI factories. Microsoft and NVIDIA are pushing RTX Spark for local agent workloads. Intel is positioning Core Ultra Series 3 for AI PCs, edge and robotics.
+
+## Why it matters
+
+SMEs need to decide where AI should run: cloud, local workstation, internal server, edge device or mobile. The right choice depends on cost, latency, privacy, maintenance and workload volume.
+
+## Recommended action
+
+Before buying hardware, define the use case, data sensitivity, volume, latency target and maintenance capacity. Start in the cloud unless local or edge compute has a clear business reason.
+
+## Sources reviewed
+
+- https://www.amd.com/en/newsroom/press-releases/2026-6-8-amd-commits-up-to-2-billion-to-accelerate-ai-inno.html
+- https://nvidianews.nvidia.com/news/sk-hynix-ai-factory
+- https://nvidianews.nvidia.com/news/nvidia-microsoft-windows-pcs-agents-rtx-spark
+- https://newsroom.intel.com/artificial-intelligence/computex-2026-an-intelligent-world-built-on-silicon`,
+  },
+  {
+    slug: 'robotique-2026-06-10-physical-ai-simulation-edge',
+    titleFr: "Robotique : l'IA physique passe de la simulation au deploiement edge",
+    titleEn: 'Robotics: physical AI is moving from simulation to edge deployment',
+    excerptFr: "NVIDIA Cosmos 3, les outils physical AI et OpenVINO Physical AI d'Intel montrent que la robotique devient une question de donnees, simulation, inference locale et cout de deploiement.",
+    excerptEn: 'NVIDIA Cosmos 3, physical AI tools and Intel OpenVINO Physical AI show robotics becoming a matter of data, simulation, local inference and deployment cost.',
+    category: 'robotique',
+    readTime: 10,
+    date: '2026-06-10',
+    emoji: '🤖',
+    coverImage: '/images/blog/2026-06-10-robotique-physical-ai-simulation.webp',
+    coverImageAvif: '/images/blog/2026-06-10-robotique-physical-ai-simulation.avif',
+    coverAltFr: 'Illustration editoriale locale montrant un robot relie a un environnement de simulation et a une barre de controle.',
+    coverAltEn: 'Local editorial illustration showing a robot connected to a simulation environment and control bar.',
+    contentFr: `## Ce qu'il faut retenir
+
+La robotique de cette semaine confirme l'arrivee de l'IA physique comme plateforme. NVIDIA lance Cosmos 3 comme modele ouvert pour raisonner, simuler et generer des donnees liees au monde physique. NVIDIA publie aussi des outils et skills open source pour rendre les workflows physical AI plus repetables. Intel annonce OpenVINO Physical AI et met en avant Core Ultra Series 3 pour le edge et la robotique.
+
+Pour les PME, il ne faut pas imaginer seulement des robots humanoides. Les cas utiles sont souvent plus simples : camera intelligente, controle qualite, kiosque, caisse automatisee, surveillance d'equipement, tri, inventaire, assistant en boutique ou capteur qui declenche une action.
+
+La difference avec une automatisation logicielle classique est que la robotique agit dans le monde reel. Elle a besoin de capteurs, de decisions rapides, de securite, de maintenance et d'un plan de reprise quand l'IA se trompe.
+
+## Les signaux de la semaine
+
+NVIDIA Cosmos 3 est presente comme un modele ouvert de fondation pour l'IA physique, capable de combiner raisonnement visuel, generation de monde et prediction d'actions. NVIDIA explique que ces modeles peuvent servir a simuler des environnements, generer des donnees synthetiques et entrainer des systemes de robotique, vehicules autonomes ou agents visuels.
+
+NVIDIA annonce egalement une collection d'outils et de skills open source pour physical AI autour d'Omniverse, Cosmos, Alpamayo et Metropolis. Le signal est important : les workflows robotique deviennent trop complexes pour etre refaits a la main a chaque projet. Il faut des instructions reproductibles, des outils de simulation et des pipelines.
+
+Intel annonce plus de 130 engagements de design edge autour de Series 3 et introduit OpenVINO Physical AI. L'objectif est de simplifier le passage des modeles physiques depuis l'experimentation vers des robots deployes, avec inference optimisee sur silicium et une pile plus unifiee.
+
+NVIDIA et SK hynix mentionnent aussi Jetson Thor dans leur partenariat memoire pour l'IA, ce qui rappelle que la robotique depend fortement de la memoire, de l'efficacite energetique et du calcul au bord du reseau.
+
+## Pourquoi c'est important pour les PME
+
+Dans beaucoup de marches africains et francophones, la robotique ne commencera pas par des humanoides dans les bureaux. Elle commencera par des outils pratiques : cameras qui detectent une rupture de stock, systemes qui comptent les passages, machines qui signalent une anomalie, kiosques qui assistent un client, ou workflows qui reduisent les erreurs manuelles.
+
+La valeur vient de la regularite. Si une tache physique est repetitive, couteuse, mesurable et exposee a des erreurs, elle peut devenir candidate. Mais si l'environnement est trop variable ou si la securite est critique, il faut avancer par pilote.
+
+La robotique est aussi un sujet d'integration. Un capteur seul ne suffit pas. Il doit envoyer une alerte, creer un ticket, mettre a jour un stock ou contacter un responsable. C'est ici qu'OMA Digital peut relier IA, logiciel, mobile et operations.
+
+## Opportunites pour OMA Digital et ses clients
+
+1. **Diagnostic automatisation physique** : identifier les taches repetitives dans boutique, entrepot, atelier ou service.
+
+2. **Vision AI legere** : utiliser camera et detection pour compter, verifier, alerter ou orienter.
+
+3. **Kiosques et assistants terrain** : combiner tablette, IA conversationnelle et workflow CRM pour reduire l'attente client.
+
+4. **Integration avec mobile et WhatsApp** : transformer un evenement physique en notification, ticket ou message actionnable.
+
+5. **Pilote avant achat lourd** : tester avec un scenario limite avant d'investir dans du materiel specialise.
+
+## Risques a surveiller
+
+Le premier risque est la securite. Une IA qui agit dans le monde physique doit avoir des limites, des arrets d'urgence et une surveillance humaine.
+
+Le deuxieme risque est l'environnement. Lumiere, poussiere, bruit, reseau instable ou gestes humains imprevus peuvent degrader un systeme. Les tests doivent se faire dans les conditions reelles.
+
+Le troisieme risque est le cout total. Robotique signifie materiel, installation, maintenance, pieces, formation et support. Le ROI doit etre calcule sur la reduction d'erreurs, le temps gagne et la qualite de service.
+
+## Plan d'action conseille
+
+Commencer par une cartographie terrain : quelles taches prennent du temps, se repetent tous les jours, creent des erreurs ou bloquent le service ? Ensuite choisir un pilote sans danger : comptage, alerte, verification visuelle ou assistance client sur tablette.
+
+Pour OMA Digital, le bon positionnement n'est pas de vendre des robots generalistes. Il est de concevoir des automatisations physiques connectees : vision AI, dashboards, CRM, WhatsApp, tickets et application mobile. La robotique devient utile quand elle s'insere dans un processus complet.
+
+## Sources consultees
+
+- https://nvidianews.nvidia.com/news/nvidia-launches-cosmos-3-the-open-frontier-foundation-model-for-physical-ai
+- https://nvidianews.nvidia.com/news/nvidia-releases-major-collection-of-open-source-agent-tools-and-skills-for-physical-ai
+- https://newsroom.intel.com/client-computing/customers-choose-intel-for-edge-devices
+- https://newsroom.intel.com/artificial-intelligence/computex-2026-an-intelligent-world-built-on-silicon
+- https://nvidianews.nvidia.com/news/sk-hynix-ai-factory`,
+    contentEn: `## Key takeaway
+
+Physical AI is moving from research demos toward repeatable simulation, data and edge deployment workflows. NVIDIA launched Cosmos 3 for physical AI reasoning, world simulation and action generation. NVIDIA also released open physical AI tools. Intel introduced OpenVINO Physical AI and highlighted Series 3 for edge robotics.
+
+## Why it matters
+
+SMEs should think beyond humanoid robots. The practical opportunities are visual inspection, inventory alerts, kiosks, customer assistance, machine monitoring and workflows that connect sensors to CRM, tickets or WhatsApp.
+
+## Recommended action
+
+Start with a field automation audit. Pick one low-risk pilot such as counting, visual checking or customer assistance before investing in specialized hardware.
+
+## Sources reviewed
+
+- https://nvidianews.nvidia.com/news/nvidia-launches-cosmos-3-the-open-frontier-foundation-model-for-physical-ai
+- https://nvidianews.nvidia.com/news/nvidia-releases-major-collection-of-open-source-agent-tools-and-skills-for-physical-ai
+- https://newsroom.intel.com/client-computing/customers-choose-intel-for-edge-devices
+- https://newsroom.intel.com/artificial-intelligence/computex-2026-an-intelligent-world-built-on-silicon`,
+  },
+  {
     slug: 'veille-tech-2026-06-07-agents-ia-mobile-hardware',
     titleFr: 'Veille tech : agents IA, mobile et hardware, ce que les PME doivent retenir',
     titleEn: 'Tech watch: AI agents, mobile and hardware, what SMEs should remember',
